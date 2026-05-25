@@ -1,0 +1,36 @@
+# ────────────────────────────────────────────────────────────────────────────
+# StatiCrypt hygiene — keep .staticrypt.json (salt only, recommended to commit),
+# but block patterns that might land plaintext sources in the repo.
+# ────────────────────────────────────────────────────────────────────────────
+
+# Drop plaintext sources here if you keep them locally — they'll be ignored.
+shared/_source/
+shared/_drafts/
+
+# Common naming conventions for "the unencrypted source of an encrypted doc".
+shared/*.source.html
+shared/*.unencrypted.html
+shared/*.plain.html
+
+# ────────────────────────────────────────────────────────────────────────────
+# Secrets — should never end up in the repo.
+# ────────────────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ────────────────────────────────────────────────────────────────────────────
+# OS / editor cruft
+# ────────────────────────────────────────────────────────────────────────────
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+
+# ────────────────────────────────────────────────────────────────────────────
+# Node (StatiCrypt CLI is invoked via npx; no local node_modules expected,
+# but blocked just in case someone runs `npm install` here).
+# ────────────────────────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
