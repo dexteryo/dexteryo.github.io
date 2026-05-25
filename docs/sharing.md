@@ -64,3 +64,4 @@ Note: cached browser sessions (and any `Remember me` localStorage entries) may s
 | Document | Path | Audience | Added |
 |---|---|---|---|
 | Problem-First spec structure proposal | [`shared/problem-first-spec-structure.html`](../shared/problem-first-spec-structure.html) | Engineering team — internal proposal | 2026-05-25 |
+| Enable Unload on Legacy Mastercard BC · Spec | [`shared/spec-enable-unload-mastercard-bc.html`](../shared/spec-enable-unload-mastercard-bc.html) | Engineering team — internal proposal | 2026-05-25 |
