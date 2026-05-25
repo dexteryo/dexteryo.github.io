@@ -63,4 +63,4 @@ Note: cached browser sessions (and any `Remember me` localStorage entries) may s
 
 | Document | Path | Audience | Added |
 |---|---|---|---|
-| Problem-First spec structure proposal | [`shared/problem-first-spec-structure.html`](./problem-first-spec-structure.html) | Engineering team — internal proposal | 2026-05-25 |
+| Problem-First spec structure proposal | [`shared/problem-first-spec-structure.html`](../shared/problem-first-spec-structure.html) | Engineering team — internal proposal | 2026-05-25 |

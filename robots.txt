@@ -1,0 +1,6 @@
+# Tell well-behaved crawlers not to index password-protected documents.
+# The files in /shared/ are encrypted (StatiCrypt, AES-256), so even if
+# fetched they reveal nothing — this is just to keep the URLs out of search
+# results.
+User-agent: *
+Disallow: /shared/

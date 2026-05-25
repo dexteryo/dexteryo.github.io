@@ -1,0 +1,7 @@
+# Jekyll config for GitHub Pages.
+#
+# The only reason this file exists is to keep maintainer-only docs out of the
+# published site. Anything listed under `exclude:` is in the repo (so it's
+# version-controlled and reviewable) but NOT served on dexteryo.github.io.
+exclude:
+  - docs/

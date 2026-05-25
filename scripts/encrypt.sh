@@ -60,6 +60,17 @@ if [[ "$OUT_NAME" != "$SRC_BASENAME" ]]; then
   mv "shared/$SRC_BASENAME" "shared/$OUT_NAME"
 fi
 
+# ── Inject noindex meta so the password-gate page stays out of search ──────
+# StatiCrypt's output is safe (ciphertext), but the wrapper page itself can
+# still be indexed by crawlers that find the URL. robots.txt covers honest
+# crawlers; this is the belt-and-braces inside the document.
+#
+# Uses -i.bak + a literal newline in the replacement so the same invocation
+# works under both BSD sed (macOS) and GNU sed (Linux/CI).
+sed -i.bak -e 's|<meta charset="utf-8" />|<meta charset="utf-8" />\
+        <meta name="robots" content="noindex, nofollow" />|' "shared/$OUT_NAME"
+rm -f "shared/$OUT_NAME.bak"
+
 # ── Output ─────────────────────────────────────────────────────────────────
 SIZE_KB=$(( $(wc -c < "shared/$OUT_NAME") / 1024 ))
 
