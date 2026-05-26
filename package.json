@@ -1,0 +1,22 @@
+{
+  "name": "dexteryo.github.io",
+  "version": "1.0.0",
+  "description": "Dexter's personal GitHub page site",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-spiderman:dexteryo/dexteryo.github.io.git"
+  },
+  "license": "ISC",
+  "author": "Dexter Nguyen <dexternguyen.jobs@gmail.com>",
+  "type": "commonjs",
+  "main": "index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "staticrypt": "^3.5.4"
+  }
+}

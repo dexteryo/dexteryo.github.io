@@ -45,7 +45,7 @@ PASSWORD="$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32)"
 export STATICRYPT_PASSWORD="$PASSWORD"
 
 # ── Encrypt ────────────────────────────────────────────────────────────────
-npx --yes staticrypt "$SRC" \
+./node_modules/.bin/staticrypt "$SRC" \
   -d shared \
   --short \
   --template-instructions "This document is shared internally with the team. Enter the password to view it." \
@@ -72,7 +72,7 @@ sed -i.bak -e 's|<meta charset="utf-8" />|<meta charset="utf-8" />\
 rm -f "shared/$OUT_NAME.bak"
 
 # ── Output ─────────────────────────────────────────────────────────────────
-SIZE_KB=$(( $(wc -c < "shared/$OUT_NAME") / 1024 ))
+SIZE_KB=$(($(wc -c <"shared/$OUT_NAME") / 1024))
 
 cat <<EOF
 
