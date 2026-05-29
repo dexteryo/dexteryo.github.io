@@ -71,6 +71,43 @@ sed -i.bak -e 's|<meta charset="utf-8" />|<meta charset="utf-8" />\
         <meta name="robots" content="noindex, nofollow" />|' "shared/$OUT_NAME"
 rm -f "shared/$OUT_NAME.bak"
 
+URL="https://dexteryo.github.io/shared/$OUT_NAME"
+
+# ── Append a row to the Notion tracking table (best-effort) ────────────────
+# Needs NOTION_TOKEN + NOTION_DATABASE_ID in .env (gitignored). The target
+# table must be a Notion *database* (Page=Title, Pass=Text, Shared=Checkbox)
+# with the integration connected to it. If .env is absent (e.g. CI), this is
+# skipped silently and sharing is unaffected.
+NOTION_LOGGED=""
+[[ -f "$REPO_ROOT/.env" ]] && {
+  set -a
+  . "$REPO_ROOT/.env"
+  set +a
+}
+
+if [[ -n "${NOTION_TOKEN:-}" && -n "${NOTION_DATABASE_ID:-}" ]]; then
+  BODY=$(jq -n \
+    --arg db "$NOTION_DATABASE_ID" \
+    --arg name "$OUT_NAME" \
+    --arg url "$URL" \
+    --arg pw "$PASSWORD" \
+    '{ parent: { database_id: $db },
+       properties: {
+         "Page":   { title:     [ { text: { content: $name, link: { url: $url } } } ] },
+         "Pass":   { rich_text: [ { text: { content: $pw }, annotations: { code: true } } ] },
+         "Shared": { checkbox:  false }
+       } }')
+  if curl -fsS -X POST https://api.notion.com/v1/pages \
+    -H "Authorization: Bearer $NOTION_TOKEN" \
+    -H "Notion-Version: 2022-06-28" \
+    -H "Content-Type: application/json" \
+    --data "$BODY" >/dev/null; then
+    NOTION_LOGGED="yes"
+  else
+    echo "  ⚠ Notion append failed — log it manually (link & password are still valid)." >&2
+  fi
+fi
+
 # ── Output ─────────────────────────────────────────────────────────────────
 SIZE_KB=$(($(wc -c <"shared/$OUT_NAME") / 1024))
 
