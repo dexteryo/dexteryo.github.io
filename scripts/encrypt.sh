@@ -121,10 +121,22 @@ GENERATED PASSWORD:  $PASSWORD
   Public URL:     https://dexteryo.github.io/shared/$OUT_NAME
 
 Next steps:
-  1. Save the password in 1Password / Slack DM (you cannot recover it).
-  2. git add shared/$OUT_NAME .staticrypt.json
-  3. git commit -m "share: add ${OUT_NAME%.html}"
-  4. git push
-  5. Share URL + password with team (separately).
+  1. Save the password (also logged to Notion LinksDB — you cannot recover it otherwise).
+  2. Share URL + password with team (separately).
 
 EOF
+
+# ── Commit & push the encrypted file ───────────────────────────────────────
+# Stages only the encrypted output + salt (never the script or .env), commits,
+# and pushes to the current branch (main).
+git add "shared/$OUT_NAME" .staticrypt.json
+if git diff --cached --quiet; then
+  echo "  ℹ Nothing to commit — encrypted file unchanged."
+else
+  git commit -q -m "share: add ${OUT_NAME%.html}"
+  if git push -q; then
+    echo "  ✓ Committed & pushed to $(git rev-parse --abbrev-ref HEAD)."
+  else
+    echo "  ⚠ Commit made but push failed — run 'git push' manually." >&2
+  fi
+fi
