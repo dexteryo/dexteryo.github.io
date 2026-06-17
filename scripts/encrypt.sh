@@ -19,6 +19,14 @@
 #   - Save the password in 1Password / Slack DM immediately. You cannot recover it.
 #   - The encrypted output is safe to commit. The plaintext source is NOT.
 #   - One password per document (re-running this script generates a fresh password).
+#
+# Re-sharing an updated document with the SAME password:
+#   Set SHARE_PASSWORD to the existing password to reuse it instead of
+#   generating a new one. The link stays valid and team members keep the
+#   password they already have. Notion logging is skipped (already recorded).
+#
+#     SHARE_PASSWORD='your-existing-password' ./scripts/encrypt.sh <src>
+#     SHARE_PASSWORD='your-existing-password' npm run share -- <src>
 
 set -euo pipefail
 
@@ -40,8 +48,17 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 mkdir -p shared
 
-# ── Generate password (in-process; never written to disk) ──────────────────
-PASSWORD="$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32)"
+# ── Resolve password (reuse if provided, else generate fresh) ──────────────
+# SHARE_PASSWORD lets you re-encrypt an updated document with an existing
+# password so the shared link & password stay valid. When unset, a strong
+# random password is generated (in-process; never written to disk).
+if [[ -n "${SHARE_PASSWORD:-}" ]]; then
+  PASSWORD="$SHARE_PASSWORD"
+  REUSED_PASSWORD="yes"
+else
+  PASSWORD="$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32)"
+  REUSED_PASSWORD=""
+fi
 export STATICRYPT_PASSWORD="$PASSWORD"
 
 # ── Encrypt ────────────────────────────────────────────────────────────────
@@ -85,7 +102,9 @@ NOTION_LOGGED=""
   set +a
 }
 
-if [[ -n "${NOTION_TOKEN:-}" && -n "${NOTION_DATABASE_ID:-}" ]]; then
+if [[ -n "$REUSED_PASSWORD" ]]; then
+  : # Password reused — already in Notion; skip append to avoid a duplicate row.
+elif [[ -n "${NOTION_TOKEN:-}" && -n "${NOTION_DATABASE_ID:-}" ]]; then
   BODY=$(jq -n \
     --arg db "$NOTION_DATABASE_ID" \
     --arg name "$OUT_NAME" \
@@ -111,7 +130,23 @@ fi
 # ── Output ─────────────────────────────────────────────────────────────────
 SIZE_KB=$(($(wc -c <"shared/$OUT_NAME") / 1024))
 
-cat <<EOF
+if [[ -n "$REUSED_PASSWORD" ]]; then
+  cat <<EOF
+
+==================================================
+REUSED PASSWORD:  $PASSWORD
+==================================================
+
+  Encrypted file: shared/$OUT_NAME  (${SIZE_KB} KB)
+  Public URL:     https://dexteryo.github.io/shared/$OUT_NAME
+
+Next steps:
+  1. Password unchanged — team members keep their existing one.
+  2. Push the updated file (below) to publish the new version.
+
+EOF
+else
+  cat <<EOF
 
 ==================================================
 GENERATED PASSWORD:  $PASSWORD
@@ -125,6 +160,7 @@ Next steps:
   2. Share URL + password with team (separately).
 
 EOF
+fi
 
 # ── Commit & push the encrypted file ───────────────────────────────────────
 # Stages only the encrypted output + salt (never the script or .env), commits,
