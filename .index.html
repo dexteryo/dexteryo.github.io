@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dexter Lich Nguyen — Principal Engineer · AI-First Architect</title>
+<meta name="description" content="Principal Engineer and AI-first Architect with 13+ years building and scaling real-time fintech platforms. Currently leading AI-driven engineering at CleverCards." />
+<meta name="author" content="Dexter Lich Nguyen" />
+<meta name="theme-color" content="#0a0a0f" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Dexter Lich Nguyen — Principal Engineer · AI-First Architect" />
+<meta property="og:description" content="13+ years building real-time fintech at scale. Now embedding AI into the software development lifecycle." />
+<meta property="og:url" content="https://dexteryo.github.io/" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-elev: #11111a;
+    --bg-card: #14141f;
+    --border: #1f1f2e;
+    --border-soft: #18182410;
+    --text: #e8e8f0;
+    --text-dim: #9999aa;
+    --text-faint: #66667a;
+    --accent-1: #22d3ee; /* cyan */
+    --accent-2: #a78bfa; /* violet */
+    --accent-grad: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --radius: 12px;
+    --maxw: 880px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(34, 211, 238, 0.08), transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(167, 139, 250, 0.06), transparent 50%);
+    background-attachment: fixed;
+  }
+
+  a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  a:hover {
+    color: var(--accent-1);
+    border-bottom-color: var(--accent-1);
+  }
+
+  .container {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* HERO */
+  header.hero {
+    padding: 88px 0 56px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--accent-grad);
+  }
+  h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 0 0 18px;
+  }
+  h1 .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .role {
+    font-size: 18px;
+    color: var(--text-dim);
+    margin: 0 0 24px;
+    font-weight: 400;
+  }
+  .role .sep { color: var(--text-faint); margin: 0 8px; }
+  .lede {
+    font-size: 19px;
+    color: var(--text);
+    max-width: 640px;
+    margin: 0 0 36px;
+    line-height: 1.55;
+  }
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    background: var(--bg-elev);
+    transition: all 0.15s;
+  }
+  .contact a:hover {
+    color: var(--accent-1);
+    border-color: var(--accent-1);
+    background: var(--bg-card);
+    transform: translateY(-1px);
+  }
+  .contact svg { width: 14px; height: 14px; }
+
+  /* SECTIONS */
+  section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin: 0 0 36px;
+    padding-left: 14px;
+    border-left: 2px solid;
+    border-image: var(--accent-grad) 1;
+  }
+
+  p { margin: 0 0 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* SUMMARY */
+  .summary p {
+    font-size: 17px;
+    color: var(--text);
+    max-width: 720px;
+  }
+  .summary p + p { color: var(--text-dim); }
+  .summary strong { color: var(--text); font-weight: 600; }
+
+  /* CORE IMPACT */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .impact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .impact-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent-grad);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .impact-card:hover {
+    border-color: #2a2a3e;
+    transform: translateY(-2px);
+  }
+  .impact-card:hover::before { opacity: 1; }
+  .impact-card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .impact-card p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+  .impact-card .metric {
+    font-family: var(--mono);
+    color: var(--accent-1);
+    font-weight: 500;
+  }
+
+  /* EXPERIENCE */
+  .job {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+  .job:first-child { border-top: none; padding-top: 0; }
+  .job .when {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    padding-top: 4px;
+  }
+  .job .when .current {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-1);
+  }
+  .job .when .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-1);
+    box-shadow: 0 0 8px var(--accent-1);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .job h3 {
+    margin: 0 0 2px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .job .company {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin: 0 0 16px;
+    font-family: var(--mono);
+  }
+  .job .summary-line {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin: 0 0 18px;
+  }
+  .job h4 {
+    font-size: 12px;
+    font-family: var(--mono);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin: 22px 0 10px;
+  }
+  .job h4:first-of-type { margin-top: 0; }
+  .job ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .job ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: var(--text-dim);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .job ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--text-faint);
+  }
+  .job ul li strong { color: var(--text); font-weight: 500; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  .skill-group h3 {
+    font-size: 13px;
+    font-family: var(--mono);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin: 0 0 14px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-block;
+    padding: 5px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .chip:hover { color: var(--accent-1); border-color: var(--accent-1); }
+
+  /* EDUCATION */
+  .edu-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+  }
+  .edu-item:first-child { border-top: none; padding-top: 0; }
+  .edu-item .when {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .edu-item h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .edu-item p { color: var(--text-dim); font-size: 14px; margin: 0; }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 0 64px;
+    border-top: 1px solid var(--border);
+    color: var(--text-faint);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  footer .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer a { color: var(--text-faint); border-bottom-color: transparent; }
+  footer a:hover { color: var(--accent-1); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    header.hero { padding: 56px 0 40px; }
+    section { padding: 48px 0; }
+    .job, .edu-item {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .job .when, .edu-item .when { padding-top: 0; }
+  }
+
+  /* PRINT */
+  @media print {
+    :root { --bg: #fff; --text: #111; --text-dim: #333; --text-faint: #666; --border: #ddd; --bg-card: #fafafa; --bg-elev: #fff; }
+    body { background: #fff; color: #111; }
+    body { background-image: none; }
+    a { color: #111; border-bottom: none; }
+    .contact a { background: #fff; }
+    h1 .accent { color: #111; -webkit-text-fill-color: #111; background: none; }
+    h2 { border-image: none; border-left: 2px solid #111; color: #333; }
+    .impact-card::before, .job .when .dot { display: none; }
+    section { page-break-inside: avoid; border-bottom: 1px solid #ddd; }
+    .impact-card { break-inside: avoid; }
+    .job { break-inside: avoid; }
+  }
+
+  ::selection { background: var(--accent-2); color: var(--bg); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="hero">
+    <div class="eyebrow">Curriculum Vitae · 2026</div>
+    <h1>Dexter <span class="accent">Lich</span> Nguyen</h1>
+    <p class="role">
+      Principal Engineer
+      <span class="sep">·</span> AI-First Architect
+      <span class="sep">·</span> Fintech Platform Leader
+    </p>
+    <p class="lede">
+      13+ years building real-time fintech at scale. Now embedding AI into the software development lifecycle &mdash; currently leading AI-driven engineering at CleverCards in Dublin.
+    </p>
+    <nav class="contact" aria-label="Contact">
+      <a href="mailto:dexternguyen.jobs@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        dexternguyen.jobs@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/dexternguyen0201/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+        linkedin.com/in/dexternguyen0201
+      </a>
+      <a href="tel:+84848227879">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+        +84 848 227 879
+      </a>
+    </nav>
+  </header>
+
+  <section id="summary" class="summary" aria-labelledby="h-summary">
+    <h2 id="h-summary">Professional Summary</h2>
+    <p>
+      Principal Engineer and AI-first Architect with <strong>13+ years</strong> of experience building and scaling distributed systems in fintech. Specialized in designing <strong>real-time payment platforms</strong>, leading <strong>engineering transformation</strong>, and embedding <strong>AI into the software development lifecycle</strong>.
+    </p>
+    <p>
+      Currently leading AI-driven engineering at CleverCards, where I designed and built an <strong>AI-native engineering platform orchestrating 144+ microservices</strong>, enabling spec-driven, AI-assisted development workflows used daily by engineering teams.
+    </p>
+    <p>
+      Proven track record delivering high-scale systems handling <strong>60K&ndash;80K transactions/day</strong> with <strong>&lt;400ms latency</strong>, while driving architecture decisions, mentoring engineers, and improving engineering productivity at organizational level.
+    </p>
+  </section>
+
+  <section id="impact" aria-labelledby="h-impact">
+    <h2 id="h-impact">Core Impact</h2>
+    <div class="impact-grid">
+      <div class="impact-card">
+        <h3>AI-First Engineering Transformation</h3>
+        <p>Built and led adoption of an AI-native development ecosystem using <span class="metric">Claude Code, Codex, Gemini, Copilot, Kiro CLI</span> &mdash; transforming how engineers design, build, and debug systems.</p>
+      </div>
+      <div class="impact-card">
+        <h3>Engineering Hub</h3>
+        <p>Designed a centralized engineering framework enabling AI agents and developers to operate across <span class="metric">144+ repositories</span>, reducing onboarding time, accelerating delivery, and minimizing debugging effort.</p>
+      </div>
+      <div class="impact-card">
+        <h3>Real-Time Fintech Architecture</h3>
+        <p>Architected Mastercard-integrated authorization systems processing <span class="metric">60K&ndash;80K daily transactions</span> with strict <span class="metric">&lt;400ms latency</span> requirements.</p>
+      </div>
+      <div class="impact-card">
+        <h3>Security &amp; Risk Leadership</h3>
+        <p>Led architectural response to a <span class="metric">&pound;1M+ fraud exposure</span> incident, implementing zero-trust principles and strengthening system-wide validation and security practices.</p>
+      </div>
+      <div class="impact-card">
+        <h3>Engineering Leadership at Scale</h3>
+        <p>Influenced <span class="metric">31 engineers</span>, directly mentored <span class="metric">13</span>, and drove architecture decisions in collaboration with CTO and Engineering leadership.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" aria-labelledby="h-experience">
+    <h2 id="h-experience">Professional Experience</h2>
+
+    <article class="job">
+      <div class="when">
+        2021 &mdash;
+        <span class="current"><span class="dot"></span>Present</span>
+      </div>
+      <div>
+        <h3>Principal Engineer · Tech Lead, AI-Driven Engineering</h3>
+        <p class="company">CleverCards &middot; Dublin, Ireland</p>
+        <p class="summary-line">Driving architecture, engineering strategy, and AI-first transformation for a large-scale fintech platform integrated with Mastercard.</p>
+
+        <h4>AI-First Engineering &amp; Workflow Innovation</h4>
+        <ul>
+          <li>Designed and built the <strong>CleverCards Engineering Hub</strong>, an AI-native platform enabling developers and AI agents to collaborate across a 144+ microservices ecosystem.</li>
+          <li>Established <strong>spec-driven development workflows</strong> (Gherkin requirements, architecture design, structured tasks), reducing ambiguity and enabling faster, more consistent delivery.</li>
+          <li>Integrated multi-agent AI workflows using <strong>Claude Code, Codex, Gemini, GitHub Copilot, and Kiro CLI (Amazon Q)</strong> across the full development lifecycle.</li>
+          <li>Enabled engineers to query system knowledge, trace issues, and generate solutions using AI-assisted workflows &mdash; significantly reducing onboarding and debugging time.</li>
+          <li>Promoted an AI-first mindset across teams, driving daily adoption and changing how engineers approach problem-solving.</li>
+        </ul>
+
+        <h4>System Architecture &amp; Platform Design</h4>
+        <ul>
+          <li>Architected and evolved a <strong>144+ microservices fintech platform</strong> spanning transactions, cards, accounting, identity, and APIs.</li>
+          <li>Designed real-time authorization systems integrating with <strong>Mastercard (ISO8583)</strong>, achieving &lt;400ms response time under peak load.</li>
+          <li>Built scalable event-driven architectures using AWS (SQS, SNS, Lambda, Step Functions).</li>
+          <li>Designed system-wide audit and data architectures optimized for performance, traceability, and cost efficiency.</li>
+        </ul>
+
+        <h4>Engineering Productivity &amp; Developer Experience</h4>
+        <ul>
+          <li>Built unified engineering workspace managing <strong>100+ repositories</strong>, enabling efficient cross-service development.</li>
+          <li>Reduced onboarding time through centralized knowledge and AI-assisted exploration.</li>
+          <li>Reduced debugging time via structured troubleshooting workflows and system-wide visibility.</li>
+          <li>Reduced meeting overhead through asynchronous, spec-driven collaboration.</li>
+        </ul>
+
+        <h4>Security &amp; Reliability</h4>
+        <ul>
+          <li>Led system-wide redesign following a <strong>&pound;1M+ fraud incident</strong>, implementing zero-trust architecture principles.</li>
+          <li>Enforced server-side validation for financial calculations and secure transaction flows.</li>
+          <li>Drove secure configuration practices including migration to managed secrets solutions.</li>
+        </ul>
+
+        <h4>Leadership &amp; Influence</h4>
+        <ul>
+          <li>Mentored <strong>13 engineers</strong> and influenced <strong>31 engineers</strong> across the organization.</li>
+          <li>Led architecture decisions independently and in collaboration with CTO and Engineering Manager.</li>
+          <li>Acted as technical leader bridging engineering, product, and business stakeholders.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">2018 &mdash; 2021</div>
+      <div>
+        <h3>Solution Architect · Senior Engineer</h3>
+        <p class="company">CleverCards</p>
+        <ul>
+          <li>Designed and implemented core banking and transaction processing systems.</li>
+          <li>Built real-time transaction services using <strong>Elixir, Java, and Python</strong>.</li>
+          <li>Led integration with Mastercard and internal distributed systems.</li>
+          <li>Developed frontend platforms using React and Angular.</li>
+          <li>Established CI/CD pipelines and AWS infrastructure using Terraform and serverless technologies.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">2015 &mdash; 2018</div>
+      <div>
+        <h3>Technical Leader · Senior Engineer</h3>
+        <p class="company">Amblique / Groove Technology</p>
+        <ul>
+          <li>Led development of enterprise eCommerce platforms using <strong>Salesforce Commerce Cloud</strong>.</li>
+          <li>Managed teams of up to <strong>12 engineers</strong>, including task delegation, estimation, and delivery.</li>
+          <li>Designed scalable web architectures and integrated payment systems.</li>
+          <li>Collaborated with international clients across Australia and New Zealand.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section id="skills" aria-labelledby="h-skills">
+    <h2 id="h-skills">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>AI &amp; Engineering Workflow</h3>
+        <div class="chips">
+          <span class="chip">Claude Code</span>
+          <span class="chip">Codex (OpenAI)</span>
+          <span class="chip">Gemini</span>
+          <span class="chip">GitHub Copilot</span>
+          <span class="chip">Kiro CLI (Amazon Q)</span>
+          <span class="chip">Agentic Workflows</span>
+          <span class="chip">Prompt Engineering</span>
+          <span class="chip">Spec-Driven Development</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Architecture &amp; Design</h3>
+        <div class="chips">
+          <span class="chip">Microservices</span>
+          <span class="chip">Event-Driven</span>
+          <span class="chip">DDD</span>
+          <span class="chip">CQRS</span>
+          <span class="chip">Clean Architecture</span>
+          <span class="chip">Zero-Trust Security</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Languages &amp; Frameworks</h3>
+        <div class="chips">
+          <span class="chip">Java</span>
+          <span class="chip">Spring Boot</span>
+          <span class="chip">Dropwizard</span>
+          <span class="chip">Elixir</span>
+          <span class="chip">Phoenix</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">React</span>
+          <span class="chip">Next.js</span>
+          <span class="chip">Angular</span>
+          <span class="chip">Python</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Cloud &amp; Infrastructure</h3>
+        <div class="chips">
+          <span class="chip">AWS Lambda</span>
+          <span class="chip">ECS</span>
+          <span class="chip">SQS / SNS</span>
+          <span class="chip">S3</span>
+          <span class="chip">RDS</span>
+          <span class="chip">DynamoDB</span>
+          <span class="chip">Step Functions</span>
+          <span class="chip">API Gateway</span>
+          <span class="chip">Terraform</span>
+          <span class="chip">Docker</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Databases &amp; Messaging</h3>
+        <div class="chips">
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">MySQL</span>
+          <span class="chip">DynamoDB</span>
+          <span class="chip">Redis</span>
+          <span class="chip">SQS</span>
+          <span class="chip">SNS</span>
+          <span class="chip">ActiveMQ</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" aria-labelledby="h-edu">
+    <h2 id="h-edu">Education &amp; Certifications</h2>
+
+    <div class="edu-item">
+      <div class="when">2011 &mdash; 2015</div>
+      <div>
+        <h3>Bachelor of Software Engineering</h3>
+        <p>University of Science, VNUHCM</p>
+      </div>
+    </div>
+
+    <div class="edu-item">
+      <div class="when">2025</div>
+      <div>
+        <h3>Professional Certificate in English</h3>
+        <p>EnglishScore</p>
+      </div>
+    </div>
+
+    <div class="edu-item">
+      <div class="when">2017</div>
+      <div>
+        <h3>Salesforce Commerce Cloud Certified</h3>
+        <p>Demandware &middot; Certified Digital Developer</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <div>&copy; 2026 Dexter Lich Nguyen &middot; Built with HTML &amp; CSS</div>
+      <div>
+        <a href="https://github.com/dexteryo">github.com/dexteryo</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
