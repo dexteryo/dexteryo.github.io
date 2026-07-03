@@ -1,7 +1,15 @@
 # Jekyll config for GitHub Pages.
 #
-# The only reason this file exists is to keep maintainer-only docs out of the
-# published site. Anything listed under `exclude:` is in the repo (so it's
-# version-controlled and reviewable) but NOT served on dexteryo.github.io.
+# Only index.html and shared/*.html are served publicly.
+# Everything else is excluded to prevent leaking package.json,
+# node_modules, scripts, etc.
 exclude:
   - docs/
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - README.md
+  - scripts/
+  - server/
+  - .claude/
+  - .clever/

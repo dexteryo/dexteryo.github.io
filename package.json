@@ -15,6 +15,7 @@
   },
   "scripts": {
     "share": "sh ./scripts/encrypt.sh",
+    "serve": "cargo build --manifest-path server/Cargo.toml && ./server/target/debug/serve-local",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
