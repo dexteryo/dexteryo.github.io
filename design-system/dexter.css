@@ -1,0 +1,545 @@
+/* ==========================================================================
+   DEXTER DESIGN SYSTEM (DDS) — canonical stylesheet
+   v1.0.0 · 2026-07-03
+   Canonical home:  https://dexteryo.github.io/design-system/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-system/dexter.css
+   Spec for agents: README.md in the same directory
+
+   One system · two modes · one diagram grammar
+     Document mode (.dds-doc)    — long-form reports, investigations, specs.
+                                   Tufte-inspired: serif body, sidenote
+                                   citations, near-zero decoration.
+     Panel mode    (.dds-panels) — dashboards, risk registers, status.
+                                   Geist/Linear economy, light-first:
+                                   1px borders, key–value rows, status dots.
+     Diagram grammar (.dds-diagram) — Swiss-schematic vocabulary with
+                                   semantic edges (solid = real/sync,
+                                   dotted = manual, dashed = mirror/async)
+                                   and a provenance title block.
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+:root {
+  /* Type */
+  --dds-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --dds-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+  --dds-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Spacing scale (Carbon-style, 4px base). Stay on the scale. */
+  --dds-s1: 4px;  --dds-s2: 8px;  --dds-s3: 12px; --dds-s4: 16px;
+  --dds-s5: 24px; --dds-s6: 32px; --dds-s7: 48px; --dds-s8: 64px;
+
+  /* Radii. Document components are square; only panels and chips round. */
+  --dds-r-panel: 6px;
+  --dds-r-chip: 999px;
+
+  /* Accent = "verification green". Deliberately the same colour as the
+     real-money diagram edge: in this system the accent MEANS verified/real. */
+  --dds-accent: #0B6E4F;
+  --dds-accent-ink: #FFFFFF;
+
+  /* Semantic families (status + diagram edges share these). */
+  --dds-ok:   #0B6E4F;  --dds-ok-bg:   #E2EFE8;
+  --dds-warn: #8F6400;  --dds-warn-bg: #F4EBD3;
+  --dds-crit: #A63D33;  --dds-crit-bg: #F5E2DF;
+  --dds-info: #4A5D82;  --dds-info-bg: #E4E9F2;
+
+  /* Data-viz categorical palette. Declared once; use in order. */
+  --dds-v1: #0B6E4F; --dds-v2: #4A5D82; --dds-v3: #8F6400;
+  --dds-v4: #7B4B94; --dds-v5: #A63D33; --dds-v6: #2E7E8C;
+
+  /* Document mode (warm paper) */
+  --dds-doc-bg:      #FBFAF3;
+  --dds-doc-surface: #FFFFFB;
+  --dds-doc-ink:     #1C1B17;
+  --dds-doc-muted:   #5D5A4F;
+  --dds-doc-rule:    #E3DFD1;
+  --dds-doc-code:    #F0EDE0;
+
+  /* Panel mode (cool, light-first) */
+  --dds-p-bg:      #F6F8F7;
+  --dds-p-surface: #FFFFFF;
+  --dds-p-ink:     #1B201E;
+  --dds-p-muted:   #5E6663;
+  --dds-p-border:  #E1E5E3;
+  --dds-p-strong:  #C6CDCA;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dds-accent: #6FBF9F;
+    --dds-accent-ink: #0E241C;
+
+    --dds-ok:   #6FBF9F;  --dds-ok-bg:   #17342A;
+    --dds-warn: #D9A93F;  --dds-warn-bg: #35290D;
+    --dds-crit: #E08377;  --dds-crit-bg: #3B1F1B;
+    --dds-info: #93A9CE;  --dds-info-bg: #202B3D;
+
+    --dds-v1: #6FBF9F; --dds-v2: #93A9CE; --dds-v3: #D9A93F;
+    --dds-v4: #B78BC9; --dds-v5: #E08377; --dds-v6: #6FB4C2;
+
+    --dds-doc-bg:      #1D1C18;
+    --dds-doc-surface: #232219;
+    --dds-doc-ink:     #E9E6DA;
+    --dds-doc-muted:   #A5A091;
+    --dds-doc-rule:    #38362D;
+    --dds-doc-code:    #2B2A22;
+
+    --dds-p-bg:      #131615;
+    --dds-p-surface: #1A1E1C;
+    --dds-p-ink:     #E4E8E6;
+    --dds-p-muted:   #99A19D;
+    --dds-p-border:  #2B302E;
+    --dds-p-strong:  #454C49;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="light"] {
+  --dds-accent: #0B6E4F; --dds-accent-ink: #FFFFFF;
+  --dds-ok: #0B6E4F; --dds-ok-bg: #E2EFE8;
+  --dds-warn: #8F6400; --dds-warn-bg: #F4EBD3;
+  --dds-crit: #A63D33; --dds-crit-bg: #F5E2DF;
+  --dds-info: #4A5D82; --dds-info-bg: #E4E9F2;
+  --dds-v1: #0B6E4F; --dds-v2: #4A5D82; --dds-v3: #8F6400;
+  --dds-v4: #7B4B94; --dds-v5: #A63D33; --dds-v6: #2E7E8C;
+  --dds-doc-bg: #FBFAF3; --dds-doc-surface: #FFFFFB; --dds-doc-ink: #1C1B17;
+  --dds-doc-muted: #5D5A4F; --dds-doc-rule: #E3DFD1; --dds-doc-code: #F0EDE0;
+  --dds-p-bg: #F6F8F7; --dds-p-surface: #FFFFFF; --dds-p-ink: #1B201E;
+  --dds-p-muted: #5E6663; --dds-p-border: #E1E5E3; --dds-p-strong: #C6CDCA;
+}
+:root[data-theme="dark"] {
+  --dds-accent: #6FBF9F; --dds-accent-ink: #0E241C;
+  --dds-ok: #6FBF9F; --dds-ok-bg: #17342A;
+  --dds-warn: #D9A93F; --dds-warn-bg: #35290D;
+  --dds-crit: #E08377; --dds-crit-bg: #3B1F1B;
+  --dds-info: #93A9CE; --dds-info-bg: #202B3D;
+  --dds-v1: #6FBF9F; --dds-v2: #93A9CE; --dds-v3: #D9A93F;
+  --dds-v4: #B78BC9; --dds-v5: #E08377; --dds-v6: #6FB4C2;
+  --dds-doc-bg: #1D1C18; --dds-doc-surface: #232219; --dds-doc-ink: #E9E6DA;
+  --dds-doc-muted: #A5A091; --dds-doc-rule: #38362D; --dds-doc-code: #2B2A22;
+  --dds-p-bg: #131615; --dds-p-surface: #1A1E1C; --dds-p-ink: #E4E8E6;
+  --dds-p-muted: #99A19D; --dds-p-border: #2B302E; --dds-p-strong: #454C49;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.dds-doc, .dds-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.dds-doc *, .dds-doc *::before, .dds-doc *::after,
+.dds-panels *, .dds-panels *::before, .dds-panels *::after { box-sizing: inherit; }
+
+/* Links: understated — ink with a muted underline; accent only on hover.
+   (The accent means verified; an unvisited link has earned no claim.) */
+.dds-doc a, .dds-panels a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+}
+.dds-doc a:hover, .dds-panels a:hover {
+  color: var(--dds-accent);
+  text-decoration-color: var(--dds-accent);
+}
+.dds-doc :focus-visible, .dds-panels :focus-visible {
+  outline: 2px solid var(--dds-accent); outline-offset: 2px;
+}
+.dds-doc img, .dds-panels img { max-width: 100%; height: auto; }
+
+.dds-mono { font-family: var(--dds-mono); }
+.dds-num { font-variant-numeric: tabular-nums; }
+.dds-smallcaps { font-variant: small-caps; letter-spacing: 0.04em; }
+.dds-right { text-align: right; }
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+.dds-doc {
+  background: var(--dds-doc-bg);
+  color: var(--dds-doc-ink);
+  font-family: var(--dds-serif);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.dds-page { max-width: 960px; margin: 0 auto; padding: var(--dds-s8) var(--dds-s5) 96px; }
+
+.dds-eyebrow {
+  font-family: var(--dds-mono);
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--dds-doc-muted);
+  margin: 0 0 var(--dds-s4);
+}
+.dds-title {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: clamp(30px, 4.5vw, 42px); line-height: 1.15;
+  letter-spacing: -0.01em; margin: 0 0 var(--dds-s3);
+  text-wrap: balance;
+}
+.dds-title em { font-style: italic; color: var(--dds-accent); }
+.dds-subtitle {
+  font-style: italic; font-size: 19px; line-height: 1.5;
+  color: var(--dds-doc-muted); max-width: 60ch; margin: 0 0 var(--dds-s5);
+}
+
+/* Meta bar: author / date / status / audience. Facts, not decoration. */
+.dds-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--dds-s4) var(--dds-s5);
+  border-top: 1px solid var(--dds-doc-rule);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s3) 0; margin: 0 0 var(--dds-s7);
+  font-family: var(--dds-mono); font-size: 12px;
+}
+.dds-meta dt {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--dds-doc-muted); margin: 0 0 2px;
+}
+.dds-meta dd { margin: 0; font-weight: 500; }
+
+/* Section heading: hairline above, mono number, quiet serif title. */
+.dds-section { margin: 0 0 var(--dds-s7); }
+.dds-sec-h {
+  border-top: 1px solid var(--dds-doc-rule);
+  padding-top: var(--dds-s4); margin: var(--dds-s7) 0 var(--dds-s4);
+}
+.dds-sec-h .dds-sec-num {
+  display: block; font-family: var(--dds-mono);
+  font-size: 12px; letter-spacing: 0.1em; color: var(--dds-doc-muted);
+  margin-bottom: var(--dds-s2);
+}
+.dds-sec-h h2 {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.005em; margin: 0;
+}
+
+.dds-doc p { max-width: 66ch; margin: 0 0 var(--dds-s4); }
+.dds-doc ul, .dds-doc ol { max-width: 66ch; margin: 0 0 var(--dds-s4); padding-left: 22px; }
+.dds-doc li { margin-bottom: var(--dds-s1); }
+
+/* Sidenote layout: a note-bearing block is a .dds-row; prose in .dds-main,
+   evidence/citations in .dds-side. Collapses to inset boxes on small screens. */
+.dds-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 210px;
+  gap: var(--dds-s6); align-items: start;
+}
+.dds-sidenote {
+  font-size: 13px; line-height: 1.55; color: var(--dds-doc-muted);
+  border-top: 1px solid var(--dds-doc-rule); padding-top: var(--dds-s2);
+}
+.dds-sn-num { font-weight: 700; color: var(--dds-doc-ink); }
+.dds-snref { vertical-align: super; font-size: 11px; font-weight: 700; }
+@media (max-width: 760px) {
+  .dds-row { grid-template-columns: 1fr; gap: var(--dds-s3); }
+  .dds-sidenote {
+    border-top: 0; border-left: 2px solid var(--dds-doc-rule);
+    padding: 0 0 0 var(--dds-s3); margin-bottom: var(--dds-s4);
+  }
+}
+
+/* Evidence citation: file:line provenance in monospace. */
+.dds-evidence { font-family: var(--dds-mono); font-size: 12px; color: var(--dds-doc-muted); }
+
+.dds-doc code {
+  font-family: var(--dds-mono); font-size: 0.82em;
+  background: var(--dds-doc-code); border-radius: 2px;
+  padding: 1px 5px;
+}
+.dds-doc pre {
+  background: var(--dds-doc-code); border: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s4); overflow-x: auto;
+  font-family: var(--dds-mono); font-size: 13px; line-height: 1.6;
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc pre code { background: none; padding: 0; font-size: inherit; }
+
+/* Pull quote / callout */
+.dds-pull {
+  border-left: 3px solid var(--dds-accent);
+  margin: var(--dds-s5) 0; padding: var(--dds-s2) 0 var(--dds-s2) var(--dds-s5);
+  font-style: italic; font-size: 18px; color: var(--dds-doc-muted); max-width: 58ch;
+}
+.dds-pull strong { color: var(--dds-doc-ink); font-style: normal; }
+
+/* Tables: hairlines only; mono uppercase headers; numerals right + tabular. */
+.dds-table-wrap { overflow-x: auto; margin: 0 0 var(--dds-s4); }
+.dds-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.dds-table th {
+  font-family: var(--dds-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dds-doc-muted); text-align: left;
+  padding: var(--dds-s2) var(--dds-s3);
+  border-bottom: 2px solid var(--dds-doc-ink);
+}
+.dds-table td {
+  padding: var(--dds-s2) var(--dds-s3);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  vertical-align: top;
+}
+.dds-table td.dds-num, .dds-table th.dds-num { text-align: right; font-variant-numeric: tabular-nums; }
+/* Accountant's total rule: thin line above, heavy below the closing row. */
+.dds-table tr.dds-total td {
+  border-top: 1px solid var(--dds-doc-ink);
+  border-bottom: 3px double var(--dds-doc-ink);
+  font-weight: 600;
+}
+
+/* Stat strip: headline numbers between rules. */
+.dds-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--dds-s5);
+  border-top: 2px solid var(--dds-doc-ink);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s4) 0; margin: 0 0 var(--dds-s5);
+}
+.dds-stat-label {
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dds-doc-muted); margin-bottom: var(--dds-s1);
+}
+.dds-stat-value {
+  font-family: var(--dds-serif); font-size: 26px; line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.dds-stat-value .dds-unit {
+  font-family: var(--dds-mono); font-size: 11px; color: var(--dds-doc-muted); margin-left: 4px;
+}
+
+/* Verdict: bordered, labelled, never a dark inverted slab. */
+.dds-verdict {
+  border: 2px solid var(--dds-doc-ink);
+  background: var(--dds-doc-surface);
+  padding: var(--dds-s6); margin: var(--dds-s7) 0 0;
+  position: relative;
+}
+.dds-verdict::before {
+  content: attr(data-label);
+  position: absolute; top: -12px; left: var(--dds-s5);
+  background: var(--dds-accent); color: var(--dds-accent-ink);
+  font-family: var(--dds-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 4px 12px;
+}
+.dds-verdict h3 {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: 24px; line-height: 1.25; margin: 0 0 var(--dds-s3);
+}
+.dds-verdict p { margin-bottom: var(--dds-s3); }
+.dds-verdict ol, .dds-verdict ul { margin-bottom: 0; }
+
+/* Footer / colophon */
+.dds-colophon {
+  margin-top: var(--dds-s8); padding-top: var(--dds-s4);
+  border-top: 1px solid var(--dds-doc-rule);
+  font-family: var(--dds-mono); font-size: 11.5px; color: var(--dds-doc-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--dds-s4);
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+.dds-panels {
+  background: var(--dds-p-bg);
+  color: var(--dds-p-ink);
+  font-family: var(--dds-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.dds-panels .dds-page { padding-top: var(--dds-s7); }
+
+.dds-panel {
+  background: var(--dds-p-surface);
+  border: 1px solid var(--dds-p-border);
+  border-radius: var(--dds-r-panel);
+  overflow: hidden;
+}
+.dds-panel-h {
+  display: flex; align-items: baseline; gap: var(--dds-s3);
+  padding: var(--dds-s3) var(--dds-s4);
+  border-bottom: 1px solid var(--dds-p-border);
+}
+.dds-panel-h h3 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+.dds-panel-h .dds-panel-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+}
+.dds-panel-b { padding: var(--dds-s3) var(--dds-s4); }
+
+/* Key–value rows: machine truth on the right, in monospace. */
+.dds-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--dds-s4); padding: 7px 0;
+  border-bottom: 1px solid var(--dds-p-border);
+  font-size: 13px;
+}
+.dds-kv:last-child { border-bottom: 0; }
+.dds-kv > span:first-child { color: var(--dds-p-muted); }
+.dds-kv > b, .dds-kv > span:last-child {
+  font-weight: 500; font-family: var(--dds-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: status dot + label + mono metadata. */
+.dds-reg-row {
+  display: flex; align-items: center; gap: var(--dds-s3);
+  padding: 9px 0; border-bottom: 1px solid var(--dds-p-border);
+  font-size: 13px;
+}
+.dds-reg-row:last-child { border-bottom: 0; }
+.dds-reg-row b { font-weight: 500; }
+.dds-reg-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11.5px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dds-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.dds-dot.ok   { background: var(--dds-ok); }
+.dds-dot.warn { background: var(--dds-warn); }
+.dds-dot.crit { background: var(--dds-crit); }
+.dds-dot.info { background: var(--dds-info); }
+
+/* Chips: uppercase mono status labels. Semantic colour ≠ accent. */
+.dds-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--dds-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid; border-radius: var(--dds-r-chip);
+  padding: 2px 10px; white-space: nowrap;
+}
+.dds-chip.ok      { background: var(--dds-ok-bg);   color: var(--dds-ok);   border-color: var(--dds-ok); }
+.dds-chip.warn    { background: var(--dds-warn-bg); color: var(--dds-warn); border-color: var(--dds-warn); }
+.dds-chip.crit    { background: var(--dds-crit-bg); color: var(--dds-crit); border-color: var(--dds-crit); }
+.dds-chip.info    { background: var(--dds-info-bg); color: var(--dds-info); border-color: var(--dds-info); }
+.dds-chip.neutral { background: transparent; color: var(--dds-p-muted); border-color: var(--dds-p-strong); }
+
+/* Metric grid: seamless cells divided by 1px of border colour. */
+.dds-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; background: var(--dds-p-border);
+  border: 1px solid var(--dds-p-border); border-radius: var(--dds-r-panel);
+  overflow: hidden;
+}
+.dds-metric { background: var(--dds-p-surface); padding: var(--dds-s3) var(--dds-s4); }
+.dds-metric-l {
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dds-p-muted); margin-bottom: var(--dds-s1);
+}
+.dds-metric-v {
+  font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums; line-height: 1.15;
+}
+.dds-metric-v .dds-unit { font-size: 12px; font-weight: 400; color: var(--dds-p-muted); margin-left: 4px; }
+
+/* Panel-mode code/command block */
+.dds-panels pre, .dds-cmd {
+  background: var(--dds-p-surface); border: 1px solid var(--dds-p-border);
+  border-radius: var(--dds-r-panel); padding: var(--dds-s3) var(--dds-s4);
+  font-family: var(--dds-mono); font-size: 12.5px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--dds-s4);
+}
+.dds-panels code { font-family: var(--dds-mono); font-size: 0.92em; }
+.dds-cmd .dds-ps { color: var(--dds-p-muted); user-select: none; }
+
+/* ── 5. DIAGRAM GRAMMAR ────────────────────────────────────────────────── */
+/* Frame. Works inside either mode; brings its own surface. */
+.dds-diagram {
+  background: var(--dds-p-surface);
+  border: 1.5px solid var(--dds-p-ink);
+  padding: var(--dds-s4);
+  overflow-x: auto;
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc .dds-diagram { background: var(--dds-doc-surface); border-color: var(--dds-doc-ink); }
+.dds-diagram svg { display: block; width: 100%; height: auto; }
+
+/* Optional grid-paper working surface */
+.dds-grid-paper {
+  background-image:
+    linear-gradient(color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Edge semantics — the grammar. Apply as classes on SVG lines/paths.
+     solid   e-money   real money moves, or a synchronous call
+     dotted  e-manual  a manual / human step (not guaranteed)
+     dashed  e-mirror  ledger mirror or async event (information, not money)
+     dashed  e-blocked movement that is designed NOT to exist (one-way valve) */
+.dds-diagram .e-money   { stroke: var(--dds-ok);   stroke-width: 2.5; fill: none; }
+.dds-diagram .e-manual  { stroke: var(--dds-warn); stroke-width: 2.5; fill: none; stroke-dasharray: 2 6; stroke-linecap: round; }
+.dds-diagram .e-mirror  { stroke: var(--dds-info); stroke-width: 2;   fill: none; stroke-dasharray: 8 5; }
+.dds-diagram .e-blocked { stroke: var(--dds-crit); stroke-width: 2;   fill: none; stroke-dasharray: 4 4; }
+.dds-diagram .a-money   { fill: var(--dds-ok);   stroke: none; }
+.dds-diagram .a-manual  { fill: var(--dds-warn); stroke: none; }
+.dds-diagram .a-mirror  { fill: var(--dds-info); stroke: none; }
+.dds-diagram .a-blocked { fill: var(--dds-crit); stroke: none; }
+
+/* Node taxonomy — shape carries meaning; skin may recolour, not reinterpret.
+     service   sharp rect            (rx="0")
+     datastore rounded rect          (rx="10")
+     external  sharp rect, dashed stroke
+     human     pill                  (rx = half height)                     */
+.dds-diagram .n-svc, .dds-diagram .n-store, .dds-diagram .n-human {
+  fill: var(--dds-p-surface); stroke: var(--dds-p-ink); stroke-width: 1.5;
+}
+.dds-doc .dds-diagram .n-svc, .dds-doc .dds-diagram .n-store, .dds-doc .dds-diagram .n-human {
+  fill: var(--dds-doc-surface); stroke: var(--dds-doc-ink);
+}
+.dds-diagram .n-ext { fill: none; stroke: var(--dds-p-muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.dds-doc .dds-diagram .n-ext { stroke: var(--dds-doc-muted); }
+.dds-diagram .n-label { font: 600 11px var(--dds-sans); fill: var(--dds-p-ink); }
+.dds-diagram .n-sub   { font: 400 9.5px var(--dds-mono); fill: var(--dds-p-muted); }
+.dds-doc .dds-diagram .n-label { fill: var(--dds-doc-ink); }
+.dds-doc .dds-diagram .n-sub   { fill: var(--dds-doc-muted); }
+
+/* Legend — mandatory on every diagram. */
+.dds-legend {
+  display: flex; flex-wrap: wrap; gap: var(--dds-s2) var(--dds-s5);
+  font-family: var(--dds-mono); font-size: 10.5px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--dds-p-muted); margin-top: var(--dds-s3);
+}
+.dds-doc .dds-legend { color: var(--dds-doc-muted); }
+.dds-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.dds-leg-line { display: inline-block; width: 28px; border-top-width: 2.5px; }
+.dds-leg-line.money   { border-top-style: solid;  border-top-color: var(--dds-ok); }
+.dds-leg-line.manual  { border-top-style: dotted; border-top-color: var(--dds-warn); }
+.dds-leg-line.mirror  { border-top-style: dashed; border-top-color: var(--dds-info); }
+.dds-leg-line.blocked { border-top-style: dashed; border-top-color: var(--dds-crit); }
+
+/* Title block — provenance like an engineering drawing.
+   Cells: title + source | rev date + verification status | sheet no. */
+.dds-titleblock {
+  display: grid; grid-template-columns: 1fr auto auto;
+  border: 2px solid var(--dds-p-ink);
+  background: var(--dds-p-surface);
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--dds-p-muted);
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc .dds-titleblock {
+  border-color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+  color: var(--dds-doc-muted);
+}
+.dds-titleblock > div { padding: 6px 12px; border-left: 1px solid currentColor; min-width: 0; }
+.dds-titleblock > div:first-child { border-left: 0; }
+.dds-titleblock b {
+  display: block; font-size: 11.5px; letter-spacing: 0.02em;
+  color: var(--dds-p-ink); font-weight: 600;
+}
+.dds-doc .dds-titleblock b { color: var(--dds-doc-ink); }
+.dds-tb-status.verified  { color: var(--dds-ok); }
+.dds-tb-status.in-review { color: var(--dds-warn); }
+.dds-tb-status.stale     { color: var(--dds-crit); }
+@media (max-width: 640px) {
+  .dds-titleblock { grid-template-columns: 1fr; }
+  .dds-titleblock > div { border-left: 0; border-top: 1px solid currentColor; }
+  .dds-titleblock > div:first-child { border-top: 0; }
+}
+
+/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+@media print {
+  .dds-doc { background: #FFFFFF; }
+  .dds-panels { background: #FFFFFF; }
+  .dds-doc, .dds-panels { color: #000000; }
+}

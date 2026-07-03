@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dexter Design System</title>
+<link rel="stylesheet" href="dexter.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .sw { width: 104px; font-family: var(--dds-mono); font-size: 10.5px; }
+  .sw i { display: block; height: 36px; border: 1px solid var(--dds-doc-rule); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--dds-doc-muted); }
+  .demo-note { font-family: var(--dds-mono); font-size: 10.5px; letter-spacing: .1em;
+               text-transform: uppercase; color: var(--dds-doc-muted); margin: 0 0 10px; }
+  .panel-demo { border: 1px dashed var(--dds-doc-rule); padding: 24px; border-radius: 6px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .type-specimen { border-bottom: 1px solid var(--dds-doc-rule); padding: 10px 0; display: flex;
+                   align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .type-specimen .lbl { font-family: var(--dds-mono); font-size: 10.5px; color: var(--dds-doc-muted);
+                        width: 190px; flex: none; }
+</style>
+</head>
+<body class="dds-doc">
+<div class="dds-page">
+
+  <header>
+    <div class="dds-eyebrow">Dexter Design System · v1.0.0 · Living Style Guide</div>
+    <h1 class="dds-title">One system, two modes, <em>one grammar</em></h1>
+    <p class="dds-subtitle">A design system for AI-generated engineering documents: long-form reports set like Tufte, dashboards set like instruments, and architecture diagrams that carry their own provenance.</p>
+    <dl class="dds-meta">
+      <div><dt>Owner</dt><dd>Dexter</dd></div>
+      <div><dt>Revision</dt><dd>2026-07-03</dd></div>
+      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Stylesheet</dt><dd><a href="dexter.css">dexter.css</a></dd></div>
+      <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+    </dl>
+  </header>
+
+  <!-- ============ 01 PRINCIPLES ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Principles</h2></div>
+    <div class="dds-row">
+      <div>
+        <p><strong>Evidence over decoration.</strong> Every rule, colour, and label must encode something true about the content. Provenance — who verified what, when, against which source — is a first-class visual element, not a footnote.<span class="dds-snref">1</span></p>
+        <p><strong>The accent means verified.</strong> There is one accent colour, a deep viridian, and it is the same colour as the real-money edge in diagrams and the <code>ok</code> status. Green is never decoration; when you see it, something is real or confirmed.</p>
+        <p><strong>Two modes, shared tokens.</strong> Documents are read; panels are scanned. They share one palette, one spacing scale, and one set of semantics, so a report and its dashboard look like siblings.</p>
+        <p><strong>Portability is a hard constraint.</strong> System font stacks only, no webfonts, no external resources. Output must survive a sandboxed artifact viewer, an email attachment, a ticket, and a printer.</p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> Inspired by the engineering title block: a drawing without a revision date and an approver is not a drawing, it is a sketch.</aside>
+    </div>
+  </section>
+
+  <!-- ============ 02 TOKENS ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Tokens</h2></div>
+    <p>All values live as CSS custom properties in <a href="dexter.css"><code>dexter.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches below show the current theme's resolved values.</p>
+
+    <p class="demo-note">Accent &amp; semantics</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--dds-accent)"></i><span>--dds-accent · verified / real</span></div>
+      <div class="sw"><i style="background:var(--dds-warn)"></i><span>--dds-warn · manual / review</span></div>
+      <div class="sw"><i style="background:var(--dds-crit)"></i><span>--dds-crit · blocked / stale</span></div>
+      <div class="sw"><i style="background:var(--dds-info)"></i><span>--dds-info · mirror / async</span></div>
+    </div>
+
+    <p class="demo-note">Data-viz categorical (use in order)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--dds-v1)"></i><span>--dds-v1</span></div>
+      <div class="sw"><i style="background:var(--dds-v2)"></i><span>--dds-v2</span></div>
+      <div class="sw"><i style="background:var(--dds-v3)"></i><span>--dds-v3</span></div>
+      <div class="sw"><i style="background:var(--dds-v4)"></i><span>--dds-v4</span></div>
+      <div class="sw"><i style="background:var(--dds-v5)"></i><span>--dds-v5</span></div>
+      <div class="sw"><i style="background:var(--dds-v6)"></i><span>--dds-v6</span></div>
+    </div>
+
+    <p class="demo-note">Grounds</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--dds-doc-bg)"></i><span>--dds-doc-bg · paper</span></div>
+      <div class="sw"><i style="background:var(--dds-doc-ink)"></i><span>--dds-doc-ink</span></div>
+      <div class="sw"><i style="background:var(--dds-p-bg)"></i><span>--dds-p-bg · panel ground</span></div>
+      <div class="sw"><i style="background:var(--dds-p-surface)"></i><span>--dds-p-surface</span></div>
+    </div>
+
+    <p class="demo-note">Type roles (system stacks, no webfonts)</p>
+    <div style="margin-bottom:24px;">
+      <div class="type-specimen"><span class="lbl">--dds-serif · document body</span><span style="font-family:var(--dds-serif); font-size:19px;">Money moves once; ledgers remember it twice.</span></div>
+      <div class="type-specimen"><span class="lbl">--dds-sans · panel UI</span><span style="font-family:var(--dds-sans); font-size:16px; font-weight:500;">14 services · 3 regions · 99.95% uptime</span></div>
+      <div class="type-specimen"><span class="lbl">--dds-mono · machine truth</span><span class="dds-mono dds-num" style="font-size:14px;">transfer_9f41 · idempotency=order-1204 · 2026-07-03T14:02:11Z</span></div>
+    </div>
+
+    <p class="demo-note">Spacing · 4px scale</p>
+    <p style="font-family:var(--dds-mono); font-size:12.5px;">--dds-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale; off-scale spacing is a lint error by convention.</p>
+  </section>
+
+  <!-- ============ 03 DOCUMENT MODE ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Document mode</h2></div>
+    <p>For investigations, design docs, post-mortems, and wiki exports. Serif body at 17px, prose capped at 66ch, and citations pushed to the margin so the argument stays clean. Everything below is live — the demo content is a fictional payments platform.</p>
+
+    <p class="demo-note">Live demo — stat strip, sidenote citation, table with total rule, verdict</p>
+
+    <div class="dds-stats">
+      <div><div class="dds-stat-label">Wallets funded</div><div class="dds-stat-value">12,408</div></div>
+      <div><div class="dds-stat-label">Float balance</div><div class="dds-stat-value">€2.4<span class="dds-unit">M</span></div></div>
+      <div><div class="dds-stat-label">Automated movements</div><div class="dds-stat-value">1</div></div>
+      <div><div class="dds-stat-label">Reconciliation gap</div><div class="dds-stat-value">0.02<span class="dds-unit">%</span></div></div>
+    </div>
+
+    <div class="dds-row">
+      <div>
+        <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet.<span class="dds-snref">2</span> Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.</p>
+        <blockquote class="dds-pull"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">2.</span> <span class="dds-evidence">WalletService.java:214</span> — verified 2026-07-03 against the production branch. Citations live in the margin, not inline.</aside>
+    </div>
+
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Rail</th><th>Mechanism</th><th class="dds-num">Volume (Jun)</th></tr></thead>
+        <tbody>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="dds-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="dds-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="dds-num">€98,400</td></tr>
+          <tr class="dds-total"><td>Total in</td><td></td><td class="dds-num">€2,166,390</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dds-verdict" data-label="Recommendation">
+      <h3>Reconcile the mirrors nightly, not monthly.</h3>
+      <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
+      <ol>
+        <li>Add a scheduled comparison job keyed on wallet ID.</li>
+        <li>Alert on any per-wallet gap over €1.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 04 PANEL MODE ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Panel mode</h2></div>
+    <p>For dashboards, risk registers, and status pages. Sans-serif, 1px borders instead of shadows, status as dots, machine values in monospace with tabular numerals. Light-first so it prints and screenshots cleanly; the dark theme comes free from the tokens.</p>
+
+    <p class="demo-note">Live demo — metric grid, key–value panel, register rows, chips</p>
+    <div class="dds-panels panel-demo">
+      <div class="dds-metric-grid" style="margin-bottom:16px;">
+        <div class="dds-metric"><div class="dds-metric-l">Transfers today</div><div class="dds-metric-v">1,284</div></div>
+        <div class="dds-metric"><div class="dds-metric-l">Failed</div><div class="dds-metric-v">3</div></div>
+        <div class="dds-metric"><div class="dds-metric-l">P95 latency</div><div class="dds-metric-v">412<span class="dds-unit">ms</span></div></div>
+        <div class="dds-metric"><div class="dds-metric-l">Queue depth</div><div class="dds-metric-v">0</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="dds-panel">
+          <div class="dds-panel-h"><h3>wallet-service</h3><span class="dds-panel-meta">eu-west-1</span></div>
+          <div class="dds-panel-b">
+            <div class="dds-kv"><span>Version</span><b>v4.2.1</b></div>
+            <div class="dds-kv"><span>Idempotency</span><b>order-scoped</b></div>
+            <div class="dds-kv"><span>Last deploy</span><b>2026-07-02 18:40</b></div>
+          </div>
+        </div>
+        <div class="dds-panel">
+          <div class="dds-panel-h"><h3>Risk register</h3><span class="dds-panel-meta">4 open</span></div>
+          <div class="dds-panel-b">
+            <div class="dds-reg-row"><span class="dds-dot crit"></span><b>Auth rule in placeholder state</b><span class="dds-reg-meta">RISK-101</span></div>
+            <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="dds-reg-meta">RISK-097</span></div>
+            <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Float funded manually</b><span class="dds-reg-meta">RISK-088</span></div>
+            <div class="dds-reg-row"><span class="dds-dot ok"></span><b>One-way valve verified</b><span class="dds-reg-meta">closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="dds-chip ok">verified</span>
+        <span class="dds-chip warn">in review</span>
+        <span class="dds-chip crit">stale</span>
+        <span class="dds-chip info">mirror</span>
+        <span class="dds-chip neutral">draft</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 DIAGRAM GRAMMAR ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Diagram grammar</h2></div>
+    <p>The grammar is semantic and skin-independent: a restyle may recolour it but may never reinterpret it. Every diagram ships with the legend and a title block carrying revision date and verification status.</p>
+
+    <div class="dds-titleblock">
+      <div><b>Funds Flow — Wallet Funding</b>example · fictional platform</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG 001</b>sheet 1/1</div>
+    </div>
+
+    <figure class="dds-diagram dds-grid-paper" style="margin:0 0 16px;">
+      <svg viewBox="0 0 720 150" role="img" aria-label="Example funds-flow diagram showing edge and node semantics">
+        <!-- human -->
+        <rect class="n-human" x="8" y="52" width="110" height="44" rx="22"/>
+        <text class="n-label" x="63" y="71" text-anchor="middle">Finance team</text>
+        <text class="n-sub" x="63" y="85" text-anchor="middle">human</text>
+        <!-- manual edge -->
+        <line class="e-manual" x1="118" y1="74" x2="176" y2="74"/>
+        <path class="a-manual" d="M184 74 l-9 -5 v10 z"/>
+        <!-- service -->
+        <rect class="n-svc" x="186" y="52" width="120" height="44"/>
+        <text class="n-label" x="246" y="71" text-anchor="middle">Platform float</text>
+        <text class="n-sub" x="246" y="85" text-anchor="middle">service</text>
+        <!-- money edge -->
+        <line class="e-money" x1="306" y1="74" x2="364" y2="74"/>
+        <path class="a-money" d="M372 74 l-9 -5 v10 z"/>
+        <!-- service -->
+        <rect class="n-svc" x="374" y="52" width="120" height="44"/>
+        <text class="n-label" x="434" y="71" text-anchor="middle">Customer wallet</text>
+        <text class="n-sub" x="434" y="85" text-anchor="middle">service</text>
+        <!-- mirror edge to datastore -->
+        <line class="e-mirror" x1="434" y1="96" x2="434" y2="112"/>
+        <path class="a-mirror" d="M434 120 l-5 -9 h10 z"/>
+        <rect class="n-store" x="374" y="122" width="120" height="24" rx="10"/>
+        <text class="n-label" x="434" y="137" text-anchor="middle">journal (mirror)</text>
+        <!-- money edge to external -->
+        <line class="e-money" x1="494" y1="74" x2="552" y2="74"/>
+        <path class="a-money" d="M560 74 l-9 -5 v10 z"/>
+        <rect class="n-ext" x="562" y="52" width="120" height="44"/>
+        <text class="n-label" x="622" y="71" text-anchor="middle">Merchant</text>
+        <text class="n-sub" x="622" y="85" text-anchor="middle">external</text>
+        <!-- blocked reverse edge -->
+        <line class="e-blocked" x1="374" y1="30" x2="252" y2="30"/>
+        <path class="a-blocked" d="M244 30 l9 -5 v10 z"/>
+        <text class="n-sub" x="313" y="22" text-anchor="middle">no reverse path (by design)</text>
+      </svg>
+      <figcaption class="dds-legend">
+        <span><i class="dds-leg-line money"></i>real money / sync</span>
+        <span><i class="dds-leg-line manual"></i>manual step</span>
+        <span><i class="dds-leg-line mirror"></i>mirror / async</span>
+        <span><i class="dds-leg-line blocked"></i>blocked by design</span>
+      </figcaption>
+    </figure>
+
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Element</th><th>Shape / stroke</th><th>Class</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Service</td><td>Sharp rectangle</td><td><code>.n-svc</code></td><td>A deployed system you own</td></tr>
+          <tr><td>Datastore</td><td>Rounded rectangle (rx=10)</td><td><code>.n-store</code></td><td>Database, queue, ledger</td></tr>
+          <tr><td>External party</td><td>Dashed rectangle</td><td><code>.n-ext</code></td><td>System you do not control</td></tr>
+          <tr><td>Human</td><td>Pill (rx = half height)</td><td><code>.n-human</code></td><td>A person or manual role</td></tr>
+          <tr><td>Real / sync</td><td>Solid line, heaviest</td><td><code>.e-money</code></td><td>Money moves, or a blocking call</td></tr>
+          <tr><td>Manual</td><td>Dotted line</td><td><code>.e-manual</code></td><td>Human step — not guaranteed</td></tr>
+          <tr><td>Mirror / async</td><td>Dashed line</td><td><code>.e-mirror</code></td><td>Information about money, never money</td></tr>
+          <tr><td>Blocked</td><td>Dashed red line</td><td><code>.e-blocked</code></td><td>A path that is designed not to exist</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Zoom levels follow the C4 model: Context (whole estate) → Container (services) → Component (inside one service). One diagram, one level — never mix.</p>
+  </section>
+
+  <!-- ============ 06 FOR AI AGENTS ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Using this system with AI agents</h2></div>
+    <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-design-system</code> skill loads it automatically.</p>
+    <div class="dds-doc" style="max-width:66ch;"><pre>Generate the report as HTML using the Dexter Design System:
+https://dexteryo.github.io/design-system/ (spec: README.md, tokens: dexter.css)
+Inline the stylesheet if the output must be self-contained.</pre></div>
+  </section>
+
+  <footer class="dds-colophon">
+    <div>Dexter Design System · v1.0.0 · rev 2026-07-03</div>
+    <div>Tufte discipline · Geist economy · Swiss grammar · Carbon tokens</div>
+  </footer>
+
+</div>
+</body>
+</html>
