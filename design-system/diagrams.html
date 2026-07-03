@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagrams · Dexter Design System</title>
+<link rel="stylesheet" href="dexter.css">
+<style>
+  body { margin: 0; }
+  .lvl { font-family: var(--dds-mono); font-size: 10.5px; letter-spacing: .1em;
+         text-transform: uppercase; color: var(--dds-doc-muted); margin: 0 0 10px; }
+</style>
+</head>
+<body class="dds-doc">
+<div class="dds-page">
+
+  <header>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.0.0 · Reference</div>
+    <h1 class="dds-title">Diagram grammar</h1>
+    <p class="dds-subtitle">Semantic and skin-independent: shapes and line styles carry meaning; a restyle may recolour them but may never reinterpret them. Every diagram ships with its legend and a provenance title block.</p>
+  </header>
+
+  <!-- Grammar -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Vocabulary</h2></div>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Class</th><th>Rendering</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>.e-money</code> + <code>.a-money</code></td><td>Solid, heaviest, accent green</td><td>Real money moves, or a synchronous call</td></tr>
+          <tr><td><code>.e-manual</code> + <code>.a-manual</code></td><td>Dotted, amber, round caps</td><td>A manual / human step — not guaranteed</td></tr>
+          <tr><td><code>.e-mirror</code> + <code>.a-mirror</code></td><td>Dashed, slate</td><td>Ledger mirror or async event — information, never money</td></tr>
+          <tr><td><code>.e-blocked</code> + <code>.a-blocked</code></td><td>Dashed, red</td><td>A path that is designed <strong>not</strong> to exist</td></tr>
+          <tr><td><code>.n-svc</code></td><td>Sharp rectangle</td><td>A system you own</td></tr>
+          <tr><td><code>.n-store</code></td><td>Rounded rectangle, <code>rx="10"</code></td><td>Database, queue, ledger</td></tr>
+          <tr><td><code>.n-ext</code></td><td>Dashed rectangle</td><td>A system you do not control</td></tr>
+          <tr><td><code>.n-human</code></td><td>Pill, <code>rx</code> = half height</td><td>A person or manual role</td></tr>
+          <tr><td><code>.n-label</code> / <code>.n-sub</code></td><td>Sans 11px 600 / mono 9.5px muted</td><td>Node name / node type or note</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dds-row">
+      <div>
+        <p><strong>Arrowheads</strong> are small filled triangles drawn as paths, sharing the edge's semantic class family. The convention: for an edge arriving at point <code>(x, y)</code> travelling rightward, the head is <code>&lt;path class="a-money" d="M x y l-9 -5 v10 z"/&gt;</code>; rotate the deltas for other directions.<span class="dds-snref">1</span></p>
+        <p><strong>Canvas conventions:</strong> <code>viewBox</code> width 720 for full-width diagrams; nodes 120×44 (stores may be shallower); 10–12px between a node and its label baseline; edges leave and enter node mid-lines. Add <code>role="img"</code> and a meaningful <code>aria-label</code> to every SVG.</p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> Keep heads at 8–9px. Oversized arrowheads are the fastest way to make a schematic read as clip-art.</aside>
+    </div>
+  </section>
+
+  <!-- Furniture -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Mandatory furniture</h2></div>
+    <p>A diagram without provenance is a sketch. Two pieces are non-negotiable: the title block above (or below) the frame, and the legend inside the figure.</p>
+    <div class="dds-titleblock">
+      <div><b>Diagram title</b>source page / repo</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG 001</b>sheet 1/1</div>
+    </div>
+    <pre><code>&lt;div class="dds-titleblock"&gt;
+  &lt;div&gt;&lt;b&gt;Diagram title&lt;/b&gt;source page / repo&lt;/div&gt;
+  &lt;div&gt;&lt;b&gt;Rev YYYY-MM-DD&lt;/b&gt;&lt;span class="dds-tb-status verified"&gt;verified&lt;/span&gt;&lt;/div&gt;
+  &lt;div&gt;&lt;b&gt;DWG 001&lt;/b&gt;sheet 1/1&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;figure class="dds-diagram"&gt;
+  &lt;svg viewBox="0 0 720 160" role="img" aria-label="…"&gt;…&lt;/svg&gt;
+  &lt;figcaption class="dds-legend"&gt;
+    &lt;span&gt;&lt;i class="dds-leg-line money"&gt;&lt;/i&gt;real money / sync&lt;/span&gt;
+    &lt;span&gt;&lt;i class="dds-leg-line mirror"&gt;&lt;/i&gt;mirror / async&lt;/span&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+    <p style="margin-bottom:0;"><code>dds-tb-status</code> takes <code>verified</code> · <code>in-review</code> · <code>stale</code> — the wiki's trust vocabulary. Add <code>.dds-grid-paper</code> to the figure for working drawings; drop it for final documents. Only include legend entries for line styles actually used in the drawing.</p>
+  </section>
+
+  <!-- C4 levels -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Zoom levels (C4)</h2></div>
+    <p>Diagrams follow the C4 model's zoom discipline: <strong>Context</strong> (the estate and its neighbours) → <strong>Container</strong> (the services inside it) → <strong>Component</strong> (inside one service). One diagram, one level — mixing levels is the most common way diagrams turn into mud. All examples below describe a fictional payments platform.</p>
+
+    <p class="lvl">Level 1 · Context — who touches the estate</p>
+    <div class="dds-titleblock">
+      <div><b>Context — Payments Platform</b>example · fictional</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG C-01</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram" style="margin-bottom:32px;">
+      <svg viewBox="0 0 720 150" role="img" aria-label="Context diagram: customer and finance interact with the platform; the platform interacts with a bank and a card network">
+        <rect class="n-human" x="10" y="20" width="110" height="40" rx="20"/>
+        <text class="n-label" x="65" y="37" text-anchor="middle">Customer</text>
+        <text class="n-sub" x="65" y="51" text-anchor="middle">human</text>
+        <rect class="n-human" x="10" y="90" width="110" height="40" rx="20"/>
+        <text class="n-label" x="65" y="107" text-anchor="middle">Finance team</text>
+        <text class="n-sub" x="65" y="121" text-anchor="middle">human</text>
+        <line class="e-money" x1="120" y1="40" x2="280" y2="62"/>
+        <path class="a-money" d="M288 63 l-10 -3 l2 9 z"/>
+        <line class="e-manual" x1="120" y1="110" x2="280" y2="88"/>
+        <path class="a-manual" d="M288 87 l-8 8 l-2 -9 z"/>
+        <rect class="n-svc" x="290" y="53" width="140" height="44"/>
+        <text class="n-label" x="360" y="72" text-anchor="middle">Payments Platform</text>
+        <text class="n-sub" x="360" y="86" text-anchor="middle">the estate</text>
+        <line class="e-money" x1="430" y1="63" x2="560" y2="38"/>
+        <path class="a-money" d="M568 36 l-10 -2 l3 9 z"/>
+        <line class="e-mirror" x1="430" y1="87" x2="560" y2="112"/>
+        <path class="a-mirror" d="M568 114 l-9 -6 l-1 9 z"/>
+        <rect class="n-ext" x="570" y="16" width="140" height="42"/>
+        <text class="n-label" x="640" y="34" text-anchor="middle">Card network</text>
+        <text class="n-sub" x="640" y="48" text-anchor="middle">external</text>
+        <rect class="n-ext" x="570" y="94" width="140" height="42"/>
+        <text class="n-label" x="640" y="112" text-anchor="middle">Bank / PSP</text>
+        <text class="n-sub" x="640" y="126" text-anchor="middle">external</text>
+      </svg>
+      <figcaption class="dds-legend">
+        <span><i class="dds-leg-line money"></i>real money / sync</span>
+        <span><i class="dds-leg-line manual"></i>manual step</span>
+        <span><i class="dds-leg-line mirror"></i>mirror / async</span>
+      </figcaption>
+    </figure>
+
+    <p class="lvl">Level 2 · Container — the services inside</p>
+    <div class="dds-titleblock">
+      <div><b>Container — Wallet Funding</b>example · fictional</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG C-02</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram" style="margin-bottom:32px;">
+      <svg viewBox="0 0 720 170" role="img" aria-label="Container diagram: checkout service to float service to wallet service, with a journal store and an events queue">
+        <rect class="n-svc" x="10" y="30" width="120" height="44"/>
+        <text class="n-label" x="70" y="49" text-anchor="middle">checkout-svc</text>
+        <text class="n-sub" x="70" y="63" text-anchor="middle">service</text>
+        <line class="e-money" x1="130" y1="52" x2="196" y2="52"/>
+        <path class="a-money" d="M204 52 l-9 -5 v10 z"/>
+        <rect class="n-svc" x="206" y="30" width="120" height="44"/>
+        <text class="n-label" x="266" y="49" text-anchor="middle">float-svc</text>
+        <text class="n-sub" x="266" y="63" text-anchor="middle">service</text>
+        <line class="e-money" x1="326" y1="52" x2="392" y2="52"/>
+        <path class="a-money" d="M400 52 l-9 -5 v10 z"/>
+        <rect class="n-svc" x="402" y="30" width="120" height="44"/>
+        <text class="n-label" x="462" y="49" text-anchor="middle">wallet-svc</text>
+        <text class="n-sub" x="462" y="63" text-anchor="middle">service</text>
+        <line class="e-mirror" x1="462" y1="74" x2="462" y2="106"/>
+        <path class="a-mirror" d="M462 114 l-5 -9 h10 z"/>
+        <rect class="n-store" x="402" y="116" width="120" height="26" rx="10"/>
+        <text class="n-label" x="462" y="133" text-anchor="middle">journal</text>
+        <line class="e-mirror" x1="522" y1="52" x2="588" y2="52"/>
+        <path class="a-mirror" d="M596 52 l-9 -5 v10 z"/>
+        <rect class="n-store" x="598" y="39" width="112" height="26" rx="10"/>
+        <text class="n-label" x="654" y="56" text-anchor="middle">events.fifo</text>
+        <line class="e-blocked" x1="402" y1="16" x2="272" y2="16"/>
+        <path class="a-blocked" d="M264 16 l9 -5 v10 z"/>
+        <text class="n-sub" x="337" y="10" text-anchor="middle">no reverse transfer (by design)</text>
+      </svg>
+      <figcaption class="dds-legend">
+        <span><i class="dds-leg-line money"></i>real money / sync</span>
+        <span><i class="dds-leg-line mirror"></i>mirror / async</span>
+        <span><i class="dds-leg-line blocked"></i>blocked by design</span>
+      </figcaption>
+    </figure>
+
+    <p class="lvl">Level 3 · Component — inside one service</p>
+    <div class="dds-titleblock">
+      <div><b>Component — wallet-svc</b>example · fictional</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status in-review">in-review</span></div>
+      <div><b>DWG C-03</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram">
+      <svg viewBox="0 0 720 120" role="img" aria-label="Component diagram: webhook handler to command handler to wallet aggregate to wallet store">
+        <rect class="n-svc" x="10" y="26" width="140" height="44"/>
+        <text class="n-label" x="80" y="45" text-anchor="middle">WebhookHandler</text>
+        <text class="n-sub" x="80" y="59" text-anchor="middle">component</text>
+        <line class="e-money" x1="150" y1="48" x2="206" y2="48"/>
+        <path class="a-money" d="M214 48 l-9 -5 v10 z"/>
+        <rect class="n-svc" x="216" y="26" width="140" height="44"/>
+        <text class="n-label" x="286" y="45" text-anchor="middle">FundCommand</text>
+        <text class="n-sub" x="286" y="59" text-anchor="middle">component</text>
+        <line class="e-money" x1="356" y1="48" x2="412" y2="48"/>
+        <path class="a-money" d="M420 48 l-9 -5 v10 z"/>
+        <rect class="n-svc" x="422" y="26" width="140" height="44"/>
+        <text class="n-label" x="492" y="45" text-anchor="middle">WalletAggregate</text>
+        <text class="n-sub" x="492" y="59" text-anchor="middle">component</text>
+        <line class="e-mirror" x1="562" y1="48" x2="618" y2="48"/>
+        <path class="a-mirror" d="M626 48 l-9 -5 v10 z"/>
+        <rect class="n-store" x="628" y="35" width="82" height="26" rx="10"/>
+        <text class="n-label" x="669" y="52" text-anchor="middle">store</text>
+      </svg>
+      <figcaption class="dds-legend">
+        <span><i class="dds-leg-line money"></i>sync call</span>
+        <span><i class="dds-leg-line mirror"></i>async write</span>
+      </figcaption>
+    </figure>
+    <p style="margin:12px 0 0;">At Component level, solid still means synchronous and dashed still means asynchronous — the money reading simply doesn't apply inside a single process. The grammar holds; the interpretation narrows with the zoom.</p>
+  </section>
+
+  <!-- Rules -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Rules</h2></div>
+    <ul>
+      <li>One diagram, one C4 level. Split rather than mix.</li>
+      <li>Legend and title block on every diagram — no exceptions, including drafts (drafts say <code>in-review</code>).</li>
+      <li>Inline SVG only. Never ASCII art, never raster exports, never Canvas for static diagrams.</li>
+      <li>All colour through the semantic classes; no literal <code>stroke="#…"</code> on grammar elements.</li>
+      <li>Flow reads left→right (or top→bottom for mirrors); avoid crossing edges before adding a node.</li>
+      <li>Blocked edges (<code>.e-blocked</code>) exist to make an absence visible — use them when the absence is the finding.</li>
+    </ul>
+  </section>
+
+  <footer class="dds-colophon">
+    <div><a href="index.html">← Style guide</a> · Diagrams · v1.0.0 · rev 2026-07-03</div>
+    <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="components.html">Components</a></div>
+  </footer>
+
+</div>
+</body>
+</html>

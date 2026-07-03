@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour · Dexter Design System</title>
+<link rel="stylesheet" href="dexter.css">
+<style>
+  body { margin: 0; }
+  .sw-line { display: flex; align-items: center; gap: 14px; padding: 8px 0;
+             border-bottom: 1px solid var(--dds-doc-rule); }
+  .sw-line:last-child { border-bottom: 0; }
+  .sw-line i { width: 56px; height: 28px; border: 1px solid var(--dds-doc-rule); flex: none; font-style: normal; }
+  .sw-line .tok { font-family: var(--dds-mono); font-size: 12px; width: 150px; flex: none; }
+  .sw-line .use { font-size: 14px; color: var(--dds-doc-muted); }
+  .viz-demo { display: flex; gap: 4px; align-items: flex-end; height: 90px; margin: 16px 0 8px; max-width: 420px; }
+  .viz-demo i { flex: 1; font-style: normal; }
+</style>
+</head>
+<body class="dds-doc">
+<div class="dds-page">
+
+  <header>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.0.0 · Reference</div>
+    <h1 class="dds-title">Colour</h1>
+    <p class="dds-subtitle">One accent that makes a claim, four semantic families that never lie, and six chart colours used in order. Everything else is a considered neutral.</p>
+  </header>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>The accent is a claim</h2></div>
+    <div class="dds-row">
+      <div>
+        <p>The viridian accent (<code>--dds-accent</code>) means <strong>verified or real</strong>. It marks the real-money edge in diagrams, the <code>ok</code> status, verified title-block stamps, and at most one emphasised word in a title. If a reader ever sees the green and the thing is not verified or real, the system is broken.<span class="dds-snref">1</span></p>
+        <p>Corollary: there is no second accent. When a page feels like it needs another highlight colour, the content needs editing, not the palette.</p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> This is why links are ink-with-underline, not green: an unvisited link has earned no claim. They turn accent only on hover.</aside>
+    </div>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Semantic families</h2></div>
+    <p>Fixed meanings, shared by status dots, chips, diagram edges, and the title-block stamp. Each family pairs a strong value with a soft background (<code>--dds-*-bg</code>) for chips.</p>
+    <div style="margin: 0 0 24px;">
+      <div class="sw-line"><i style="background:var(--dds-ok)"></i><span class="tok">--dds-ok</span><span class="use">verified · healthy · real money · closed risk</span></div>
+      <div class="sw-line"><i style="background:var(--dds-warn)"></i><span class="tok">--dds-warn</span><span class="use">in-review · degraded · manual step</span></div>
+      <div class="sw-line"><i style="background:var(--dds-crit)"></i><span class="tok">--dds-crit</span><span class="use">stale · failing · blocked-by-design</span></div>
+      <div class="sw-line"><i style="background:var(--dds-info)"></i><span class="tok">--dds-info</span><span class="use">mirror · async · informational</span></div>
+    </div>
+    <p><strong>Colour never travels alone.</strong> Every semantic colour is paired with a shape or word — a dot with a label, a chip with text, a line style with a legend entry. The page must survive greyscale printing and colour-blind readers unchanged.</p>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Data-viz palette</h2></div>
+    <p>Six categorical colours, used strictly in order — series one is always <code>--dds-v1</code>. Do not skip ahead to a “nicer” colour; order is what keeps two charts on the same page comparable.</p>
+    <div class="viz-demo">
+      <i style="background:var(--dds-v1); height:100%"></i>
+      <i style="background:var(--dds-v2); height:78%"></i>
+      <i style="background:var(--dds-v3); height:64%"></i>
+      <i style="background:var(--dds-v4); height:47%"></i>
+      <i style="background:var(--dds-v5); height:36%"></i>
+      <i style="background:var(--dds-v6); height:22%"></i>
+    </div>
+    <p class="dds-evidence" style="margin-bottom:24px;">--dds-v1 …v6 · green, slate, amber, plum, clay, teal</p>
+    <p>Charts follow the same restraint as everything else: a faint grid, an area fill only when the area means something, and the emphasised series carried by weight — not by a colour outside the palette.</p>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Grounds and neutrals</h2></div>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Token</th><th class="dds-num">Light</th><th class="dds-num">Dark</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>--dds-doc-bg</code></td><td class="dds-num">#FBFAF3</td><td class="dds-num">#1D1C18</td><td>Document paper (warm)</td></tr>
+          <tr><td><code>--dds-doc-ink</code></td><td class="dds-num">#1C1B17</td><td class="dds-num">#E9E6DA</td><td>Document text</td></tr>
+          <tr><td><code>--dds-doc-muted</code></td><td class="dds-num">#5D5A4F</td><td class="dds-num">#A5A091</td><td>Sidenotes, captions</td></tr>
+          <tr><td><code>--dds-doc-rule</code></td><td class="dds-num">#E3DFD1</td><td class="dds-num">#38362D</td><td>Hairlines</td></tr>
+          <tr><td><code>--dds-p-bg</code></td><td class="dds-num">#F6F8F7</td><td class="dds-num">#131615</td><td>Panel ground (cool)</td></tr>
+          <tr><td><code>--dds-p-surface</code></td><td class="dds-num">#FFFFFF</td><td class="dds-num">#1A1E1C</td><td>Panel surfaces</td></tr>
+          <tr><td><code>--dds-p-border</code></td><td class="dds-num">#E1E5E3</td><td class="dds-num">#2B302E</td><td>1px elevation borders</td></tr>
+          <tr><td><code>--dds-accent</code></td><td class="dds-num">#0B6E4F</td><td class="dds-num">#6FBF9F</td><td>The claim (verified / real)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The neutrals are biased, not default: document paper leans warm (toward the serif's world), the panel ground leans cool (toward the instrument's). Both theme flips happen entirely at token level — components never restyle inside a media query. Text/ground pairs are chosen to hold WCAG AA contrast on their own ground in both themes.</p>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Rules</h2></div>
+    <ul>
+      <li>Tokens only — a hard-coded hex in a component is a defect.</li>
+      <li>One accent. Semantic colours are not accents; charts are not accents.</li>
+      <li>Green = verified/real, everywhere, always. Never decorative.</li>
+      <li>Chips pair <code>--dds-*-bg</code> with the strong value; never invent new pairings.</li>
+      <li>Series order in charts follows <code>v1…v6</code>; a legend is mandatory whenever more than one series appears.</li>
+      <li>Both themes ship with every output; check the accent works on both grounds.</li>
+    </ul>
+  </section>
+
+  <footer class="dds-colophon">
+    <div><a href="index.html">← Style guide</a> · Colour · v1.0.0 · rev 2026-07-03</div>
+    <div><a href="typography.html">Typography</a> · <a href="components.html">Components</a> · <a href="diagrams.html">Diagrams</a></div>
+  </footer>
+
+</div>
+</body>
+</html>

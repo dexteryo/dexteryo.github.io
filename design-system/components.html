@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Components · Dexter Design System</title>
+<link rel="stylesheet" href="dexter.css">
+<style>
+  body { margin: 0; }
+  .comp { margin: 0 0 40px; }
+  .comp-name { font-family: var(--dds-mono); font-size: 12px; font-weight: 600;
+               letter-spacing: .04em; margin: 0 0 4px; }
+  .comp-note { font-size: 14px; color: var(--dds-doc-muted); margin: 0 0 14px; max-width: 66ch; }
+  .comp-demo { border: 1px dashed var(--dds-doc-rule); padding: 20px; margin: 0 0 10px; }
+  details.snippet > summary { font-family: var(--dds-mono); font-size: 11px; letter-spacing: .08em;
+        text-transform: uppercase; color: var(--dds-doc-muted); cursor: pointer; padding: 4px 0; }
+  details.snippet pre { margin-top: 8px; }
+  .panel-demo { border-radius: 6px; }
+</style>
+</head>
+<body class="dds-doc">
+<div class="dds-page">
+
+  <header>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.0.0 · Reference</div>
+    <h1 class="dds-title">Components</h1>
+    <p class="dds-subtitle">Every component in the system, rendered live with its markup. If a component is not on this page, it is not in the system — build it from these, or propose a change.</p>
+  </header>
+
+  <!-- ============ DOCUMENT MODE ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Document mode</h2></div>
+
+    <div class="comp">
+      <p class="comp-name">Masthead — .dds-eyebrow / .dds-title / .dds-subtitle / .dds-meta</p>
+      <p class="comp-note">Opens every document. One optional <code>&lt;em&gt;</code> accent in the title; the meta bar carries facts (author, date, status), not decoration.</p>
+      <div class="comp-demo">
+        <div class="dds-eyebrow">Investigation · Payments Platform · Reconciliation</div>
+        <h1 class="dds-title" style="font-size:30px;">The drift is in the <em>mirror</em>, not the money</h1>
+        <p class="dds-subtitle" style="margin-bottom:16px;">A three-way comparison of float, wallet ledger, and journal.</p>
+        <dl class="dds-meta" style="margin-bottom:0;">
+          <div><dt>Author</dt><dd>Dexter</dd></div>
+          <div><dt>Date</dt><dd>2026-07-03</dd></div>
+          <div><dt>Status</dt><dd>Final</dd></div>
+        </dl>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-eyebrow"&gt;Investigation · Project · Context&lt;/div&gt;
+&lt;h1 class="dds-title"&gt;Headline with &lt;em&gt;one accent&lt;/em&gt;&lt;/h1&gt;
+&lt;p class="dds-subtitle"&gt;Stand-first.&lt;/p&gt;
+&lt;dl class="dds-meta"&gt;
+  &lt;div&gt;&lt;dt&gt;Author&lt;/dt&gt;&lt;dd&gt;Dexter&lt;/dd&gt;&lt;/div&gt;
+&lt;/dl&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Section heading — .dds-sec-h</p>
+      <p class="comp-note">Hairline above, mono number, quiet serif title. Numbers only when order carries meaning.</p>
+      <div class="comp-demo">
+        <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 02</span><h2>What the ledgers disagree about</h2></div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-sec-h"&gt;&lt;span class="dds-sec-num"&gt;§ 02&lt;/span&gt;&lt;h2&gt;Title&lt;/h2&gt;&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Sidenote row — .dds-row / .dds-sidenote / .dds-snref / .dds-evidence</p>
+      <p class="comp-note">The signature move: claims in the prose, evidence in the margin. Collapses to an inset box on small screens.</p>
+      <div class="comp-demo">
+        <div class="dds-row">
+          <div><p style="margin:0;">The wallet ledger drifted on 248 of 12,408 wallets.<span class="dds-snref">1</span></p></div>
+          <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> <span class="dds-evidence">recon_job.sql:41</span> — nightly run of 2026-07-02.</aside>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-row"&gt;
+  &lt;div&gt;&lt;p&gt;Claim.&lt;span class="dds-snref"&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;aside class="dds-sidenote"&gt;&lt;span class="dds-sn-num"&gt;1.&lt;/span&gt;
+    &lt;span class="dds-evidence"&gt;file.java:214&lt;/span&gt; — verified YYYY-MM-DD.&lt;/aside&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Stat strip — .dds-stats</p>
+      <p class="comp-note">Headline numbers between a heavy top rule and a hairline. Three to five stats; serif values, tabular numerals.</p>
+      <div class="comp-demo">
+        <div class="dds-stats" style="margin-bottom:0;">
+          <div><div class="dds-stat-label">Wallets</div><div class="dds-stat-value">12,408</div></div>
+          <div><div class="dds-stat-label">Drifted</div><div class="dds-stat-value">248</div></div>
+          <div><div class="dds-stat-label">Max gap</div><div class="dds-stat-value">€41.20</div></div>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-stats"&gt;
+  &lt;div&gt;&lt;div class="dds-stat-label"&gt;Label&lt;/div&gt;
+    &lt;div class="dds-stat-value"&gt;12,408&lt;span class="dds-unit"&gt;unit&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Table — .dds-table / tr.dds-total / .dds-num</p>
+      <p class="comp-note">Hairline rows, mono uppercase headers, digits right-aligned and tabular. Financial closings take the accountant's total rule.</p>
+      <div class="comp-demo">
+        <div class="dds-table-wrap" style="margin:0;">
+          <table class="dds-table">
+            <thead><tr><th>Book</th><th class="dds-num">Balance</th></tr></thead>
+            <tbody>
+              <tr><td>Platform float</td><td class="dds-num">€2,166,390</td></tr>
+              <tr><td>Wallet ledger</td><td class="dds-num">€2,166,431</td></tr>
+              <tr class="dds-total"><td>Divergence</td><td class="dds-num">€41</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;table class="dds-table"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Book&lt;/th&gt;&lt;th class="dds-num"&gt;Balance&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;…&lt;/td&gt;&lt;td class="dds-num"&gt;€2,166,390&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr class="dds-total"&gt;&lt;td&gt;Total&lt;/td&gt;&lt;td class="dds-num"&gt;…&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Pull quote — .dds-pull</p>
+      <div class="comp-demo">
+        <blockquote class="dds-pull" style="margin:0;"><strong>The one-way valve:</strong> money enters through five rails and leaves through one.</blockquote>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;blockquote class="dds-pull"&gt;&lt;strong&gt;Lead-in:&lt;/strong&gt; the point.&lt;/blockquote&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Verdict — .dds-verdict[data-label]</p>
+      <p class="comp-note">Closes a document that lands on a conclusion. The label states what the box is: Recommendation, Finding, Open question. Never a dark inverted slab.</p>
+      <div class="comp-demo" style="padding-top:28px;">
+        <div class="dds-verdict" style="margin-top:0;" data-label="Finding">
+          <h3>The drift is bounded and explained.</h3>
+          <p style="margin-bottom:0;">All 248 divergences trace to replays of one queue consumer between 02:10 and 02:14 UTC.</p>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-verdict" data-label="Finding"&gt;
+  &lt;h3&gt;One sentence.&lt;/h3&gt;
+  &lt;p&gt;Rationale.&lt;/p&gt;
+  &lt;ol&gt;&lt;li&gt;Action.&lt;/li&gt;&lt;/ol&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp" style="margin-bottom:0;">
+      <p class="comp-name">Colophon — .dds-colophon</p>
+      <div class="comp-demo">
+        <footer class="dds-colophon" style="margin-top:0; "><div>Report title · 2026-07-03</div><div>Dexter</div></footer>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;footer class="dds-colophon"&gt;&lt;div&gt;Title · date&lt;/div&gt;&lt;div&gt;Author&lt;/div&gt;&lt;/footer&gt;</code></pre></details>
+    </div>
+  </section>
+
+  <!-- ============ PANEL MODE ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Panel mode</h2></div>
+    <p class="comp-note">Demos below sit inside a <code>.dds-panels</code> container. On a real dashboard, <code>dds-panels</code> is the body class.</p>
+
+    <div class="comp">
+      <p class="comp-name">Board header — .dds-board-h / .dds-board-meta</p>
+      <p class="comp-note">The page-level title strip for a dashboard: title, optional overall-status chip, refresh timestamp on the right.</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <div class="dds-board-h" style="margin-bottom:0;">
+          <h1>Wallet funding — operations</h1>
+          <span class="dds-chip ok">all systems verified</span>
+          <span class="dds-board-meta">refreshed 2026-07-03 14:02 UTC</span>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-board-h"&gt;
+  &lt;h1&gt;Board title&lt;/h1&gt;
+  &lt;span class="dds-chip ok"&gt;status&lt;/span&gt;
+  &lt;span class="dds-board-meta"&gt;refreshed …&lt;/span&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Metric grid — .dds-metric-grid / .dds-metric</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <div class="dds-metric-grid">
+          <div class="dds-metric"><div class="dds-metric-l">Transfers</div><div class="dds-metric-v">1,284</div></div>
+          <div class="dds-metric"><div class="dds-metric-l">Failed</div><div class="dds-metric-v">3</div></div>
+          <div class="dds-metric"><div class="dds-metric-l">P95</div><div class="dds-metric-v">412<span class="dds-unit">ms</span></div></div>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-metric-grid"&gt;
+  &lt;div class="dds-metric"&gt;&lt;div class="dds-metric-l"&gt;Label&lt;/div&gt;
+    &lt;div class="dds-metric-v"&gt;412&lt;span class="dds-unit"&gt;ms&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Panel with key–value rows — .dds-panel / .dds-panel-h / .dds-kv</p>
+      <p class="comp-note">Keys in muted sans on the left; values in monospace on the right. Machine truth reads as machine truth.</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <div class="dds-panel" style="max-width:420px;">
+          <div class="dds-panel-h"><h3>wallet-service</h3><span class="dds-panel-meta">eu-west-1</span></div>
+          <div class="dds-panel-b">
+            <div class="dds-kv"><span>Version</span><b>v4.2.1</b></div>
+            <div class="dds-kv"><span>Last deploy</span><b>2026-07-02 18:40</b></div>
+          </div>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-panel"&gt;
+  &lt;div class="dds-panel-h"&gt;&lt;h3&gt;Title&lt;/h3&gt;&lt;span class="dds-panel-meta"&gt;meta&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="dds-panel-b"&gt;
+    &lt;div class="dds-kv"&gt;&lt;span&gt;Key&lt;/span&gt;&lt;b&gt;value&lt;/b&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Register rows — .dds-reg-row / .dds-dot / .dds-reg-meta</p>
+      <p class="comp-note">Status dot + label + mono metadata. Dots for rows; chips for inline labels — one per context, never both.</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <div class="dds-panel" style="max-width:480px;"><div class="dds-panel-b">
+          <div class="dds-reg-row"><span class="dds-dot crit"></span><b>Consumer replay loop</b><span class="dds-reg-meta">RISK-101</span></div>
+          <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="dds-reg-meta">RISK-097</span></div>
+          <div class="dds-reg-row"><span class="dds-dot ok"></span><b>One-way valve verified</b><span class="dds-reg-meta">closed</span></div>
+        </div></div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-reg-row"&gt;&lt;span class="dds-dot warn"&gt;&lt;/span&gt;
+  &lt;b&gt;Risk title&lt;/b&gt;&lt;span class="dds-reg-meta"&gt;TICKET-123&lt;/span&gt;&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Chips — .dds-chip</p>
+      <p class="comp-note">Uppercase mono labels in the semantic families, plus <code>neutral</code> for draft/unknown. Vocabulary mirrors the wiki trust signal.</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <span class="dds-chip ok">verified</span>
+        <span class="dds-chip warn">in review</span>
+        <span class="dds-chip crit">stale</span>
+        <span class="dds-chip info">mirror</span>
+        <span class="dds-chip neutral">draft</span>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;span class="dds-chip ok"&gt;verified&lt;/span&gt;</code></pre></details>
+    </div>
+
+    <div class="comp" style="margin-bottom:0;">
+      <p class="comp-name">Command block — .dds-cmd / .dds-ps</p>
+      <div class="comp-demo dds-panels panel-demo">
+        <div class="dds-cmd" style="margin:0;"><code><span class="dds-ps">$</span> recon compare --book float --book ledger --since 2026-07-02</code></div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-cmd"&gt;&lt;code&gt;&lt;span class="dds-ps"&gt;$&lt;/span&gt; command --flag&lt;/code&gt;&lt;/div&gt;</code></pre></details>
+    </div>
+  </section>
+
+  <!-- ============ SHARED ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Shared utilities</h2></div>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Class</th><th>Effect</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td><code>.dds-mono</code></td><td>Monospace stack</td><td>Any machine value in flowing text</td></tr>
+          <tr><td><code>.dds-num</code></td><td>Tabular numerals</td><td>Every digit column; combine with right alignment in tables</td></tr>
+          <tr><td><code>.dds-smallcaps</code></td><td>Small caps + tracking</td><td>Occasional serif emphasis (Document mode only)</td></tr>
+          <tr><td><code>.dds-right</code></td><td>Right alignment</td><td>Numeric cells outside .dds-table</td></tr>
+          <tr><td><code>.dds-evidence</code></td><td>Mono 12px muted</td><td><code>file:line</code> / ticket / verified-date citations</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-bottom:0;">Links are ink with a muted underline in both modes, turning accent on hover; keyboard focus draws a 2px accent outline. Both come free from the stylesheet — never restyle them per page.</p>
+  </section>
+
+  <footer class="dds-colophon">
+    <div><a href="index.html">← Style guide</a> · Components · v1.0.0 · rev 2026-07-03</div>
+    <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="diagrams.html">Diagrams</a></div>
+  </footer>
+
+</div>
+</body>
+</html>

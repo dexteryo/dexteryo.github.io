@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example dashboard · Dexter Design System</title>
+<link rel="stylesheet" href="../dexter.css">
+<style>
+  body { margin: 0; }
+  /* Page layout only — components come from dexter.css. */
+  .board-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 0 0 16px; }
+  @media (max-width: 760px) { .board-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="dds-panels">
+<div class="dds-page">
+
+  <div class="dds-board-h">
+    <h1>Wallet funding — operations</h1>
+    <span class="dds-chip ok">all systems verified</span>
+    <span class="dds-board-meta">refreshed 2026-07-03 14:02 UTC</span>
+  </div>
+
+  <div class="dds-metric-grid" style="margin-bottom:16px;">
+    <div class="dds-metric"><div class="dds-metric-l">Transfers today</div><div class="dds-metric-v">1,284</div></div>
+    <div class="dds-metric"><div class="dds-metric-l">Failed</div><div class="dds-metric-v">3</div></div>
+    <div class="dds-metric"><div class="dds-metric-l">P95 latency</div><div class="dds-metric-v">412<span class="dds-unit">ms</span></div></div>
+    <div class="dds-metric"><div class="dds-metric-l">Queue depth</div><div class="dds-metric-v">0</div></div>
+    <div class="dds-metric"><div class="dds-metric-l">Recon gap</div><div class="dds-metric-v">€0.00</div></div>
+  </div>
+
+  <div class="board-grid">
+    <div class="dds-panel">
+      <div class="dds-panel-h"><h3>wallet-service</h3><span class="dds-panel-meta">eu-west-1 · prod</span></div>
+      <div class="dds-panel-b">
+        <div class="dds-kv"><span>Version</span><b>v4.2.1</b></div>
+        <div class="dds-kv"><span>Idempotency</span><b>wallet+transfer ID</b></div>
+        <div class="dds-kv"><span>Last deploy</span><b>2026-07-02 18:40</b></div>
+        <div class="dds-kv"><span>Error rate (1h)</span><b>0.02%</b></div>
+      </div>
+    </div>
+
+    <div class="dds-panel">
+      <div class="dds-panel-h"><h3>Risk register</h3><span class="dds-panel-meta">4 open</span></div>
+      <div class="dds-panel-b">
+        <div class="dds-reg-row"><span class="dds-dot crit"></span><b>Consumer replay loop</b><span class="dds-reg-meta">RISK-101</span></div>
+        <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="dds-reg-meta">RISK-097</span></div>
+        <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Float funded manually</b><span class="dds-reg-meta">RISK-088</span></div>
+        <div class="dds-reg-row"><span class="dds-dot ok"></span><b>One-way valve verified</b><span class="dds-reg-meta">closed</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="board-grid">
+    <div class="dds-panel">
+      <div class="dds-panel-h"><h3>Queues</h3><span class="dds-panel-meta">3 monitored</span></div>
+      <div class="dds-panel-b">
+        <div class="dds-reg-row"><span class="dds-dot ok"></span><b>funding-events.fifo</b><span class="dds-reg-meta">0 in-flight</span></div>
+        <div class="dds-reg-row"><span class="dds-dot ok"></span><b>journal-events.fifo</b><span class="dds-reg-meta">2 in-flight</span></div>
+        <div class="dds-reg-row"><span class="dds-dot warn"></span><b>funding-events-dlq</b><span class="dds-reg-meta">3 messages</span></div>
+      </div>
+    </div>
+
+    <div class="dds-panel">
+      <div class="dds-panel-h"><h3>Recent reconciliation runs</h3><span class="dds-panel-meta">nightly 03:00 UTC</span></div>
+      <div class="dds-panel-b">
+        <div class="dds-reg-row"><span class="dds-dot ok"></span><b>2026-07-03</b><span class="dds-reg-meta">12,408 wallets · 0 gaps</span></div>
+        <div class="dds-reg-row"><span class="dds-dot crit"></span><b>2026-07-02</b><span class="dds-reg-meta">12,408 wallets · 248 gaps</span></div>
+        <div class="dds-reg-row"><span class="dds-dot ok"></span><b>2026-07-01</b><span class="dds-reg-meta">12,371 wallets · 0 gaps</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dds-cmd"><code><span class="dds-ps">$</span> recon compare --book float --book ledger --book journal --since 2026-07-02</code></div>
+
+  <footer class="dds-colophon" style="border-top-color:var(--dds-p-border); color:var(--dds-p-muted);">
+    <div>Fictional example for the <a href="../index.html">Dexter Design System</a> · v1.0.0</div>
+    <div>rev 2026-07-03</div>
+  </footer>
+
+</div>
+</body>
+</html>

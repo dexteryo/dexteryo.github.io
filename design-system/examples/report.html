@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example report · Dexter Design System</title>
+<link rel="stylesheet" href="../dexter.css">
+<style>body { margin: 0; }</style>
+</head>
+<body class="dds-doc">
+<div class="dds-page">
+
+  <header>
+    <div class="dds-eyebrow">Investigation · Payments Platform · Reconciliation</div>
+    <h1 class="dds-title">The drift is in the <em>mirror</em>, not the money</h1>
+    <p class="dds-subtitle">A three-way comparison of the platform float, the wallet ledger, and the accounting journal found 248 divergent wallets. All of them trace to one consumer replaying a four-minute window. The money itself reconciles to the cent.</p>
+    <dl class="dds-meta">
+      <div><dt>Author</dt><dd>Dexter</dd></div>
+      <div><dt>Date</dt><dd>2026-07-03</dd></div>
+      <div><dt>Status</dt><dd>Final</dd></div>
+      <div><dt>Audience</dt><dd>Platform engineering</dd></div>
+    </dl>
+  </header>
+
+  <div class="dds-stats">
+    <div><div class="dds-stat-label">Wallets checked</div><div class="dds-stat-value">12,408</div></div>
+    <div><div class="dds-stat-label">Divergent</div><div class="dds-stat-value">248</div></div>
+    <div><div class="dds-stat-label">Largest gap</div><div class="dds-stat-value">€41.20</div></div>
+    <div><div class="dds-stat-label">Real-money gap</div><div class="dds-stat-value">€0.00</div></div>
+  </div>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>What was compared</h2></div>
+    <div class="dds-row">
+      <div>
+        <p>The platform keeps three books. The float is real money at the payment provider; the wallet ledger is the balance the product shows; the journal is the double-entry record the accountants close against. Only the float can move money — the other two are mirrors of it.<span class="dds-snref">1</span></p>
+        <p>The nightly job compares all three per wallet. On 2026-07-02 it reported 248 wallets where the wallet ledger disagreed with both other books — the first divergence since the job was introduced.</p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> <span class="dds-evidence">recon_job.sql:41</span> — three-way join keyed on wallet ID, run nightly at 03:00 UTC.</aside>
+    </div>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Where the books disagree</h2></div>
+    <div class="dds-row">
+      <div>
+        <p>Every divergent wallet was funded between 02:10 and 02:14 UTC, the window in which the funding-events consumer restarted and replayed its in-flight batch. The replay applied 248 credits twice to the wallet ledger; the float and the journal, which are keyed on the provider's transfer ID, deduplicated correctly.<span class="dds-snref">2</span></p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">2.</span> <span class="dds-evidence">FundingConsumer.java:88</span> — offset commit happens after apply, not atomically with it; a restart between the two replays the batch.</aside>
+    </div>
+
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Book</th><th>Dedup key</th><th class="dds-num">Sum of 248 wallets</th></tr></thead>
+        <tbody>
+          <tr><td>Platform float</td><td>provider transfer ID</td><td class="dds-num">€18,411.90</td></tr>
+          <tr><td>Accounting journal</td><td>provider transfer ID</td><td class="dds-num">€18,411.90</td></tr>
+          <tr><td>Wallet ledger</td><td><strong>none</strong> (apply-then-commit)</td><td class="dds-num">€21,264.35</td></tr>
+          <tr class="dds-total"><td>Over-statement</td><td></td><td class="dds-num">€2,852.45</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dds-titleblock">
+      <div><b>Wallet funding — replay path</b>examples/report.html</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG R-01</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram">
+      <svg viewBox="0 0 720 150" role="img" aria-label="Funding events flow from the provider to the consumer, which mirrors to the wallet ledger twice on replay while float and journal deduplicate">
+        <rect class="n-ext" x="10" y="30" width="120" height="44"/>
+        <text class="n-label" x="70" y="49" text-anchor="middle">Provider</text>
+        <text class="n-sub" x="70" y="63" text-anchor="middle">external</text>
+        <line class="e-money" x1="130" y1="52" x2="196" y2="52"/>
+        <path class="a-money" d="M204 52 l-9 -5 v10 z"/>
+        <rect class="n-store" x="206" y="39" width="120" height="26" rx="10"/>
+        <text class="n-label" x="266" y="56" text-anchor="middle">funding-events</text>
+        <line class="e-mirror" x1="326" y1="52" x2="392" y2="52"/>
+        <path class="a-mirror" d="M400 52 l-9 -5 v10 z"/>
+        <rect class="n-svc" x="402" y="30" width="130" height="44"/>
+        <text class="n-label" x="467" y="49" text-anchor="middle">FundingConsumer</text>
+        <text class="n-sub" x="467" y="63" text-anchor="middle">replays on restart</text>
+        <line class="e-mirror" x1="532" y1="45" x2="598" y2="34"/>
+        <path class="a-mirror" d="M606 33 l-10 -2 l3 9 z"/>
+        <rect class="n-store" x="608" y="20" width="102" height="26" rx="10"/>
+        <text class="n-label" x="659" y="37" text-anchor="middle">wallet ledger</text>
+        <line class="e-mirror" x1="532" y1="60" x2="598" y2="74"/>
+        <path class="a-mirror" d="M606 76 l-9 -6 l-1 9 z"/>
+        <rect class="n-store" x="608" y="62" width="102" height="26" rx="10"/>
+        <text class="n-label" x="659" y="79" text-anchor="middle">journal</text>
+        <text class="n-sub" x="467" y="106" text-anchor="middle">float and journal dedup on transfer ID; the wallet ledger does not</text>
+      </svg>
+      <figcaption class="dds-legend">
+        <span><i class="dds-leg-line money"></i>real money / sync</span>
+        <span><i class="dds-leg-line mirror"></i>mirror / async</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Why no customer saw wrong money</h2></div>
+    <p>Spending authorises against the float, not the wallet ledger, so the doubled mirror could over-display but never over-spend. The blast radius is cosmetic — 248 customers briefly saw a balance up to €41.20 too high — plus the reconciliation alarm itself.</p>
+    <blockquote class="dds-pull"><strong>The invariant held:</strong> mirrors may drift; only the book that moves money must be right by construction.</blockquote>
+  </section>
+
+  <div class="dds-verdict" data-label="Recommendation">
+    <h3>Make the wallet ledger idempotent on the same key as its siblings.</h3>
+    <p>The other two books survived the replay because they deduplicate on the provider transfer ID. The fix is symmetry, not cleverness.</p>
+    <ol>
+      <li>Add a unique constraint on (wallet ID, transfer ID) to the wallet ledger and upsert on apply.</li>
+      <li>Replay the 02:10–02:14 window through the fixed path; confirm the 248 gaps close.</li>
+      <li>Keep the nightly three-way job — it caught this within one day.</li>
+    </ol>
+  </div>
+
+  <footer class="dds-colophon">
+    <div>Reconciliation drift investigation · 2026-07-03 · fictional example for the <a href="../index.html">Dexter Design System</a></div>
+    <div>Dexter</div>
+  </footer>
+
+</div>
+</body>
+</html>

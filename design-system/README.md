@@ -17,6 +17,21 @@ them.
 contract.** Read `dexter.css` for exact values; this file tells you which
 pieces to use and the rules you must not break.
 
+### Reference pages (documentation depth — not new sources of truth)
+
+This file plus `dexter.css` are self-sufficient; the pages below add depth
+for humans and worked examples for agents. They never define tokens or rules
+of their own.
+
+| Page | Covers |
+|---|---|
+| [`typography.html`](typography.html) | Type roles, full scale for both modes, do/don't pairs |
+| [`color.html`](color.html) | All tokens with light/dark values, accent + semantic rules, viz palette |
+| [`components.html`](components.html) | Every component, rendered live with copy-paste markup |
+| [`diagrams.html`](diagrams.html) | Full grammar + worked C4 Context/Container/Component examples |
+| [`examples/report.html`](examples/report.html) | Complete conformant Document-mode page — **match this** for reports |
+| [`examples/dashboard.html`](examples/dashboard.html) | Complete conformant Panel-mode page — **match this** for dashboards |
+
 ---
 
 ## 1. The system in one paragraph
@@ -210,9 +225,11 @@ diagrams, never Canvas for static diagrams.
 
 The system is versioned (`v1.0.0`, header of `dexter.css`). Change tokens or
 grammar only in this directory, bump the version and revision date in
-`dexter.css`, `index.html`, and this file, and keep the three files
-consistent. Downstream copies (inlined styles in old documents) are
-snapshots; they do not get retrofitted.
+`dexter.css`, `index.html`, and this file, and keep the whole directory
+(including reference pages and examples) consistent. New components go into
+`dexter.css` **and** `components.html` in the same change — a component that
+isn't on the components page isn't in the system. Downstream copies (inlined
+styles in old documents) are snapshots; they do not get retrofitted.
 
 ## Lineage
 

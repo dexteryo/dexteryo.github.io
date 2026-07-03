@@ -345,6 +345,18 @@
 }
 .dds-panels .dds-page { padding-top: var(--dds-s7); }
 
+/* Board header: page-level title strip for a Panel-mode page. */
+.dds-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--dds-s2) var(--dds-s4);
+  margin: 0 0 var(--dds-s5);
+}
+.dds-board-h h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.dds-board-h .dds-board-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11.5px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+}
+
 .dds-panel {
   background: var(--dds-p-surface);
   border: 1px solid var(--dds-p-border);
@@ -410,14 +422,19 @@
 .dds-chip.info    { background: var(--dds-info-bg); color: var(--dds-info); border-color: var(--dds-info); }
 .dds-chip.neutral { background: transparent; color: var(--dds-p-muted); border-color: var(--dds-p-strong); }
 
-/* Metric grid: seamless cells divided by 1px of border colour. */
+/* Metric grid: seamless cells divided by 1px hairlines. Lines are drawn by
+   each cell's shadow (not a painted grid background), so a ragged last row
+   leaves empty space, never a filler slab. */
 .dds-metric-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1px; background: var(--dds-p-border);
-  border: 1px solid var(--dds-p-border); border-radius: var(--dds-r-panel);
-  overflow: hidden;
+  gap: 1px; padding: 1px;
+  border-radius: var(--dds-r-panel); overflow: hidden;
 }
-.dds-metric { background: var(--dds-p-surface); padding: var(--dds-s3) var(--dds-s4); }
+.dds-metric {
+  background: var(--dds-p-surface);
+  box-shadow: 0 0 0 1px var(--dds-p-border);
+  padding: var(--dds-s3) var(--dds-s4);
+}
 .dds-metric-l {
   font-family: var(--dds-mono); font-size: 10px;
   letter-spacing: 0.12em; text-transform: uppercase;

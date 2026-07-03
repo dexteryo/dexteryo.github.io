@@ -256,9 +256,28 @@
     <p>Zoom levels follow the C4 model: Context (whole estate) → Container (services) → Component (inside one service). One diagram, one level — never mix.</p>
   </section>
 
-  <!-- ============ 06 FOR AI AGENTS ============ -->
+  <!-- ============ 06 REFERENCE PAGES ============ -->
   <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Using this system with AI agents</h2></div>
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Reference pages</h2></div>
+    <p>This page is the overview; each topic has a deeper reference page, and the examples are complete conformant pages — the best few-shot material for an agent.</p>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Page</th><th>Covers</th></tr></thead>
+        <tbody>
+          <tr><td><a href="typography.html">Typography</a></td><td>The three type roles, full scale specimens for both modes, do/don't pairs</td></tr>
+          <tr><td><a href="color.html">Colour</a></td><td>All tokens with light/dark values, accent and semantic rules, data-viz palette</td></tr>
+          <tr><td><a href="components.html">Components</a></td><td>Every component in both modes, rendered live with copy-paste markup</td></tr>
+          <tr><td><a href="diagrams.html">Diagrams</a></td><td>The full grammar: vocabulary, arrowhead geometry, worked C4 Context/Container/Component examples</td></tr>
+          <tr><td><a href="examples/report.html">Example: report</a></td><td>A complete Document-mode investigation, start to finish</td></tr>
+          <tr><td><a href="examples/dashboard.html">Example: dashboard</a></td><td>A complete Panel-mode operations board</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 07 FOR AI AGENTS ============ -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 07</span><h2>Using this system with AI agents</h2></div>
     <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-design-system</code> skill loads it automatically.</p>
     <div class="dds-doc" style="max-width:66ch;"><pre>Generate the report as HTML using the Dexter Design System:
 https://dexteryo.github.io/design-system/ (spec: README.md, tokens: dexter.css)
