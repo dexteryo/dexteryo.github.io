@@ -191,14 +191,85 @@
     <p style="margin:12px 0 0;">At Component level, solid still means synchronous and dashed still means asynchronous — the money reading simply doesn't apply inside a single process. The grammar holds; the interpretation narrows with the zoom.</p>
   </section>
 
+  <!-- Extended diagrams -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Extended diagrams (Mermaid)</h2></div>
+    <p>The native grammar above is <strong>Tier 1</strong>: hand-authored SVG for architecture and funds-flow diagrams, where the money semantics are the point. Everything else — sequence, state, class, ER, gantt, pie, git graphs, mindmaps, and the rest of the Mermaid catalogue — is <strong>Tier 2</strong>: authored as Mermaid DSL and rendered with the DDS theme bridge.</p>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Tier</th><th>Use for</th><th>Source of truth</th><th>Rendering</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1 · Native grammar</strong></td><td>Architecture, funds flow, anything using money/mirror/blocked semantics</td><td>Inline SVG with grammar classes</td><td>Static — no JavaScript</td></tr>
+          <tr><td><strong>2 · Mermaid</strong></td><td>Sequence, state, class, ER, gantt, pie, journey, git, mindmap, timeline…</td><td>Mermaid DSL in a <code>&lt;pre class="mermaid"&gt;</code></td><td>Hosted pages: <code>vendor/mermaid.min.js</code> + <code>dds-mermaid.js</code>. Final/self-contained documents: pre-rendered static SVG via mermaid-cli + <code>mermaid-config.json</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dds-row">
+      <div>
+        <p>The DSL stays in the document — it is the diffable, reviewable source, and if scripts ever fail to load the text still reads (progressive enhancement, never a blank box).<span class="dds-snref">2</span> The theme bridge follows the page theme, including live <code>data-theme</code> flips. Sequence arrows carry the grammar's spirit for free: solid <code>-&gt;&gt;</code> means synchronous, dashed <code>--&gt;&gt;</code> means asynchronous.</p>
+      </div>
+      <aside class="dds-sidenote"><span class="dds-sn-num">2.</span> Pre-rendering: <code class="dds-evidence">npx -y @mermaid-js/mermaid-cli -i d.mmd -o d.svg --configFile mermaid-config.json</code> — single-theme (light) by nature; use it for emailed or sandboxed output.</aside>
+    </div>
+
+    <pre><code>&lt;pre class="mermaid"&gt;
+sequenceDiagram
+  Customer-&gt;&gt;checkout&#8209;svc: pay
+&lt;/pre&gt;
+&lt;script src="vendor/mermaid.min.js"&gt;&lt;/script&gt;
+&lt;script src="dds-mermaid.js"&gt;&lt;/script&gt;</code></pre>
+
+    <div class="dds-titleblock">
+      <div><b>Sequence — wallet funding</b>example · fictional</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG M-01</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram" style="margin-bottom:32px;">
+      <pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor C as Customer
+  participant K as checkout-svc
+  participant F as float-svc
+  participant W as wallet-svc
+  participant J as journal
+  C->>K: pay €50
+  K->>F: transfer (sync)
+  F->>W: fund wallet (sync)
+  W--)J: journal event (async)
+  Note over F,W: the only real-money hop
+      </pre>
+    </figure>
+
+    <div class="dds-titleblock">
+      <div><b>State — wallet lifecycle</b>example · fictional</div>
+      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
+      <div><b>DWG M-02</b>sheet 1/1</div>
+    </div>
+    <figure class="dds-diagram">
+      <pre class="mermaid">
+stateDiagram-v2
+  direction LR
+  [*] --> Created
+  Created --> Funded: FundWallet
+  Funded --> Active: first spend
+  Active --> Suspended: risk hold
+  Suspended --> Active: cleared
+  Active --> Closed: closure
+  Closed --> [*]
+      </pre>
+    </figure>
+    <p style="margin:12px 0 0;">Tier-2 diagrams keep the title block (provenance is not optional); the grammar legend applies only when semantic classes are used.</p>
+  </section>
+
   <!-- Rules -->
   <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Rules</h2></div>
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Rules</h2></div>
     <ul>
       <li>One diagram, one C4 level. Split rather than mix.</li>
-      <li>Legend and title block on every diagram — no exceptions, including drafts (drafts say <code>in-review</code>).</li>
-      <li>Inline SVG only. Never ASCII art, never raster exports, never Canvas for static diagrams.</li>
-      <li>All colour through the semantic classes; no literal <code>stroke="#…"</code> on grammar elements.</li>
+      <li>Title block on every diagram — no exceptions, including drafts (drafts say <code>in-review</code>). Legend wherever grammar classes are used.</li>
+      <li>Diagrams are vector: Tier-1 inline SVG or Tier-2 Mermaid-rendered SVG. Never ASCII art, never raster exports. Canvas is reserved for data visualisation past ~10,000 marks — never for diagrams.</li>
+      <li>Tier-2 sources ship in the page: the DSL is the reviewable artefact, the render is presentation.</li>
+      <li>All colour through the semantic classes or the theme bridge; no literal <code>stroke="#…"</code> on grammar elements, no per-diagram theme overrides.</li>
       <li>Flow reads left→right (or top→bottom for mirrors); avoid crossing edges before adding a node.</li>
       <li>Blocked edges (<code>.e-blocked</code>) exist to make an absence visible — use them when the absence is the finding.</li>
     </ul>
@@ -210,5 +281,7 @@
   </footer>
 
 </div>
+<script src="vendor/mermaid.min.js"></script>
+<script src="dds-mermaid.js"></script>
 </body>
 </html>

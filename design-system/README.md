@@ -11,6 +11,8 @@ them.
 | Living style guide (view this) | <https://dexteryo.github.io/design-system/> |
 | Canonical stylesheet | [`dexter.css`](dexter.css) |
 | This spec (agent-facing) | `README.md` (this file) |
+| Mermaid theme bridge (hosted pages) | [`dds-mermaid.js`](dds-mermaid.js) + [`vendor/mermaid.min.js`](vendor/mermaid.min.js) |
+| Mermaid pre-render config (static SVG) | [`mermaid-config.json`](mermaid-config.json) |
 | Local source of truth | `~/dotfiles/dexteryo.github.io/design-system/` |
 
 **If you are an AI agent generating HTML output for Dexter: this file is your
@@ -48,11 +50,15 @@ family, one spacing scale (Carbon discipline).
 
 1. **Tokens only.** Every colour, font, space, and radius comes from a
    `--dds-*` custom property. Never hard-code a hex value in a component.
-2. **System font stacks only.** No webfont `<link>`, no `@font-face`, no CDN
-   anything. Output must work in a sandboxed viewer, an email, and offline.
+2. **System font stacks only, and nothing from a CDN.** No webfont `<link>`,
+   no `@font-face`, no runtime CDN requests. JavaScript is permitted, but it
+   must be vendored/same-origin (or inlined) and **progressive enhancement**:
+   the document must still read if scripts never run — no blank boxes.
 3. **Self-contained output.** When producing a standalone file or artifact,
-   inline the contents of `dexter.css` into a `<style>` block. Link the
-   stylesheet only for pages hosted next to it.
+   inline the contents of `dexter.css` into a `<style>` block, and
+   **pre-render** Tier-2 diagrams to static SVG (see §6) rather than shipping
+   the 2.6 MB Mermaid library. Link stylesheet/scripts only for pages hosted
+   next to them.
 4. **Both themes.** The token sheet defines light and dark values plus
    `:root[data-theme=…]` overrides. Include all three token blocks when
    inlining. Never restyle components inside a media query — flip tokens only.
@@ -163,7 +169,19 @@ healthy · `warn` = in-review / degraded · `crit` = stale / failing ·
 `info` = informational · `neutral` = draft / unknown. Dots for rows, chips
 for inline labels — pick one per context, not both.
 
-## 6. Diagram grammar
+## 6. Diagrams — two tiers
+
+| Tier | Use for | Source | Rendering |
+|---|---|---|---|
+| **1 · Native grammar** | Architecture, funds flow, anything with money/mirror/blocked semantics | Inline SVG, grammar classes | Static, no JS |
+| **2 · Mermaid** | Sequence, state, class, ER, gantt, pie, journey, git graph, mindmap, timeline — the full Mermaid catalogue | Mermaid DSL in `<pre class="mermaid">` (the DSL ships in the page — it is the reviewable artefact) | Hosted pages: `vendor/mermaid.min.js` + `dds-mermaid.js` (theme-adaptive, progressive enhancement). Self-contained/emailed output: **pre-render** to static SVG: `npx -y @mermaid-js/mermaid-cli -i d.mmd -o d.svg --configFile mermaid-config.json` (single-theme light), then inline the SVG and keep the DSL beside it in a `<details>` |
+
+Both tiers carry the **title block**; the grammar legend applies wherever
+grammar classes are used. Sequence arrows echo the grammar for free: solid
+`->>` = synchronous, dashed `-->>` = asynchronous. Never override the theme
+per diagram.
+
+### Tier-1 grammar
 
 Semantic, skin-independent. A restyle may recolour the grammar; it may never
 reinterpret it.
@@ -206,12 +224,15 @@ wiki's page-trust vocabulary.
 one level. Use `.dds-grid-paper` on the diagram frame for working drawings;
 omit it for final documents.
 
-**Always inline SVG** — never ASCII art, never raster screenshots of
-diagrams, never Canvas for static diagrams.
+**Diagrams are vector** — Tier-1 inline SVG or Tier-2 Mermaid-rendered SVG.
+Never ASCII art, never raster screenshots of diagrams. Canvas is reserved
+for data visualisation past ~10,000 marks; it is never a diagram medium
+(it cannot participate in the token system and dies in email/print).
 
 ## 7. Anti-patterns
 
-- Webfonts, CDN assets, external images or scripts.
+- Webfonts, CDN assets, external images or scripts. (Vendored/same-origin
+  JavaScript with progressive enhancement is fine; runtime CDN calls are not.)
 - Dark inverted "verdict slabs", purple-to-blue gradient heroes, emoji as
   section markers, `rounded-lg`-everywhere — the generic AI look this system
   exists to prevent.
