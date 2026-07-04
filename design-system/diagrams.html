@@ -15,7 +15,7 @@
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.0.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.1.0 · Reference</div>
     <h1 class="dds-title">Diagram grammar</h1>
     <p class="dds-subtitle">Semantic and skin-independent: shapes and line styles carry meaning; a restyle may recolour them but may never reinterpret them. Every diagram ships with its legend and a provenance title block.</p>
   </header>
@@ -43,6 +43,7 @@
       <div>
         <p><strong>Arrowheads</strong> are small filled triangles drawn as paths, sharing the edge's semantic class family. The convention: for an edge arriving at point <code>(x, y)</code> travelling rightward, the head is <code>&lt;path class="a-money" d="M x y l-9 -5 v10 z"/&gt;</code>; rotate the deltas for other directions.<span class="dds-snref">1</span></p>
         <p><strong>Canvas conventions:</strong> <code>viewBox</code> width 720 for full-width diagrams; nodes 120×44 (stores may be shallower); 10–12px between a node and its label baseline; edges leave and enter node mid-lines. Add <code>role="img"</code> and a meaningful <code>aria-label</code> to every SVG.</p>
+        <p><strong>The label budget:</strong> text must fit its node. The mono sub-label runs ≈5.8px per character at 9.5px, so a 120-wide node holds ≈20 characters; the sans name label runs ≈6.2px per character at 11px, ≈19 characters. Over budget? Shorten the label or widen the node — overflowing text is a defect, not a style choice. Long detail belongs in the prose or a table, not crammed into a box.</p>
       </div>
       <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> Keep heads at 8–9px. Oversized arrowheads are the fastest way to make a schematic read as clip-art.</aside>
     </div>
@@ -261,9 +262,35 @@ stateDiagram-v2
     <p style="margin:12px 0 0;">Tier-2 diagrams keep the title block (provenance is not optional); the grammar legend applies only when semantic classes are used.</p>
   </section>
 
+  <!-- Coverage -->
+  <section class="dds-section">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Coverage — plan the set before you draw</h2></div>
+    <p><strong>Under-diagramming is a defect.</strong> One simplified overview is never enough for an investigation or design document. Inventory the content against this table and plan the full set before writing:</p>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>The content contains…</th><th>Then draw…</th><th>Tier</th></tr></thead>
+        <tbody>
+          <tr><td>An end-to-end flow told across sections</td><td>A <strong>detailed overview map</strong> (Container level) as the centrepiece, plus a zoom-in per load-bearing section</td><td class="dds-num">1</td></tr>
+          <tr><td>A step-by-step interaction (webhooks, API calls)</td><td>A sequence diagram</td><td class="dds-num">2</td></tr>
+          <tr><td>A lifecycle, status machine, or ordered pipeline</td><td>A state diagram</td><td class="dds-num">2</td></tr>
+          <tr><td>Entities and their relations</td><td>An ER diagram</td><td class="dds-num">2</td></tr>
+          <tr><td>Phases, schedules, deadlines</td><td>A gantt chart</td><td class="dds-num">2</td></tr>
+          <tr><td>Proportions or breakdowns</td><td>Pie / bar via <code>--dds-v1…v6</code></td><td class="dds-num">2</td></tr>
+          <tr><td>A hierarchy or decomposition</td><td>Mindmap / flowchart</td><td class="dds-num">2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>If prose narrates a flow, sequence, or lifecycle step by step, it <strong>must also be drawn</strong> — narration is not a substitute.</li>
+      <li>Number every drawing (<code>DWG XX-01…</code>) and reference it from the prose.</li>
+      <li>One diagram = one zoom level = one type. Crowded? Simplify by <strong>splitting</strong>, never by merging or dropping load-bearing information.</li>
+      <li>Pre-rendered Tier-2 figures pin the light ground (<code>style="background:#FBFAF3"</code>) so baked light-theme SVG stays readable in dark mode — the one sanctioned literal hex.</li>
+    </ul>
+  </section>
+
   <!-- Rules -->
   <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Rules</h2></div>
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Rules</h2></div>
     <ul>
       <li>One diagram, one C4 level. Split rather than mix.</li>
       <li>Title block on every diagram — no exceptions, including drafts (drafts say <code>in-review</code>). Legend wherever grammar classes are used.</li>
@@ -276,7 +303,7 @@ stateDiagram-v2
   </section>
 
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Diagrams · v1.0.0 · rev 2026-07-03</div>
+    <div><a href="index.html">← Style guide</a> · Diagrams · v1.1.0 · rev 2026-07-04</div>
     <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="components.html">Components</a></div>
   </footer>
 

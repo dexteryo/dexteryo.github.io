@@ -1,6 +1,6 @@
 # Dexter Design System (DDS)
 
-**v1.0.0 · 2026-07-03 · One system, two modes, one grammar.**
+**v1.1.0 · 2026-07-04 · One system, two modes, one grammar.**
 
 A design system for AI-generated engineering HTML: reports, dashboards, and
 architecture diagrams that come out consistent no matter which agent produced
@@ -135,6 +135,14 @@ Components: `.dds-stats` (headline numbers between rules), `.dds-table`
 (hairline rows, `tr.dds-total` for an accountant's total rule), `.dds-pull`
 (accent-barred pull quote), `pre`/`code` (warm code background).
 
+**Long headline? Use `.dds-hero`.** A long title with `text-wrap: balance`
+leaves the right margin empty — that void reads as a defect. Do **not** widen
+the title. Instead wrap the title+subtitle and a `.dds-statuscard` in a
+`.dds-hero` grid, so the reserved sidenote gutter carries something useful
+(status + gates, or key facts) rather than sitting blank. Eyebrow above the
+hero, `.dds-meta` bar below — both full-measure. The status card's rows are
+dot + `.dds-sc-k` + `.dds-sc-v`, closed by a one-line `.dds-sc-foot`.
+
 Voice: complete sentences; prose ≤ 66ch; no emoji section markers; the
 verdict label comes from `data-label` (use "Recommendation", "Finding",
 "Open question" — whatever is true).
@@ -167,7 +175,9 @@ verdict label comes from `data-label` (use "Recommendation", "Finding",
 Status vocabulary (aligned with the wiki trust signal): `ok` = verified /
 healthy · `warn` = in-review / degraded · `crit` = stale / failing ·
 `info` = informational · `neutral` = draft / unknown. Dots for rows, chips
-for inline labels — pick one per context, not both.
+for inline labels — pick one per context, not both. The `pending` **dot**
+variant (`.dds-dot.pending`, a hollow ring) marks *not-started / blocked /
+awaiting* — it is dot-only and has no chip form.
 
 ## 6. Diagrams — two tiers
 
@@ -180,6 +190,36 @@ Both tiers carry the **title block**; the grammar legend applies wherever
 grammar classes are used. Sequence arrows echo the grammar for free: solid
 `->>` = synchronous, dashed `-->>` = asynchronous. Never override the theme
 per diagram.
+
+### Coverage — plan the diagram set before you draw
+
+**Under-diagramming is a defect.** A single simplified overview is never
+enough for an investigation or a design document. Before writing, inventory
+the content against this table and plan the full set:
+
+| The content contains… | Then draw… | Tier |
+|---|---|---|
+| An end-to-end flow told across sections | A **detailed overview map** (Container level) as the centrepiece, plus a zoom-in for each load-bearing section | 1 |
+| A step-by-step interaction (webhooks, API calls, handshakes) | A sequence diagram | 2 |
+| A lifecycle, status machine, or ordered pipeline | A state diagram | 2 |
+| Entities and their relations | An ER diagram | 2 |
+| Phases, schedules, deadlines | A gantt chart | 2 |
+| Proportions or breakdowns | Pie / bar using `--dds-v1…v6` | 2 |
+| A hierarchy or decomposition | Mindmap / flowchart | 2 |
+
+Rules of the set:
+
+- If prose narrates a flow, sequence, or lifecycle step by step, it **must
+  also be drawn** — narration is not a substitute for a diagram.
+- Number every drawing (`DWG XX-01…`) and reference it from the prose.
+- One diagram = one zoom level = one type. When a diagram gets crowded,
+  simplify by **splitting** into more diagrams — never by merging or by
+  dropping information the prose depends on.
+- Pre-rendered (single-theme) Tier-2 diagrams pin their figure to the light
+  paper ground — `<figure class="dds-diagram" style="background:#FBFAF3">` —
+  so they stay readable in dark mode. This literal hex is the one sanctioned
+  exception to the tokens-only rule, because the SVG's own colours are
+  already baked.
 
 ### Tier-1 grammar
 
@@ -205,6 +245,10 @@ reinterpret it.
 | `.n-human` | pill (`rx` = half height) | A person / manual role |
 
 Labels: `.n-label` (sans, 11px, 600) + `.n-sub` (mono, 9.5px, muted).
+**Label budget — text must fit its node:** the mono sub-label runs ≈5.8px per
+character, so a 120-wide node holds ≈20 characters (name label: ≈6.2px/char,
+≈19 characters). Shorten the label or widen the node; never let text overflow
+the box. Detail belongs in prose or a table, not in the node.
 
 **Mandatory furniture**: the legend (`.dds-legend` with `.dds-leg-line`
 samples) and the title block:
@@ -244,7 +288,7 @@ for data visualisation past ~10,000 marks; it is never a diagram medium
 
 ## 8. Changing the system
 
-The system is versioned (`v1.0.0`, header of `dexter.css`). Change tokens or
+The system is versioned (`v1.1.0`, header of `dexter.css`). Change tokens or
 grammar only in this directory, bump the version and revision date in
 `dexter.css`, `index.html`, and this file, and keep the whole directory
 (including reference pages and examples) consistent. New components go into

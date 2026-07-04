@@ -1,6 +1,6 @@
 /* ==========================================================================
    DEXTER DESIGN SYSTEM (DDS) — canonical stylesheet
-   v1.0.0 · 2026-07-03
+   v1.1.0 · 2026-07-04
    Canonical home:  https://dexteryo.github.io/design-system/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-system/dexter.css
    Spec for agents: README.md in the same directory
@@ -180,6 +180,40 @@
 .dds-subtitle {
   font-style: italic; font-size: 19px; line-height: 1.5;
   color: var(--dds-doc-muted); max-width: 60ch; margin: 0 0 var(--dds-s5);
+}
+
+/* Hero header: title/subtitle on the left, a status/facts card in the sidenote
+   gutter on the right. Use when a long headline would leave the right margin
+   empty — fill the gutter with something useful rather than widening the title
+   (the title keeps text-wrap: balance). Put the eyebrow ABOVE .dds-hero and the
+   .dds-meta bar BELOW it, both full-measure. */
+.dds-hero {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: var(--dds-s6); align-items: start; margin: 0 0 var(--dds-s5);
+}
+.dds-hero > :first-child .dds-subtitle { margin-bottom: 0; }
+@media (max-width: 760px) { .dds-hero { grid-template-columns: 1fr; gap: var(--dds-s4); } }
+
+/* Status card: a compact instrument block for a document — state + gates at a
+   glance. Lives in the .dds-hero gutter, or anywhere a small status readout
+   helps. Rows are dot + key + mono value; the foot carries a one-line summary. */
+.dds-statuscard {
+  border: 1px solid var(--dds-doc-ink); background: var(--dds-doc-surface);
+  padding: var(--dds-s4);
+}
+.dds-sc-h {
+  font-family: var(--dds-mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dds-doc-muted);
+  margin: 0 0 var(--dds-s2); padding-bottom: var(--dds-s2);
+  border-bottom: 1px solid var(--dds-doc-rule);
+}
+.dds-sc-row { display: flex; align-items: center; gap: var(--dds-s2); padding: 6px 0; font-size: 13px; }
+.dds-sc-row .dds-sc-k { color: var(--dds-doc-muted); }
+.dds-sc-row .dds-sc-v { margin-left: auto; font-family: var(--dds-mono); font-size: 11px; font-weight: 500; }
+.dds-sc-foot {
+  margin-top: var(--dds-s2); padding-top: var(--dds-s2);
+  border-top: 1px solid var(--dds-doc-rule);
+  font-family: var(--dds-mono); font-size: 10.5px; line-height: 1.55; color: var(--dds-doc-muted);
 }
 
 /* Meta bar: author / date / status / audience. Facts, not decoration. */
@@ -407,6 +441,9 @@
 .dds-dot.warn { background: var(--dds-warn); }
 .dds-dot.crit { background: var(--dds-crit); }
 .dds-dot.info { background: var(--dds-info); }
+/* pending: hollow ring, no fill — "not started / blocked / awaiting". Dot-only
+   (no chip form). Reads on both grounds; the ring uses the strong panel border. */
+.dds-dot.pending { background: transparent; box-shadow: inset 0 0 0 1.5px var(--dds-p-strong); }
 
 /* Chips: uppercase mono status labels. Semantic colour ≠ accent. */
 .dds-chip {

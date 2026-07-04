@@ -22,7 +22,7 @@
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.0.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.1.0 · Reference</div>
     <h1 class="dds-title">Components</h1>
     <p class="dds-subtitle">Every component in the system, rendered live with its markup. If a component is not on this page, it is not in the system — build it from these, or propose a change.</p>
   </header>
@@ -50,6 +50,40 @@
 &lt;dl class="dds-meta"&gt;
   &lt;div&gt;&lt;dt&gt;Author&lt;/dt&gt;&lt;dd&gt;Dexter&lt;/dd&gt;&lt;/div&gt;
 &lt;/dl&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Hero header — .dds-hero + .dds-statuscard</p>
+      <p class="comp-note">When a long headline would leave the right margin empty, don't widen the title — keep <code>text-wrap: balance</code> and fill the sidenote gutter with a status/facts card. Best for a brief: state and gates at a glance. Eyebrow goes above, the <code>.dds-meta</code> bar below.</p>
+      <div class="comp-demo">
+        <div class="dds-hero" style="margin-bottom:0;">
+          <div>
+            <h1 class="dds-title" style="font-size:28px;">A long headline that would otherwise leave the right margin empty</h1>
+            <p class="dds-subtitle" style="margin-bottom:0;">Stand-first: the problem and the conclusion in a sentence or two.</p>
+          </div>
+          <aside class="dds-statuscard">
+            <div class="dds-sc-h">Status &amp; gates</div>
+            <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">Mechanism</span><span class="dds-sc-v">verified</span></div>
+            <div class="dds-sc-row"><span class="dds-dot warn"></span><span class="dds-sc-k">Sign-off</span><span class="dds-sc-v">pending</span></div>
+            <div class="dds-sc-row"><span class="dds-dot pending"></span><span class="dds-sc-k">Build</span><span class="dds-sc-v">blocked</span></div>
+            <div class="dds-sc-foot">Gates: confirm mechanism · sign-off · numbers</div>
+          </aside>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-hero"&gt;
+  &lt;div&gt;
+    &lt;h1 class="dds-title"&gt;Long headline&lt;/h1&gt;
+    &lt;p class="dds-subtitle"&gt;Stand-first.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;aside class="dds-statuscard"&gt;
+    &lt;div class="dds-sc-h"&gt;Status &amp;amp; gates&lt;/div&gt;
+    &lt;div class="dds-sc-row"&gt;&lt;span class="dds-dot ok"&gt;&lt;/span&gt;
+      &lt;span class="dds-sc-k"&gt;Mechanism&lt;/span&gt;&lt;span class="dds-sc-v"&gt;verified&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="dds-sc-row"&gt;&lt;span class="dds-dot pending"&gt;&lt;/span&gt;
+      &lt;span class="dds-sc-k"&gt;Build&lt;/span&gt;&lt;span class="dds-sc-v"&gt;blocked&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="dds-sc-foot"&gt;Gates: …&lt;/div&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;</code></pre></details>
     </div>
 
     <div class="comp">
@@ -209,12 +243,13 @@
 
     <div class="comp">
       <p class="comp-name">Register rows — .dds-reg-row / .dds-dot / .dds-reg-meta</p>
-      <p class="comp-note">Status dot + label + mono metadata. Dots for rows; chips for inline labels — one per context, never both.</p>
+      <p class="comp-note">Status dot + label + mono metadata. Dots for rows; chips for inline labels — one per context, never both. The <code>pending</code> dot is a hollow ring — not-started / blocked / awaiting (dot-only, no chip form).</p>
       <div class="comp-demo dds-panels panel-demo">
         <div class="dds-panel" style="max-width:480px;"><div class="dds-panel-b">
           <div class="dds-reg-row"><span class="dds-dot crit"></span><b>Consumer replay loop</b><span class="dds-reg-meta">RISK-101</span></div>
           <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="dds-reg-meta">RISK-097</span></div>
           <div class="dds-reg-row"><span class="dds-dot ok"></span><b>One-way valve verified</b><span class="dds-reg-meta">closed</span></div>
+          <div class="dds-reg-row"><span class="dds-dot pending"></span><b>Build blocked — awaiting sign-off</b><span class="dds-reg-meta">CLEV-10816</span></div>
         </div></div>
       </div>
       <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-reg-row"&gt;&lt;span class="dds-dot warn"&gt;&lt;/span&gt;
@@ -262,7 +297,7 @@
   </section>
 
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Components · v1.0.0 · rev 2026-07-03</div>
+    <div><a href="index.html">← Style guide</a> · Components · v1.1.0 · rev 2026-07-04</div>
     <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="diagrams.html">Diagrams</a></div>
   </footer>
 

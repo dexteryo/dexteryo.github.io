@@ -1,6 +1,6 @@
 /* ==========================================================================
    DDS ↔ Mermaid theme bridge
-   v1.0.0 · 2026-07-03 · pairs with dexter.css and vendor/mermaid.min.js
+   v1.1.0 · 2026-07-04 · pairs with dexter.css and vendor/mermaid.min.js
 
    Usage (hosted pages):
      <pre class="mermaid">sequenceDiagram …</pre>
@@ -22,6 +22,11 @@
 (function () {
   'use strict';
   if (typeof mermaid === 'undefined') return;
+
+  /* Disable auto-start IMMEDIATELY (synchronously). Mermaid's startOnLoad
+     defaults to true and fires on DOMContentLoaded — any async gap before
+     initialize() lets it render once with the default theme. */
+  mermaid.initialize({ startOnLoad: false });
 
   /* Values mirror the DDS tokens in dexter.css. Neutral by design: generic
      Mermaid edges are schematic ink; DDS money/mirror semantics stay in the
