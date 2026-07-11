@@ -1,0 +1,1044 @@
+<title>Stripe Side-Project Dossier</title>
+<style>
+/* ==========================================================================
+   DEXTER DESIGN SYSTEM (DDS) — inlined from dexter.css v1.1.0 · 2026-07-04
+   Canonical: https://dexteryo.github.io/design-system/
+   ========================================================================== */
+:root {
+  --dds-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --dds-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+  --dds-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  --dds-s1: 4px;  --dds-s2: 8px;  --dds-s3: 12px; --dds-s4: 16px;
+  --dds-s5: 24px; --dds-s6: 32px; --dds-s7: 48px; --dds-s8: 64px;
+  --dds-r-panel: 6px;
+  --dds-r-chip: 999px;
+  --dds-accent: #0B6E4F;
+  --dds-accent-ink: #FFFFFF;
+  --dds-ok:   #0B6E4F;  --dds-ok-bg:   #E2EFE8;
+  --dds-warn: #8F6400;  --dds-warn-bg: #F4EBD3;
+  --dds-crit: #A63D33;  --dds-crit-bg: #F5E2DF;
+  --dds-info: #4A5D82;  --dds-info-bg: #E4E9F2;
+  --dds-v1: #0B6E4F; --dds-v2: #4A5D82; --dds-v3: #8F6400;
+  --dds-v4: #7B4B94; --dds-v5: #A63D33; --dds-v6: #2E7E8C;
+  --dds-doc-bg:      #FBFAF3;
+  --dds-doc-surface: #FFFFFB;
+  --dds-doc-ink:     #1C1B17;
+  --dds-doc-muted:   #5D5A4F;
+  --dds-doc-rule:    #E3DFD1;
+  --dds-doc-code:    #F0EDE0;
+  --dds-p-bg:      #F6F8F7;
+  --dds-p-surface: #FFFFFF;
+  --dds-p-ink:     #1B201E;
+  --dds-p-muted:   #5E6663;
+  --dds-p-border:  #E1E5E3;
+  --dds-p-strong:  #C6CDCA;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dds-accent: #6FBF9F;
+    --dds-accent-ink: #0E241C;
+    --dds-ok:   #6FBF9F;  --dds-ok-bg:   #17342A;
+    --dds-warn: #D9A93F;  --dds-warn-bg: #35290D;
+    --dds-crit: #E08377;  --dds-crit-bg: #3B1F1B;
+    --dds-info: #93A9CE;  --dds-info-bg: #202B3D;
+    --dds-v1: #6FBF9F; --dds-v2: #93A9CE; --dds-v3: #D9A93F;
+    --dds-v4: #B78BC9; --dds-v5: #E08377; --dds-v6: #6FB4C2;
+    --dds-doc-bg:      #1D1C18;
+    --dds-doc-surface: #232219;
+    --dds-doc-ink:     #E9E6DA;
+    --dds-doc-muted:   #A5A091;
+    --dds-doc-rule:    #38362D;
+    --dds-doc-code:    #2B2A22;
+    --dds-p-bg:      #131615;
+    --dds-p-surface: #1A1E1C;
+    --dds-p-ink:     #E4E8E6;
+    --dds-p-muted:   #99A19D;
+    --dds-p-border:  #2B302E;
+    --dds-p-strong:  #454C49;
+  }
+}
+:root[data-theme="light"] {
+  --dds-accent: #0B6E4F; --dds-accent-ink: #FFFFFF;
+  --dds-ok: #0B6E4F; --dds-ok-bg: #E2EFE8;
+  --dds-warn: #8F6400; --dds-warn-bg: #F4EBD3;
+  --dds-crit: #A63D33; --dds-crit-bg: #F5E2DF;
+  --dds-info: #4A5D82; --dds-info-bg: #E4E9F2;
+  --dds-v1: #0B6E4F; --dds-v2: #4A5D82; --dds-v3: #8F6400;
+  --dds-v4: #7B4B94; --dds-v5: #A63D33; --dds-v6: #2E7E8C;
+  --dds-doc-bg: #FBFAF3; --dds-doc-surface: #FFFFFB; --dds-doc-ink: #1C1B17;
+  --dds-doc-muted: #5D5A4F; --dds-doc-rule: #E3DFD1; --dds-doc-code: #F0EDE0;
+  --dds-p-bg: #F6F8F7; --dds-p-surface: #FFFFFF; --dds-p-ink: #1B201E;
+  --dds-p-muted: #5E6663; --dds-p-border: #E1E5E3; --dds-p-strong: #C6CDCA;
+}
+:root[data-theme="dark"] {
+  --dds-accent: #6FBF9F; --dds-accent-ink: #0E241C;
+  --dds-ok: #6FBF9F; --dds-ok-bg: #17342A;
+  --dds-warn: #D9A93F; --dds-warn-bg: #35290D;
+  --dds-crit: #E08377; --dds-crit-bg: #3B1F1B;
+  --dds-info: #93A9CE; --dds-info-bg: #202B3D;
+  --dds-v1: #6FBF9F; --dds-v2: #93A9CE; --dds-v3: #D9A93F;
+  --dds-v4: #B78BC9; --dds-v5: #E08377; --dds-v6: #6FB4C2;
+  --dds-doc-bg: #1D1C18; --dds-doc-surface: #232219; --dds-doc-ink: #E9E6DA;
+  --dds-doc-muted: #A5A091; --dds-doc-rule: #38362D; --dds-doc-code: #2B2A22;
+  --dds-p-bg: #131615; --dds-p-surface: #1A1E1C; --dds-p-ink: #E4E8E6;
+  --dds-p-muted: #99A19D; --dds-p-border: #2B302E; --dds-p-strong: #454C49;
+}
+.dds-doc, .dds-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.dds-doc *, .dds-doc *::before, .dds-doc *::after,
+.dds-panels *, .dds-panels *::before, .dds-panels *::after { box-sizing: inherit; }
+.dds-doc a, .dds-panels a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+}
+.dds-doc a:hover, .dds-panels a:hover {
+  color: var(--dds-accent);
+  text-decoration-color: var(--dds-accent);
+}
+.dds-doc :focus-visible, .dds-panels :focus-visible {
+  outline: 2px solid var(--dds-accent); outline-offset: 2px;
+}
+.dds-doc img, .dds-panels img { max-width: 100%; height: auto; }
+.dds-mono { font-family: var(--dds-mono); }
+.dds-num { font-variant-numeric: tabular-nums; }
+.dds-smallcaps { font-variant: small-caps; letter-spacing: 0.04em; }
+.dds-right { text-align: right; }
+.dds-doc {
+  background: var(--dds-doc-bg);
+  color: var(--dds-doc-ink);
+  font-family: var(--dds-serif);
+  font-size: 17px;
+  line-height: 1.7;
+}
+.dds-page { max-width: 960px; margin: 0 auto; padding: var(--dds-s8) var(--dds-s5) 96px; }
+.dds-eyebrow {
+  font-family: var(--dds-mono);
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--dds-doc-muted);
+  margin: 0 0 var(--dds-s4);
+}
+.dds-title {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: clamp(30px, 4.5vw, 42px); line-height: 1.15;
+  letter-spacing: -0.01em; margin: 0 0 var(--dds-s3);
+  text-wrap: balance;
+}
+.dds-title em { font-style: italic; color: var(--dds-accent); }
+.dds-subtitle {
+  font-style: italic; font-size: 19px; line-height: 1.5;
+  color: var(--dds-doc-muted); max-width: 60ch; margin: 0 0 var(--dds-s5);
+}
+.dds-hero {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: var(--dds-s6); align-items: start; margin: 0 0 var(--dds-s5);
+}
+.dds-hero > :first-child .dds-subtitle { margin-bottom: 0; }
+@media (max-width: 760px) { .dds-hero { grid-template-columns: 1fr; gap: var(--dds-s4); } }
+.dds-statuscard {
+  border: 1px solid var(--dds-doc-ink); background: var(--dds-doc-surface);
+  padding: var(--dds-s4);
+}
+.dds-sc-h {
+  font-family: var(--dds-mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dds-doc-muted);
+  margin: 0 0 var(--dds-s2); padding-bottom: var(--dds-s2);
+  border-bottom: 1px solid var(--dds-doc-rule);
+}
+.dds-sc-row { display: flex; align-items: center; gap: var(--dds-s2); padding: 6px 0; font-size: 13px; }
+.dds-sc-row .dds-sc-k { color: var(--dds-doc-muted); }
+.dds-sc-row .dds-sc-v { margin-left: auto; font-family: var(--dds-mono); font-size: 11px; font-weight: 500; }
+.dds-sc-foot {
+  margin-top: var(--dds-s2); padding-top: var(--dds-s2);
+  border-top: 1px solid var(--dds-doc-rule);
+  font-family: var(--dds-mono); font-size: 10.5px; line-height: 1.55; color: var(--dds-doc-muted);
+}
+.dds-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--dds-s4) var(--dds-s5);
+  border-top: 1px solid var(--dds-doc-rule);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s3) 0; margin: 0 0 var(--dds-s7);
+  font-family: var(--dds-mono); font-size: 12px;
+}
+.dds-meta dt {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--dds-doc-muted); margin: 0 0 2px;
+}
+.dds-meta dd { margin: 0; font-weight: 500; }
+.dds-section { margin: 0 0 var(--dds-s7); }
+.dds-sec-h {
+  border-top: 1px solid var(--dds-doc-rule);
+  padding-top: var(--dds-s4); margin: var(--dds-s7) 0 var(--dds-s4);
+}
+.dds-sec-h .dds-sec-num {
+  display: block; font-family: var(--dds-mono);
+  font-size: 12px; letter-spacing: 0.1em; color: var(--dds-doc-muted);
+  margin-bottom: var(--dds-s2);
+}
+.dds-sec-h h2 {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.005em; margin: 0;
+}
+.dds-doc p { max-width: 66ch; margin: 0 0 var(--dds-s4); }
+.dds-doc ul, .dds-doc ol { max-width: 66ch; margin: 0 0 var(--dds-s4); padding-left: 22px; }
+.dds-doc li { margin-bottom: var(--dds-s1); }
+.dds-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 210px;
+  gap: var(--dds-s6); align-items: start;
+}
+.dds-sidenote {
+  font-size: 13px; line-height: 1.55; color: var(--dds-doc-muted);
+  border-top: 1px solid var(--dds-doc-rule); padding-top: var(--dds-s2);
+}
+.dds-sn-num { font-weight: 700; color: var(--dds-doc-ink); }
+.dds-snref { vertical-align: super; font-size: 11px; font-weight: 700; }
+@media (max-width: 760px) {
+  .dds-row { grid-template-columns: 1fr; gap: var(--dds-s3); }
+  .dds-sidenote {
+    border-top: 0; border-left: 2px solid var(--dds-doc-rule);
+    padding: 0 0 0 var(--dds-s3); margin-bottom: var(--dds-s4);
+  }
+}
+.dds-evidence { font-family: var(--dds-mono); font-size: 12px; color: var(--dds-doc-muted); }
+.dds-doc code {
+  font-family: var(--dds-mono); font-size: 0.82em;
+  background: var(--dds-doc-code); border-radius: 2px;
+  padding: 1px 5px;
+}
+.dds-doc pre {
+  background: var(--dds-doc-code); border: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s4); overflow-x: auto;
+  font-family: var(--dds-mono); font-size: 13px; line-height: 1.6;
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc pre code { background: none; padding: 0; font-size: inherit; }
+.dds-pull {
+  border-left: 3px solid var(--dds-accent);
+  margin: var(--dds-s5) 0; padding: var(--dds-s2) 0 var(--dds-s2) var(--dds-s5);
+  font-style: italic; font-size: 18px; color: var(--dds-doc-muted); max-width: 58ch;
+}
+.dds-pull strong { color: var(--dds-doc-ink); font-style: normal; }
+.dds-table-wrap { overflow-x: auto; margin: 0 0 var(--dds-s4); }
+.dds-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.dds-table th {
+  font-family: var(--dds-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dds-doc-muted); text-align: left;
+  padding: var(--dds-s2) var(--dds-s3);
+  border-bottom: 2px solid var(--dds-doc-ink);
+}
+.dds-table td {
+  padding: var(--dds-s2) var(--dds-s3);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  vertical-align: top;
+}
+.dds-table td.dds-num, .dds-table th.dds-num { text-align: right; font-variant-numeric: tabular-nums; }
+.dds-table tr.dds-total td {
+  border-top: 1px solid var(--dds-doc-ink);
+  border-bottom: 3px double var(--dds-doc-ink);
+  font-weight: 600;
+}
+.dds-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--dds-s5);
+  border-top: 2px solid var(--dds-doc-ink);
+  border-bottom: 1px solid var(--dds-doc-rule);
+  padding: var(--dds-s4) 0; margin: 0 0 var(--dds-s5);
+}
+.dds-stat-label {
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dds-doc-muted); margin-bottom: var(--dds-s1);
+}
+.dds-stat-value {
+  font-family: var(--dds-serif); font-size: 26px; line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.dds-stat-value .dds-unit {
+  font-family: var(--dds-mono); font-size: 11px; color: var(--dds-doc-muted); margin-left: 4px;
+}
+.dds-verdict {
+  border: 2px solid var(--dds-doc-ink);
+  background: var(--dds-doc-surface);
+  padding: var(--dds-s6); margin: var(--dds-s7) 0 0;
+  position: relative;
+}
+.dds-verdict::before {
+  content: attr(data-label);
+  position: absolute; top: -12px; left: var(--dds-s5);
+  background: var(--dds-accent); color: var(--dds-accent-ink);
+  font-family: var(--dds-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 4px 12px;
+}
+.dds-verdict h3 {
+  font-family: var(--dds-serif); font-weight: 400;
+  font-size: 24px; line-height: 1.25; margin: 0 0 var(--dds-s3);
+}
+.dds-verdict p { margin-bottom: var(--dds-s3); }
+.dds-verdict ol, .dds-verdict ul { margin-bottom: 0; }
+.dds-colophon {
+  margin-top: var(--dds-s8); padding-top: var(--dds-s4);
+  border-top: 1px solid var(--dds-doc-rule);
+  font-family: var(--dds-mono); font-size: 11.5px; color: var(--dds-doc-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--dds-s4);
+}
+.dds-panels {
+  background: var(--dds-p-bg);
+  color: var(--dds-p-ink);
+  font-family: var(--dds-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.dds-panels .dds-page { padding-top: var(--dds-s7); }
+.dds-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--dds-s2) var(--dds-s4);
+  margin: 0 0 var(--dds-s5);
+}
+.dds-board-h h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.dds-board-h .dds-board-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11.5px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+}
+.dds-panel {
+  background: var(--dds-p-surface);
+  border: 1px solid var(--dds-p-border);
+  border-radius: var(--dds-r-panel);
+  overflow: hidden;
+}
+.dds-panel-h {
+  display: flex; align-items: baseline; gap: var(--dds-s3);
+  padding: var(--dds-s3) var(--dds-s4);
+  border-bottom: 1px solid var(--dds-p-border);
+}
+.dds-panel-h h3 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+.dds-panel-h .dds-panel-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+}
+.dds-panel-b { padding: var(--dds-s3) var(--dds-s4); }
+.dds-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--dds-s4); padding: 7px 0;
+  border-bottom: 1px solid var(--dds-p-border);
+  font-size: 13px;
+}
+.dds-kv:last-child { border-bottom: 0; }
+.dds-kv > span:first-child { color: var(--dds-p-muted); }
+.dds-kv > b, .dds-kv > span:last-child {
+  font-weight: 500; font-family: var(--dds-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+.dds-reg-row {
+  display: flex; align-items: center; gap: var(--dds-s3);
+  padding: 9px 0; border-bottom: 1px solid var(--dds-p-border);
+  font-size: 13px;
+}
+.dds-reg-row:last-child { border-bottom: 0; }
+.dds-reg-row b { font-weight: 500; }
+.dds-reg-meta {
+  margin-left: auto; font-family: var(--dds-mono); font-size: 11.5px;
+  color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dds-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.dds-dot.ok   { background: var(--dds-ok); }
+.dds-dot.warn { background: var(--dds-warn); }
+.dds-dot.crit { background: var(--dds-crit); }
+.dds-dot.info { background: var(--dds-info); }
+.dds-dot.pending { background: transparent; box-shadow: inset 0 0 0 1.5px var(--dds-p-strong); }
+.dds-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--dds-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid; border-radius: var(--dds-r-chip);
+  padding: 2px 10px; white-space: nowrap;
+}
+.dds-chip.ok      { background: var(--dds-ok-bg);   color: var(--dds-ok);   border-color: var(--dds-ok); }
+.dds-chip.warn    { background: var(--dds-warn-bg); color: var(--dds-warn); border-color: var(--dds-warn); }
+.dds-chip.crit    { background: var(--dds-crit-bg); color: var(--dds-crit); border-color: var(--dds-crit); }
+.dds-chip.info    { background: var(--dds-info-bg); color: var(--dds-info); border-color: var(--dds-info); }
+.dds-chip.neutral { background: transparent; color: var(--dds-p-muted); border-color: var(--dds-p-strong); }
+.dds-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; padding: 1px;
+  border-radius: var(--dds-r-panel); overflow: hidden;
+}
+.dds-metric {
+  background: var(--dds-p-surface);
+  box-shadow: 0 0 0 1px var(--dds-p-border);
+  padding: var(--dds-s3) var(--dds-s4);
+}
+.dds-metric-l {
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dds-p-muted); margin-bottom: var(--dds-s1);
+}
+.dds-metric-v {
+  font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums; line-height: 1.15;
+}
+.dds-metric-v .dds-unit { font-size: 12px; font-weight: 400; color: var(--dds-p-muted); margin-left: 4px; }
+.dds-panels pre, .dds-cmd {
+  background: var(--dds-p-surface); border: 1px solid var(--dds-p-border);
+  border-radius: var(--dds-r-panel); padding: var(--dds-s3) var(--dds-s4);
+  font-family: var(--dds-mono); font-size: 12.5px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--dds-s4);
+}
+.dds-panels code { font-family: var(--dds-mono); font-size: 0.92em; }
+.dds-cmd .dds-ps { color: var(--dds-p-muted); user-select: none; }
+.dds-diagram {
+  background: var(--dds-p-surface);
+  border: 1.5px solid var(--dds-p-ink);
+  padding: var(--dds-s4);
+  overflow-x: auto;
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc .dds-diagram { background: var(--dds-doc-surface); border-color: var(--dds-doc-ink); }
+.dds-diagram svg { display: block; width: 100%; height: auto; }
+.dds-grid-paper {
+  background-image:
+    linear-gradient(color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dds-diagram .e-money   { stroke: var(--dds-ok);   stroke-width: 2.5; fill: none; }
+.dds-diagram .e-manual  { stroke: var(--dds-warn); stroke-width: 2.5; fill: none; stroke-dasharray: 2 6; stroke-linecap: round; }
+.dds-diagram .e-mirror  { stroke: var(--dds-info); stroke-width: 2;   fill: none; stroke-dasharray: 8 5; }
+.dds-diagram .e-blocked { stroke: var(--dds-crit); stroke-width: 2;   fill: none; stroke-dasharray: 4 4; }
+.dds-diagram .a-money   { fill: var(--dds-ok);   stroke: none; }
+.dds-diagram .a-manual  { fill: var(--dds-warn); stroke: none; }
+.dds-diagram .a-mirror  { fill: var(--dds-info); stroke: none; }
+.dds-diagram .a-blocked { fill: var(--dds-crit); stroke: none; }
+.dds-diagram .n-svc, .dds-diagram .n-store, .dds-diagram .n-human {
+  fill: var(--dds-p-surface); stroke: var(--dds-p-ink); stroke-width: 1.5;
+}
+.dds-doc .dds-diagram .n-svc, .dds-doc .dds-diagram .n-store, .dds-doc .dds-diagram .n-human {
+  fill: var(--dds-doc-surface); stroke: var(--dds-doc-ink);
+}
+.dds-diagram .n-ext { fill: none; stroke: var(--dds-p-muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.dds-doc .dds-diagram .n-ext { stroke: var(--dds-doc-muted); }
+.dds-diagram .n-label { font: 600 11px var(--dds-sans); fill: var(--dds-p-ink); }
+.dds-diagram .n-sub   { font: 400 9.5px var(--dds-mono); fill: var(--dds-p-muted); }
+.dds-doc .dds-diagram .n-label { fill: var(--dds-doc-ink); }
+.dds-doc .dds-diagram .n-sub   { fill: var(--dds-doc-muted); }
+.dds-legend {
+  display: flex; flex-wrap: wrap; gap: var(--dds-s2) var(--dds-s5);
+  font-family: var(--dds-mono); font-size: 10.5px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--dds-p-muted); margin-top: var(--dds-s3);
+}
+.dds-doc .dds-legend { color: var(--dds-doc-muted); }
+.dds-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.dds-leg-line { display: inline-block; width: 28px; border-top-width: 2.5px; }
+.dds-leg-line.money   { border-top-style: solid;  border-top-color: var(--dds-ok); }
+.dds-leg-line.manual  { border-top-style: dotted; border-top-color: var(--dds-warn); }
+.dds-leg-line.mirror  { border-top-style: dashed; border-top-color: var(--dds-info); }
+.dds-leg-line.blocked { border-top-style: dashed; border-top-color: var(--dds-crit); }
+.dds-titleblock {
+  display: grid; grid-template-columns: 1fr auto auto;
+  border: 2px solid var(--dds-p-ink);
+  background: var(--dds-p-surface);
+  font-family: var(--dds-mono); font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--dds-p-muted);
+  margin: 0 0 var(--dds-s4);
+}
+.dds-doc .dds-titleblock {
+  border-color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+  color: var(--dds-doc-muted);
+}
+.dds-titleblock > div { padding: 6px 12px; border-left: 1px solid currentColor; min-width: 0; }
+.dds-titleblock > div:first-child { border-left: 0; }
+.dds-titleblock b {
+  display: block; font-size: 11.5px; letter-spacing: 0.02em;
+  color: var(--dds-p-ink); font-weight: 600;
+}
+.dds-doc .dds-titleblock b { color: var(--dds-doc-ink); }
+.dds-tb-status.verified  { color: var(--dds-ok); }
+.dds-tb-status.in-review { color: var(--dds-warn); }
+.dds-tb-status.stale     { color: var(--dds-crit); }
+@media (max-width: 640px) {
+  .dds-titleblock { grid-template-columns: 1fr; }
+  .dds-titleblock > div { border-left: 0; border-top: 1px solid currentColor; }
+  .dds-titleblock > div:first-child { border-top: 0; }
+}
+@media print {
+  .dds-doc { background: #FFFFFF; }
+  .dds-panels { background: #FFFFFF; }
+  .dds-doc, .dds-panels { color: #000000; }
+}
+/* Artifact wrapper shim: the harness supplies <body>, so the mode class lives
+   on a root div; the page ground still needs to cover the viewport. */
+html, body { margin: 0; padding: 0; background: var(--dds-doc-bg); }
+.dds-doc { min-height: 100vh; }
+</style>
+
+<div class="dds-doc">
+<div class="dds-page">
+
+<header>
+  <div class="dds-eyebrow">Research dossier · Stripe side-projects · Personal — outside employer</div>
+  <div class="dds-hero">
+    <div>
+      <h1 class="dds-title">Weekend products on Stripe: what the <em>verified</em> evidence supports</h1>
+      <p class="dds-subtitle">Market, product lanes, fund flows and legal structure for a Vietnam-resident solo builder. Every cited claim survived three-vote adversarial verification; everything marked <span class="dds-mono">analysis</span> is judgement built on those facts.</p>
+    </div>
+    <div class="dds-statuscard">
+      <div class="dds-sc-h">Gates at a glance</div>
+      <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">US LLC route</span><span class="dds-sc-v">VERIFIED</span></div>
+      <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">Decree 103 exemption</span><span class="dds-sc-v">VERIFIED</span></div>
+      <div class="dds-sc-row"><span class="dds-dot warn"></span><span class="dds-sc-k">ACP spec</span><span class="dds-sc-v">BETA</span></div>
+      <div class="dds-sc-row"><span class="dds-dot pending"></span><span class="dds-sc-k">Token billing</span><span class="dds-sc-v">WAITLIST</span></div>
+      <div class="dds-sc-row"><span class="dds-dot pending"></span><span class="dds-sc-k">Stablecoin cards</span><span class="dds-sc-v">PREVIEW</span></div>
+      <div class="dds-sc-row"><span class="dds-dot pending"></span><span class="dds-sc-k">Open USD</span><span class="dds-sc-v">NOT LAUNCHED</span></div>
+      <div class="dds-sc-row"><span class="dds-dot crit"></span><span class="dds-sc-k">Mercury banking</span><span class="dds-sc-v">PROHIBITED</span></div>
+      <div class="dds-sc-foot">46 claims · 3-vote adversarial verify · 2026-07-11</div>
+    </div>
+  </div>
+  <dl class="dds-meta">
+    <div><dt>Author</dt><dd>Dexter</dd></div>
+    <div><dt>Date</dt><dd>2026-07-11</dd></div>
+    <div><dt>Status</dt><dd>Final</dd></div>
+    <div><dt>Method</dt><dd>2 × deep-research, adversarial verify</dd></div>
+    <div><dt>Distribution</dt><dd>Private</dd></div>
+  </dl>
+</header>
+
+<div class="dds-stats">
+  <div><div class="dds-stat-label">Research rounds</div><div class="dds-stat-value">2</div></div>
+  <div><div class="dds-stat-label">Agents run</div><div class="dds-stat-value">210</div></div>
+  <div><div class="dds-stat-label">Sources fetched</div><div class="dds-stat-value">46</div></div>
+  <div><div class="dds-stat-label">Claims confirmed</div><div class="dds-stat-value">46</div></div>
+  <div><div class="dds-stat-label">Claims refuted</div><div class="dds-stat-value">4</div></div>
+</div>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s01">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Verdict: two lanes to build, one to position for, one to avoid</h2></div>
+  <p>The lanes are ranked against the real constraint set: passive-income fit, weekend maintainability, distance from the employer's business, and what a Vietnam-resident's US LLC can actually access in July 2026. Sections § 02–05 carry the evidence; § 06–08 carry the fund flows, the legal structure, and the employment analysis.</p>
+  <div class="dds-table-wrap">
+    <table class="dds-table">
+      <thead>
+        <tr><th>Rank</th><th>Lane</th><th>Call</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dds-num">1</td>
+          <td>AI / agentic commerce</td>
+          <td><span class="dds-chip ok">build</span></td>
+          <td>Open standard, live volume, the tooling layer never holds funds. Cost: quarterly breaking changes.</td>
+        </tr>
+        <tr>
+          <td class="dds-num">2</td>
+          <td>Ecommerce AI SaaS</td>
+          <td><span class="dds-chip ok">build · priced high</span></td>
+          <td>Churn data kills cheap wrappers; $250+/mo B2B retains like normal SaaS. Few customers, high price.</td>
+        </tr>
+        <tr>
+          <td class="dds-num">3</td>
+          <td>Stablecoin / Open USD</td>
+          <td><span class="dds-chip info">position</span></td>
+          <td>Bridge carries custody and licence; Vietnam is in the payout footprint. But every headline feature is preview- or waitlist-gated, and OUSD has no builder APIs yet.</td>
+        </tr>
+        <tr>
+          <td class="dds-num">4</td>
+          <td>Affiliate / content</td>
+          <td><span class="dds-chip crit">avoid as entrant</span></td>
+          <td>AI Overviews remove ~58% of clicks from top results; Amazon cut commissions up to 50% in the exact entry window.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dds-pull"><strong>The structural skeleton:</strong> a US LLC under the Decree 103 exemption, SBV forex registration instead of an OIRC, worldwide Vietnamese PIT — and one unsolved link: a US bank that accepts a Vietnam-resident founder. Before any code, the employment contract decides what is safe to build.</p>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s02">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Lane 1 — Agentic commerce: open standard, real volume, quarterly churn</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>The Agentic Commerce Protocol is an open, Apache 2.0-licensed standard with OpenAI and Stripe as founding maintainers (Meta credited later), announced 29 September 2025 alongside ChatGPT Instant Checkout, with a stated path to neutral foundation stewardship.<span class="dds-snref">1</span> A builder here is on a multi-company standard, not a proprietary Stripe API — though rival standards exist (Google AP2, Mastercard Agent Pay), and "first live standard" is Stripe's own framing.</p>
+      <p>The fund flow is the decisive property for a solo builder: the merchant stays merchant of record. Shared Payment Tokens pass between buyer, agent and business; the merchant confirms its own PaymentIntent; the agent layer never holds funds or raw card details.<span class="dds-snref">2</span> Tooling in this lane carries near-zero money-movement risk (drawn in DWG 06-02 and sequenced in DWG 06-05).</p>
+      <p>The cost side: ACP is beta, with five date-versioned breaking snapshots between September 2025 and April 2026 — roughly quarterly — and older versions deprecated.<span class="dds-snref">3</span> Live transactions already flow through Etsy and Shopify merchants, so adoption is real, but a weekend-only maintainer must budget for breaking-change windows.</p>
+      <p>Stripe's Agentic Commerce Suite (11 December 2025) bundles Product Discovery, Checkout Sessions, and Shared Payment Tokens with Radar. The claim that this forecloses third-party feed tooling was <strong>refuted 0–3</strong>: the middleware niche remains open.<span class="dds-snref">4</span></p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">1.</span> <span class="dds-evidence">github.com/agentic-commerce-protocol</span> · <span class="dds-evidence">docs.stripe.com/agentic-commerce/acp</span> — vote 3–0, verified 2026-07-11.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">2.</span> <span class="dds-evidence">docs.stripe.com — shared-payment-tokens</span> — vote 2–1 (terminology nuance only).</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">3.</span> <span class="dds-evidence">ACP changelog: 2025-09-29 → 2026-04-17</span> — vote 3–0. No 1.0/stable exists.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">4.</span> <span class="dds-evidence">stripe.com/blog/agentic-commerce-suite</span> — suite 3–0; foreclosure claim refuted 0–3.</div>
+    </aside>
+  </div>
+
+  <p><strong>Product ideas</strong> <span class="dds-chip neutral">analysis</span></p>
+  <ol>
+    <li><strong>ACP conformance monitor</strong> — "is your shop still agent-buyable?" Continuous spec-version testing that alerts merchants when a quarterly snapshot breaks them. This converts the lane's biggest weakness into the retention mechanism: churn in the spec becomes the reason customers stay subscribed.</li>
+    <li><strong>Agent-readiness middleware</strong> — turn any catalogue (Shopify export, WooCommerce, bespoke) into a conformant ACP feed plus checkout endpoint, for merchants outside Stripe's own suite. Priced monthly per storefront.</li>
+    <li><strong>Vertical shopping agents</strong> — holds no funds, but competes with platform-native agents; the weakest of the three.</li>
+  </ol>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s03">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Lane 2 — Ecommerce AI SaaS: the churn data dictates the shape</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>AI-native SaaS churns drastically worse than traditional B2B SaaS, and price point is the strongest predictor of survival. ChartMogul's billing data (~3,500 companies) puts AI-native median retention at 40% GRR / 48% NRR against 82% NRR for B2B SaaS — and products under $50/mo, the classic solo-builder wrapper price, retain just 23% of gross revenue annually. Above $250/mo, AI products retain essentially like normal B2B SaaS: 70% GRR / 85% NRR.<span class="dds-snref">5</span></p>
+      <p>Mobile data corroborates: AI apps keep 21.1% of annual subscribers at 12 months versus 30.7% for non-AI, yet convert trials 52% better and show higher realised LTV. The viable pattern is strong upfront monetisation with engineered retention — annual plans, workflow lock-in — not passive renewals on cheap monthly plans.<span class="dds-snref">6</span></p>
+      <p>The billing rails are first-party now: Stripe owns Metronome (used by OpenAI and Anthropic; enterprise, sales-led) and ships native Billing meters for tokens, API calls and agent workflows.<span class="dds-snref">7</span> Token billing adds automatic markup over raw OpenAI/Anthropic/Google model costs with auto-synced provider pricing — the resell-AI-compute-at-margin model as a product feature — but sits in private preview behind a waitlist.<span class="dds-snref">8</span></p>
+      <p><strong>Shape</strong> <span class="dds-chip neutral">analysis</span> — target $250–500/mo, B2B, 20–80 customers: an AI operations tool embedded in a seller's weekly workflow (repricing, catalogue enrichment, support triage with escalation). Thirty customers at that price is roughly $9–15k MRR with retention that behaves like normal SaaS. The $9–29/mo wrapper tier is structurally incapable of passive income. No Shopify App Store revenue-distribution claim survived verification — treat "median app earns under $1k/mo" as plausible but uncited.</p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">5.</span> <span class="dds-evidence">chartmogul.com — The AI Churn Wave</span> — vote 8–1 across 3 claims. ~50 companies per price bucket; directional.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">6.</span> <span class="dds-evidence">revenuecat.com — State of Subscription Apps 2026</span> — vote 9–0. Mobile apps; proxy for web SaaS.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">7.</span> <span class="dds-evidence">stripe.com/billing/usage-based-billing</span> · Metronome completion 2026-01 — vote 3–0.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">8.</span> <span class="dds-evidence">docs.stripe.com/billing/token-billing</span> — vote 3–0. Private preview; token-billing-team@stripe.com.</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s04">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Lane 3 — Stablecoin / Open USD: real rails, gated doors</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>The custody and licensing burden sits with Bridge (a Stripe company), not the builder. Stripe's docs state Bridge is custodian of stablecoin financial-account balances (USDC/USDB), and since 12 February 2026 Bridge holds OCC <em>preliminary conditional</em> approval for a national trust bank charter covering issuance, orchestration, reserve management and custody.<span class="dds-snref">9</span> A solo builder rides federally regulated infrastructure — with residual exposure: the account holder answers for its transactions, and moving third-party funds would trigger the builder's own money-transmission analysis. The approval is preliminary and revocable.</p>
+      <p>Vietnam is natively inside the stablecoin footprint — in the 102-country balance list and the 159-country crypto-wallet payout list — the only Stripe surface that touches Vietnam. That is fund-flow support, not account eligibility: the account holder remains the US LLC.<span class="dds-snref">10</span> The headline features are gated as of July 2026: stablecoin-backed Issuing cards (private preview; requires a US/Europe Connect platform), stablecoin-to-bank payouts (private preview), global payouts (waitlist). Nothing is self-serve.<span class="dds-snref">11</span></p>
+      <p>Bridge's Open Issuance (live since 30 September 2025) lets a business launch a branded stablecoin with Bridge as issuer of record, sharing the majority of reserve yield (~3–4% APY, BlackRock/Fidelity/Superstate-managed) minus a platform fee — proven by Phantom, MetaMask and Sui.<span class="dds-snref">12</span> It is the purest passive-income mechanism in this dossier, with three caveats: passing yield to coin <em>holders</em> would breach the GENIUS Act; one client (Hyperliquid) already sunset its coin; and KYB eligibility for a foreign-owned solo LLC is unverified.</p>
+      <p>Open Standard / OUSD — announced 30 June 2026 with 140+ backers (Stripe, Visa, Mastercard, Amex, Adyen, Coinbase, Shopify) — launches "later in 2026" on Base, Ethereum, Solana and Tempo. No builder-facing APIs or economics exist; the claim that reserve yield flows to consortium partners was refuted.<span class="dds-snref">13</span> A watchlist item, not a buildable surface.</p>
+      <p><strong>While gated</strong> <span class="dds-chip neutral">analysis</span> — get the LLC and Stripe account live on ungated products first (preview programmes onboard existing accounts faster); join both waitlists now; and hold the candidate product — USD invoicing with stablecoin settlement for SEA freelancers, own-funds only — until the payout gates open.</p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">9.</span> <span class="dds-evidence">occ.gov — Corporate Decision #1365 (PDF)</span> · <span class="dds-evidence">docs.stripe.com/financial-accounts/stablecoins</span> — vote 3–0 across 3 claims.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">10.</span> <span class="dds-evidence">docs.stripe.com/financial-accounts/stablecoins</span> · <span class="dds-evidence">stripe.com/global</span> — vote 3–0; lists verified live 2026-07-11.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">11.</span> <span class="dds-evidence">docs.stripe.com/issuing/stablecoin-cards-for-financial-accounts</span> — vote 3–0.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">12.</span> <span class="dds-evidence">stripe.com/blog/introducing-open-issuance-from-bridge</span> · <span class="dds-evidence">apidocs.bridge.xyz</span> — vote 3–0.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">13.</span> <span class="dds-evidence">americanbanker.com 2026-06-30</span> · <span class="dds-evidence">joinopenstandard.com</span> — vote 3–0, confidence medium; economics claim refuted 1–2.</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s05">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Lane 4 — Affiliate / content: three verified blows in the entry window</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>Google AI Overviews now correlate with a 58% lower click-through rate for the top-ranking page (Ahrefs, 300k keywords, December 2023 → December 2025) — sharply worse than the 34.5% reduction measured in April 2025. 99.2% of AIO-triggering keywords are informational: exactly the affiliate traffic base. Independently corroborated by Pew (~47%), Seer (49–65%) and Authoritas (47.5%).<span class="dds-snref">14</span></p>
+      <p>Penske Media alleges a one-third drop in affiliate revenue by late 2024 in its federal suit against Google; MailOnline reported a 56% desktop CTR drop in its CMA submission. Both are contested claims, not adjudicated fact — but if maximal-authority publishers lose a third of affiliate revenue, a new solo site entering 2026 faces worse odds.<span class="dds-snref">15</span></p>
+      <p>Amazon quietly cut Associates commissions by as much as 50%, rolling through Asia-Pacific in late 2025 and reaching the US around 9 March 2026; premium categories fell from ~10% to 4–5% and milestone bonuses were eliminated.<span class="dds-snref">16</span> The one open angle — affiliate feeds for AI shopping agents — produced no verified evidence in either direction: an unknown, not an opportunity. Stripe plays no structural role in affiliate income, which also makes this the least Stripe-native lane.</p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">14.</span> <span class="dds-evidence">ahrefs.com — AIO clicks update</span> — vote 9–0 across 3 claims. Correlational, controlled, replicated.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">15.</span> <span class="dds-evidence">searchengineland.com — Penske v Google</span> — vote 8–1. Litigation allegations; motion to dismiss pending 2026-05.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">16.</span> <span class="dds-evidence">adweek.com — Associates rate cuts</span> — vote 6–0, confidence medium; publisher-sourced, Amazon did not deny.</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s06">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Fund flows — where the money sits in each design</h2></div>
+
+  <p>Four designs, one common tail: whatever the lane, revenue lands in the LLC's Stripe account, exits through a US bank, and distributed profits must be repatriated to Vietnam within 12 months through the SBV-registered account (§ 07). DWG 06-01 is the overview; 06-02 to 06-04 zoom into each lane-specific design; DWG 06-05 sequences the ACP interaction the prose in § 02 narrates.</p>
+
+  <!-- DWG 06-01 — overview -->
+  <figure class="dds-diagram">
+    <svg viewBox="0 0 940 300" role="img" aria-label="Funds overview: revenue sources converge on the LLC Stripe account, flow to a US bank, then to the SBV-registered account and Dexter">
+      <defs>
+        <marker id="o-am" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-money"/></marker>
+        <marker id="o-aw" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-manual"/></marker>
+        <marker id="o-ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-blocked"/></marker>
+      </defs>
+      <!-- revenue sources -->
+      <rect class="n-human" x="20" y="30" width="160" height="40" rx="20"/>
+      <text class="n-label" x="100" y="48" text-anchor="middle">SaaS customers</text>
+      <text class="n-sub" x="100" y="61" text-anchor="middle">lane 2 subscriptions</text>
+      <rect class="n-ext" x="20" y="110" width="160" height="48"/>
+      <text class="n-label" x="100" y="130" text-anchor="middle">Merchants</text>
+      <text class="n-sub" x="100" y="145" text-anchor="middle">lane 1 tooling fees</text>
+      <rect class="n-ext" x="20" y="190" width="160" height="48"/>
+      <text class="n-label" x="100" y="210" text-anchor="middle">Bridge</text>
+      <text class="n-sub" x="100" y="225" text-anchor="middle">lane 3 yield share</text>
+      <!-- LLC stripe -->
+      <rect class="n-ext" x="300" y="100" width="180" height="64"/>
+      <text class="n-label" x="390" y="126" text-anchor="middle">Stripe — US LLC acct</text>
+      <text class="n-sub" x="390" y="142" text-anchor="middle">merchant of record</text>
+      <!-- bank -->
+      <rect class="n-ext" x="580" y="100" width="150" height="64"/>
+      <text class="n-label" x="655" y="126" text-anchor="middle">US business bank</text>
+      <text class="n-sub" x="655" y="142" text-anchor="middle">provider TBD — §7</text>
+      <!-- mercury -->
+      <rect class="n-ext" x="580" y="230" width="150" height="44"/>
+      <text class="n-label" x="655" y="248" text-anchor="middle">Mercury</text>
+      <text class="n-sub" x="655" y="262" text-anchor="middle">VN residence test</text>
+      <!-- SBV -->
+      <rect class="n-store" x="790" y="100" width="140" height="64" rx="10"/>
+      <text class="n-label" x="860" y="126" text-anchor="middle">SBV-registered acct</text>
+      <text class="n-sub" x="860" y="142" text-anchor="middle">capital account</text>
+      <!-- Dexter -->
+      <rect class="n-human" x="790" y="230" width="140" height="40" rx="20"/>
+      <text class="n-label" x="860" y="248" text-anchor="middle">Dexter — VN</text>
+      <text class="n-sub" x="860" y="261" text-anchor="middle">PIT: worldwide</text>
+      <!-- money edges -->
+      <line class="e-money" x1="180" y1="50" x2="296" y2="112" marker-end="url(#o-am)"/>
+      <line class="e-money" x1="180" y1="134" x2="296" y2="132" marker-end="url(#o-am)"/>
+      <line class="e-money" x1="180" y1="214" x2="296" y2="152" marker-end="url(#o-am)"/>
+      <line class="e-money" x1="480" y1="132" x2="576" y2="132" marker-end="url(#o-am)"/>
+      <text class="n-sub" x="528" y="124" text-anchor="middle">payouts</text>
+      <!-- manual: bank -> SBV over the top -->
+      <path class="e-manual" d="M655,100 L655,56 L860,56 L860,96" marker-end="url(#o-aw)"/>
+      <text class="n-sub" x="757" y="48" text-anchor="middle">repatriate ≤ 12 mo</text>
+      <!-- manual: SBV -> Dexter -->
+      <line class="e-manual" x1="860" y1="164" x2="860" y2="226" marker-end="url(#o-aw)"/>
+      <text class="n-sub" x="868" y="200" text-anchor="start">withdraw · VND</text>
+      <!-- blocked: LLC -> Mercury -->
+      <path class="e-blocked" d="M390,164 L390,252 L576,252" marker-end="url(#o-ab)"/>
+      <text class="n-sub" x="400" y="270" text-anchor="start">prohibited — residence, not incorporation</text>
+    </svg>
+  </figure>
+  <div class="dds-legend">
+    <span><span class="dds-leg-line money"></span>real money</span>
+    <span><span class="dds-leg-line manual"></span>manual step</span>
+    <span><span class="dds-leg-line blocked"></span>designed not to exist</span>
+  </div>
+  <div class="dds-titleblock">
+    <div><b>Funds overview — all lanes converge on the LLC</b>dossier § 06 · container level</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 06-01</b>sheet 1/5</div>
+  </div>
+
+  <!-- DWG 06-02 — ACP zoom -->
+  <p>The ACP design's safety property is drawn explicitly: buyer funds have no path into the builder's system.</p>
+  <figure class="dds-diagram">
+    <svg viewBox="0 0 940 320" role="img" aria-label="ACP tooling fund flow: agent charges merchant's Stripe via Shared Payment Token; the builder's tooling exchanges information only; merchant pays a SaaS fee">
+      <defs>
+        <marker id="p-am" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-money"/></marker>
+        <marker id="p-aw" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-manual"/></marker>
+        <marker id="p-ai" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-mirror"/></marker>
+        <marker id="p-ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-blocked"/></marker>
+      </defs>
+      <rect class="n-human" x="20" y="40" width="130" height="40" rx="20"/>
+      <text class="n-label" x="85" y="64" text-anchor="middle">Buyer</text>
+      <rect class="n-ext" x="230" y="32" width="160" height="56"/>
+      <text class="n-label" x="310" y="54" text-anchor="middle">AI agent</text>
+      <text class="n-sub" x="310" y="70" text-anchor="middle">ChatGPT et al.</text>
+      <rect class="n-ext" x="470" y="32" width="170" height="56"/>
+      <text class="n-label" x="555" y="54" text-anchor="middle">Merchant (MoR)</text>
+      <text class="n-sub" x="555" y="70" text-anchor="middle">own Stripe keys</text>
+      <rect class="n-ext" x="720" y="32" width="170" height="56"/>
+      <text class="n-label" x="805" y="54" text-anchor="middle">Stripe</text>
+      <text class="n-sub" x="805" y="70" text-anchor="middle">SPT + PaymentIntent</text>
+      <rect class="n-svc" x="470" y="200" width="170" height="56"/>
+      <text class="n-label" x="555" y="222" text-anchor="middle">Your tooling</text>
+      <text class="n-sub" x="555" y="238" text-anchor="middle">feed + conformance</text>
+      <rect class="n-ext" x="720" y="200" width="170" height="56"/>
+      <text class="n-label" x="805" y="222" text-anchor="middle">Your LLC — Stripe</text>
+      <text class="n-sub" x="805" y="238" text-anchor="middle">SaaS fee revenue</text>
+      <!-- edges -->
+      <line class="e-manual" x1="150" y1="60" x2="226" y2="60" marker-end="url(#p-aw)"/>
+      <text class="n-sub" x="188" y="52" text-anchor="middle">instructs</text>
+      <line class="e-money" x1="390" y1="60" x2="466" y2="60" marker-end="url(#p-am)"/>
+      <text class="n-sub" x="428" y="52" text-anchor="middle">SPT charge</text>
+      <line class="e-money" x1="640" y1="60" x2="716" y2="60" marker-end="url(#p-am)"/>
+      <text class="n-sub" x="678" y="52" text-anchor="middle">confirm PI</text>
+      <line class="e-mirror" x1="555" y1="88" x2="555" y2="196" marker-end="url(#p-ai)"/>
+      <text class="n-sub" x="563" y="150" text-anchor="start">catalogue + sessions</text>
+      <path class="e-mirror" d="M470,228 L310,228 L310,92" marker-end="url(#p-ai)"/>
+      <text class="n-sub" x="318" y="160" text-anchor="start">agent-readable feed</text>
+      <line class="e-money" x1="620" y1="88" x2="775" y2="196" marker-end="url(#p-am)"/>
+      <text class="n-sub" x="702" y="136" text-anchor="middle">monthly SaaS fee</text>
+      <path class="e-blocked" d="M85,80 L85,286 L555,286 L555,260" marker-end="url(#p-ab)"/>
+      <text class="n-sub" x="150" y="278" text-anchor="start">buyer funds — path designed not to exist</text>
+    </svg>
+  </figure>
+  <div class="dds-legend">
+    <span><span class="dds-leg-line money"></span>real money</span>
+    <span><span class="dds-leg-line manual"></span>manual step</span>
+    <span><span class="dds-leg-line mirror"></span>information only</span>
+    <span><span class="dds-leg-line blocked"></span>designed not to exist</span>
+  </div>
+  <div class="dds-titleblock">
+    <div><b>ACP tooling — no-custody design</b>dossier § 02 / § 06 · component level</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 06-02</b>sheet 2/5</div>
+  </div>
+
+  <!-- DWG 06-03 — Connect -->
+  <p>The Connect design applies only if a product is genuinely a marketplace — KYB and fraud duties shift partly onto the platform, which is the price of the application-fee revenue.</p>
+  <figure class="dds-diagram">
+    <svg viewBox="0 0 940 260" role="img" aria-label="Connect marketplace fund flow: buyer pays through Stripe Connect into sellers' connected accounts; the platform takes an application fee and owes KYB and fraud duties">
+      <defs>
+        <marker id="q-am" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-money"/></marker>
+        <marker id="q-aw" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-manual"/></marker>
+      </defs>
+      <rect class="n-human" x="20" y="40" width="130" height="40" rx="20"/>
+      <text class="n-label" x="85" y="64" text-anchor="middle">Buyer</text>
+      <rect class="n-ext" x="250" y="32" width="180" height="56"/>
+      <text class="n-label" x="340" y="54" text-anchor="middle">Stripe Connect</text>
+      <text class="n-sub" x="340" y="70" text-anchor="middle">platform: your LLC</text>
+      <rect class="n-store" x="540" y="32" width="190" height="56" rx="10"/>
+      <text class="n-label" x="635" y="54" text-anchor="middle">Connected accounts</text>
+      <text class="n-sub" x="635" y="70" text-anchor="middle">sellers · Stripe holds</text>
+      <rect class="n-svc" x="540" y="160" width="190" height="56"/>
+      <text class="n-label" x="635" y="182" text-anchor="middle">Your platform (LLC)</text>
+      <text class="n-sub" x="635" y="198" text-anchor="middle">application fee</text>
+      <line class="e-money" x1="150" y1="60" x2="246" y2="60" marker-end="url(#q-am)"/>
+      <text class="n-sub" x="198" y="52" text-anchor="middle">payment</text>
+      <line class="e-money" x1="430" y1="60" x2="536" y2="60" marker-end="url(#q-am)"/>
+      <text class="n-sub" x="483" y="52" text-anchor="middle">destination charge</text>
+      <path class="e-money" d="M340,88 L340,188 L536,188" marker-end="url(#q-am)"/>
+      <text class="n-sub" x="352" y="180" text-anchor="start">application fee</text>
+      <line class="e-manual" x1="680" y1="160" x2="680" y2="92" marker-end="url(#q-aw)"/>
+      <text class="n-sub" x="688" y="130" text-anchor="start">KYB / fraud duties</text>
+    </svg>
+  </figure>
+  <div class="dds-legend">
+    <span><span class="dds-leg-line money"></span>real money</span>
+    <span><span class="dds-leg-line manual"></span>manual / owed duty</span>
+  </div>
+  <div class="dds-titleblock">
+    <div><b>Connect marketplace — conditional design</b>dossier § 06 · component level</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 06-03</b>sheet 3/5</div>
+  </div>
+
+  <!-- DWG 06-04 — Open Issuance -->
+  <p>The Open Issuance design is the purest passive mechanism found — and carries the sharpest legal edge, drawn in red: yield may flow to the sponsor, never to holders.</p>
+  <figure class="dds-diagram">
+    <svg viewBox="0 0 940 300" role="img" aria-label="Open Issuance fund flow: minters fund branded-coin reserves custodied by Bridge, reserves are invested, yield is shared with the LLC, and yield to holders is prohibited">
+      <defs>
+        <marker id="r-am" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-money"/></marker>
+        <marker id="r-ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="a-blocked"/></marker>
+      </defs>
+      <rect class="n-human" x="20" y="40" width="150" height="40" rx="20"/>
+      <text class="n-label" x="95" y="58" text-anchor="middle">Coin minters</text>
+      <text class="n-sub" x="95" y="71" text-anchor="middle">mint = USD in</text>
+      <rect class="n-store" x="250" y="32" width="190" height="56" rx="10"/>
+      <text class="n-label" x="345" y="54" text-anchor="middle">Branded-coin reserves</text>
+      <text class="n-sub" x="345" y="70" text-anchor="middle">issuer of record: Bridge</text>
+      <rect class="n-ext" x="530" y="32" width="180" height="56"/>
+      <text class="n-label" x="620" y="54" text-anchor="middle">BlackRock / Fidelity</text>
+      <text class="n-sub" x="620" y="70" text-anchor="middle">reserve assets</text>
+      <rect class="n-ext" x="530" y="180" width="180" height="50"/>
+      <text class="n-label" x="620" y="200" text-anchor="middle">Bridge</text>
+      <text class="n-sub" x="620" y="215" text-anchor="middle">OCC charter: prelim.</text>
+      <rect class="n-svc" x="770" y="180" width="150" height="56"/>
+      <text class="n-label" x="845" y="202" text-anchor="middle">Your LLC</text>
+      <text class="n-sub" x="845" y="218" text-anchor="middle">majority share − fee</text>
+      <rect class="n-human" x="770" y="40" width="150" height="40" rx="20"/>
+      <text class="n-label" x="845" y="64" text-anchor="middle">Coin holders</text>
+      <line class="e-money" x1="170" y1="60" x2="246" y2="60" marker-end="url(#r-am)"/>
+      <text class="n-sub" x="208" y="52" text-anchor="middle">mint</text>
+      <line class="e-money" x1="440" y1="60" x2="526" y2="60" marker-end="url(#r-am)"/>
+      <text class="n-sub" x="483" y="52" text-anchor="middle">invested</text>
+      <line class="e-money" x1="620" y1="88" x2="620" y2="176" marker-end="url(#r-am)"/>
+      <text class="n-sub" x="628" y="136" text-anchor="start">yield ~3–4% APY</text>
+      <line class="e-money" x1="710" y1="205" x2="766" y2="205" marker-end="url(#r-am)"/>
+      <text class="n-sub" x="738" y="197" text-anchor="middle">share</text>
+      <line class="e-blocked" x1="845" y1="176" x2="845" y2="84" marker-end="url(#r-ab)"/>
+      <text class="n-sub" x="837" y="134" text-anchor="end">yield to holders — GENIUS Act</text>
+    </svg>
+  </figure>
+  <div class="dds-legend">
+    <span><span class="dds-leg-line money"></span>real money</span>
+    <span><span class="dds-leg-line blocked"></span>designed not to exist</span>
+  </div>
+  <div class="dds-titleblock">
+    <div><b>Open Issuance — reserve-yield design (gated)</b>dossier § 04 / § 06 · component level</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 06-04</b>sheet 4/5</div>
+  </div>
+
+  <!-- DWG 06-05 — sequence (Tier 2, pre-rendered) -->
+  <p>The Shared Payment Token interaction, step by step — the merchant confirms its own PaymentIntent; the token is scoped; the builder's tooling appears nowhere in the payment path.</p>
+  <figure class="dds-diagram" style="background:#FBFAF3">
+<svg id="dwg0605" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width: 1288.5px; background-color: #FBFAF3;" viewBox="-50 -10 1288.5 679" role="graphics-document document" aria-roledescription="sequence"><g><rect x="1038.5" y="593" fill="#eaeaea" stroke="#666" width="150" height="65" name="Stripe" rx="3" ry="3" class="actor actor-bottom"/><text x="1113.5" y="625.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="1113.5" dy="0">Stripe</tspan></text></g><g><rect x="470.5" y="593" fill="#eaeaea" stroke="#666" width="204" height="65" name="Merchant" rx="3" ry="3" class="actor actor-bottom"/><text x="572.5" y="625.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="572.5" dy="0">Merchant backend (MoR)</tspan></text></g><g><rect x="200" y="593" fill="#eaeaea" stroke="#666" width="161" height="65" name="Agent" rx="3" ry="3" class="actor actor-bottom"/><text x="280.5" y="625.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="280.5" dy="0">AI agent (ChatGPT)</tspan></text></g><g/><g><line id="actor3" x1="1113.5" y1="65" x2="1113.5" y2="593" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="Stripe" data-et="life-line" data-id="Stripe"/><g id="root-3" data-et="participant" data-type="participant" data-id="Stripe"><rect x="1038.5" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" name="Stripe" rx="3" ry="3" class="actor actor-top"/><text x="1113.5" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="1113.5" dy="0">Stripe</tspan></text></g></g><g><line id="actor2" x1="572.5" y1="65" x2="572.5" y2="593" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="Merchant" data-et="life-line" data-id="Merchant"/><g id="root-2" data-et="participant" data-type="participant" data-id="Merchant"><rect x="470.5" y="0" fill="#eaeaea" stroke="#666" width="204" height="65" name="Merchant" rx="3" ry="3" class="actor actor-top"/><text x="572.5" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="572.5" dy="0">Merchant backend (MoR)</tspan></text></g></g><g><line id="actor1" x1="280.5" y1="65" x2="280.5" y2="593" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="Agent" data-et="life-line" data-id="Agent"/><g id="root-1" data-et="participant" data-type="participant" data-id="Agent"><rect x="200" y="0" fill="#eaeaea" stroke="#666" width="161" height="65" name="Agent" rx="3" ry="3" class="actor actor-top"/><text x="280.5" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="280.5" dy="0">AI agent (ChatGPT)</tspan></text></g></g><g><line id="actor0" x1="75" y1="80" x2="75" y2="593" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="Buyer" data-et="life-line" data-id="Buyer"/></g><style>#dwg0605{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;font-size:13px;fill:#1C1B17;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dwg0605 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dwg0605 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dwg0605 .error-icon{fill:#F5E2DF;}#dwg0605 .error-text{fill:#A63D33;stroke:#A63D33;}#dwg0605 .edge-thickness-normal{stroke-width:1px;}#dwg0605 .edge-thickness-thick{stroke-width:3.5px;}#dwg0605 .edge-pattern-solid{stroke-dasharray:0;}#dwg0605 .edge-thickness-invisible{stroke-width:0;fill:none;}#dwg0605 .edge-pattern-dashed{stroke-dasharray:3;}#dwg0605 .edge-pattern-dotted{stroke-dasharray:2;}#dwg0605 .marker{fill:#1C1B17;stroke:#1C1B17;}#dwg0605 .marker.cross{stroke:#1C1B17;}#dwg0605 svg{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;font-size:13px;}#dwg0605 p{margin:0;}#dwg0605 .actor{stroke:#1C1B17;fill:#FFFFFB;stroke-width:1;}#dwg0605 rect.actor.outer-path[data-look="neo"]{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 rect.note[data-look="neo"]{stroke:#8F6400;fill:#F4EBD3;filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 text.actor&gt;tspan{fill:#1C1B17;stroke:none;}#dwg0605 .actor-line{stroke:#5D5A4F;}#dwg0605 .innerArc{stroke-width:1.5;stroke-dasharray:none;}#dwg0605 .messageLine0{stroke-width:1.5;stroke-dasharray:none;stroke:#1C1B17;}#dwg0605 .messageLine1{stroke-width:1.5;stroke-dasharray:2,2;stroke:#1C1B17;}#dwg0605 [id$="-arrowhead"] path{fill:#1C1B17;stroke:#1C1B17;}#dwg0605 .sequenceNumber{fill:#e3e4e8;}#dwg0605 [id$="-sequencenumber"]{fill:#1C1B17;}#dwg0605 [id$="-crosshead"] path{fill:#1C1B17;stroke:#1C1B17;}#dwg0605 .messageText{fill:#1C1B17;stroke:none;}#dwg0605 .labelBox{stroke:#1C1B17;fill:#F0EDE0;filter:none;}#dwg0605 .labelText,#dwg0605 .labelText&gt;tspan{fill:#1C1B17;stroke:none;}#dwg0605 .loopText,#dwg0605 .loopText&gt;tspan{fill:#1C1B17;stroke:none;}#dwg0605 .loopLine{stroke-width:2px;stroke-dasharray:2,2;stroke:#1C1B17;fill:#1C1B17;}#dwg0605 .note{stroke:#8F6400;fill:#F4EBD3;}#dwg0605 .noteText,#dwg0605 .noteText&gt;tspan{fill:#1C1B17;stroke:none;font-weight:normal;}#dwg0605 .activation0{fill:#E2EFE8;stroke:#0B6E4F;}#dwg0605 .activation1{fill:#E2EFE8;stroke:#0B6E4F;}#dwg0605 .activation2{fill:#E2EFE8;stroke:#0B6E4F;}#dwg0605 .actorPopupMenu{position:absolute;}#dwg0605 .actorPopupMenuPanel{position:absolute;fill:#FFFFFB;box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);filter:drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));}#dwg0605 .actor-man circle,#dwg0605 line{fill:#FFFFFB;stroke-width:2px;}#dwg0605 g rect.rect{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));stroke:#1C1B17;}#dwg0605 .node .neo-node{stroke:#1C1B17;}#dwg0605 [data-look="neo"].node rect,#dwg0605 [data-look="neo"].cluster rect,#dwg0605 [data-look="neo"].node polygon{stroke:url(#dwg0605-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 [data-look="neo"].node path{stroke:url(#dwg0605-gradient);stroke-width:1px;}#dwg0605 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 [data-look="neo"].node .neo-line path{stroke:#1C1B17;filter:none;}#dwg0605 [data-look="neo"].node circle{stroke:url(#dwg0605-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 [data-look="neo"].node circle .state-start{fill:#000000;}#dwg0605 [data-look="neo"].icon-shape .icon{fill:url(#dwg0605-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dwg0605-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0605 :root{--mermaid-font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;}</style><g/><defs><symbol id="dwg0605-computer" width="24" height="24"><path transform="scale(.5)" d="M2 2v13h20v-13h-20zm18 11h-16v-9h16v9zm-10.228 6l.466-1h3.524l.467 1h-4.457zm14.228 3h-24l2-6h2.104l-1.33 4h18.45l-1.297-4h2.073l2 6zm-5-10h-14v-7h14v7z"/></symbol></defs><defs><symbol id="dwg0605-database" fill-rule="evenodd" clip-rule="evenodd"><path transform="scale(.5)" d="M12.258.001l.256.004.255.005.253.008.251.01.249.012.247.015.246.016.242.019.241.02.239.023.236.024.233.027.231.028.229.031.225.032.223.034.22.036.217.038.214.04.211.041.208.043.205.045.201.046.198.048.194.05.191.051.187.053.183.054.18.056.175.057.172.059.168.06.163.061.16.063.155.064.15.066.074.033.073.033.071.034.07.034.069.035.068.035.067.035.066.035.064.036.064.036.062.036.06.036.06.037.058.037.058.037.055.038.055.038.053.038.052.038.051.039.05.039.048.039.047.039.045.04.044.04.043.04.041.04.04.041.039.041.037.041.036.041.034.041.033.042.032.042.03.042.029.042.027.042.026.043.024.043.023.043.021.043.02.043.018.044.017.043.015.044.013.044.012.044.011.045.009.044.007.045.006.045.004.045.002.045.001.045v17l-.001.045-.002.045-.004.045-.006.045-.007.045-.009.044-.011.045-.012.044-.013.044-.015.044-.017.043-.018.044-.02.043-.021.043-.023.043-.024.043-.026.043-.027.042-.029.042-.03.042-.032.042-.033.042-.034.041-.036.041-.037.041-.039.041-.04.041-.041.04-.043.04-.044.04-.045.04-.047.039-.048.039-.05.039-.051.039-.052.038-.053.038-.055.038-.055.038-.058.037-.058.037-.06.037-.06.036-.062.036-.064.036-.064.036-.066.035-.067.035-.068.035-.069.035-.07.034-.071.034-.073.033-.074.033-.15.066-.155.064-.16.063-.163.061-.168.06-.172.059-.175.057-.18.056-.183.054-.187.053-.191.051-.194.05-.198.048-.201.046-.205.045-.208.043-.211.041-.214.04-.217.038-.22.036-.223.034-.225.032-.229.031-.231.028-.233.027-.236.024-.239.023-.241.02-.242.019-.246.016-.247.015-.249.012-.251.01-.253.008-.255.005-.256.004-.258.001-.258-.001-.256-.004-.255-.005-.253-.008-.251-.01-.249-.012-.247-.015-.245-.016-.243-.019-.241-.02-.238-.023-.236-.024-.234-.027-.231-.028-.228-.031-.226-.032-.223-.034-.22-.036-.217-.038-.214-.04-.211-.041-.208-.043-.204-.045-.201-.046-.198-.048-.195-.05-.19-.051-.187-.053-.184-.054-.179-.056-.176-.057-.172-.059-.167-.06-.164-.061-.159-.063-.155-.064-.151-.066-.074-.033-.072-.033-.072-.034-.07-.034-.069-.035-.068-.035-.067-.035-.066-.035-.064-.036-.063-.036-.062-.036-.061-.036-.06-.037-.058-.037-.057-.037-.056-.038-.055-.038-.053-.038-.052-.038-.051-.039-.049-.039-.049-.039-.046-.039-.046-.04-.044-.04-.043-.04-.041-.04-.04-.041-.039-.041-.037-.041-.036-.041-.034-.041-.033-.042-.032-.042-.03-.042-.029-.042-.027-.042-.026-.043-.024-.043-.023-.043-.021-.043-.02-.043-.018-.044-.017-.043-.015-.044-.013-.044-.012-.044-.011-.045-.009-.044-.007-.045-.006-.045-.004-.045-.002-.045-.001-.045v-17l.001-.045.002-.045.004-.045.006-.045.007-.045.009-.044.011-.045.012-.044.013-.044.015-.044.017-.043.018-.044.02-.043.021-.043.023-.043.024-.043.026-.043.027-.042.029-.042.03-.042.032-.042.033-.042.034-.041.036-.041.037-.041.039-.041.04-.041.041-.04.043-.04.044-.04.046-.04.046-.039.049-.039.049-.039.051-.039.052-.038.053-.038.055-.038.056-.038.057-.037.058-.037.06-.037.061-.036.062-.036.063-.036.064-.036.066-.035.067-.035.068-.035.069-.035.07-.034.072-.034.072-.033.074-.033.151-.066.155-.064.159-.063.164-.061.167-.06.172-.059.176-.057.179-.056.184-.054.187-.053.19-.051.195-.05.198-.048.201-.046.204-.045.208-.043.211-.041.214-.04.217-.038.22-.036.223-.034.226-.032.228-.031.231-.028.234-.027.236-.024.238-.023.241-.02.243-.019.245-.016.247-.015.249-.012.251-.01.253-.008.255-.005.256-.004.258-.001.258.001zm-9.258 20.499v.01l.001.021.003.021.004.022.005.021.006.022.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.023.018.024.019.024.021.024.022.025.023.024.024.025.052.049.056.05.061.051.066.051.07.051.075.051.079.052.084.052.088.052.092.052.097.052.102.051.105.052.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.048.144.049.147.047.152.047.155.047.16.045.163.045.167.043.171.043.176.041.178.041.183.039.187.039.19.037.194.035.197.035.202.033.204.031.209.03.212.029.216.027.219.025.222.024.226.021.23.02.233.018.236.016.24.015.243.012.246.01.249.008.253.005.256.004.259.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.021.224-.024.22-.026.216-.027.212-.028.21-.031.205-.031.202-.034.198-.034.194-.036.191-.037.187-.039.183-.04.179-.04.175-.042.172-.043.168-.044.163-.045.16-.046.155-.046.152-.047.148-.048.143-.049.139-.049.136-.05.131-.05.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.053.083-.051.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.05.023-.024.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.023.01-.022.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.127l-.077.055-.08.053-.083.054-.085.053-.087.052-.09.052-.093.051-.095.05-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.045-.118.044-.12.043-.122.042-.124.042-.126.041-.128.04-.13.04-.132.038-.134.038-.135.037-.138.037-.139.035-.142.035-.143.034-.144.033-.147.032-.148.031-.15.03-.151.03-.153.029-.154.027-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.01-.179.008-.179.008-.181.006-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.006-.179-.008-.179-.008-.178-.01-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.027-.153-.029-.151-.03-.15-.03-.148-.031-.146-.032-.145-.033-.143-.034-.141-.035-.14-.035-.137-.037-.136-.037-.134-.038-.132-.038-.13-.04-.128-.04-.126-.041-.124-.042-.122-.042-.12-.044-.117-.043-.116-.045-.113-.045-.112-.046-.109-.047-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.05-.093-.052-.09-.051-.087-.052-.085-.053-.083-.054-.08-.054-.077-.054v4.127zm0-5.654v.011l.001.021.003.021.004.021.005.022.006.022.007.022.009.022.01.022.011.023.012.023.013.023.015.024.016.023.017.024.018.024.019.024.021.024.022.024.023.025.024.024.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.052.11.051.114.051.119.052.123.05.127.051.131.05.135.049.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.044.171.042.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.022.23.02.233.018.236.016.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.012.241-.015.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.048.139-.05.136-.049.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.051.051-.049.023-.025.023-.024.021-.025.02-.024.019-.024.018-.024.017-.024.015-.023.014-.023.013-.024.012-.022.01-.023.01-.023.008-.022.006-.022.006-.022.004-.021.004-.022.001-.021.001-.021v-4.139l-.077.054-.08.054-.083.054-.085.052-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.044-.118.044-.12.044-.122.042-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.035-.143.033-.144.033-.147.033-.148.031-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.009-.179.009-.179.007-.181.007-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.007-.179-.007-.179-.009-.178-.009-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.031-.146-.033-.145-.033-.143-.033-.141-.035-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.04-.126-.041-.124-.042-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.051-.093-.051-.09-.051-.087-.053-.085-.052-.083-.054-.08-.054-.077-.054v4.139zm0-5.666v.011l.001.02.003.022.004.021.005.022.006.021.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.024.018.023.019.024.021.025.022.024.023.024.024.025.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.051.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.043.171.043.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.021.23.02.233.018.236.017.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.013.241-.014.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.049.139-.049.136-.049.131-.051.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.049.023-.025.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.022.01-.023.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.153l-.077.054-.08.054-.083.053-.085.053-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.048-.105.048-.106.048-.109.046-.111.046-.114.046-.115.044-.118.044-.12.043-.122.043-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.034-.143.034-.144.033-.147.032-.148.032-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.024-.161.024-.162.023-.163.023-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.01-.178.01-.179.009-.179.007-.181.006-.182.006-.182.004-.184.003-.184.001-.185.001-.185-.001-.184-.001-.184-.003-.182-.004-.182-.006-.181-.006-.179-.007-.179-.009-.178-.01-.176-.01-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.023-.162-.023-.161-.024-.159-.024-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.032-.146-.032-.145-.033-.143-.034-.141-.034-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.041-.126-.041-.124-.041-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.048-.105-.048-.102-.048-.1-.05-.097-.049-.095-.051-.093-.051-.09-.052-.087-.052-.085-.053-.083-.053-.08-.054-.077-.054v4.153zm8.74-8.179l-.257.004-.254.005-.25.008-.247.011-.244.012-.241.014-.237.016-.233.018-.231.021-.226.022-.224.023-.22.026-.216.027-.212.028-.21.031-.205.032-.202.033-.198.034-.194.036-.191.038-.187.038-.183.04-.179.041-.175.042-.172.043-.168.043-.163.045-.16.046-.155.046-.152.048-.148.048-.143.048-.139.049-.136.05-.131.05-.126.051-.123.051-.118.051-.114.052-.11.052-.106.052-.101.052-.096.052-.092.052-.088.052-.083.052-.079.052-.074.051-.07.052-.065.051-.06.05-.056.05-.051.05-.023.025-.023.024-.021.024-.02.025-.019.024-.018.024-.017.023-.015.024-.014.023-.013.023-.012.023-.01.023-.01.022-.008.022-.006.023-.006.021-.004.022-.004.021-.001.021-.001.021.001.021.001.021.004.021.004.022.006.021.006.023.008.022.01.022.01.023.012.023.013.023.014.023.015.024.017.023.018.024.019.024.02.025.021.024.023.024.023.025.051.05.056.05.06.05.065.051.07.052.074.051.079.052.083.052.088.052.092.052.096.052.101.052.106.052.11.052.114.052.118.051.123.051.126.051.131.05.136.05.139.049.143.048.148.048.152.048.155.046.16.046.163.045.168.043.172.043.175.042.179.041.183.04.187.038.191.038.194.036.198.034.202.033.205.032.21.031.212.028.216.027.22.026.224.023.226.022.231.021.233.018.237.016.241.014.244.012.247.011.25.008.254.005.257.004.26.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.022.224-.023.22-.026.216-.027.212-.028.21-.031.205-.032.202-.033.198-.034.194-.036.191-.038.187-.038.183-.04.179-.041.175-.042.172-.043.168-.043.163-.045.16-.046.155-.046.152-.048.148-.048.143-.048.139-.049.136-.05.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.05.051-.05.023-.025.023-.024.021-.024.02-.025.019-.024.018-.024.017-.023.015-.024.014-.023.013-.023.012-.023.01-.023.01-.022.008-.022.006-.023.006-.021.004-.022.004-.021.001-.021.001-.021-.001-.021-.001-.021-.004-.021-.004-.022-.006-.021-.006-.023-.008-.022-.01-.022-.01-.023-.012-.023-.013-.023-.014-.023-.015-.024-.017-.023-.018-.024-.019-.024-.02-.025-.021-.024-.023-.024-.023-.025-.051-.05-.056-.05-.06-.05-.065-.051-.07-.052-.074-.051-.079-.052-.083-.052-.088-.052-.092-.052-.096-.052-.101-.052-.106-.052-.11-.052-.114-.052-.118-.051-.123-.051-.126-.051-.131-.05-.136-.05-.139-.049-.143-.048-.148-.048-.152-.048-.155-.046-.16-.046-.163-.045-.168-.043-.172-.043-.175-.042-.179-.041-.183-.04-.187-.038-.191-.038-.194-.036-.198-.034-.202-.033-.205-.032-.21-.031-.212-.028-.216-.027-.22-.026-.224-.023-.226-.022-.231-.021-.233-.018-.237-.016-.241-.014-.244-.012-.247-.011-.25-.008-.254-.005-.257-.004-.26-.001-.26.001z"/></symbol></defs><defs><symbol id="dwg0605-clock" width="24" height="24"><path transform="scale(.5)" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.848 12.459c.202.038.202.333.001.372-1.907.361-6.045 1.111-6.547 1.111-.719 0-1.301-.582-1.301-1.301 0-.512.77-5.447 1.125-7.445.034-.192.312-.181.343.014l.985 6.238 5.394 1.011z"/></symbol></defs><defs><marker id="dwg0605-arrowhead" refX="7.9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M -1 0 L 10 5 L 0 10 z"/></marker></defs><defs><marker id="dwg0605-crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="4" refY="4.5"><path fill="none" stroke="#000000" stroke-width="1pt" d="M 1,2 L 6,7 M 6,2 L 1,7" style="stroke-dasharray: 0, 0;"/></marker></defs><defs><marker id="dwg0605-filled-head" refX="15.5" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L14,7 L9,1 Z"/></marker></defs><defs><marker id="dwg0605-sequencenumber" refX="15" refY="15" markerWidth="60" markerHeight="40" orient="auto"><circle cx="15" cy="15" r="6"/></marker></defs><defs><marker id="dwg0605-solidTopArrowHead" refX="7.9" refY="7.25" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 10 8 L 0 8 z"/></marker></defs><defs><marker id="dwg0605-solidBottomArrowHead" refX="7.9" refY="0.75" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 10 0 L 0 8 z"/></marker></defs><defs><marker id="dwg0605-stickTopArrowHead" refX="7.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 7 7" stroke="black" stroke-width="1.5" fill="none"/></marker></defs><defs><marker id="dwg0605-stickBottomArrowHead" refX="7.5" refY="0" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 7 L 7 0" stroke="black" stroke-width="1.5" fill="none"/></marker></defs><g data-et="note" data-id="i11"><rect x="547.5" y="535" fill="#EDF2AE" stroke="#666" width="591" height="38" class="note"/><text x="843" y="540" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="noteText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;"><tspan x="843">Solid = synchronous, dashed = async reply. The builder's tooling shapes feed and session data only - it never holds the SPT or funds.</tspan></text></g><g class="actor-man actor-top" name="Buyer" data-et="participant" data-type="actor" data-id="Buyer" style="stroke: rgb(28, 27, 23);"><line id="actor-man-torso0" x1="75" y1="25" x2="75" y2="45"/><line id="actor-man-arms0" x1="57" y1="33" x2="93" y2="33"/><line x1="57" y1="60" x2="75" y2="45"/><line x1="75" y1="45" x2="91" y2="60"/><circle cx="75" cy="10" r="15" width="150" height="65"/><text x="75" y="67.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-man" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="75" dy="0">Buyer</tspan></text></g><text x="176" y="80" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">instruct purchase</text><line x1="82" y1="111" x2="276.5" y2="111" class="messageLine0" data-et="message" data-id="i1" data-from="Buyer" data-to="Agent" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="fill: none;"/><line x1="75" y1="111" x2="75" y2="111" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="75" y="115" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">1</text><text x="425" y="126" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">create checkout session (ACP)</text><line x1="287.5" y1="157" x2="568.5" y2="157" class="messageLine0" data-et="message" data-id="i2" data-from="Agent" data-to="Merchant" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="fill: none;"/><line x1="280.5" y1="157" x2="280.5" y2="157" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="280.5" y="161" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">2</text><text x="428" y="172" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">session, totals, capabilities</text><line x1="577.5" y1="203" x2="284.5" y2="203" class="messageLine1" data-et="message" data-id="i3" data-from="Merchant" data-to="Agent" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><line x1="572.5" y1="203" x2="572.5" y2="203" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="572.5" y="207" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">3</text><text x="696" y="218" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">request Shared Payment Token</text><line x1="287.5" y1="249" x2="1109.5" y2="249" class="messageLine0" data-et="message" data-id="i4" data-from="Agent" data-to="Stripe" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="fill: none;"/><line x1="280.5" y1="249" x2="280.5" y2="249" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="280.5" y="253" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">4</text><text x="699" y="264" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">SPT scoped to merchant + amount</text><line x1="1118.5" y1="295" x2="284.5" y2="295" class="messageLine1" data-et="message" data-id="i5" data-from="Stripe" data-to="Agent" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><line x1="1113.5" y1="295" x2="1113.5" y2="295" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="1113.5" y="299" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">5</text><text x="425" y="310" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">complete checkout + SPT</text><line x1="287.5" y1="341" x2="568.5" y2="341" class="messageLine0" data-et="message" data-id="i6" data-from="Agent" data-to="Merchant" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="fill: none;"/><line x1="280.5" y1="341" x2="280.5" y2="341" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="280.5" y="345" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">6</text><text x="842" y="356" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">confirm PaymentIntent (merchant keys)</text><line x1="579.5" y1="387" x2="1109.5" y2="387" class="messageLine0" data-et="message" data-id="i7" data-from="Merchant" data-to="Stripe" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="fill: none;"/><line x1="572.5" y1="387" x2="572.5" y2="387" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="572.5" y="391" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">7</text><text x="845" y="402" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">funds settle to merchant balance</text><line x1="1118.5" y1="433" x2="576.5" y2="433" class="messageLine1" data-et="message" data-id="i8" data-from="Stripe" data-to="Merchant" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><line x1="1113.5" y1="433" x2="1113.5" y2="433" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="1113.5" y="437" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">8</text><text x="428" y="448" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">order confirmed</text><line x1="577.5" y1="479" x2="284.5" y2="479" class="messageLine1" data-et="message" data-id="i9" data-from="Merchant" data-to="Agent" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><line x1="572.5" y1="479" x2="572.5" y2="479" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="572.5" y="483" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">9</text><text x="179" y="494" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400;">receipt</text><line x1="285.5" y1="525" x2="79" y2="525" class="messageLine1" data-et="message" data-id="i10" data-from="Agent" data-to="Buyer" stroke-width="2" stroke="none" marker-end="url(#dwg0605-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><line x1="280.5" y1="525" x2="280.5" y2="525" stroke-width="0" marker-start="url(#dwg0605-sequencenumber)"/><text x="280.5" y="529" font-family="sans-serif" font-size="12px" text-anchor="middle" class="sequenceNumber">10</text><g class="actor-man actor-bottom" name="Buyer" style="stroke: rgb(28, 27, 23);"><line id="actor-man-torso3" x1="75" y1="618" x2="75" y2="638"/><line id="actor-man-arms3" x1="57" y1="626" x2="93" y2="626"/><line x1="57" y1="653" x2="75" y2="638"/><line x1="75" y1="638" x2="91" y2="653"/><circle cx="75" cy="603" r="15" width="150" height="65"/><text x="75" y="660.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-man" style="text-anchor: middle; font-size: 16px; font-weight: 400; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, system-ui, Helvetica, Arial, sans-serif;"><tspan x="75" dy="0">Buyer</tspan></text></g></svg>
+  </figure>
+  <details>
+    <summary class="dds-evidence">Mermaid source — DWG 06-05</summary>
+    <pre><code>sequenceDiagram
+    autonumber
+    actor Buyer
+    participant Agent as AI agent (ChatGPT)
+    participant Merchant as Merchant backend (MoR)
+    participant Stripe
+    Buyer-&gt;&gt;Agent: instruct purchase
+    Agent-&gt;&gt;Merchant: create checkout session (ACP)
+    Merchant--&gt;&gt;Agent: session, totals, capabilities
+    Agent-&gt;&gt;Stripe: request Shared Payment Token
+    Stripe--&gt;&gt;Agent: SPT scoped to merchant + amount
+    Agent-&gt;&gt;Merchant: complete checkout + SPT
+    Merchant-&gt;&gt;Stripe: confirm PaymentIntent (merchant keys)
+    Stripe--&gt;&gt;Merchant: funds settle to merchant balance
+    Merchant--&gt;&gt;Agent: order confirmed
+    Agent--&gt;&gt;Buyer: receipt</code></pre>
+  </details>
+  <div class="dds-titleblock">
+    <div><b>ACP checkout via Shared Payment Tokens</b>docs.stripe.com/agentic-commerce · sequence</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 06-05</b>sheet 5/5</div>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s07">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 07</span><h2>Legal structure — the Vietnam ↔ US skeleton, piece by piece</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>US LLC formation is legally open to Vietnam residents; the real obligations are an annual Form 5472 attached to a pro-forma 1120 (a $25,000 penalty for failure), a US registered agent, and an EIN via the slower non-SSN route.<span class="dds-snref">17</span> Stripe Atlas's "bank account and payments within two business days" marketing was refuted 0–3 — plan in weeks.<span class="dds-snref">18</span></p>
+      <p>At 183+ days in-country you are a Vietnam tax resident taxed on worldwide income, LLC profits included; the 2026 PIT reform changed brackets, not residency.<span class="dds-snref">19</span> Decree 103/2026/ND-CP (effective 3 April 2026) exempts outbound investments under VND 7 billion (~US$270k) in non-conditional sectors from the Offshore Investment Registration Certificate — a solo software LLC instead needs SBV foreign-exchange registration, a National Investment Information System declaration, periodic reporting, and repatriation of distributed profits within 12 months through the registered account. The statutory trigger is Vietnamese nationality, not residency, and the regime is three months old — SBV branch practice is untested.<span class="dds-snref">20</span></p>
+      <p>Mercury explicitly prohibits founders living in Vietnam — the test is residence, not incorporation, so the LLC does not cure it.<span class="dds-snref">21</span> No claim about alternatives (Relay, Wise Business, Brex, Atlas-partner banks) survived verification: validate directly, before forming the LLC. Vietnam's Digital Technology Industry Law (crypto assets legal from 1 January 2026) also produced no verified claims on holding USD stablecoins from foreign business income — unresearched, not settled.</p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">17.</span> <span class="dds-evidence">irs.gov — i5472 (rev. 12/2024)</span> · <span class="dds-evidence">stripe.com — LLC guide</span> — vote 3–0.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">18.</span> <span class="dds-evidence">Atlas 2-day claim</span> — refuted 0–3.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">19.</span> <span class="dds-evidence">taxsummaries.pwc.com/vietnam</span> — vote 3–0.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">20.</span> <span class="dds-evidence">vietanlaw.com · indochinecounsel.com — Decree 103/2026</span> — vote 15–0 across 5 claims.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">21.</span> <span class="dds-evidence">support.mercury.com — prohibited countries</span> — vote 6–0; verified 2026-07-10.</div>
+    </aside>
+  </div>
+
+  <p>The setup pipeline, in order — the bank is deliberately placed before the SBV step, because it is the link most likely to fail:</p>
+  <figure class="dds-diagram" style="background:#FBFAF3">
+    <div style="min-width:1600px">
+<svg id="dwg0701" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 2157.36px; background-color: #FBFAF3;" viewBox="0 0 2157.359375 184.5" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dwg0701{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;font-size:13px;fill:#1C1B17;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dwg0701 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dwg0701 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dwg0701 .error-icon{fill:#F5E2DF;}#dwg0701 .error-text{fill:#A63D33;stroke:#A63D33;}#dwg0701 .edge-thickness-normal{stroke-width:1px;}#dwg0701 .edge-thickness-thick{stroke-width:3.5px;}#dwg0701 .edge-pattern-solid{stroke-dasharray:0;}#dwg0701 .edge-thickness-invisible{stroke-width:0;fill:none;}#dwg0701 .edge-pattern-dashed{stroke-dasharray:3;}#dwg0701 .edge-pattern-dotted{stroke-dasharray:2;}#dwg0701 .marker{fill:#1C1B17;stroke:#1C1B17;}#dwg0701 .marker.cross{stroke:#1C1B17;}#dwg0701 svg{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;font-size:13px;}#dwg0701 p{margin:0;}#dwg0701 .label{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;color:#1C1B17;}#dwg0701 .cluster-label text{fill:#090708;}#dwg0701 .cluster-label span{color:#090708;}#dwg0701 .cluster-label span p{background-color:transparent;}#dwg0701 .label text,#dwg0701 span{fill:#1C1B17;color:#1C1B17;}#dwg0701 .node rect,#dwg0701 .node circle,#dwg0701 .node ellipse,#dwg0701 .node polygon,#dwg0701 .node path{fill:#FFFFFB;stroke:#1C1B17;stroke-width:1px;}#dwg0701 .rough-node .label text,#dwg0701 .node .label text,#dwg0701 .image-shape .label,#dwg0701 .icon-shape .label{text-anchor:middle;}#dwg0701 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dwg0701 .rough-node .label,#dwg0701 .node .label,#dwg0701 .image-shape .label,#dwg0701 .icon-shape .label{text-align:center;}#dwg0701 .node.clickable{cursor:pointer;}#dwg0701 .root .anchor path{fill:#1C1B17!important;stroke-width:0;stroke:#1C1B17;}#dwg0701 .arrowheadPath{fill:#04050c;}#dwg0701 .edgePath .path{stroke:#1C1B17;stroke-width:1px;}#dwg0701 .flowchart-link{stroke:#1C1B17;fill:none;}#dwg0701 .edgeLabel{background-color:#FBFAF3;text-align:center;}#dwg0701 .edgeLabel p{background-color:#FBFAF3;}#dwg0701 .edgeLabel rect{opacity:0.5;background-color:#FBFAF3;fill:#FBFAF3;}#dwg0701 .labelBkg{background-color:rgba(251, 250, 243, 0.5);}#dwg0701 .cluster rect{fill:#F6F8F7;stroke:#5D5A4F;stroke-width:1px;}#dwg0701 .cluster text{fill:#090708;}#dwg0701 .cluster span{color:#090708;}#dwg0701 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;font-size:12px;background:#F6F8F7;border:1px solid hsl(150, 0%, 86.862745098%);border-radius:2px;pointer-events:none;z-index:100;}#dwg0701 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#1C1B17;}#dwg0701 rect.text{fill:none;stroke-width:0;}#dwg0701 .icon-shape,#dwg0701 .image-shape{background-color:#FBFAF3;text-align:center;}#dwg0701 .icon-shape p,#dwg0701 .image-shape p{background-color:#FBFAF3;padding:2px;}#dwg0701 .icon-shape .label rect,#dwg0701 .image-shape .label rect{opacity:0.5;background-color:#FBFAF3;fill:#FBFAF3;}#dwg0701 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dwg0701 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dwg0701 .node .neo-node{stroke:#1C1B17;}#dwg0701 [data-look="neo"].node rect,#dwg0701 [data-look="neo"].cluster rect,#dwg0701 [data-look="neo"].node polygon{stroke:url(#dwg0701-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0701 [data-look="neo"].node path{stroke:url(#dwg0701-gradient);stroke-width:1px;}#dwg0701 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0701 [data-look="neo"].node .neo-line path{stroke:#1C1B17;filter:none;}#dwg0701 [data-look="neo"].node circle{stroke:url(#dwg0701-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0701 [data-look="neo"].node circle .state-start{fill:#000000;}#dwg0701 [data-look="neo"].icon-shape .icon{fill:url(#dwg0701-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0701 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dwg0701-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dwg0701 :root{--mermaid-font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;}</style><g><marker id="dwg0701_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dwg0701_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dwg0701_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M179.25,97.125L183.417,97.125C187.583,97.125,195.917,97.125,203.583,97.125C211.25,97.125,218.25,97.125,221.75,97.125L225.25,97.125" id="dwg0701-L_A_B_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A_B_0" data-points="W3sieCI6MTc5LjI1LCJ5Ijo5Ny4xMjV9LHsieCI6MjA0LjI1LCJ5Ijo5Ny4xMjV9LHsieCI6MjI5LjI1LCJ5Ijo5Ny4xMjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M379.203,97.125L383.37,97.125C387.536,97.125,395.87,97.125,403.536,97.125C411.203,97.125,418.203,97.125,421.703,97.125L425.203,97.125" id="dwg0701-L_B_C_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_C_0" data-points="W3sieCI6Mzc5LjIwMzEyNSwieSI6OTcuMTI1fSx7IngiOjQwNC4yMDMxMjUsInkiOjk3LjEyNX0seyJ4Ijo0MjkuMjAzMTI1LCJ5Ijo5Ny4xMjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M577.625,76.776L598.458,71.063C619.292,65.351,660.958,53.925,701.958,48.213C742.958,42.5,783.292,42.5,803.458,42.5L823.625,42.5" id="dwg0701-L_C_D_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_D_0" data-points="W3sieCI6NTc3LjYyNSwieSI6NzYuNzc1ODUzOTU1MDU3MDZ9LHsieCI6NzAyLjYyNSwieSI6NDIuNX0seyJ4Ijo4MjcuNjI1LCJ5Ijo0Mi41fV0=" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M1078.578,42.5L1082.745,42.5C1086.911,42.5,1095.245,42.5,1102.911,42.5C1110.578,42.5,1117.578,42.5,1121.078,42.5L1124.578,42.5" id="dwg0701-L_D_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_E_0" data-points="W3sieCI6MTA3OC41NzgxMjUsInkiOjQyLjV9LHsieCI6MTEwMy41NzgxMjUsInkiOjQyLjV9LHsieCI6MTEyOC41NzgxMjUsInkiOjQyLjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M1320.766,42.5L1324.932,42.5C1329.099,42.5,1337.432,42.5,1345.099,42.5C1352.766,42.5,1359.766,42.5,1363.266,42.5L1366.766,42.5" id="dwg0701-L_E_F_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_E_F_0" data-points="W3sieCI6MTMyMC43NjU2MjUsInkiOjQyLjV9LHsieCI6MTM0NS43NjU2MjUsInkiOjQyLjV9LHsieCI6MTM3MC43NjU2MjUsInkiOjQyLjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M1548.688,42.5L1552.854,42.5C1557.021,42.5,1565.354,42.5,1573.021,42.5C1580.688,42.5,1587.688,42.5,1591.188,42.5L1594.688,42.5" id="dwg0701-L_F_G_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_F_G_0" data-points="W3sieCI6MTU0OC42ODc1LCJ5Ijo0Mi41fSx7IngiOjE1NzMuNjg3NSwieSI6NDIuNX0seyJ4IjoxNTk4LjY4NzUsInkiOjQyLjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M1717.844,42.5L1722.01,42.5C1726.177,42.5,1734.51,42.5,1742.177,42.5C1749.844,42.5,1756.844,42.5,1760.344,42.5L1763.844,42.5" id="dwg0701-L_G_H_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G_H_0" data-points="W3sieCI6MTcxNy44NDM3NSwieSI6NDIuNX0seyJ4IjoxNzQyLjg0Mzc1LCJ5Ijo0Mi41fSx7IngiOjE3NjcuODQzNzUsInkiOjQyLjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M1930.016,42.5L1934.182,42.5C1938.349,42.5,1946.682,42.5,1954.349,42.5C1962.016,42.5,1969.016,42.5,1972.516,42.5L1976.016,42.5" id="dwg0701-L_H_I_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_H_I_0" data-points="W3sieCI6MTkzMC4wMTU2MjUsInkiOjQyLjV9LHsieCI6MTk1NS4wMTU2MjUsInkiOjQyLjV9LHsieCI6MTk4MC4wMTU2MjUsInkiOjQyLjV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/><path d="M577.625,117.474L598.458,123.187C619.292,128.899,660.958,140.325,712.583,146.037C764.208,151.75,825.792,151.75,856.583,151.75L887.375,151.75" id="dwg0701-L_C_X_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_X_0" data-points="W3sieCI6NTc3LjYyNSwieSI6MTE3LjQ3NDE0NjA0NDk0Mjk0fSx7IngiOjcwMi42MjUsInkiOjE1MS43NX0seyJ4Ijo4OTEuMzc1LCJ5IjoxNTEuNzV9XQ==" data-look="classic" marker-end="url(#dwg0701_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_A_B_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_C_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_C_D_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_D_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_E_F_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_F_G_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_G_H_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_H_I_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(702.625, 151.75)"><g class="label" data-id="L_C_X_0" transform="translate(-100, -19.5)"><foreignObject width="200" height="39"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="edgeLabel"><p>Mercury: prohibited (VN residence)</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="dwg0701-flowchart-A-0" data-look="classic" transform="translate(93.625, 97.125)"><rect class="basic label-container" style="" x="-85.625" y="-34.5" width="171.25" height="69"/><g class="label" style="" transform="translate(-55.625, -19.5)"><rect/><foreignObject width="111.25" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Form US LLC<br />+ registered agent</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-B-1" data-look="classic" transform="translate(304.2265625, 97.125)"><rect class="basic label-container" style="" x="-74.9765625" y="-34.5" width="149.953125" height="69"/><g class="label" style="" transform="translate(-44.9765625, -19.5)"><rect/><foreignObject width="89.953125" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>EIN<br />non-SSN route</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-C-3" data-look="classic" transform="translate(503.4140625, 97.125)"><rect class="basic label-container" style="" x="-74.2109375" y="-34.5" width="148.421875" height="69"/><g class="label" style="" transform="translate(-44.2109375, -19.5)"><rect/><foreignObject width="88.421875" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Stripe account<br />holder: LLC</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-D-5" data-look="classic" transform="translate(953.1015625, 42.5)"><rect class="basic label-container" style="" x="-125.4765625" y="-34.5" width="250.953125" height="69"/><g class="label" style="" transform="translate(-95.4765625, -19.5)"><rect/><foreignObject width="190.953125" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>US business bank<br />Relay / Wise / Brex — verify first</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-E-7" data-look="classic" transform="translate(1224.671875, 42.5)"><rect class="basic label-container" style="" x="-96.09375" y="-34.5" width="192.1875" height="69"/><g class="label" style="" transform="translate(-66.09375, -19.5)"><rect/><foreignObject width="132.1875" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>SBV forex registration<br />+ NIIS declaration</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-F-9" data-look="classic" transform="translate(1459.7265625, 42.5)"><rect class="basic label-container" style="" x="-88.9609375" y="-34.5" width="177.921875" height="69"/><g class="label" style="" transform="translate(-58.9609375, -19.5)"><rect/><foreignObject width="117.921875" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Operate<br />annual 5472 + 1120</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-G-11" data-look="classic" transform="translate(1658.265625, 42.5)"><rect class="basic label-container" style="" x="-59.578125" y="-34.5" width="119.15625" height="69"/><g class="label" style="" transform="translate(-29.578125, -19.5)"><rect/><foreignObject width="59.15625" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Distribute<br />profit</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-H-13" data-look="classic" transform="translate(1848.9296875, 42.5)"><rect class="basic label-container" style="" x="-81.0859375" y="-34.5" width="162.171875" height="69"/><g class="label" style="" transform="translate(-51.0859375, -19.5)"><rect/><foreignObject width="102.171875" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Repatriate to VN<br />within 12 months</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-I-15" data-look="classic" transform="translate(2064.6875, 42.5)"><rect class="basic label-container" style="" x="-84.671875" y="-34.5" width="169.34375" height="69"/><g class="label" style="" transform="translate(-54.671875, -19.5)"><rect/><foreignObject width="109.34375" height="39"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>VN PIT<br />worldwide income</p></span></div></foreignObject></g></g><g class="node default" id="dwg0701-flowchart-X-17" data-look="classic" transform="translate(953.1015625, 151.75)"><rect class="basic label-container" style="" x="-61.7265625" y="-24.75" width="123.453125" height="49.5"/><g class="label" style="" transform="translate(-31.7265625, -9.75)"><rect/><foreignObject width="63.453125" height="19.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Mercury ✕</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="dwg0701-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dwg0701-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="dwg0701-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#1C1B17" stop-opacity="1"/><stop offset="100%" stop-color="hsl(48.75, 0%, 80.9803921569%)" stop-opacity="1"/></linearGradient></svg>
+    </div>
+  </figure>
+  <details>
+    <summary class="dds-evidence">Mermaid source — DWG 07-01</summary>
+    <pre><code>flowchart LR
+    A["Form US LLC + registered agent"] --> B["EIN, non-SSN route"]
+    B --> C["Stripe account, holder: LLC"]
+    C --> D["US business bank — verify first"]
+    D --> E["SBV forex registration + NIIS"]
+    E --> F["Operate, annual 5472 + 1120"]
+    F --> G["Distribute profit"]
+    G --> H["Repatriate to VN within 12 months"]
+    H --> I["VN PIT, worldwide income"]
+    C -. "Mercury: prohibited (VN residence)" .-> X["Mercury"]</code></pre>
+  </details>
+  <div class="dds-titleblock">
+    <div><b>Legal setup pipeline — VN national, US LLC</b>dossier § 07 · ordered pipeline</div>
+    <div><b>Rev 2026-07-11</b><span class="dds-tb-status verified">verified</span></div>
+    <div><b>DWG 07-01</b>sheet 1/1</div>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s08">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 08</span><h2>Employment conflict — the contract is the decisive document</h2></div>
+
+  <div class="dds-row">
+    <div>
+      <p>Under Irish law, side-project ownership turns almost entirely on the employment contract and the "course of employment" test, not on a sweeping statutory grab. CRRA 2000 s.23(1) makes the author first owner of copyright unless the work is made in the course of employment — and even that yields to "any agreement to the contrary". The Patents Act 1992 s.16(1) is only a choice-of-law rule; employee-invention ownership falls to Irish common law plus the contract.<span class="dds-snref">22</span> A genuine side project built outside employment defaults to the author. The refuted companion claim matters too: there is no clean "inventor owns by default" rule for employees — the common-law course-of-employment test fills the gap.<span class="dds-snref">23</span></p>
+      <p>What follows is proximity <em>analysis</em>, not verified law: the employer's platform is Stripe Connect + Issuing for business card programmes — connected-account KYB onboarding, card issuance with spending controls, funding transfers, webhook mirroring into a banking core, expense-card products for European businesses. Distance from that stack is the safety variable.</p>
+    </div>
+    <aside class="dds-sidenote">
+      <div><span class="dds-sn-num">22.</span> <span class="dds-evidence">irishstatutebook.ie — CRRA 2000 s.23; Patents Act 1992 s.16</span> — vote 9–0; consolidated text checked to 2024 amendments.</div>
+      <div style="margin-top:8px"><span class="dds-sn-num">23.</span> <span class="dds-evidence">"inventor-owns default" claim</span> — refuted 0–3. No Irish precedent on off-hours side-project IP surfaced; enforcement practice is an open question.</div>
+    </aside>
+  </div>
+
+  <div class="dds-table-wrap">
+    <table class="dds-table">
+      <thead>
+        <tr><th>Product territory</th><th>Proximity</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Stripe Issuing cards of any kind — stablecoin-backed cards, expense cards, spend controls, KYB onboarding tools, card-webhook / ledger infrastructure</td>
+          <td><span class="dds-chip crit">collision</span></td>
+          <td>This is the employer's exact product and the day job's knowledge. Highest IP-contamination and duty-of-fidelity risk; gated behind a US/EU Connect platform anyway.</td>
+        </tr>
+        <tr>
+          <td>B2B payments or treasury platforms for European SMEs; anything marketed as business expense management</td>
+          <td><span class="dds-chip warn">close</span></td>
+          <td>Same customer, adjacent problem. Even if legally defensible, it invites the dispute.</td>
+        </tr>
+        <tr>
+          <td>Open Issuance branded coin; SEA-focused stablecoin invoicing (own funds only)</td>
+          <td><span class="dds-chip warn">judgement</span></td>
+          <td>Fintech, but not card issuing and not the employer's market. Check contract wording first; disclose if the clause is broad.</td>
+        </tr>
+        <tr>
+          <td>ACP merchant tooling; ecommerce AI SaaS; affiliate / content</td>
+          <td><span class="dds-chip ok">distant</span></td>
+          <td>Different buyers, different problem space, no overlap with card issuing or business payments.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Hygiene checklist</strong> <span class="dds-chip neutral">analysis</span> — in order, because each step gates the next:</p>
+  <ol>
+    <li>Read the contract clauses on IP-assignment scope, the "course of employment" definition, exclusivity/moonlighting, and non-compete — before writing code.</li>
+    <li>Personal hardware, personal accounts, personal time only. Never employer laptops, repositories, snippets, or internal documents.</li>
+    <li>Keep the side project entirely out of employer systems.</li>
+    <li>If the assignment clause reads "any IP created during employment" rather than "in the course of employment", get written clarification or consent before building anything fintech-shaped.</li>
+    <li>Never solicit employer customers or use non-public employer knowledge (fraud thresholds, vendor terms, roadmap).</li>
+  </ol>
+</section>
+
+<!-- ================================================================ -->
+<section class="dds-section" id="s09">
+  <div class="dds-sec-h"><span class="dds-sec-num">§ 09</span><h2>Watchlist, open questions, and refuted claims</h2></div>
+
+  <div class="dds-table-wrap">
+    <table class="dds-table">
+      <thead>
+        <tr><th>Standing item</th><th>What resolves it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Open USD launch ("later 2026")</td><td>Builder-facing APIs and economics reaching non-consortium developers.</td></tr>
+        <tr><td>Stripe token billing</td><td>General availability; join the waitlist now (free).</td></tr>
+        <tr><td>Stablecoin cards / bank payouts / global payouts</td><td>GA plus eligibility beyond US/EU Connect platforms.</td></tr>
+        <tr><td>Bridge / Open Issuance KYB</td><td>Whether a foreign-owned single-member US LLC passes onboarding.</td></tr>
+        <tr><td>US banking for VN-resident founders</td><td>Direct verification with Relay / Wise Business / Brex — unverified as of this dossier.</td></tr>
+        <tr><td>VN Digital Technology Industry Law</td><td>Concrete stablecoin-holding rules for residents from 2026-01-01.</td></tr>
+        <tr><td>Irish enforcement precedent</td><td>Any case law on employers claiming off-hours side-project IP.</td></tr>
+        <tr><td>Micro-SaaS / Shopify revenue distribution</td><td>A verifiable benchmark; only churn/retention economics are established.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dds-table-wrap">
+    <table class="dds-table">
+      <thead>
+        <tr><th>Refuted in verification — do not reuse</th><th class="dds-num">Vote</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Stripe Atlas: "bank account and payments in two business days, free first-year agent"</td><td class="dds-num">0–3</td></tr>
+        <tr><td>"Stripe's hosted Product Discovery forecloses third-party feed tooling"</td><td class="dds-num">0–3</td></tr>
+        <tr><td>"OUSD reserve yield flows to consortium partners" — builder economics unknown</td><td class="dds-num">1–2</td></tr>
+        <tr><td>"Irish patent law defaults ownership to the inventor" — no clean employee default exists</td><td class="dds-num">0–3</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="dds-verdict" data-label="Recommendation">
+  <h3>Build ACP merchant tooling first, priced like B2B software — and keep anything card-issuing-shaped off the table.</h3>
+  <p>The agentic lane is the only one that is open today, holds no funds, and sits safely distant from the employer's business; the churn evidence says to charge $250+/mo to few customers rather than $19/mo to many. The stablecoin lane is worth positioning for, not building on, until the gates open.</p>
+  <ol>
+    <li>Read the employment contract's IP-assignment and moonlighting clauses — this gates everything.</li>
+    <li>Verify banking (Relay / Wise / Brex) directly before forming the LLC; Mercury is closed.</li>
+    <li>Join the token-billing and global-payout waitlists now.</li>
+    <li>Ship the ACP conformance monitor as the first product; the spec's quarterly breaking changes are its retention engine.</li>
+  </ol>
+</div>
+
+<footer class="dds-colophon">
+  <div>Stripe side-project dossier · 2026-07-11 · not legal or tax advice — engage a Vietnamese tax adviser and an Irish employment solicitor before acting</div>
+  <div>Dexter · DDS v1.1.0</div>
+</footer>
+
+</div>
+</div>
