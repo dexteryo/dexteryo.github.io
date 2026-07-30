@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phosphor — living style guide</title>
+<link rel="stylesheet" href="phosphor.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .sw { width: 108px; font-size: 10.5px; }
+  .sw i { display: block; height: 34px; border: 1px solid var(--phos-border); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--phos-muted); }
+  .demo-note { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+               color: var(--phos-muted); margin: 24px 0 10px; }
+  .panel-demo { border: 1px dashed var(--phos-border); padding: 24px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .chip-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  #phos-toggle { position: fixed; top: 12px; right: 12px; cursor: pointer;
+                 font: 700 11px var(--phos-mono); letter-spacing: .08em;
+                 color: var(--phos-muted); background: var(--phos-surface);
+                 border: 1px solid var(--phos-strong); padding: 5px 10px; }
+  #phos-toggle:hover { color: var(--phos-accent); border-color: var(--phos-accent); }
+</style>
+</head>
+<body class="phos-doc">
+<div class="phos-page">
+
+  <header>
+    <div class="phos-eyebrow">Phosphor · v1.0.0 · Living style guide</div>
+    <h1 class="phos-title">If it's on screen, it means something</h1>
+    <p class="phos-subtitle">An engineering-console design system: phosphor green on near-black, one monospace family, zero decoration. Dark-first; the light theme is a paper terminal. No scanlines, no flicker — the aesthetic is carried by type, colour, and furniture.</p>
+    <dl class="phos-meta">
+      <div><dt>Owner</dt><dd>Dexter</dd></div>
+      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
+      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Stylesheet</dt><dd><a href="phosphor.css">phosphor.css</a></dd></div>
+      <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+    </dl>
+  </header>
+
+  <!-- ============ 01 PRINCIPLES ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 01</span><h2>Principles</h2></div>
+    <p><strong>Signal density over decoration.</strong> A console shows state, not styling. Every rule-line, chip, and colour on this page encodes something true about the content; anything that encodes nothing is deleted. <span class="phos-ref">src: README.md §2 · 2026-07-30</span></p>
+    <p><strong>Green is a claim.</strong> The phosphor accent is the same colour as <span class="phos-chip ok">[ OK ]</span> — it marks what is healthy, verified, or the one emphasis. When you see green, something is real. It is never a border for taste.</p>
+    <p><strong>One family, everywhere.</strong> Body, headings, tables, labels — all monospace. Hierarchy comes from size, weight, and colour, never from a second typeface. A serif sneaking into a heading is a defect.</p>
+    <p><strong>Restraint over cosplay.</strong> No scanlines, no screen curvature, no flicker, no boot sequences. The motion budget is one blinking cursor (the h1, disabled under reduced motion) and the glow budget is one text-shadow (the h1, dark theme only).</p>
+    <p><strong>Dark-first, but the printout is first-class.</strong> The default screen is the dark terminal; the light theme is a DEC paper terminal — warm paper, deep green ink, no glow. Tokens flip; components never restyle per theme.</p>
+  </section>
+
+  <!-- ============ 02 TOKENS ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 02</span><h2>Tokens</h2></div>
+    <p>All values live as CSS custom properties in <a href="phosphor.css"><code>phosphor.css</code></a> — dark defaults, a light counterpart, and explicit <code>data-theme</code> overrides. Components never hard-code colour. Swatches show the current theme's resolved values.</p>
+
+    <p class="demo-note">Grounds &amp; ink</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--phos-ground)"></i><span>--phos-ground</span></div>
+      <div class="sw"><i style="background:var(--phos-surface)"></i><span>--phos-surface</span></div>
+      <div class="sw"><i style="background:var(--phos-border)"></i><span>--phos-border</span></div>
+      <div class="sw"><i style="background:var(--phos-strong)"></i><span>--phos-strong</span></div>
+      <div class="sw"><i style="background:var(--phos-ink)"></i><span>--phos-ink</span></div>
+      <div class="sw"><i style="background:var(--phos-muted)"></i><span>--phos-muted</span></div>
+    </div>
+
+    <p class="demo-note">Accent &amp; semantics</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--phos-accent)"></i><span>--phos-accent · ok / verified</span></div>
+      <div class="sw"><i style="background:var(--phos-warn)"></i><span>--phos-warn · degraded</span></div>
+      <div class="sw"><i style="background:var(--phos-crit)"></i><span>--phos-crit · failing</span></div>
+      <div class="sw"><i style="background:var(--phos-info)"></i><span>--phos-info · informational</span></div>
+    </div>
+
+    <p class="demo-note">Data-viz categorical (use in order)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--phos-v1)"></i><span>--phos-v1</span></div>
+      <div class="sw"><i style="background:var(--phos-v2)"></i><span>--phos-v2</span></div>
+      <div class="sw"><i style="background:var(--phos-v3)"></i><span>--phos-v3</span></div>
+      <div class="sw"><i style="background:var(--phos-v4)"></i><span>--phos-v4</span></div>
+      <div class="sw"><i style="background:var(--phos-v5)"></i><span>--phos-v5</span></div>
+      <div class="sw"><i style="background:var(--phos-v6)"></i><span>--phos-v6</span></div>
+    </div>
+
+    <p class="demo-note">Type · one role, one family</p>
+    <p style="font-size:12.5px;">--phos-mono = <code>"SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace</code>. Body 14px/1.6 · tables 13px · labels 10–11px uppercase letterspaced (<code>.phos-label</code>) · digits tabular (<code>.phos-num</code>, right-aligned with <code>.phos-right</code>).</p>
+
+    <p class="demo-note">Spacing · 4px scale</p>
+    <p style="font-size:12.5px;">--phos-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale. No radii anywhere — everything is square.</p>
+  </section>
+
+  <!-- ============ 03 DOCUMENT MODE ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 03</span><h2>Document mode</h2></div>
+    <p>For investigations, post-mortems, and run-books: <code>&lt;body class="phos-doc"&gt;</code>. Prose capped at 70ch; section headers are rule-lines built with flex and borders (never typed <code>─</code> glyphs) so the tail stretches; claims carry inline bracketed evidence refs. Everything below is live demo content from a fictional payments platform.</p>
+
+    <p class="demo-note">Headline-stats strip</p>
+    <div class="phos-stats">
+      <div><div class="phos-stat-label">Transfers settled</div><div class="phos-stat-value">12,408</div></div>
+      <div><div class="phos-stat-label">Float balance</div><div class="phos-stat-value">€2.4<span class="phos-unit">M</span></div></div>
+      <div><div class="phos-stat-label">Recon gap</div><div class="phos-stat-value">0.02<span class="phos-unit">%</span></div></div>
+      <div><div class="phos-stat-label">Unmatched rows</div><div class="phos-stat-value">17</div></div>
+    </div>
+
+    <p class="demo-note">Prose with evidence refs + pull line</p>
+    <p>The <code>FundsRouter</code> retries a failed SEPA submission exactly once, then parks the transfer in <code>HELD</code> — there is no third attempt anywhere in the estate. <span class="phos-ref">src: FundsRouter.java:214 · 2026-07-30</span> The nightly reconciliation job compares the float, the wallet ledger, and the journal; a per-wallet gap over €1 pages the on-call. <span class="phos-ref">src: ReconJob.kt:88 · PAY-2113</span></p>
+    <blockquote class="phos-pull"><strong>Money moves once; ledgers remember it twice.</strong> The drift window between the mirrors is the exposure — the transfer itself cannot drift.</blockquote>
+
+    <p class="demo-note">Table with total rule</p>
+    <div class="phos-table-wrap">
+      <table class="phos-table">
+        <thead><tr><th>Rail</th><th>Mechanism</th><th>Status</th><th class="phos-num">Volume (Jun)</th></tr></thead>
+        <tbody>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td><span class="phos-chip ok">[ OK ]</span></td><td class="phos-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td><span class="phos-chip ok">[ OK ]</span></td><td class="phos-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td><span class="phos-chip warn">[WARN]</span></td><td class="phos-num">€98,400</td></tr>
+          <tr class="phos-total"><td>Total in</td><td></td><td></td><td class="phos-num">€2,166,390</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="demo-note">Code — $ prompt + thin left border · inline code</p>
+    <pre><span class="phos-ps">$</span> kubectl -n payments rollout status deploy/funds-router
+deployment "funds-router" successfully rolled out
+<span class="phos-ps">$</span> psql -c "select count(*) from transfers where state = 'HELD'"
+ 17</pre>
+    <p>Config lives in <code>recon.yaml</code>; the threshold key is <code>alert.gap_eur</code>.</p>
+
+    <p class="demo-note">Verdict box — double frame, bracketed label</p>
+    <div class="phos-verdict" data-label="Verdict">
+      <h3>Reconcile the mirrors nightly, not monthly.</h3>
+      <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
+      <ol>
+        <li>Schedule the comparison job keyed on wallet ID.</li>
+        <li>Alert on any per-wallet gap over €1.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 04 PANEL MODE ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 04</span><h2>Panel mode</h2></div>
+    <p>For dashboards and registers: <code>&lt;body class="phos-panels"&gt;</code>. TUI cells with 1px borders (htop/k9s energy), reversed-video panel headers, metric cards with green values, dot-leader key–value rows, dense 13px tables. No shadows — borders carry all elevation.</p>
+
+    <p class="demo-note">Live demo — board header, metric grid, panels, chips</p>
+    <div class="phos-panels panel-demo">
+      <div class="phos-board-h"><h1>Payments fleet</h1><span class="phos-board-meta">eu-west-1 · updated 2026-07-30 14:02Z</span></div>
+
+      <div class="phos-metric-grid">
+        <div class="phos-metric"><div class="phos-metric-l">Transfers today</div><div class="phos-metric-v">1,284</div></div>
+        <div class="phos-metric"><div class="phos-metric-l">Failed</div><div class="phos-metric-v">3</div></div>
+        <div class="phos-metric"><div class="phos-metric-l">P95 latency</div><div class="phos-metric-v">412<span class="phos-unit">ms</span></div></div>
+        <div class="phos-metric"><div class="phos-metric-l">Queue depth</div><div class="phos-metric-v">0</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="phos-panel">
+          <div class="phos-panel-h"><h3>funds-router</h3><span class="phos-panel-meta">eu-west-1</span></div>
+          <div class="phos-panel-b">
+            <div class="phos-kv"><span>Version</span><i class="phos-leader"></i><b>v4.2.1</b></div>
+            <div class="phos-kv"><span>Idempotency</span><i class="phos-leader"></i><b>order-scoped</b></div>
+            <div class="phos-kv"><span>Last deploy</span><i class="phos-leader"></i><b>2026-07-29 18:40Z</b></div>
+            <div class="phos-kv"><span>Held transfers</span><i class="phos-leader"></i><b>17</b></div>
+          </div>
+        </div>
+        <div class="phos-panel">
+          <div class="phos-panel-h"><h3>Risk register</h3><span class="phos-panel-meta">4 open</span></div>
+          <div class="phos-panel-b">
+            <div class="phos-reg-row"><span class="phos-dot crit"></span><b>Auth rule in placeholder state</b><span class="phos-reg-meta">RISK-101</span></div>
+            <div class="phos-reg-row"><span class="phos-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="phos-reg-meta">RISK-097</span></div>
+            <div class="phos-reg-row"><span class="phos-dot info"></span><b>SEPA cut-off moved to 16:00</b><span class="phos-reg-meta">notice</span></div>
+            <div class="phos-reg-row"><span class="phos-dot ok"></span><b>One-way valve verified</b><span class="phos-reg-meta">closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-note">Status vocabulary — bracket chips (typed, six characters) + ▪ dots</p>
+      <div class="chip-row">
+        <span class="phos-chip ok">[ OK ]</span>
+        <span class="phos-chip warn">[WARN]</span>
+        <span class="phos-chip crit">[CRIT]</span>
+        <span class="phos-chip info">[INFO]</span>
+        <span class="phos-chip neutral">[ -- ]</span>
+        <span style="color:var(--phos-muted); font-size:12px;">·</span>
+        <span class="phos-dot ok"></span>
+        <span class="phos-dot warn"></span>
+        <span class="phos-dot crit"></span>
+        <span class="phos-dot info"></span>
+        <span class="phos-dot neutral"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 DIAGRAMS ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 05</span><h2>Diagrams</h2></div>
+    <p>Diagrams stay vector — inline SVG or Mermaid — <strong>never ASCII art</strong>, however tempting the terminal aesthetic makes it. Architecture and funds-flow drawings reuse the DDS Tier-1 grammar recoloured with <code>--phos-*</code> tokens (money = ok green, manual = warn, mirror = info, blocked = crit); recolour the grammar, never reinterpret it. The Mermaid catalogue pre-renders to static SVG with this directory's dark-themed config:</p>
+    <pre><span class="phos-ps">$</span> npx -y @mermaid-js/mermaid-cli -i d.mmd -o d.svg --configFile mermaid-config.json</pre>
+    <p>Pre-rendered SVG is dark-baked: pin its figure to the dark ground (<code>background:#0A0F0C</code>, the one sanctioned literal hex) so it survives the paper-terminal theme. Every diagram carries a caption with revision date and status.</p>
+  </section>
+
+  <!-- ============ 06 FOR AI AGENTS ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h"><span class="phos-sec-num">§ 06</span><h2>Using this system with AI agents</h2></div>
+    <p>The agent-facing contract is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-phosphor</code> skill loads it automatically.</p>
+    <pre>Generate the report as HTML using the Phosphor design system:
+https://dexteryo.github.io/design-systems/phosphor/
+(spec: README.md, tokens: phosphor.css)
+Inline the stylesheet if the output must be self-contained.</pre>
+  </section>
+
+  <footer class="phos-statusline">
+    <span class="phos-sl-mode">Guide</span>
+    <span class="phos-sl-item">phosphor · living style guide</span>
+    <span class="phos-sl-fill"></span>
+    <span class="phos-sl-item">2026-07-30</span>
+    <span class="phos-sl-item">v1.0.0</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var stored = null;
+  try { stored = localStorage.getItem("phos-theme"); } catch (e) {}
+  if (stored === "light" || stored === "dark") root.setAttribute("data-theme", stored);
+
+  function current() {
+    var t = root.getAttribute("data-theme");
+    if (t) return t;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+
+  var btn = document.createElement("button");
+  btn.id = "phos-toggle";
+  btn.className = "phos-no-print";
+  function label() { btn.textContent = "[ THEME: " + current().toUpperCase() + " ]"; }
+  btn.addEventListener("click", function () {
+    var next = current() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("phos-theme", next); } catch (e) {}
+    label();
+  });
+  label();
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

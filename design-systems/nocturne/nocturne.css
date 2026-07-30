@@ -1,0 +1,632 @@
+/* ==========================================================================
+   NOCTURNE — canonical stylesheet
+   v1.0.0 · 2026-07-30
+   Canonical home:  https://dexteryo.github.io/design-systems/nocturne/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/nocturne/nocturne.css
+   Spec for agents: README.md in the same directory
+
+   Modern dark product UI, done with discipline — the Linear/Vercel lineage
+   without the theatre. DARK-FIRST: the default token block is dark, light is
+   the counterpart. Near-black surfaces, hairline borders instead of shadows,
+   one restrained indigo accent, and contrast doing all the hierarchy work.
+   Explicitly NOT the generic AI look: no gradient heroes, no gradient text,
+   no glassmorphism, no glow.
+
+     Document mode (.noct-doc)    — long-form on the dark ground with a
+                                    slightly raised content column, sans body,
+                                    accent mono section numbers (01 —).
+     Panel mode    (.noct-panels) — the flagship: metric card grids, panels
+                                    with header strips, key–value rows,
+                                    register rows with status dots, chips.
+
+   The one shadow in the system is the card's one-pixel top inner highlight
+   (inset 0 1px 0). Everything else is borders. Elevation = border + a step
+   up the surface scale (ground → surface → raised), never a drop shadow.
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS (dark is the default — this system sleeps with the lights off) */
+:root {
+  /* Type. Sans everywhere; mono for machine truth (metrics, refs, values).
+     Display weights sit 550–650 with tight tracking — never 300-thin on a
+     dark ground, where light strokes shimmer and break. */
+  --noct-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+  --noct-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Spacing scale (4px base). Stay on the scale. */
+  --noct-s1: 4px;  --noct-s2: 8px;  --noct-s3: 12px; --noct-s4: 16px;
+  --noct-s5: 24px; --noct-s6: 32px; --noct-s7: 48px; --noct-s8: 64px;
+
+  /* Radii: 8px panels · 6px small elements · full-round pills. */
+  --noct-r-panel: 8px;
+  --noct-r-sm: 6px;
+  --noct-r-pill: 999px;
+
+  /* Surface scale. Three steps of near-black; each step up is "closer to
+     the reader". Borders separate; surfaces order. */
+  --noct-ground:  #0E1015;
+  --noct-surface: #14161D;
+  --noct-raised:  #1A1D26;
+  --noct-border:        #262A35;
+  --noct-border-subtle: #1E2129;
+
+  /* Ink scale. ink ≈ 15.8:1 on ground; muted ≈ 7.3:1; faint ≈ 3.8:1 —
+     faint is for hints and hairline glyphs only, never load-bearing text. */
+  --noct-ink:   #E8EAF1;
+  --noct-muted: #9AA0B0;
+  --noct-faint: #6A7080;
+
+  /* The single accent: a restrained indigo. Text/line form is the light
+     #8A91F5 (6.8:1 on ground); the solid fill form is #5E6AD2 for the rare
+     filled element. accent-ink is the text colour ON the light accent. */
+  --noct-accent:          #8A91F5;
+  --noct-accent-ink:      #101128;
+  --noct-accent-fill:     #5E6AD2;
+  --noct-accent-fill-ink: #FFFFFF;
+  --noct-accent-bg:       #1B1D33;
+
+  /* Semantics: text colour + a deep tinted ground for chips. All ≥ 4.5:1
+     against ground and surface. */
+  --noct-ok:   #4CC38A;  --noct-ok-bg:   #12291E;
+  --noct-warn: #F0B44C;  --noct-warn-bg: #2C2213;
+  --noct-crit: #EF6F6C;  --noct-crit-bg: #2E1717;
+  --noct-info: #62A6F9;  --noct-info-bg: #14233A;
+
+  /* Data-viz categorical palette. Declared once; use in order. */
+  --noct-v1: #8A91F5; --noct-v2: #62A6F9; --noct-v3: #4CC38A;
+  --noct-v4: #F0B44C; --noct-v5: #EF6F6C; --noct-v6: #C792EA;
+
+  /* The system's only shadow: a one-pixel near-white top inner highlight
+     that reads as machined edge light on a dark card. */
+  --noct-highlight: rgba(232, 234, 241, 0.07);
+
+  /* Dot-grid ink for the hero/header helper. */
+  --noct-dot: rgba(232, 234, 241, 0.09);
+
+  /* Code ground: one step below the surface it sits on. */
+  --noct-code-bg: #10121A;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --noct-ground:  #F7F8FA;
+    --noct-surface: #FFFFFF;
+    --noct-raised:  #FFFFFF;
+    --noct-border:        #E4E6EC;
+    --noct-border-subtle: #ECEEF2;
+
+    --noct-ink:   #1B1D25;
+    --noct-muted: #6A7080;
+    --noct-faint: #9AA0B0;
+
+    --noct-accent:          #4F58C4;
+    --noct-accent-ink:      #FFFFFF;
+    --noct-accent-fill:     #4F58C4;
+    --noct-accent-fill-ink: #FFFFFF;
+    --noct-accent-bg:       #E9EBFA;
+
+    --noct-ok:   #1F7A4D;  --noct-ok-bg:   #E2F1E9;
+    --noct-warn: #8A6100;  --noct-warn-bg: #F5ECD7;
+    --noct-crit: #C13F3B;  --noct-crit-bg: #F9E4E3;
+    --noct-info: #2F6BBF;  --noct-info-bg: #E4EDF9;
+
+    --noct-v1: #4F58C4; --noct-v2: #2F6BBF; --noct-v3: #1F7A4D;
+    --noct-v4: #8A6100; --noct-v5: #C13F3B; --noct-v6: #8348B8;
+
+    --noct-highlight: rgba(255, 255, 255, 0.85);
+    --noct-dot: rgba(27, 29, 37, 0.10);
+    --noct-code-bg: #F2F3F7;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="dark"] {
+  --noct-ground: #0E1015; --noct-surface: #14161D; --noct-raised: #1A1D26;
+  --noct-border: #262A35; --noct-border-subtle: #1E2129;
+  --noct-ink: #E8EAF1; --noct-muted: #9AA0B0; --noct-faint: #6A7080;
+  --noct-accent: #8A91F5; --noct-accent-ink: #101128;
+  --noct-accent-fill: #5E6AD2; --noct-accent-fill-ink: #FFFFFF;
+  --noct-accent-bg: #1B1D33;
+  --noct-ok: #4CC38A; --noct-ok-bg: #12291E;
+  --noct-warn: #F0B44C; --noct-warn-bg: #2C2213;
+  --noct-crit: #EF6F6C; --noct-crit-bg: #2E1717;
+  --noct-info: #62A6F9; --noct-info-bg: #14233A;
+  --noct-v1: #8A91F5; --noct-v2: #62A6F9; --noct-v3: #4CC38A;
+  --noct-v4: #F0B44C; --noct-v5: #EF6F6C; --noct-v6: #C792EA;
+  --noct-highlight: rgba(232, 234, 241, 0.07);
+  --noct-dot: rgba(232, 234, 241, 0.09);
+  --noct-code-bg: #10121A;
+}
+:root[data-theme="light"] {
+  --noct-ground: #F7F8FA; --noct-surface: #FFFFFF; --noct-raised: #FFFFFF;
+  --noct-border: #E4E6EC; --noct-border-subtle: #ECEEF2;
+  --noct-ink: #1B1D25; --noct-muted: #6A7080; --noct-faint: #9AA0B0;
+  --noct-accent: #4F58C4; --noct-accent-ink: #FFFFFF;
+  --noct-accent-fill: #4F58C4; --noct-accent-fill-ink: #FFFFFF;
+  --noct-accent-bg: #E9EBFA;
+  --noct-ok: #1F7A4D; --noct-ok-bg: #E2F1E9;
+  --noct-warn: #8A6100; --noct-warn-bg: #F5ECD7;
+  --noct-crit: #C13F3B; --noct-crit-bg: #F9E4E3;
+  --noct-info: #2F6BBF; --noct-info-bg: #E4EDF9;
+  --noct-v1: #4F58C4; --noct-v2: #2F6BBF; --noct-v3: #1F7A4D;
+  --noct-v4: #8A6100; --noct-v5: #C13F3B; --noct-v6: #8348B8;
+  --noct-highlight: rgba(255, 255, 255, 0.85);
+  --noct-dot: rgba(27, 29, 37, 0.10);
+  --noct-code-bg: #F2F3F7;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.noct-doc, .noct-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.noct-doc *, .noct-doc *::before, .noct-doc *::after,
+.noct-panels *, .noct-panels *::before, .noct-panels *::after { box-sizing: inherit; }
+
+/* Links carry the accent — the one place colour means "actionable". No
+   underline at rest on a product surface; it appears on hover. */
+.noct-doc a, .noct-panels a {
+  color: var(--noct-accent);
+  text-decoration: none;
+}
+.noct-doc a:hover, .noct-panels a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.noct-doc :focus-visible, .noct-panels :focus-visible {
+  outline: 2px solid var(--noct-accent); outline-offset: 2px;
+  border-radius: 2px;
+}
+.noct-doc img, .noct-panels img { max-width: 100%; height: auto; }
+.noct-doc ::selection, .noct-panels ::selection {
+  background: var(--noct-accent); color: var(--noct-accent-ink);
+}
+
+.noct-mono { font-family: var(--noct-mono); }
+.noct-num { font-variant-numeric: tabular-nums; }
+.noct-right { text-align: right; }
+
+/* Overline: the system's label voice — letterspaced uppercase, small,
+   sans. Sits above titles, on panel headers, on the verdict. */
+.noct-overline {
+  font-family: var(--noct-sans);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--noct-muted);
+}
+
+/* Card: THE Nocturne surface. 1px border plus the one-pixel top inner
+   highlight — the only shadow in the system. Reads as edge light, not
+   elevation theatre. */
+.noct-card {
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+}
+
+/* Dot grid: a quiet machined texture for hero/header areas. Pure CSS,
+   token-driven, self-contained. Never behind body text — headers only. */
+.noct-dotgrid {
+  background-image: radial-gradient(circle, var(--noct-dot) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Keyboard key: bordered cap with a thicker bottom edge for depth —
+   borders carry the dimensionality, not shadows. */
+.noct-kbd {
+  display: inline-block;
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 500;
+  line-height: 1;
+  color: var(--noct-ink);
+  background: var(--noct-raised);
+  border: 1px solid var(--noct-border);
+  border-bottom-width: 2px;
+  border-radius: var(--noct-r-sm);
+  padding: 3px 6px 2px;
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  vertical-align: baseline;
+}
+
+/* Ref pill: evidence as a visual element. file:line, ticket, or date in a
+   small bordered mono pill, inline with the claim it supports. */
+.noct-ref {
+  display: inline-block;
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 400;
+  line-height: 1.5;
+  color: var(--noct-muted);
+  background: var(--noct-ground);
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-sm);
+  padding: 0 6px;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+/* Long-form on the dark ground. The content column is slightly raised —
+   surface over ground, hairline border, edge highlight — so the document
+   itself is the card. Sans body at 15px; measure capped at 68ch. */
+.noct-doc {
+  background: var(--noct-ground);
+  color: var(--noct-ink);
+  font-family: var(--noct-sans);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.noct-doc .noct-page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--noct-s6) var(--noct-s4) 96px;
+}
+.noct-doc .noct-col {
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border-subtle);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  padding: var(--noct-s7) var(--noct-s7) var(--noct-s7);
+}
+@media (max-width: 640px) {
+  .noct-doc .noct-page { padding: var(--noct-s4) var(--noct-s2) var(--noct-s7); }
+  .noct-doc .noct-col { padding: var(--noct-s5) var(--noct-s4); }
+}
+
+/* Eyebrow: the overline voice, above the title. */
+.noct-eyebrow {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--noct-muted);
+  margin: 0 0 var(--noct-s4);
+}
+
+/* Title: 550–650 weight, tight tracking. Never thin on dark. */
+.noct-title {
+  font-weight: 650;
+  font-size: clamp(26px, 4vw, 36px); line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--noct-s3);
+  text-wrap: balance;
+}
+.noct-title em { font-style: normal; color: var(--noct-accent); }
+.noct-subtitle {
+  font-size: 17px; font-weight: 400; line-height: 1.55;
+  color: var(--noct-muted);
+  max-width: 60ch; margin: 0 0 var(--noct-s5);
+}
+
+/* Meta bar: author / date / status. Facts in mono, framed by hairlines. */
+.noct-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--noct-s3) var(--noct-s5);
+  border-top: 1px solid var(--noct-border);
+  border-bottom: 1px solid var(--noct-border);
+  padding: var(--noct-s3) 0; margin: 0 0 var(--noct-s7);
+  font-family: var(--noct-mono); font-size: 12px;
+}
+.noct-meta dt {
+  font-family: var(--noct-sans);
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--noct-muted); margin: 0 0 2px;
+}
+.noct-meta dd { margin: 0; font-weight: 500; }
+
+/* Section heading: accent mono number (01 —) as an overline, then the
+   title. The number is the only accent the heading gets. */
+.noct-section { margin: 0 0 var(--noct-s7); }
+.noct-sec-h {
+  border-top: 1px solid var(--noct-border-subtle);
+  padding-top: var(--noct-s5); margin: var(--noct-s7) 0 var(--noct-s4);
+}
+.noct-sec-h .noct-sec-num {
+  display: block;
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--noct-accent);
+  margin-bottom: var(--noct-s2);
+}
+.noct-sec-h h2 {
+  font-weight: 600;
+  font-size: 22px; line-height: 1.2; letter-spacing: -0.015em;
+  margin: 0;
+}
+.noct-doc h3 {
+  font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
+  margin: var(--noct-s5) 0 var(--noct-s3);
+}
+
+.noct-doc p { max-width: 68ch; margin: 0 0 var(--noct-s4); }
+.noct-doc ul, .noct-doc ol { max-width: 68ch; margin: 0 0 var(--noct-s4); padding-left: 22px; }
+.noct-doc li { margin-bottom: var(--noct-s1); }
+.noct-doc strong { font-weight: 600; }
+
+/* Code: one surface step down, hairline frame. */
+.noct-doc code, .noct-panels code {
+  font-family: var(--noct-mono); font-size: 0.86em;
+  background: var(--noct-code-bg);
+  border: 1px solid var(--noct-border-subtle);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.noct-doc pre, .noct-panels pre {
+  background: var(--noct-code-bg);
+  border: 1px solid var(--noct-border-subtle);
+  border-radius: var(--noct-r-sm);
+  padding: var(--noct-s4);
+  overflow-x: auto;
+  font-family: var(--noct-mono); font-size: 12.5px; line-height: 1.6;
+  margin: 0 0 var(--noct-s4);
+}
+.noct-doc pre code, .noct-panels pre code {
+  background: none; border: 0; padding: 0; font-size: inherit;
+}
+
+/* Pull quote: accent bar, upright type — italic sans on dark goes soft. */
+.noct-pull {
+  border-left: 2px solid var(--noct-accent);
+  margin: var(--noct-s5) 0;
+  padding: var(--noct-s2) 0 var(--noct-s2) var(--noct-s5);
+  font-size: 17px; line-height: 1.55;
+  color: var(--noct-muted); max-width: 58ch;
+}
+.noct-pull strong { color: var(--noct-ink); font-weight: 600; }
+
+/* Tables: hairline rows; overline headers; digits mono + tabular, right. */
+.noct-table-wrap { overflow-x: auto; margin: 0 0 var(--noct-s4); }
+.noct-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.noct-table th {
+  font-family: var(--noct-sans);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--noct-muted); text-align: left;
+  padding: var(--noct-s2) var(--noct-s3);
+  border-bottom: 1px solid var(--noct-border);
+}
+.noct-table td {
+  padding: var(--noct-s2) var(--noct-s3);
+  border-bottom: 1px solid var(--noct-border-subtle);
+  vertical-align: top;
+}
+.noct-table td.noct-num, .noct-table th.noct-num {
+  text-align: right;
+  font-family: var(--noct-mono); font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+/* Total row: closes the account — heavier ink, a raised ground, a firm rule. */
+.noct-table tr.noct-total td {
+  border-top: 1px solid var(--noct-muted);
+  border-bottom: 0;
+  background: var(--noct-raised);
+  font-weight: 600;
+}
+
+/* Stat strip: headline numbers between hairlines. Values are mono —
+   machine truth wears the machine face. */
+.noct-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--noct-s5);
+  border-top: 1px solid var(--noct-border);
+  border-bottom: 1px solid var(--noct-border);
+  padding: var(--noct-s4) 0; margin: 0 0 var(--noct-s5);
+}
+.noct-stat-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--noct-muted); margin-bottom: var(--noct-s1);
+}
+.noct-stat-value {
+  font-family: var(--noct-mono); font-weight: 500;
+  font-size: 24px; line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.noct-stat-value .noct-unit {
+  font-size: 12px; font-weight: 400;
+  color: var(--noct-muted); margin-left: 4px;
+}
+
+/* Verdict: an accent-left-bordered raised card. The label comes from
+   data-label and speaks in the overline voice, in accent. Never an
+   inverted slab, never a gradient. */
+.noct-verdict {
+  background: var(--noct-raised);
+  border: 1px solid var(--noct-border);
+  border-left: 3px solid var(--noct-accent);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  padding: var(--noct-s5) var(--noct-s6);
+  margin: var(--noct-s7) 0 0;
+}
+.noct-verdict::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--noct-accent);
+  margin-bottom: var(--noct-s3);
+}
+.noct-verdict h3 {
+  font-weight: 600; font-size: 19px; line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--noct-s3);
+}
+.noct-verdict p { margin-bottom: var(--noct-s3); }
+.noct-verdict ol, .noct-verdict ul { margin-bottom: 0; }
+
+/* Footer / colophon */
+.noct-colophon {
+  margin-top: var(--noct-s8); padding-top: var(--noct-s4);
+  border-top: 1px solid var(--noct-border);
+  font-family: var(--noct-mono); font-size: 11.5px; color: var(--noct-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--noct-s4);
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+/* The flagship. Dashboards, registers, status boards: instruments on the
+   dark ground. Every value is mono + tabular; every state has a dot or a
+   chip; every surface earns its border. */
+.noct-panels {
+  background: var(--noct-ground);
+  color: var(--noct-ink);
+  font-family: var(--noct-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.noct-panels .noct-page {
+  max-width: 1080px; margin: 0 auto;
+  padding: var(--noct-s6) var(--noct-s4) var(--noct-s8);
+}
+
+/* Board header: page-level title strip. Pairs with .noct-dotgrid when the
+   board wants a hero band. */
+.noct-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--noct-s2) var(--noct-s4);
+  margin: 0 0 var(--noct-s5);
+}
+.noct-board-h h1 {
+  font-size: 19px; font-weight: 600; letter-spacing: -0.015em; margin: 0;
+}
+.noct-board-h .noct-board-meta {
+  margin-left: auto;
+  font-family: var(--noct-mono); font-size: 11.5px;
+  color: var(--noct-muted); font-variant-numeric: tabular-nums;
+}
+
+/* Panel: a card with a header strip. The strip sits one surface step up —
+   raised over surface — so hierarchy comes from the surface scale. */
+.noct-panel {
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  overflow: hidden;
+}
+.noct-panel-h {
+  display: flex; align-items: baseline; gap: var(--noct-s3);
+  padding: var(--noct-s3) var(--noct-s4);
+  background: var(--noct-raised);
+  border-bottom: 1px solid var(--noct-border);
+}
+.noct-panel-h h3 {
+  font-size: 13px; font-weight: 600; letter-spacing: -0.005em; margin: 0;
+}
+.noct-panel-h .noct-panel-meta {
+  margin-left: auto;
+  font-family: var(--noct-mono); font-size: 11px;
+  color: var(--noct-muted); font-variant-numeric: tabular-nums;
+}
+.noct-panel-b { padding: var(--noct-s3) var(--noct-s4); }
+
+/* Key–value rows: label muted, value mono, hairlines between. */
+.noct-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--noct-s4); padding: 7px 0;
+  border-bottom: 1px solid var(--noct-border-subtle);
+  font-size: 13px;
+}
+.noct-kv:last-child { border-bottom: 0; }
+.noct-kv > span:first-child { color: var(--noct-muted); }
+.noct-kv > b, .noct-kv > span:last-child {
+  font-weight: 500; font-family: var(--noct-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: 6px status dot + title + mono meta. */
+.noct-reg-row {
+  display: flex; align-items: center; gap: var(--noct-s3);
+  padding: 9px 0;
+  border-bottom: 1px solid var(--noct-border-subtle);
+  font-size: 13px;
+}
+.noct-reg-row:last-child { border-bottom: 0; }
+.noct-reg-row b { font-weight: 500; }
+.noct-reg-meta {
+  margin-left: auto;
+  font-family: var(--noct-mono); font-size: 11.5px;
+  color: var(--noct-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.noct-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.noct-dot.ok      { background: var(--noct-ok); }
+.noct-dot.warn    { background: var(--noct-warn); }
+.noct-dot.crit    { background: var(--noct-crit); }
+.noct-dot.info    { background: var(--noct-info); }
+.noct-dot.neutral { background: transparent; box-shadow: inset 0 0 0 1.5px var(--noct-muted); }
+
+/* Chips: tinted-ground pills, semantic colour as the text. No border —
+   the tint is the container. Neutral keeps a hairline instead of a tint. */
+.noct-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--noct-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  border-radius: var(--noct-r-pill);
+  padding: 3px 10px; white-space: nowrap;
+}
+.noct-chip.ok      { background: var(--noct-ok-bg);     color: var(--noct-ok); }
+.noct-chip.warn    { background: var(--noct-warn-bg);   color: var(--noct-warn); }
+.noct-chip.crit    { background: var(--noct-crit-bg);   color: var(--noct-crit); }
+.noct-chip.info    { background: var(--noct-info-bg);   color: var(--noct-info); }
+.noct-chip.accent  { background: var(--noct-accent-bg); color: var(--noct-accent); }
+.noct-chip.neutral {
+  background: transparent; color: var(--noct-muted);
+  border: 1px solid var(--noct-border); padding: 2px 9px;
+}
+
+/* Metric cards: label overline + big mono value + muted unit. Each cell is
+   a full Nocturne card — border plus edge highlight. */
+.noct-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--noct-s3);
+}
+.noct-metric {
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  padding: var(--noct-s3) var(--noct-s4);
+}
+.noct-metric-l {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--noct-muted); margin-bottom: var(--noct-s1);
+}
+.noct-metric-v {
+  font-family: var(--noct-mono); font-weight: 500;
+  font-size: 22px; letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums; line-height: 1.15;
+}
+.noct-metric-v .noct-unit {
+  font-size: 12px; font-weight: 400;
+  color: var(--noct-muted); margin-left: 4px;
+}
+
+/* Command line: prompt glyph muted, command in ink. */
+.noct-cmd .noct-ps { color: var(--noct-faint); user-select: none; }
+
+/* ── 5. PRINT ──────────────────────────────────────────────────────────── */
+/* Paper is light-first by physics. Flip to the light palette, drop the
+   textures, hide interactive chrome. */
+@media print {
+  :root, :root[data-theme="dark"] {
+    --noct-ground: #FFFFFF; --noct-surface: #FFFFFF; --noct-raised: #FFFFFF;
+    --noct-border: #C9CCD4; --noct-border-subtle: #DDDFE5;
+    --noct-ink: #000000; --noct-muted: #444955; --noct-faint: #6A7080;
+    --noct-accent: #363D8A; --noct-accent-ink: #FFFFFF;
+    --noct-accent-fill: #363D8A; --noct-accent-fill-ink: #FFFFFF;
+    --noct-accent-bg: #FFFFFF;
+    --noct-ok: #14522F; --noct-ok-bg: #FFFFFF;
+    --noct-warn: #5F4400; --noct-warn-bg: #FFFFFF;
+    --noct-crit: #8A2B27; --noct-crit-bg: #FFFFFF;
+    --noct-info: #1F4B85; --noct-info-bg: #FFFFFF;
+    --noct-highlight: transparent;
+    --noct-dot: transparent;
+    --noct-code-bg: #F2F3F7;
+  }
+  .noct-doc, .noct-panels { background: #FFFFFF; color: #000000; }
+  .noct-doc .noct-col, .noct-card, .noct-panel, .noct-metric, .noct-verdict {
+    box-shadow: none;
+  }
+  .noct-chip { border: 1px solid currentColor; }
+  .noct-theme-toggle { display: none; }
+}

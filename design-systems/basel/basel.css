@@ -1,0 +1,527 @@
+/* ==========================================================================
+   BASEL — canonical stylesheet
+   v1.0.0 · 2026-07-30
+   Canonical home:  https://dexteryo.github.io/design-systems/basel/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/basel/basel.css
+   Spec for agents: README.md in the same directory
+
+   Swiss International Typographic Style — Müller-Brockmann / Ruder
+   rationalism. The grid is visible and load-bearing, type is the only
+   ornament, and there is exactly one red. Hierarchy is built from SIZE and
+   WEIGHT alone: no italics exist anywhere in this system. Everything is
+   flush-left, radius 0, shadow-free.
+
+     Document mode (.bsl-doc)    — long-form reports and investigations.
+                                   Poster-confident headlines, 2px black
+                                   section bars, oversized ghost numerals,
+                                   flush-right monospace evidence lines.
+     Panel mode    (.bsl-panels) — dashboards set like a printed table:
+                                   cells share 1px black rules, values are
+                                   huge and tight, status is a hard square.
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+:root {
+  /* Type. One family carries the whole system; mono is reserved for
+     evidence and machine values. There is no serif and no italic. */
+  --bsl-sans: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+  --bsl-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Spacing scale (4px base). Stay on the scale. */
+  --bsl-s1: 4px;  --bsl-s2: 8px;  --bsl-s3: 12px; --bsl-s4: 16px;
+  --bsl-s5: 24px; --bsl-s6: 32px; --bsl-s7: 48px; --bsl-s8: 64px;
+
+  /* Grounds. Basel is flat: ground and surface are the same white; depth
+     comes from rules, never from tint or shadow. */
+  --bsl-ground:  #FFFFFF;
+  --bsl-surface: #FFFFFF;
+  --bsl-ink:     #0A0A0A;
+  --bsl-muted:   #6B6B6B;
+  --bsl-hairline: #E0E0E0;
+  /* Structural black: the 2px section bars, table header rules, and the
+     shared rules of the panel grid. In dark theme it flips to the ink. */
+  --bsl-structural: #0A0A0A;
+  /* Code ground — the one derived tint, because inline code needs a field. */
+  --bsl-code: #F2F2F2;
+
+  /* The one red. Pantone 186. It is both the signal and the alarm — crit
+     deliberately shares this value — and it is never decoration. */
+  --bsl-accent: #C8102E;
+  --bsl-accent-ink: #FFFFFF;
+
+  /* Semantics. crit IS the accent red by design. warn is darkened from the
+     pinned #A66A00 to hold 4.5:1 on white. */
+  --bsl-ok:   #1E7A46;
+  --bsl-warn: #9E6300;
+  --bsl-crit: #C8102E;
+  --bsl-info: #3A5BA0;
+
+  /* Data-viz categorical palette. Red first, then black — Basel charts are
+     monochrome with one signal. Use in order. */
+  --bsl-v1: #C8102E; --bsl-v2: #0A0A0A; --bsl-v3: #3A5BA0;
+  --bsl-v4: #1E7A46; --bsl-v5: #9E6300; --bsl-v6: #6B6B6B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bsl-ground:  #111111;
+    --bsl-surface: #111111;
+    --bsl-ink:     #F4F4F4;
+    --bsl-muted:   #9A9A9A;
+    --bsl-hairline: #333333;
+    --bsl-structural: #F4F4F4;
+    --bsl-code: #1D1D1D;
+
+    --bsl-accent: #FF5C4D;
+    --bsl-accent-ink: #111111;
+
+    --bsl-ok:   #4DBF82;
+    --bsl-warn: #D9A03C;
+    --bsl-crit: #FF5C4D;
+    --bsl-info: #7D9BD6;
+
+    --bsl-v1: #FF5C4D; --bsl-v2: #F4F4F4; --bsl-v3: #7D9BD6;
+    --bsl-v4: #4DBF82; --bsl-v5: #D9A03C; --bsl-v6: #9A9A9A;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="light"] {
+  --bsl-ground: #FFFFFF; --bsl-surface: #FFFFFF; --bsl-ink: #0A0A0A;
+  --bsl-muted: #6B6B6B; --bsl-hairline: #E0E0E0; --bsl-structural: #0A0A0A;
+  --bsl-code: #F2F2F2;
+  --bsl-accent: #C8102E; --bsl-accent-ink: #FFFFFF;
+  --bsl-ok: #1E7A46; --bsl-warn: #9E6300; --bsl-crit: #C8102E; --bsl-info: #3A5BA0;
+  --bsl-v1: #C8102E; --bsl-v2: #0A0A0A; --bsl-v3: #3A5BA0;
+  --bsl-v4: #1E7A46; --bsl-v5: #9E6300; --bsl-v6: #6B6B6B;
+}
+:root[data-theme="dark"] {
+  --bsl-ground: #111111; --bsl-surface: #111111; --bsl-ink: #F4F4F4;
+  --bsl-muted: #9A9A9A; --bsl-hairline: #333333; --bsl-structural: #F4F4F4;
+  --bsl-code: #1D1D1D;
+  --bsl-accent: #FF5C4D; --bsl-accent-ink: #111111;
+  --bsl-ok: #4DBF82; --bsl-warn: #D9A03C; --bsl-crit: #FF5C4D; --bsl-info: #7D9BD6;
+  --bsl-v1: #FF5C4D; --bsl-v2: #F4F4F4; --bsl-v3: #7D9BD6;
+  --bsl-v4: #4DBF82; --bsl-v5: #D9A03C; --bsl-v6: #9A9A9A;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.bsl-doc, .bsl-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.bsl-doc *, .bsl-doc *::before, .bsl-doc *::after,
+.bsl-panels *, .bsl-panels *::before, .bsl-panels *::after { box-sizing: inherit; }
+
+/* NO ITALICS. This is a rule of the system, not a preference: hierarchy is
+   size and weight only. Emphasis renders as weight. */
+.bsl-doc em, .bsl-doc i, .bsl-doc cite, .bsl-doc blockquote,
+.bsl-panels em, .bsl-panels i, .bsl-panels cite {
+  font-style: normal;
+}
+.bsl-doc em, .bsl-doc i, .bsl-panels em, .bsl-panels i { font-weight: 700; }
+
+/* Links: ink with a hairline underline; red only on hover — red is a
+   signal, and an unfollowed link has not signalled anything yet. */
+.bsl-doc a, .bsl-panels a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+}
+.bsl-doc a:hover, .bsl-panels a:hover {
+  color: var(--bsl-accent);
+  text-decoration-color: var(--bsl-accent);
+}
+.bsl-doc :focus-visible, .bsl-panels :focus-visible {
+  outline: 2px solid var(--bsl-accent); outline-offset: 2px;
+}
+.bsl-doc img, .bsl-panels img { max-width: 100%; height: auto; }
+
+.bsl-mono { font-family: var(--bsl-mono); }
+.bsl-num { font-variant-numeric: tabular-nums; }
+/* Micro-label: the uppercase letterspaced whisper that labels everything. */
+.bsl-caps {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+
+/* Working-draft helper: exposes a 12-column rule grid on any container.
+   The grid is load-bearing in Basel; while composing, look at it. Remove
+   the class (or leave it — it is honest) before final delivery. */
+.bsl-grid-visible {
+  background-image: linear-gradient(90deg, var(--bsl-hairline) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
+}
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+.bsl-doc {
+  background: var(--bsl-ground);
+  color: var(--bsl-ink);
+  font-family: var(--bsl-sans);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.bsl-page { max-width: 960px; margin: 0 auto; padding: var(--bsl-s8) var(--bsl-s5) 96px; }
+
+/* Eyebrow: the first mark on the page — uppercase, letterspaced, quiet. */
+.bsl-eyebrow {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--bsl-muted);
+  margin: 0 0 var(--bsl-s4);
+}
+
+/* Masthead: the asymmetric header grid. Title takes ~2/3 flush-left; the
+   meta facts stack in the right ~1/3. The asymmetry IS the composition —
+   never centre it, never balance it. Collapses to one column on small
+   screens. */
+.bsl-masthead {
+  display: grid; grid-template-columns: 2fr 1fr;
+  gap: var(--bsl-s6);
+  align-items: start;
+  border-top: 2px solid var(--bsl-structural);
+  padding-top: var(--bsl-s4);
+  margin: 0 0 var(--bsl-s7);
+}
+@media (max-width: 720px) { .bsl-masthead { grid-template-columns: 1fr; gap: var(--bsl-s4); } }
+
+/* Title: huge, tight, bold. The headline is the poster. */
+.bsl-title {
+  font-weight: 700;
+  font-size: clamp(34px, 6vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--bsl-s3);
+}
+.bsl-title em { color: var(--bsl-accent); font-style: normal; font-weight: 700; }
+.bsl-subtitle {
+  font-size: 18px; font-weight: 400; line-height: 1.5;
+  color: var(--bsl-muted);
+  max-width: 56ch; margin: 0;
+}
+
+/* Meta stack: facts in the right column, one per row, hairline-ruled. */
+.bsl-meta { margin: 0; }
+.bsl-meta > div {
+  border-bottom: 1px solid var(--bsl-hairline);
+  padding: var(--bsl-s2) 0;
+}
+.bsl-meta > div:first-child { border-top: 1px solid var(--bsl-hairline); }
+.bsl-meta dt {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bsl-muted); margin: 0 0 2px;
+}
+.bsl-meta dd { margin: 0; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* Section heading: the 2px black bar above, then the oversized ghost
+   numeral beside a small bold title. The numeral is structure rendered as
+   type — it is decorative in colour (muted) but semantic in content:
+   number sections only when order matters. */
+.bsl-section { margin: 0 0 var(--bsl-s7); }
+.bsl-sec-h {
+  border-top: 2px solid var(--bsl-structural);
+  padding-top: var(--bsl-s3);
+  margin: var(--bsl-s7) 0 var(--bsl-s5);
+  display: flex; align-items: baseline; gap: var(--bsl-s4);
+}
+.bsl-sec-num {
+  font-size: 56px; font-weight: 700; line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--bsl-muted);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+.bsl-sec-h h2 {
+  font-size: 16px; font-weight: 700;
+  letter-spacing: -0.005em; margin: 0;
+}
+
+.bsl-doc p { max-width: 68ch; margin: 0 0 var(--bsl-s4); }
+.bsl-doc ul, .bsl-doc ol { max-width: 68ch; margin: 0 0 var(--bsl-s4); padding-left: 22px; }
+.bsl-doc li { margin-bottom: var(--bsl-s1); }
+
+/* Evidence: flush-right monospace source lines directly under the claim
+   paragraph, prefixed with an arrow. The right edge aligns with the prose
+   measure; the negative top margin closes the paragraph gap to 8px. One
+   line per source; stack several for several sources. */
+.bsl-evidence {
+  max-width: 68ch;
+  text-align: right;
+  font-family: var(--bsl-mono);
+  font-size: 12px; line-height: 1.6;
+  color: var(--bsl-muted);
+  font-variant-numeric: tabular-nums;
+  margin: calc(-1 * var(--bsl-s2)) 0 0;
+}
+.bsl-evidence::before { content: "\2192\00A0\00A0"; }
+.bsl-evidence + .bsl-evidence { margin-top: 0; }
+.bsl-evidence:last-of-type { margin-bottom: var(--bsl-s4); }
+
+/* Code: a flat grey field, mono, radius 0. No border — the tint is the
+   container. */
+.bsl-doc code {
+  font-family: var(--bsl-mono); font-size: 0.82em;
+  background: var(--bsl-code);
+  padding: 1px 5px;
+}
+.bsl-doc pre {
+  background: var(--bsl-code);
+  padding: var(--bsl-s4); overflow-x: auto;
+  font-family: var(--bsl-mono); font-size: 13px; line-height: 1.6;
+  margin: 0 0 var(--bsl-s4);
+}
+.bsl-doc pre code { background: none; padding: 0; font-size: inherit; }
+
+/* Pull quote: the poster statement. Huge, bold, tight, flush-left behind
+   a thick red bar — the one place prose is allowed to shout, so use it
+   once per document at most. Never italic. */
+.bsl-pull {
+  border-left: 6px solid var(--bsl-accent);
+  margin: var(--bsl-s6) 0; padding: var(--bsl-s2) 0 var(--bsl-s2) var(--bsl-s5);
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 700; line-height: 1.15; letter-spacing: -0.015em;
+  max-width: 26ch;
+}
+.bsl-pull strong { color: var(--bsl-accent); font-weight: 700; }
+
+/* Tables: 2px black rule under the header, hairlines in the body, a 2px
+   black rule closing the total row. Digit columns get .bsl-num and right
+   alignment. */
+.bsl-table-wrap { overflow-x: auto; margin: 0 0 var(--bsl-s4); }
+.bsl-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.bsl-table th {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--bsl-ink); text-align: left;
+  padding: var(--bsl-s2) var(--bsl-s3);
+  border-bottom: 2px solid var(--bsl-structural);
+}
+.bsl-table td {
+  padding: var(--bsl-s2) var(--bsl-s3);
+  border-bottom: 1px solid var(--bsl-hairline);
+  vertical-align: top;
+}
+.bsl-table td.bsl-num, .bsl-table th.bsl-num { text-align: right; font-variant-numeric: tabular-nums; }
+.bsl-table tr.bsl-total td {
+  border-top: 2px solid var(--bsl-structural);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+/* Stat strip: headline numbers under a 2px bar. Values huge and tight. */
+.bsl-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--bsl-s5);
+  border-top: 2px solid var(--bsl-structural);
+  border-bottom: 1px solid var(--bsl-hairline);
+  padding: var(--bsl-s4) 0; margin: 0 0 var(--bsl-s5);
+}
+.bsl-stat-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bsl-muted); margin-bottom: var(--bsl-s1);
+}
+.bsl-stat-value {
+  font-size: 34px; font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.bsl-stat-value .bsl-unit {
+  font-family: var(--bsl-mono); font-size: 12px; font-weight: 400;
+  color: var(--bsl-muted); margin-left: 4px; letter-spacing: 0;
+}
+
+/* Verdict: the black slab. This is the system's ONE inversion — a poster
+   block of ink-filled ground with a red uppercase label. Because it is the
+   only inversion, it cannot be missed; use it only when there is a verdict.
+   In dark theme the slab flips to a light block: still the inversion. */
+.bsl-verdict {
+  background: var(--bsl-ink);
+  color: var(--bsl-ground);
+  padding: var(--bsl-s6);
+  margin: var(--bsl-s7) 0 0;
+}
+.bsl-verdict::before {
+  content: attr(data-label);
+  display: inline-block;
+  background: var(--bsl-accent); color: var(--bsl-accent-ink);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 4px 12px;
+  margin: 0 0 var(--bsl-s4);
+}
+.bsl-verdict h3 {
+  font-size: clamp(22px, 3vw, 30px); font-weight: 700;
+  line-height: 1.1; letter-spacing: -0.015em;
+  margin: 0 0 var(--bsl-s3);
+}
+.bsl-verdict p { margin-bottom: var(--bsl-s3); }
+.bsl-verdict ol, .bsl-verdict ul { margin-bottom: 0; }
+.bsl-verdict a { color: inherit; }
+
+/* Footer / colophon */
+.bsl-colophon {
+  margin-top: var(--bsl-s8); padding-top: var(--bsl-s3);
+  border-top: 2px solid var(--bsl-structural);
+  font-family: var(--bsl-mono); font-size: 11.5px; color: var(--bsl-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--bsl-s4);
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+.bsl-panels {
+  background: var(--bsl-ground);
+  color: var(--bsl-ink);
+  font-family: var(--bsl-sans);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.bsl-panels .bsl-page { padding-top: var(--bsl-s7); }
+
+/* Board header: page title over a 2px bar, machine meta flush-right. */
+.bsl-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--bsl-s2) var(--bsl-s4);
+  border-bottom: 2px solid var(--bsl-structural);
+  padding-bottom: var(--bsl-s3);
+  margin: 0 0 var(--bsl-s5);
+}
+.bsl-board-h h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; margin: 0; }
+.bsl-board-h .bsl-board-meta {
+  margin-left: auto; font-family: var(--bsl-mono); font-size: 11.5px;
+  color: var(--bsl-muted); font-variant-numeric: tabular-nums;
+}
+
+/* Poster grid: cells share 1px black rules like a printed table. The rules
+   are drawn by the grid's background showing through 1px gaps, so the cell
+   count should fill complete rows — a ragged last row exposes the black
+   field. Plan the cell count, or set explicit columns. */
+.bsl-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--bsl-structural);
+  border: 1px solid var(--bsl-structural);
+  margin: 0 0 var(--bsl-s5);
+}
+.bsl-metric {
+  background: var(--bsl-surface);
+  padding: var(--bsl-s3) var(--bsl-s4) var(--bsl-s4);
+}
+.bsl-metric-l {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bsl-muted); margin-bottom: var(--bsl-s2);
+}
+.bsl-metric-v {
+  font-size: 36px; font-weight: 700; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.bsl-metric-v .bsl-unit {
+  font-family: var(--bsl-mono); font-size: 12px; font-weight: 400;
+  color: var(--bsl-muted); margin-left: 4px; letter-spacing: 0;
+}
+
+/* Panel grid: panels sit in the same shared-rule grid as metrics. */
+.bsl-panel-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--bsl-structural);
+  border: 1px solid var(--bsl-structural);
+  margin: 0 0 var(--bsl-s5);
+}
+/* A panel outside the grid gets its own 1px black frame; inside the grid
+   the shared rules carry it. */
+.bsl-panel { background: var(--bsl-surface); border: 1px solid var(--bsl-structural); }
+.bsl-panel-grid > .bsl-panel { border: 0; }
+.bsl-panel-h {
+  display: flex; align-items: baseline; gap: var(--bsl-s3);
+  padding: var(--bsl-s3) var(--bsl-s4);
+  border-bottom: 1px solid var(--bsl-structural);
+}
+.bsl-panel-h h3 {
+  font-size: 12px; font-weight: 700; margin: 0;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bsl-panel-h .bsl-panel-meta {
+  margin-left: auto; font-family: var(--bsl-mono); font-size: 11px;
+  color: var(--bsl-muted); font-variant-numeric: tabular-nums;
+}
+.bsl-panel-b { padding: var(--bsl-s3) var(--bsl-s4); }
+
+/* Key–value rows: machine truth flush-right, in monospace. */
+.bsl-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--bsl-s4); padding: 7px 0;
+  border-bottom: 1px solid var(--bsl-hairline);
+  font-size: 13px;
+}
+.bsl-kv:last-child { border-bottom: 0; }
+.bsl-kv > span:first-child { color: var(--bsl-muted); }
+.bsl-kv > b, .bsl-kv > span:last-child {
+  font-weight: 500; font-family: var(--bsl-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: square status marker + label + mono metadata. */
+.bsl-reg-row {
+  display: flex; align-items: center; gap: var(--bsl-s3);
+  padding: 9px 0; border-bottom: 1px solid var(--bsl-hairline);
+  font-size: 13px;
+}
+.bsl-reg-row:last-child { border-bottom: 0; }
+.bsl-reg-row b { font-weight: 500; }
+.bsl-reg-meta {
+  margin-left: auto; font-family: var(--bsl-mono); font-size: 11.5px;
+  color: var(--bsl-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Status squares: hard, radius 0. A circle would be an ornament. */
+.bsl-dot { width: 9px; height: 9px; flex: none; }
+.bsl-dot.ok      { background: var(--bsl-ok); }
+.bsl-dot.warn    { background: var(--bsl-warn); }
+.bsl-dot.crit    { background: var(--bsl-crit); }
+.bsl-dot.info    { background: var(--bsl-info); }
+.bsl-dot.neutral { background: transparent; box-shadow: inset 0 0 0 1.5px var(--bsl-muted); }
+
+/* Chips: uppercase letterspaced text with a 2px underline in the semantic
+   colour. No pill, no fill — the underline is the whole chip. */
+.bsl-chip {
+  display: inline-block;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0 0 2px;
+  border-bottom: 2px solid;
+  white-space: nowrap;
+}
+.bsl-chip.ok      { color: var(--bsl-ok);   border-color: var(--bsl-ok); }
+.bsl-chip.warn    { color: var(--bsl-warn); border-color: var(--bsl-warn); }
+.bsl-chip.crit    { color: var(--bsl-crit); border-color: var(--bsl-crit); }
+.bsl-chip.info    { color: var(--bsl-info); border-color: var(--bsl-info); }
+.bsl-chip.neutral { color: var(--bsl-muted); border-color: var(--bsl-muted); }
+
+/* Panel-mode code/command block */
+.bsl-panels pre, .bsl-cmd {
+  background: var(--bsl-code);
+  padding: var(--bsl-s3) var(--bsl-s4);
+  font-family: var(--bsl-mono); font-size: 12.5px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--bsl-s4);
+}
+.bsl-panels code { font-family: var(--bsl-mono); font-size: 0.92em; }
+.bsl-cmd .bsl-ps { color: var(--bsl-muted); user-select: none; }
+
+/* ── 5. PRINT ──────────────────────────────────────────────────────────── */
+@media print {
+  .bsl-doc, .bsl-panels { background: #FFFFFF; color: #000000; }
+  .bsl-theme-toggle { display: none; }
+  /* The slab prints as a framed block, not a field of ink. */
+  .bsl-verdict {
+    background: #FFFFFF; color: #000000;
+    border: 2px solid #000000;
+  }
+  .bsl-verdict::before { background: #000000; color: #FFFFFF; }
+}

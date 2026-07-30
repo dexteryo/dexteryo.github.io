@@ -1,0 +1,542 @@
+/* ==========================================================================
+   ATELIER — canonical stylesheet
+   v1.0.0 · 2026-07-30
+   Canonical home:  https://dexteryo.github.io/design-systems/atelier/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/atelier/atelier.css
+   Spec for agents: README.md in the same directory
+
+   Editorial serif — the Stripe Press / literary-magazine lineage.
+   Financial-grade trust through magazine typography: big confident serif
+   display set LIGHT (lightness is the luxury — bold display is shouting),
+   whitespace doing the structural work, hairline rules instead of boxes,
+   and warm gallery-white paper. Evidence lives in numbered footnote strips
+   at the end of each section, cited in monospace — the page argues like a
+   magazine feature and cites like an engineer.
+
+     Document mode (.atl-doc)    — investigations, design essays, post-mortems.
+                                   Drop cap, italic stand-first, folio section
+                                   numbers, footnote-strip citations.
+     Panel mode    (.atl-panels) — the Economist/FT print-data idiom: warm
+                                   paper, hairline horizontal rules, NO boxes,
+                                   very large light serif numerals, small
+                                   square (■) status markers, underlined
+                                   small-caps chips.
+
+   Radius: none. Everything in this system is square — a curve is a
+   decoration the page has not earned.
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+:root {
+  /* Type. Display is set light and tight; body is Charter at book sizes;
+     UI micro-labels are letterspaced Avenir; machine truth is mono. */
+  --atl-display: Didot, "Bodoni 72", "Playfair Display", Georgia, serif;
+  --atl-serif: Charter, "Iowan Old Style", Georgia, serif;
+  --atl-sans: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
+  --atl-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Spacing scale (4px base). Stay on the scale. */
+  --atl-s1: 4px;  --atl-s2: 8px;  --atl-s3: 12px; --atl-s4: 16px;
+  --atl-s5: 24px; --atl-s6: 32px; --atl-s7: 48px; --atl-s8: 64px;
+
+  /* Accent = oxblood, the printer's second ink. One accent, used sparingly:
+     the drop cap, the hanging quotation mark, one emphasised word, the
+     verdict label. It is never a background and never a decoration. */
+  --atl-accent: #8C3A2B;
+  --atl-accent-ink: #FFFFFF;
+
+  /* Semantic families. Statuses take the square marker and the underlined
+     chip; their pale warm tints exist for the rare filled treatment. */
+  --atl-ok:   #3E6B4E;  --atl-ok-bg:   #E5EDE3;
+  --atl-warn: #8F6400;  --atl-warn-bg: #F3E9D2;
+  --atl-crit: #A23532;  --atl-crit-bg: #F5E3DD;
+  --atl-info: #4E5D7E;  --atl-info-bg: #E5E9F0;
+
+  /* Data-viz categorical palette. Declared once; use in order. */
+  --atl-v1: #8C3A2B; --atl-v2: #4E5D7E; --atl-v3: #3E6B4E;
+  --atl-v4: #9C6A14; --atl-v5: #7B4B94; --atl-v6: #2E7E8C;
+
+  /* Grounds — warm gallery white. Both modes share one paper; panels do
+     not get their own cooler ground the way DDS panels do. */
+  --atl-paper:   #FAF7F2;
+  --atl-surface: #FFFFFF;
+  --atl-ink:     #1F1B16;
+  --atl-muted:   #6E6259;
+  --atl-rule:    #E7DFD2;
+  --atl-code:    #F1EBE1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Deep warm brown-black — the paper darkens, it never goes cold. The
+       accent lifts to terracotta so it keeps ≥ 4.5:1 on the dark ground. */
+    --atl-accent: #DE9B82;
+    --atl-accent-ink: #2A130B;
+
+    --atl-ok:   #85B894;  --atl-ok-bg:   #1E2E23;
+    --atl-warn: #D9A94F;  --atl-warn-bg: #33290F;
+    --atl-crit: #E08D7E;  --atl-crit-bg: #38201B;
+    --atl-info: #9AAECE;  --atl-info-bg: #212A3A;
+
+    --atl-v1: #DE9B82; --atl-v2: #9AAECE; --atl-v3: #85B894;
+    --atl-v4: #D9A94F; --atl-v5: #C39BD3; --atl-v6: #7FBCC9;
+
+    --atl-paper:   #191510;
+    --atl-surface: #201B14;
+    --atl-ink:     #EDE5D8;
+    --atl-muted:   #A89A8A;
+    --atl-rule:    #3A332A;
+    --atl-code:    #241F18;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="light"] {
+  --atl-accent: #8C3A2B; --atl-accent-ink: #FFFFFF;
+  --atl-ok: #3E6B4E; --atl-ok-bg: #E5EDE3;
+  --atl-warn: #8F6400; --atl-warn-bg: #F3E9D2;
+  --atl-crit: #A23532; --atl-crit-bg: #F5E3DD;
+  --atl-info: #4E5D7E; --atl-info-bg: #E5E9F0;
+  --atl-v1: #8C3A2B; --atl-v2: #4E5D7E; --atl-v3: #3E6B4E;
+  --atl-v4: #9C6A14; --atl-v5: #7B4B94; --atl-v6: #2E7E8C;
+  --atl-paper: #FAF7F2; --atl-surface: #FFFFFF; --atl-ink: #1F1B16;
+  --atl-muted: #6E6259; --atl-rule: #E7DFD2; --atl-code: #F1EBE1;
+}
+:root[data-theme="dark"] {
+  --atl-accent: #DE9B82; --atl-accent-ink: #2A130B;
+  --atl-ok: #85B894; --atl-ok-bg: #1E2E23;
+  --atl-warn: #D9A94F; --atl-warn-bg: #33290F;
+  --atl-crit: #E08D7E; --atl-crit-bg: #38201B;
+  --atl-info: #9AAECE; --atl-info-bg: #212A3A;
+  --atl-v1: #DE9B82; --atl-v2: #9AAECE; --atl-v3: #85B894;
+  --atl-v4: #D9A94F; --atl-v5: #C39BD3; --atl-v6: #7FBCC9;
+  --atl-paper: #191510; --atl-surface: #201B14; --atl-ink: #EDE5D8;
+  --atl-muted: #A89A8A; --atl-rule: #3A332A; --atl-code: #241F18;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.atl-doc, .atl-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.atl-doc *, .atl-doc *::before, .atl-doc *::after,
+.atl-panels *, .atl-panels *::before, .atl-panels *::after { box-sizing: inherit; }
+
+/* Links: ink with a muted underline; the accent only answers a hover.
+   A page full of coloured links is a page that has stopped being read. */
+.atl-doc a, .atl-panels a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+}
+.atl-doc a:hover, .atl-panels a:hover {
+  color: var(--atl-accent);
+  text-decoration-color: var(--atl-accent);
+}
+.atl-doc :focus-visible, .atl-panels :focus-visible {
+  outline: 2px solid var(--atl-accent); outline-offset: 2px;
+}
+.atl-doc img, .atl-panels img { max-width: 100%; height: auto; }
+
+.atl-mono { font-family: var(--atl-mono); }
+.atl-num { font-variant-numeric: tabular-nums; }
+/* The house micro-label: letterspaced small caps in the UI sans. Used for
+   eyebrows, folios, table headers, metric labels, chips, captions. */
+.atl-caps {
+  font-family: var(--atl-sans);
+  font-variant: small-caps; text-transform: lowercase;
+  letter-spacing: 0.18em; font-weight: 500;
+}
+.atl-right { text-align: right; }
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+.atl-doc {
+  background: var(--atl-paper);
+  color: var(--atl-ink);
+  font-family: var(--atl-serif);
+  font-size: 17px;
+  line-height: 1.65;
+}
+.atl-page { max-width: 760px; margin: 0 auto; padding: var(--atl-s8) var(--atl-s5) 96px; }
+
+/* Masthead: eyebrow, light display title, italic stand-first — closed by
+   the double hairline rule, the magazine's signature under its own name. */
+.atl-masthead {
+  border-bottom: 3px double var(--atl-ink);
+  padding-bottom: var(--atl-s5);
+  margin: 0 0 var(--atl-s5);
+}
+.atl-eyebrow {
+  font-family: var(--atl-sans);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--atl-muted);
+  margin: 0 0 var(--atl-s4);
+}
+.atl-title {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: clamp(34px, 6.4vw, 56px); line-height: 1.06;
+  letter-spacing: -0.012em; margin: 0 0 var(--atl-s4);
+  text-wrap: balance;
+}
+.atl-title em { font-style: italic; color: var(--atl-accent); }
+.atl-standfirst {
+  font-style: italic; font-size: 20px; line-height: 1.5;
+  color: var(--atl-muted); max-width: 58ch; margin: 0;
+}
+
+/* Meta bar: facts under the masthead — author, date, status. */
+.atl-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--atl-s4) var(--atl-s5);
+  border-bottom: 1px solid var(--atl-rule);
+  padding: 0 0 var(--atl-s4); margin: 0 0 var(--atl-s7);
+}
+.atl-meta dt {
+  font-family: var(--atl-sans); font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  color: var(--atl-muted); margin: 0 0 2px;
+}
+.atl-meta dd { margin: 0; font-family: var(--atl-mono); font-size: 12px; font-weight: 500; }
+
+/* Section heading: a folio number ("№ 01") over a light display title.
+   No rules, no borders — the whitespace above is the structure. */
+.atl-section { margin: 0 0 var(--atl-s8); }
+.atl-sec-h { margin: var(--atl-s8) 0 var(--atl-s5); }
+.atl-folio {
+  display: block; font-family: var(--atl-sans);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--atl-muted); margin: 0 0 var(--atl-s2);
+}
+.atl-sec-h h2 {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 30px; line-height: 1.12; letter-spacing: -0.008em; margin: 0;
+}
+
+.atl-doc p { max-width: 66ch; margin: 0 0 var(--atl-s4); }
+.atl-doc ul, .atl-doc ol { max-width: 66ch; margin: 0 0 var(--atl-s4); padding-left: 22px; }
+.atl-doc li { margin-bottom: var(--atl-s1); }
+
+/* Drop cap: the opening paragraph of the piece (and only that paragraph)
+   gets a three-line display initial in the accent ink. One per document. */
+.atl-dropcap::first-letter {
+  font-family: var(--atl-display); font-weight: 400;
+  font-size: 3.4em; line-height: 0.82;
+  float: left; padding: 4px 10px 0 0;
+  color: var(--atl-accent);
+}
+
+/* Footnote strip: evidence gathers at the END of each section under the
+   classic short printer's rule — deliberately not margin sidenotes (that
+   is DDS's move). Claims carry a superscript ref; the strip answers it
+   with a monospace citation and a verification date. */
+.atl-fnref {
+  vertical-align: super; font-size: 11px; font-weight: 700;
+  font-family: var(--atl-sans);
+}
+.atl-footnotes { margin: var(--atl-s5) 0 0; max-width: 66ch; }
+.atl-footnotes::before {
+  content: ""; display: block; width: 96px;
+  border-top: 1px solid var(--atl-ink);
+  margin-bottom: var(--atl-s3);
+}
+.atl-fn {
+  font-size: 13.5px; line-height: 1.55; color: var(--atl-muted);
+  margin: 0 0 var(--atl-s2); padding-left: 22px; text-indent: -22px;
+}
+.atl-fn-num {
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 700;
+  color: var(--atl-ink);
+}
+.atl-cite { font-family: var(--atl-mono); font-size: 12px; }
+
+/* Stat strip: headline numbers between a strong top rule and a hairline —
+   very large, very light, over letterspaced micro-labels. */
+.atl-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--atl-s5);
+  border-top: 1px solid var(--atl-ink);
+  border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s4) 0; margin: 0 0 var(--atl-s5);
+}
+.atl-stat-label {
+  font-family: var(--atl-sans); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--atl-muted); margin-bottom: var(--atl-s1);
+}
+.atl-stat-value {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 34px; line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.atl-stat-value .atl-unit {
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 500;
+  color: var(--atl-muted); letter-spacing: 0.08em; margin-left: 4px;
+}
+
+/* Pull quote: introduced by an oversized hanging quotation mark in the
+   accent; the quote itself is light display italic. Never boxed. */
+.atl-pull {
+  position: relative; margin: var(--atl-s6) 0;
+  padding: 0 0 0 var(--atl-s7);
+  font-family: var(--atl-display); font-weight: 300; font-style: italic;
+  font-size: 24px; line-height: 1.35;
+  max-width: 44ch;
+}
+.atl-pull::before {
+  content: "\201C";
+  position: absolute; left: 0; top: -0.08em;
+  font-size: 3.1em; line-height: 1; font-style: normal;
+  color: var(--atl-accent);
+}
+.atl-pull strong { font-style: normal; font-weight: 400; }
+
+/* Tables: hairlines only; letterspaced small headers under a single ink
+   rule; numerals right-aligned and tabular. */
+.atl-table-wrap { overflow-x: auto; margin: 0 0 var(--atl-s4); }
+.atl-table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+.atl-table th {
+  font-family: var(--atl-sans); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--atl-muted); text-align: left;
+  padding: var(--atl-s2) var(--atl-s3);
+  border-bottom: 1px solid var(--atl-ink);
+}
+.atl-table td {
+  padding: var(--atl-s2) var(--atl-s3);
+  border-bottom: 1px solid var(--atl-rule);
+  vertical-align: top;
+}
+.atl-table td.atl-num, .atl-table th.atl-num { text-align: right; font-variant-numeric: tabular-nums; }
+/* Accountant's total rule: thin line above, double rule closing the sum. */
+.atl-table tr.atl-total td {
+  border-top: 1px solid var(--atl-ink);
+  border-bottom: 3px double var(--atl-ink);
+  font-weight: 600;
+}
+
+/* Verdict — the colophon note: indented, framed by hairlines top and
+   bottom only (never a box, never a slab), opened by a small-caps label. */
+.atl-verdict {
+  border-top: 1px solid var(--atl-ink);
+  border-bottom: 1px solid var(--atl-ink);
+  margin: var(--atl-s7) 0 0 var(--atl-s6);
+  padding: var(--atl-s5) 0;
+  max-width: 60ch;
+}
+.atl-verdict::before {
+  content: attr(data-label);
+  display: block;
+  font-family: var(--atl-sans); font-size: 12px; font-weight: 600;
+  font-variant: small-caps; text-transform: lowercase;
+  letter-spacing: 0.2em;
+  color: var(--atl-accent);
+  margin: 0 0 var(--atl-s3);
+}
+.atl-verdict h3 {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 26px; line-height: 1.2; margin: 0 0 var(--atl-s3);
+}
+.atl-verdict p { margin-bottom: var(--atl-s3); }
+.atl-verdict ol, .atl-verdict ul { margin-bottom: 0; }
+@media (max-width: 480px) { .atl-verdict { margin-left: var(--atl-s4); } }
+
+/* Code: warm plate on the paper, square corners, no border theatre. */
+.atl-doc code {
+  font-family: var(--atl-mono); font-size: 0.8em;
+  background: var(--atl-code);
+  padding: 1px 5px;
+}
+.atl-doc pre {
+  background: var(--atl-code);
+  border-top: 1px solid var(--atl-rule); border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s4); overflow-x: auto;
+  font-family: var(--atl-mono); font-size: 13px; line-height: 1.6;
+  margin: 0 0 var(--atl-s4);
+}
+.atl-doc pre code { background: none; padding: 0; font-size: inherit; }
+
+/* Colophon: the double rule returns to close the piece. */
+.atl-colophon {
+  margin-top: var(--atl-s8); padding-top: var(--atl-s4);
+  border-top: 3px double var(--atl-ink);
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--atl-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--atl-s4);
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+/* The Economist/FT print-data idiom. Same warm paper as documents — a
+   dashboard here is a data page in the same magazine, not an app. NO cards,
+   NO borders-as-boxes, NO shadows: horizontal hairline rules carry all the
+   structure, and the numerals do the talking. */
+.atl-panels {
+  background: var(--atl-paper);
+  color: var(--atl-ink);
+  font-family: var(--atl-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.atl-panels .atl-page { max-width: 960px; padding-top: var(--atl-s7); }
+
+/* Board header: the masthead's double rule, at dashboard scale. */
+.atl-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--atl-s2) var(--atl-s4);
+  border-bottom: 3px double var(--atl-ink);
+  padding-bottom: var(--atl-s3);
+  margin: 0 0 var(--atl-s6);
+}
+.atl-board-h h1 {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 28px; letter-spacing: -0.008em; margin: 0;
+}
+.atl-board-h .atl-board-meta {
+  margin-left: auto; font-family: var(--atl-mono); font-size: 11.5px;
+  color: var(--atl-muted); font-variant-numeric: tabular-nums;
+}
+
+/* Metric strip: very large light serif numerals over small-caps labels,
+   between a strong rule and a hairline. This is the FT front-page number
+   row, not a card grid. */
+.atl-metric-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--atl-s5);
+  border-top: 1px solid var(--atl-ink);
+  border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s4) 0; margin: 0 0 var(--atl-s6);
+}
+.atl-metric-l {
+  font-family: var(--atl-sans); font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--atl-muted); margin-bottom: var(--atl-s1);
+}
+.atl-metric-v {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 40px; line-height: 1.05; letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.atl-metric-v .atl-unit {
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 500;
+  color: var(--atl-muted); letter-spacing: 0.08em; margin-left: 4px;
+}
+
+/* Panel: a titled run of rows opened by a strong rule — never a box. */
+.atl-panel { border-top: 1px solid var(--atl-ink); margin: 0 0 var(--atl-s6); }
+.atl-panel-h {
+  display: flex; align-items: baseline; gap: var(--atl-s3);
+  padding: var(--atl-s3) 0;
+  border-bottom: 1px solid var(--atl-rule);
+}
+.atl-panel-h h3 {
+  font-family: var(--atl-display); font-weight: 300;
+  font-size: 20px; letter-spacing: -0.005em; margin: 0;
+}
+.atl-panel-h .atl-panel-meta {
+  margin-left: auto; font-family: var(--atl-mono); font-size: 11px;
+  color: var(--atl-muted); font-variant-numeric: tabular-nums;
+}
+.atl-panel-b { padding: var(--atl-s2) 0 0; }
+
+/* Key–value rows: machine truth on the right, in monospace. */
+.atl-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--atl-s4); padding: 8px 0;
+  border-bottom: 1px solid var(--atl-rule);
+  font-size: 13px;
+}
+.atl-kv:last-child { border-bottom: 0; }
+.atl-kv > span:first-child { color: var(--atl-muted); }
+.atl-kv > b, .atl-kv > span:last-child {
+  font-weight: 500; font-family: var(--atl-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: a solid small square (■) in the semantic ink, the title,
+   and monospace metadata — separated by hairlines, never boxed. */
+.atl-reg-row {
+  display: flex; align-items: center; gap: var(--atl-s3);
+  padding: 10px 0; border-bottom: 1px solid var(--atl-rule);
+  font-size: 13.5px;
+}
+.atl-reg-row:last-child { border-bottom: 0; }
+.atl-reg-row b { font-weight: 500; }
+.atl-reg-meta {
+  margin-left: auto; font-family: var(--atl-mono); font-size: 11.5px;
+  color: var(--atl-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* The square status marker. Square, like everything else here — a dot
+   would be the only curve on the page. Neutral is a hollow outline. */
+.atl-sq { width: 8px; height: 8px; flex: none; display: inline-block; }
+.atl-sq.ok      { background: var(--atl-ok); }
+.atl-sq.warn    { background: var(--atl-warn); }
+.atl-sq.crit    { background: var(--atl-crit); }
+.atl-sq.info    { background: var(--atl-info); }
+.atl-sq.neutral { background: transparent; box-shadow: inset 0 0 0 1.5px var(--atl-muted); }
+
+/* Chips: small-caps letterspaced text with a thin underline in the
+   semantic colour. Text, not a pill — this is a print margin note,
+   not a UI badge. */
+.atl-chip {
+  display: inline-block;
+  font-family: var(--atl-sans); font-size: 12px; font-weight: 600;
+  font-variant: small-caps; text-transform: lowercase;
+  letter-spacing: 0.16em;
+  padding-bottom: 1px; border-bottom: 1px solid;
+  white-space: nowrap;
+}
+.atl-chip.ok      { color: var(--atl-ok);   border-color: var(--atl-ok); }
+.atl-chip.warn    { color: var(--atl-warn); border-color: var(--atl-warn); }
+.atl-chip.crit    { color: var(--atl-crit); border-color: var(--atl-crit); }
+.atl-chip.info    { color: var(--atl-info); border-color: var(--atl-info); }
+.atl-chip.neutral { color: var(--atl-muted); border-color: var(--atl-rule); }
+
+/* Panel-mode code/command block: same warm plate as documents. */
+.atl-panels pre {
+  background: var(--atl-code);
+  border-top: 1px solid var(--atl-rule); border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s3) var(--atl-s4);
+  font-family: var(--atl-mono); font-size: 12.5px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--atl-s4);
+}
+.atl-panels code { font-family: var(--atl-mono); font-size: 0.92em; }
+
+/* ── 5. FIGURES ────────────────────────────────────────────────────────── */
+/* Charts and diagrams sit between hairlines like a plate in a book, with
+   a small-caps caption ("Fig. № 1 — …"). Diagrams are pre-rendered Mermaid
+   SVG themed via mermaid-config.json, or hand-drawn inline SVG using the
+   viz palette; either way the figure frame is rules, not a box. */
+.atl-figure {
+  border-top: 1px solid var(--atl-rule);
+  border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s5) 0; margin: var(--atl-s5) 0;
+  overflow-x: auto;
+}
+.atl-figure svg { display: block; max-width: 100%; height: auto; }
+.atl-figcap {
+  font-family: var(--atl-sans); font-size: 12px; font-weight: 500;
+  font-variant: small-caps; text-transform: lowercase;
+  letter-spacing: 0.16em;
+  color: var(--atl-muted); margin-top: var(--atl-s3);
+}
+/* Pre-rendered (single-theme) SVG is light-baked: pin its figure to the
+   light paper so it stays readable in dark mode. The literal hex on that
+   style attribute is the one sanctioned exception to tokens-only. */
+
+/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+@media print {
+  :root {
+    --atl-paper: #FFFFFF; --atl-surface: #FFFFFF;
+    --atl-ink: #000000; --atl-muted: #444444;
+    --atl-rule: #BBBBBB; --atl-code: #F2F2F2;
+  }
+  .atl-doc, .atl-panels { background: #FFFFFF; color: #000000; }
+  .atl-theme-toggle { display: none; }
+  .atl-page { padding-top: 0; }
+}

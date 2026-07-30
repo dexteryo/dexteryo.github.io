@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nocturne — living style guide</title>
+<link rel="stylesheet" href="nocturne.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .sw { width: 108px; font-family: var(--noct-mono); font-size: 10.5px; }
+  .sw i { display: block; height: 36px; border: 1px solid var(--noct-border); border-radius: var(--noct-r-sm); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--noct-muted); }
+  .demo-note { font-family: var(--noct-mono); font-size: 10.5px; letter-spacing: .1em;
+               text-transform: uppercase; color: var(--noct-faint); margin: 24px 0 10px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .panel-demo { background: var(--noct-ground); border: 1px dashed var(--noct-border);
+                border-radius: var(--noct-r-panel); padding: 24px; }
+  .type-specimen { border-bottom: 1px solid var(--noct-border-subtle); padding: 10px 0;
+                   display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .type-specimen .lbl { font-family: var(--noct-mono); font-size: 10.5px;
+                        color: var(--noct-muted); width: 200px; flex: none; }
+  .noct-theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10;
+                       font-family: var(--noct-mono); font-size: 11px;
+                       color: var(--noct-muted); background: var(--noct-raised);
+                       border: 1px solid var(--noct-border); border-radius: var(--noct-r-sm);
+                       box-shadow: inset 0 1px 0 var(--noct-highlight);
+                       padding: 6px 12px; cursor: pointer; }
+  .noct-theme-toggle:hover { color: var(--noct-ink); border-color: var(--noct-muted); }
+</style>
+</head>
+<body class="noct-doc">
+<button class="noct-theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
+<div class="noct-page">
+  <div class="noct-col">
+
+    <header class="noct-dotgrid" style="margin: calc(-1 * var(--noct-s7)) calc(-1 * var(--noct-s7)) var(--noct-s6); padding: var(--noct-s7); border-bottom: 1px solid var(--noct-border-subtle); border-radius: var(--noct-r-panel) var(--noct-r-panel) 0 0;">
+      <div class="noct-eyebrow">Nocturne · v1.0.0 · Living style guide</div>
+      <h1 class="noct-title">Dark-first product UI, <em>done with discipline</em></h1>
+      <p class="noct-subtitle">Near-black surfaces, hairline borders instead of shadows, one restrained indigo accent — the Linear/Vercel lineage without the generic AI theatre. Contrast and hierarchy do all the work.</p>
+      <dl class="noct-meta" style="margin-bottom: 0;">
+        <div><dt>Owner</dt><dd>Dexter</dd></div>
+        <div><dt>Revision</dt><dd>2026-07-30</dd></div>
+        <div><dt>Status</dt><dd>v1.0.0</dd></div>
+        <div><dt>Stylesheet</dt><dd><a href="nocturne.css">nocturne.css</a></dd></div>
+        <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+      </dl>
+    </header>
+
+    <!-- ============ 01 PRINCIPLES ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h" style="border-top: 0; margin-top: 0;"><span class="noct-sec-num">01 —</span><h2>Principles</h2></div>
+      <p><strong>Borders carry elevation.</strong> Hierarchy comes from the surface scale — ground, surface, raised — separated by 1px hairlines. The only shadow in the whole system is the card's one-pixel top inner highlight: machined edge light, not elevation theatre. If a surface needs to feel higher, it steps up the scale; it never floats.</p>
+      <p><strong>One accent, spent carefully.</strong> A restrained indigo marks what is actionable or singular: links, section numbers, the verdict bar, focus rings, at most one emphasis per page. When everything glows, nothing does — so nothing glows.</p>
+      <p><strong>Machine truth wears the machine face.</strong> Every metric, timestamp, ID, and piece of evidence is monospace with tabular numerals. Evidence is a visual element: claims cite their source in a bordered ref pill <span class="noct-ref">FundsRouter.java:214</span> inline with the claim.</p>
+      <p><strong>Dark is the default, not a skin.</strong> The default token block is dark; light is the counterpart. That ordering forces the discipline dark UI needs — no thin display type, muted text that still clears 4.5:1, semantic colours tuned for a near-black ground.</p>
+      <p><strong>Portability is a hard constraint.</strong> System font stacks only, no webfonts, no external requests. Output must survive a sandboxed artifact viewer, a ticket attachment, and a printer.</p>
+    </section>
+
+    <!-- ============ 02 TOKENS ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">02 —</span><h2>Tokens</h2></div>
+      <p>All values live as CSS custom properties in <a href="nocturne.css"><code>nocturne.css</code></a> — dark defaults, a light counterpart, and explicit <code>data-theme</code> overrides. Components never hard-code colour. Swatches show the current theme's resolved values.</p>
+
+      <p class="demo-note">Surface scale &amp; ink</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--noct-ground)"></i><span>--noct-ground</span></div>
+        <div class="sw"><i style="background:var(--noct-surface)"></i><span>--noct-surface</span></div>
+        <div class="sw"><i style="background:var(--noct-raised)"></i><span>--noct-raised</span></div>
+        <div class="sw"><i style="background:var(--noct-border)"></i><span>--noct-border</span></div>
+        <div class="sw"><i style="background:var(--noct-ink)"></i><span>--noct-ink</span></div>
+        <div class="sw"><i style="background:var(--noct-muted)"></i><span>--noct-muted</span></div>
+      </div>
+
+      <p class="demo-note">Accent &amp; semantics</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--noct-accent)"></i><span>--noct-accent · the one</span></div>
+        <div class="sw"><i style="background:var(--noct-accent-fill)"></i><span>--noct-accent-fill</span></div>
+        <div class="sw"><i style="background:var(--noct-ok)"></i><span>--noct-ok · healthy</span></div>
+        <div class="sw"><i style="background:var(--noct-warn)"></i><span>--noct-warn · degraded</span></div>
+        <div class="sw"><i style="background:var(--noct-crit)"></i><span>--noct-crit · failing</span></div>
+        <div class="sw"><i style="background:var(--noct-info)"></i><span>--noct-info</span></div>
+      </div>
+
+      <p class="demo-note">Data-viz categorical (use in order)</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--noct-v1)"></i><span>--noct-v1</span></div>
+        <div class="sw"><i style="background:var(--noct-v2)"></i><span>--noct-v2</span></div>
+        <div class="sw"><i style="background:var(--noct-v3)"></i><span>--noct-v3</span></div>
+        <div class="sw"><i style="background:var(--noct-v4)"></i><span>--noct-v4</span></div>
+        <div class="sw"><i style="background:var(--noct-v5)"></i><span>--noct-v5</span></div>
+        <div class="sw"><i style="background:var(--noct-v6)"></i><span>--noct-v6</span></div>
+      </div>
+
+      <p class="demo-note">Type roles (system stacks, no webfonts)</p>
+      <div style="margin-bottom:24px;">
+        <div class="type-specimen"><span class="lbl">--noct-sans · body &amp; display</span><span style="font-size:17px; font-weight:650; letter-spacing:-0.02em;">Settlement closes at 17:00 CET, drift or no drift.</span></div>
+        <div class="type-specimen"><span class="lbl">--noct-sans · overline label</span><span class="noct-overline">Reconciliation · EU-West-1 · Nightly</span></div>
+        <div class="type-specimen"><span class="lbl">--noct-mono · machine truth</span><span class="noct-mono noct-num" style="font-size:13px;">transfer_9f41 · idem=order-1204 · 2026-07-30T14:02:11Z</span></div>
+      </div>
+
+      <p class="demo-note">Spacing · radii</p>
+      <p style="font-family:var(--noct-mono); font-size:12.5px;">--noct-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Radii: 8px panels · 6px small elements · 999px pills. Off-scale spacing is a defect.</p>
+    </section>
+
+    <!-- ============ 03 DOCUMENT MODE ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">03 —</span><h2>Document mode</h2></div>
+      <p>For investigations, design docs, post-mortems, and RFCs. The content column is a slightly raised card on the dark ground — the document itself is the surface. Sans body at 15px, prose capped at 68ch, section numbers as accent mono overlines. Everything below is live; the demo content is a fictional payments platform.</p>
+
+      <p class="demo-note">Live demo — stat strip, ref pills, kbd, pull quote, table, code, verdict</p>
+
+      <div class="noct-stats">
+        <div><div class="noct-stat-label">Wallets funded</div><div class="noct-stat-value">12,408</div></div>
+        <div><div class="noct-stat-label">Float balance</div><div class="noct-stat-value">2.4<span class="noct-unit">€M</span></div></div>
+        <div><div class="noct-stat-label">Drifted wallets</div><div class="noct-stat-value">241</div></div>
+        <div><div class="noct-stat-label">Recon gap</div><div class="noct-stat-value">0.02<span class="noct-unit">%</span></div></div>
+      </div>
+
+      <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate <span class="noct-ref">WalletService.java:214</span> — a single transfer from the platform float to the customer wallet. Every other record is a mirror, and mirrors drift: the nightly comparison job found 241 wallets with a non-zero gap on its first run <span class="noct-ref">RECON-1188</span>. On-call can replay a single wallet with <kbd class="noct-kbd">⌘K</kbd> <kbd class="noct-kbd">R</kbd> from the console.</p>
+
+      <blockquote class="noct-pull"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
+
+      <div class="noct-table-wrap">
+        <table class="noct-table">
+          <thead><tr><th>Rail</th><th>Mechanism</th><th class="noct-num">Volume (Jun)</th></tr></thead>
+          <tbody>
+            <tr><td>Card checkout</td><td>PSP hosted page</td><td class="noct-num">€1,204,880</td></tr>
+            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="noct-num">€863,110</td></tr>
+            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="noct-num">€98,400</td></tr>
+            <tr class="noct-total"><td>Total in</td><td></td><td class="noct-num">€2,166,390</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>The comparison job keys on wallet ID and tolerates nothing above a euro:</p>
+      <pre><code>SELECT w.wallet_id, w.balance - j.mirrored_balance AS gap
+FROM   wallets w JOIN journal_rollup j USING (wallet_id)
+WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
+
+      <div class="noct-verdict" data-label="Recommendation">
+        <h3>Reconcile the mirrors nightly, not monthly.</h3>
+        <p>The drift window is the exposure. A nightly three-way check — float, wallet ledger, journal — shrinks the maximum undetected divergence from thirty days to one.</p>
+        <ol>
+          <li>Ship the comparison job behind a feature flag this sprint.</li>
+          <li>Alert on any per-wallet gap over €1 <span class="noct-ref">RECON-1191</span>.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ 04 PANEL MODE ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">04 —</span><h2>Panel mode</h2></div>
+      <p>The flagship. Dashboards, risk registers, and status boards: metric cards with mono values, panels with raised header strips, key–value rows, register rows with 6px status dots, and chips as tinted pills. Borders separate; surfaces order; nothing floats.</p>
+
+      <p class="demo-note">Live demo — board header, metric grid, panels, register, chips</p>
+      <div class="noct-panels panel-demo">
+        <div class="noct-board-h">
+          <h1>Payments · production</h1>
+          <span class="noct-board-meta">eu-west-1 · 2026-07-30 14:00 UTC</span>
+        </div>
+
+        <div class="noct-metric-grid" style="margin-bottom:12px;">
+          <div class="noct-metric"><div class="noct-metric-l">Transfers today</div><div class="noct-metric-v">1,284</div></div>
+          <div class="noct-metric"><div class="noct-metric-l">Failed</div><div class="noct-metric-v">3</div></div>
+          <div class="noct-metric"><div class="noct-metric-l">P95 latency</div><div class="noct-metric-v">412<span class="noct-unit">ms</span></div></div>
+          <div class="noct-metric"><div class="noct-metric-l">Queue depth</div><div class="noct-metric-v">0</div></div>
+        </div>
+
+        <div class="two-col">
+          <div class="noct-panel">
+            <div class="noct-panel-h"><h3>wallet-service</h3><span class="noct-panel-meta">deploy #482</span></div>
+            <div class="noct-panel-b">
+              <div class="noct-kv"><span>Version</span><b>v4.2.1</b></div>
+              <div class="noct-kv"><span>Idempotency</span><b>order-scoped</b></div>
+              <div class="noct-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+              <div class="noct-kv"><span>Error budget left</span><b>72%</b></div>
+            </div>
+          </div>
+          <div class="noct-panel">
+            <div class="noct-panel-h"><h3>Incident register</h3><span class="noct-panel-meta">4 open</span></div>
+            <div class="noct-panel-b">
+              <div class="noct-reg-row"><span class="noct-dot crit"></span><b>Auth rule in placeholder state</b><span class="noct-reg-meta">INC-101</span></div>
+              <div class="noct-reg-row"><span class="noct-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="noct-reg-meta">INC-097</span></div>
+              <div class="noct-reg-row"><span class="noct-dot info"></span><b>PSP maintenance window Sat</b><span class="noct-reg-meta">INC-095</span></div>
+              <div class="noct-reg-row"><span class="noct-dot neutral"></span><b>Chargeback flow redesign</b><span class="noct-reg-meta">draft</span></div>
+              <div class="noct-reg-row"><span class="noct-dot ok"></span><b>One-way valve verified</b><span class="noct-reg-meta">closed</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="noct-chip ok">healthy</span>
+          <span class="noct-chip warn">degraded</span>
+          <span class="noct-chip crit">failing</span>
+          <span class="noct-chip info">maintenance</span>
+          <span class="noct-chip neutral">draft</span>
+          <span class="noct-chip accent">canary</span>
+        </div>
+      </div>
+      <p style="margin-top:16px;">Status vocabulary: <code>ok</code> healthy/verified · <code>warn</code> degraded/in-review · <code>crit</code> failing/stale · <code>info</code> informational · <code>neutral</code> draft/unknown (hollow-ring dot). Dots for rows, chips for inline labels — one per context, never both.</p>
+    </section>
+
+    <!-- ============ 05 SIGNATURE DETAILS ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">05 —</span><h2>Signature details</h2></div>
+      <p>The moves that make a page unmistakably Nocturne — each one earns its place.</p>
+      <div class="noct-table-wrap">
+        <table class="noct-table">
+          <thead><tr><th>Move</th><th>Class</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td>Edge-lit card</td><td><code>.noct-card</code></td><td>1px border + <code>inset 0 1px 0</code> highlight — the only shadow in the system</td></tr>
+            <tr><td>Dot-grid hero</td><td><code>.noct-dotgrid</code></td><td>Header/hero bands only, never behind body text</td></tr>
+            <tr><td>Keyboard key</td><td><code>.noct-kbd</code></td><td>Thicker bottom border for depth — <kbd class="noct-kbd">⌘</kbd><kbd class="noct-kbd">⏎</kbd></td></tr>
+            <tr><td>Ref pill</td><td><code>.noct-ref</code></td><td>Evidence inline with the claim — <span class="noct-ref">FundsRouter.java:214</span></td></tr>
+            <tr><td>Overline label</td><td><code>.noct-overline</code></td><td>Letterspaced uppercase above titles and on the verdict</td></tr>
+            <tr><td>Mono metrics</td><td><code>.noct-metric-v</code></td><td>Tabular numerals, muted small unit</td></tr>
+            <tr><td>Verdict card</td><td><code>.noct-verdict</code></td><td>Raised, accent left bar, <code>data-label</code> overline</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 06 ANTI-PATTERNS ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">06 —</span><h2>Anti-patterns</h2></div>
+      <p>The generic AI dark mode this system exists to prevent:</p>
+      <ul>
+        <li><strong>Gradient text, gradient heroes.</strong> The hero is type, space, and at most the dot grid.</li>
+        <li><strong>Glassmorphism / backdrop blur.</strong> Surfaces are opaque; hairlines separate them.</li>
+        <li><strong>Drop shadows for elevation.</strong> Borders carry elevation. The inset top highlight is the whole shadow budget.</li>
+        <li><strong>Thin display type on dark.</strong> Light strokes shimmer on near-black — 550–650 or nothing.</li>
+        <li><strong>A second accent.</strong> Semantic colours are state, not decoration.</li>
+        <li><strong>Decorative glow.</strong> No halos, no neon, no pulsing dots.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 07 FOR AI AGENTS ============ -->
+    <section class="noct-section">
+      <div class="noct-sec-h"><span class="noct-sec-num">07 —</span><h2>Using this system with AI agents</h2></div>
+      <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-nocturne</code> skill loads it automatically.</p>
+      <pre>Generate the dashboard as HTML using the Nocturne design system:
+https://dexteryo.github.io/design-systems/nocturne/
+(spec: README.md, tokens: nocturne.css)
+Inline the stylesheet if the output must be self-contained.</pre>
+    </section>
+
+    <footer class="noct-colophon">
+      <div>Nocturne · v1.0.0 · rev 2026-07-30</div>
+      <div>Linear restraint · Geist economy · Stripe density · Radix dark scales</div>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'dark', 'light'];
+  var current = 'auto';
+  try { current = localStorage.getItem('noct-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', mode);
+    }
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('noct-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    apply(order[(order.indexOf(current) + 1) % order.length]);
+  });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
+</body>
+</html>

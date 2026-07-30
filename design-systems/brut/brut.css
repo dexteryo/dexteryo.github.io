@@ -1,0 +1,616 @@
+/* ==========================================================================
+   BRUT DESIGN SYSTEM — canonical stylesheet
+   v1.0.0 · 2026-07-30
+   Canonical home:  https://dexteryo.github.io/design-systems/brut/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/brut/brut.css
+   Spec for agents: README.md in the same directory
+
+   Béton brut for engineering documents. Neo-brutalism with discipline:
+   thick black borders, hard offset shadows (never blurred), flat acid-yellow
+   fills, oversized 800–900-weight uppercase headings. The loudness is
+   structural honesty — every box shows its edges, every shadow is a solid
+   slab, nothing pretends to float. Underneath the noise the grid is strict:
+   one spacing scale, one accent, tokens everywhere.
+
+     Document mode (.brut-doc)    — reports as zines. A bordered content
+                                    frame, chunky rules between sections,
+                                    prose stays quiet (weight 400, ≤70ch);
+                                    the shouting is done by the furniture.
+     Panel mode    (.brut-panels) — dashboards as sticker sheets. Thick-
+                                    bordered metric blocks and panels sit on
+                                    the cream ground; tables close with a
+                                    3px header rule.
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+:root {
+  /* Type. One display face only — Helvetica does the shouting AND the
+     talking. Headings 800–900 uppercase, body 400. Mono carries machine
+     truth: evidence tags, metadata, values. */
+  --brut-sans: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+  --brut-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Spacing scale (4px base). Stay on the scale. */
+  --brut-s1: 4px;  --brut-s2: 8px;  --brut-s3: 12px; --brut-s4: 16px;
+  --brut-s5: 24px; --brut-s6: 32px; --brut-s7: 48px; --brut-s8: 64px;
+
+  /* Radius is 0 everywhere. The single exception: sticker-pill chips. */
+  --brut-r-chip: 999px;
+
+  /* Border weights. Components wear 3px; hairlines (row rules, evidence
+     tags, inline code) are 1.5px. Anything thinner does not exist here. */
+  --brut-bw: 3px;
+  --brut-hair: 1.5px;
+
+  /* Hard offset shadows — solid slabs, zero blur. 5px for cards/panels,
+     3px for small elements. A blurred shadow is a lie about light. */
+  --brut-shadow-ink: #111111;
+  --brut-shadow: 5px 5px 0 var(--brut-shadow-ink);
+  --brut-shadow-sm: 3px 3px 0 var(--brut-shadow-ink);
+
+  /* Ground + ink. Warm cream ground, near-black ink, black borders. */
+  --brut-ground:  #FBF6EC;
+  --brut-surface: #FFFFFF;
+  --brut-ink:     #111111;
+  --brut-muted:   #55524B;
+  --brut-border:  #111111;
+  --brut-code:    #F3ECD9;
+
+  /* Accent = acid yellow. FILLS ONLY, always with black text and black
+     borders on top. Yellow never colours text — it has no contrast to give. */
+  --brut-accent: #FFD43A;
+  --brut-accent-ink: #111111;
+
+  /* Block = a square that stays dark in BOTH themes (section-number tabs).
+     The black tab is the system's signature; it does not invert. */
+  --brut-block: #111111;
+  --brut-block-ink: #FFD43A;
+
+  /* Semantic family. These are FILLS (square dots, chip stickers, edges) —
+     never text colours. Text on a tint is always black, so contrast is
+     carried by the ink, not the hue. */
+  --brut-ok:   #00A05A;  --brut-ok-bg:   #CCF2DE;
+  --brut-warn: #FF8A00;  --brut-warn-bg: #FFE5C2;
+  --brut-crit: #E5484D;  --brut-crit-bg: #FBD9DA;
+  --brut-info: #3E63DD;  --brut-info-bg: #DAE2FA;
+
+  /* Data-viz categorical palette. Use in order; outline marks in ink. */
+  --brut-v1: #FFD43A; --brut-v2: #3E63DD; --brut-v3: #00A05A;
+  --brut-v4: #FF8A00; --brut-v5: #E5484D; --brut-v6: #9B5DE5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brut-shadow-ink: #000000;
+
+    --brut-ground:  #161513;
+    --brut-surface: #201F1C;
+    --brut-ink:     #F2EFE7;
+    --brut-muted:   #B8B2A6;
+    --brut-border:  #F2EFE7;
+    --brut-code:    #2A2823;
+
+    /* Yellow holds on dark; the ink on it stays black. */
+    --brut-accent: #FFD43A;
+    --brut-accent-ink: #111111;
+
+    --brut-block: #000000;
+    --brut-block-ink: #FFD43A;
+
+    /* Fills brighten a step for the dark ground. The pale tints do NOT
+       flip: chips are paper stickers and keep their paper fill (black text
+       on a pale sticker reads identically on either ground). */
+    --brut-ok:   #00B368;  --brut-ok-bg:   #CCF2DE;
+    --brut-warn: #FF9A26;  --brut-warn-bg: #FFE5C2;
+    --brut-crit: #EF6B70;  --brut-crit-bg: #FBD9DA;
+    --brut-info: #7A96F0;  --brut-info-bg: #DAE2FA;
+
+    --brut-v1: #FFD43A; --brut-v2: #7A96F0; --brut-v3: #00B368;
+    --brut-v4: #FF9A26; --brut-v5: #EF6B70; --brut-v6: #B07FF0;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="light"] {
+  --brut-shadow-ink: #111111;
+  --brut-ground: #FBF6EC; --brut-surface: #FFFFFF; --brut-ink: #111111;
+  --brut-muted: #55524B; --brut-border: #111111; --brut-code: #F3ECD9;
+  --brut-accent: #FFD43A; --brut-accent-ink: #111111;
+  --brut-block: #111111; --brut-block-ink: #FFD43A;
+  --brut-ok: #00A05A; --brut-ok-bg: #CCF2DE;
+  --brut-warn: #FF8A00; --brut-warn-bg: #FFE5C2;
+  --brut-crit: #E5484D; --brut-crit-bg: #FBD9DA;
+  --brut-info: #3E63DD; --brut-info-bg: #DAE2FA;
+  --brut-v1: #FFD43A; --brut-v2: #3E63DD; --brut-v3: #00A05A;
+  --brut-v4: #FF8A00; --brut-v5: #E5484D; --brut-v6: #9B5DE5;
+}
+:root[data-theme="dark"] {
+  --brut-shadow-ink: #000000;
+  --brut-ground: #161513; --brut-surface: #201F1C; --brut-ink: #F2EFE7;
+  --brut-muted: #B8B2A6; --brut-border: #F2EFE7; --brut-code: #2A2823;
+  --brut-accent: #FFD43A; --brut-accent-ink: #111111;
+  --brut-block: #000000; --brut-block-ink: #FFD43A;
+  --brut-ok: #00B368; --brut-ok-bg: #CCF2DE;
+  --brut-warn: #FF9A26; --brut-warn-bg: #FFE5C2;
+  --brut-crit: #EF6B70; --brut-crit-bg: #FBD9DA;
+  --brut-info: #7A96F0; --brut-info-bg: #DAE2FA;
+  --brut-v1: #FFD43A; --brut-v2: #7A96F0; --brut-v3: #00B368;
+  --brut-v4: #FF9A26; --brut-v5: #EF6B70; --brut-v6: #B07FF0;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.brut-doc, .brut-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.brut-doc *, .brut-doc *::before, .brut-doc *::after,
+.brut-panels *, .brut-panels *::before, .brut-panels *::after { box-sizing: inherit; }
+
+/* Links: ink with a heavy 2px underline; hover floods the link with the
+   acid fill. Loud, but it costs nothing if hover never fires. Buttons
+   opt out of the flood (they press into their shadow instead). */
+.brut-doc a:not(.brut-btn), .brut-panels a:not(.brut-btn) {
+  color: inherit; font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.brut-doc a:not(.brut-btn):hover, .brut-panels a:not(.brut-btn):hover {
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+  text-decoration-color: var(--brut-accent-ink);
+}
+.brut-doc :focus-visible, .brut-panels :focus-visible {
+  outline: var(--brut-bw) solid var(--brut-border); outline-offset: 2px;
+}
+.brut-doc img, .brut-panels img { max-width: 100%; height: auto; }
+
+.brut-mono { font-family: var(--brut-mono); }
+.brut-num { font-variant-numeric: tabular-nums; }
+.brut-right { text-align: right; }
+
+/* Tilt: the one permitted act of chaos — a single degree, on at most one
+   element per page (usually the pull quote). Optional; removed in print. */
+.brut-tilt { transform: rotate(-1deg); }
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+/* Reports as zines. The furniture (masthead, tabs, stamps) is loud; the
+   prose is not. Body stays weight 400 at 16px — a report you cannot read
+   is not brutalist, it is broken. */
+.brut-doc {
+  background: var(--brut-ground);
+  color: var(--brut-ink);
+  font-family: var(--brut-sans);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.brut-page { max-width: 980px; margin: 0 auto; padding: var(--brut-s7) var(--brut-s5) 96px; }
+@media (max-width: 640px) { .brut-page { padding: var(--brut-s5) var(--brut-s4) var(--brut-s8); } }
+
+/* Masthead: the title block. A 3px-bordered slab with the eyebrow set as
+   a full-width acid strip across the top and the meta grid closing it. */
+.brut-masthead {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  margin: 0 0 var(--brut-s7);
+}
+.brut-eyebrow {
+  display: block;
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+  font-family: var(--brut-mono);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: var(--brut-s2) var(--brut-s5);
+  margin: 0;
+}
+.brut-masthead > .brut-eyebrow { border-bottom: var(--brut-bw) solid var(--brut-border); }
+.brut-masthead-b { padding: var(--brut-s6) var(--brut-s5) var(--brut-s5); }
+
+.brut-title {
+  font-family: var(--brut-sans);
+  font-weight: 900; text-transform: uppercase;
+  font-size: clamp(32px, 6vw, 54px); line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--brut-s4);
+  text-wrap: balance;
+}
+/* One key word may sit on an acid highlight. Fill, not colour — the
+   letters stay ink. */
+.brut-title mark, .brut-title em {
+  font-style: normal; background: var(--brut-accent);
+  color: var(--brut-accent-ink); padding: 0 0.12em;
+}
+.brut-subtitle {
+  font-size: 18px; font-weight: 400; line-height: 1.5;
+  color: var(--brut-muted); max-width: 60ch; margin: 0;
+}
+
+/* Meta bar: author / date / status. Facts in mono, closed off from the
+   title by a full 3px rule when it sits inside the masthead. */
+.brut-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--brut-s3) var(--brut-s5);
+  border-top: var(--brut-bw) solid var(--brut-border);
+  padding: var(--brut-s3) var(--brut-s5);
+  margin: 0;
+  font-family: var(--brut-mono); font-size: 12px;
+}
+.brut-meta dt {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--brut-muted); margin: 0 0 2px;
+}
+.brut-meta dd { margin: 0; font-weight: 600; }
+
+/* Content frame: the zine's page. Sections inside are separated by chunky
+   3px rules — a hairline would whisper, and this system does not whisper. */
+.brut-frame {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  padding: var(--brut-s6) clamp(var(--brut-s4), 4vw, var(--brut-s7));
+}
+.brut-section { padding: var(--brut-s6) 0; }
+.brut-section:first-child { padding-top: 0; }
+.brut-section:last-child { padding-bottom: 0; }
+.brut-section + .brut-section { border-top: var(--brut-bw) solid var(--brut-border); }
+.brut-doc hr {
+  border: 0; border-top: var(--brut-bw) solid var(--brut-border);
+  margin: var(--brut-s6) 0;
+}
+
+/* Section header: a numbered black tab. The number sits in a block square
+   (acid digits on black — the block does not invert in dark mode); the
+   title follows in 800-weight uppercase. */
+.brut-sec-h {
+  display: inline-flex; align-items: stretch;
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow-sm);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-sec-num {
+  display: grid; place-items: center;
+  min-width: 44px; padding: 0 var(--brut-s3);
+  background: var(--brut-block); color: var(--brut-block-ink);
+  border-right: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 15px; font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.brut-sec-h h2 {
+  margin: 0; padding: var(--brut-s2) var(--brut-s4);
+  font-size: 19px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+
+/* Prose: quiet on purpose. Weight 400, measure capped at 70ch. */
+.brut-doc p, .brut-doc ul, .brut-doc ol { max-width: 70ch; margin: 0 0 var(--brut-s4); }
+.brut-doc ul, .brut-doc ol { padding-left: 22px; }
+.brut-doc li { margin-bottom: var(--brut-s1); }
+.brut-doc h3 {
+  font-size: 15px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  margin: var(--brut-s5) 0 var(--brut-s3);
+}
+
+/* Evidence tag: provenance as a stamped mono label straight after the
+   claim — file:line, ticket, date verified. Hairline border, no shadow;
+   evidence is furniture, not decoration. */
+.brut-evidence {
+  display: inline-block;
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 500;
+  color: var(--brut-ink);
+  border: var(--brut-hair) solid var(--brut-border);
+  background: var(--brut-surface);
+  padding: 0 6px; margin-left: 6px;
+  white-space: nowrap; vertical-align: 1px;
+}
+
+/* Code: warm slab with a hard small shadow. Inline code gets the hairline. */
+.brut-doc pre, .brut-panels pre {
+  background: var(--brut-code);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow-sm);
+  padding: var(--brut-s4);
+  font-family: var(--brut-mono); font-size: 13px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--brut-s5);
+}
+.brut-doc code, .brut-panels code {
+  font-family: var(--brut-mono); font-size: 0.85em;
+  background: var(--brut-code);
+  border: var(--brut-hair) solid var(--brut-border);
+  padding: 0 4px;
+}
+.brut-doc pre code, .brut-panels pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+
+/* Pull quote: an acid-filled box. May carry .brut-tilt (one per page). */
+.brut-pull {
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+  padding: var(--brut-s5);
+  margin: var(--brut-s6) var(--brut-s2);
+  max-width: 56ch;
+  font-size: 19px; font-weight: 700; line-height: 1.4;
+}
+.brut-pull strong { font-weight: 900; text-transform: uppercase; }
+
+/* Stat strip: headline numbers in a divided slab. Internal 3px dividers
+   are drawn by the gap over the border colour — keep the cell count able
+   to fill the row, a ragged row exposes dark filler. */
+.brut-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--brut-bw);
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-border);
+  box-shadow: var(--brut-shadow);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-stats > div { background: var(--brut-surface); padding: var(--brut-s3) var(--brut-s4); }
+.brut-stat-label {
+  font-family: var(--brut-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--brut-muted); margin-bottom: var(--brut-s1);
+}
+.brut-stat-value {
+  font-size: 28px; font-weight: 900; letter-spacing: -0.02em;
+  line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+.brut-stat-value .brut-unit {
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 500;
+  color: var(--brut-muted); margin-left: 4px; letter-spacing: 0;
+}
+
+/* Table: a bordered, shadowed slab. Header closes with the 3px rule;
+   rows are black hairlines; the total row is an acid-filled full stop. */
+.brut-table-wrap {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  overflow-x: auto; margin: 0 0 var(--brut-s5);
+}
+.brut-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.brut-table th {
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; text-align: left;
+  padding: var(--brut-s2) var(--brut-s3);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+}
+.brut-table td {
+  padding: var(--brut-s2) var(--brut-s3);
+  border-bottom: var(--brut-hair) solid var(--brut-border);
+  vertical-align: top;
+}
+.brut-table tbody tr:last-child td { border-bottom: 0; }
+.brut-table td.brut-num, .brut-table th.brut-num {
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.brut-table tr.brut-total td {
+  border-top: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+  font-weight: 800;
+}
+
+/* Verdict: the stamp. Thick border, hard shadow, uppercase label on a
+   full-width acid strip pulled from data-label. Only when there IS a
+   verdict — an empty stamp is a lie. */
+.brut-verdict {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  margin: var(--brut-s7) 0 0;
+}
+.brut-verdict::before {
+  content: attr(data-label);
+  display: block;
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 12px; font-weight: 800;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: var(--brut-s2) var(--brut-s5);
+}
+.brut-verdict-b { padding: var(--brut-s5); }
+.brut-verdict-b h3 {
+  font-size: 22px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: -0.01em;
+  line-height: 1.2; margin: 0 0 var(--brut-s3);
+}
+.brut-verdict-b p { margin-bottom: var(--brut-s3); }
+.brut-verdict-b ol, .brut-verdict-b ul { margin-bottom: 0; }
+
+/* Footer / colophon: mono caps over a chunky rule. */
+.brut-colophon {
+  margin-top: var(--brut-s8); padding-top: var(--brut-s4);
+  border-top: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--brut-muted);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--brut-s4);
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+/* Dashboards as sticker sheets: discrete thick-bordered blocks scattered
+   on the cream ground with real gaps between them — not a seamless grid. */
+.brut-panels {
+  background: var(--brut-ground);
+  color: var(--brut-ink);
+  font-family: var(--brut-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Board header: page-level title strip for a Panel-mode page. */
+.brut-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--brut-s2) var(--brut-s4);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-board-h h1 {
+  font-size: 26px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: -0.01em; margin: 0;
+}
+.brut-board-h .brut-board-meta {
+  margin-left: auto; font-family: var(--brut-mono); font-size: 11.5px;
+  color: var(--brut-muted); font-variant-numeric: tabular-nums;
+}
+
+/* Metric cards: each one its own sticker. The hero variant is the page's
+   single acid-filled headline number — at most one per board. */
+.brut-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--brut-s4);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-metric {
+  background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+  padding: var(--brut-s3) var(--brut-s4);
+}
+.brut-metric.brut-hero { background: var(--brut-accent); color: var(--brut-accent-ink); }
+.brut-metric.brut-hero .brut-metric-l, .brut-metric.brut-hero .brut-unit { color: var(--brut-accent-ink); }
+.brut-metric-l {
+  font-family: var(--brut-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--brut-muted); margin-bottom: var(--brut-s1);
+}
+.brut-metric-v {
+  font-size: 30px; font-weight: 900; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.brut-metric-v .brut-unit {
+  font-family: var(--brut-mono); font-size: 12px; font-weight: 500;
+  color: var(--brut-muted); margin-left: 4px;
+}
+
+/* Panel: titled sticker block. Header closes with the full 3px rule. */
+.brut-panel {
+  background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+}
+.brut-panel-h {
+  display: flex; align-items: baseline; gap: var(--brut-s3);
+  padding: var(--brut-s3) var(--brut-s4);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+}
+.brut-panel-h h3 {
+  font-size: 14px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.01em; margin: 0;
+}
+.brut-panel-h .brut-panel-meta {
+  margin-left: auto; font-family: var(--brut-mono); font-size: 11px;
+  color: var(--brut-muted); font-variant-numeric: tabular-nums;
+}
+.brut-panel-b { padding: var(--brut-s3) var(--brut-s4); }
+
+/* Key–value rows: machine truth on the right, in mono. Black hairlines. */
+.brut-kv {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--brut-s4); padding: 7px 0;
+  border-bottom: var(--brut-hair) solid var(--brut-border);
+  font-size: 13px;
+}
+.brut-kv:last-child { border-bottom: 0; }
+.brut-kv > span:first-child { color: var(--brut-muted); }
+.brut-kv > b, .brut-kv > span:last-child {
+  font-weight: 600; font-family: var(--brut-mono); font-size: 12px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: square status dot + title + mono metadata. */
+.brut-reg-row {
+  display: flex; align-items: center; gap: var(--brut-s3);
+  padding: 9px 0;
+  border-bottom: var(--brut-hair) solid var(--brut-border);
+  font-size: 13px;
+}
+.brut-reg-row:last-child { border-bottom: 0; }
+.brut-reg-row b { font-weight: 700; }
+.brut-reg-meta {
+  margin-left: auto; font-family: var(--brut-mono); font-size: 11.5px;
+  color: var(--brut-muted); font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── 5. SHARED COMPONENTS ──────────────────────────────────────────────── */
+/* Status dots: bordered SQUARES — a circle would be soft. The fill is the
+   semantic colour; the border keeps it honest on any ground. */
+.brut-dot {
+  width: 10px; height: 10px; flex: none;
+  border: 2px solid var(--brut-border);
+  background: var(--brut-surface);
+}
+.brut-dot.ok   { background: var(--brut-ok); }
+.brut-dot.warn { background: var(--brut-warn); }
+.brut-dot.crit { background: var(--brut-crit); }
+.brut-dot.info { background: var(--brut-info); }
+.brut-dot.neutral { background: var(--brut-surface); }
+
+/* Chips: sticker-pills. The only rounded thing in the system. 2px border,
+   flat pale tint, BLACK text (semantic hue is the fill, never the type),
+   and a small hard shadow so they sit proud of the sheet. The chip's ink
+   is pinned to accent-ink (#111) in both themes — stickers are paper. */
+.brut-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--brut-accent-ink);
+  border: 2px solid var(--brut-accent-ink);
+  border-radius: var(--brut-r-chip);
+  box-shadow: 2px 2px 0 var(--brut-shadow-ink);
+  padding: 2px 12px; white-space: nowrap;
+  background: var(--brut-surface);
+}
+.brut-chip.ok      { background: var(--brut-ok-bg); }
+.brut-chip.warn    { background: var(--brut-warn-bg); }
+.brut-chip.crit    { background: var(--brut-crit-bg); }
+.brut-chip.info    { background: var(--brut-info-bg); }
+.brut-chip.neutral { background: #FFFFFF; }
+
+/* Buttons: bordered slabs that PRESS into their shadow on hover — the
+   element translates by its own offset and the shadow disappears, as if
+   pushed flat. Cosmetic, progressive; nothing depends on it. */
+.brut-btn {
+  display: inline-block;
+  font-family: var(--brut-sans); font-size: 13px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--brut-ink); background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow-sm);
+  padding: 10px 18px;
+  cursor: pointer; text-decoration: none;
+  transition: transform 60ms ease-out, box-shadow 60ms ease-out;
+}
+.brut-btn:hover, .brut-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+.brut-btn.brut-accent { background: var(--brut-accent); color: var(--brut-accent-ink); }
+
+/* Theme toggle chrome (guide pages). Hidden in print. */
+.brut-theme-toggle { position: fixed; top: var(--brut-s4); right: var(--brut-s4); z-index: 10; }
+
+/* Diagram frame: Brut reuses the DDS two-tier diagram discipline (see
+   README §7) — this frame hosts either tier and brings its own slab. */
+.brut-diagram {
+  background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+  padding: var(--brut-s4);
+  overflow-x: auto; margin: 0 0 var(--brut-s5);
+}
+.brut-diagram svg { display: block; width: 100%; height: auto; }
+
+/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+/* Monochrome-ish paper: borders carry the structure, shadows and the tilt
+   go, the toggle disappears. Acid fills are left to the printer's mercy —
+   they grey out gracefully because their text is already black. */
+@media print {
+  .brut-doc, .brut-panels { background: #FFFFFF; color: #000000; }
+  .brut-doc *, .brut-panels * { box-shadow: none !important; }
+  .brut-tilt { transform: none; }
+  .brut-theme-toggle { display: none; }
+}

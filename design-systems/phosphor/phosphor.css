@@ -1,0 +1,494 @@
+/* ==========================================================================
+   PHOSPHOR — canonical stylesheet
+   v1.0.0 · 2026-07-30
+   Canonical home:  https://dexteryo.github.io/design-systems/phosphor/
+   Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/phosphor/phosphor.css
+   Spec for agents: README.md in the same directory
+
+   Engineering console. Phosphor green on near-black, monospace throughout,
+   zero decoration: if it is on screen it means something. DARK-FIRST — the
+   default token block is the dark terminal; the light counterpart is a
+   "paper terminal" (DEC printout on warm paper). Restraint over cosplay:
+   no scanlines, no screen curvature, no flicker, no boot sequences. The
+   aesthetic is carried by type, colour, and furniture — rule-line section
+   headers, bracket status chips, dot-leader rows, a statusline colophon,
+   and exactly one glow (the h1, and only in the dark theme).
+
+   Portability rule: system font stacks only — no webfont requests. The
+   stylesheet must work inlined in a sandboxed artifact, attached to a
+   ticket, or opened from disk with no network.
+   ========================================================================== */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+/* Dark is the default block — this system boots dark. */
+:root {
+  /* Type. One family. Everything is mono; hierarchy comes from size,
+     weight, and colour — never from a second typeface. */
+  --phos-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Spacing scale (4px base). Stay on the scale. */
+  --phos-s1: 4px;  --phos-s2: 8px;  --phos-s3: 12px; --phos-s4: 16px;
+  --phos-s5: 24px; --phos-s6: 32px; --phos-s7: 48px; --phos-s8: 64px;
+
+  /* Grounds. Near-black with a green cast, not pure black — pure black
+     haloes on LCDs and crushes the border scale. */
+  --phos-ground:  #0A0F0C;
+  --phos-surface: #0F1511;
+  --phos-border:  #1E2B23;
+  --phos-strong:  #33473B;
+  --phos-ink:     #CFE0D0;
+  --phos-muted:   #7A9183;
+
+  /* Accent = phosphor green. It is the same colour as `ok`: in this system
+     green MEANS ok / verified / the one emphasis — never decoration. */
+  --phos-accent:     #3FE68F;
+  --phos-accent-ink: #06110B;
+
+  /* Semantic families. Each status pairs a bright text value with a deep
+     tinted ground for chips and highlighted rows. */
+  --phos-ok:   #3FE68F;  --phos-ok-bg:   #10281C;
+  --phos-warn: #FFB454;  --phos-warn-bg: #2E2113;
+  --phos-crit: #FF6B5E;  --phos-crit-bg: #301512;
+  --phos-info: #5CC9D6;  --phos-info-bg: #0F2529;
+
+  /* Data-viz categorical palette. Declared once; use in order. */
+  --phos-v1: #3FE68F; --phos-v2: #5CC9D6; --phos-v3: #FFB454;
+  --phos-v4: #C792EA; --phos-v5: #FF6B5E; --phos-v6: #82AAFF;
+
+  /* The one glow. Permitted on the h1 title ONLY. The light theme and
+     print both zero it. A second glow anywhere is a defect. */
+  --phos-glow: 0 0 14px rgba(63, 230, 143, 0.35);
+}
+
+/* Light counterpart: the paper terminal. A DEC printout — warm paper,
+   deep green ink, no glow. Same grammar, different medium. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --phos-ground:  #F2F1E9;
+    --phos-surface: #FAF9F3;
+    --phos-border:  #D6D4C6;
+    --phos-strong:  #AFAD9C;
+    --phos-ink:     #23372B;
+    --phos-muted:   #5D6F62;
+
+    --phos-accent:     #147A50;
+    --phos-accent-ink: #FAF9F3;
+
+    --phos-ok:   #147A50;  --phos-ok-bg:   #E3F0E7;
+    --phos-warn: #8A5A00;  --phos-warn-bg: #F0E4C9;
+    --phos-crit: #B3362B;  --phos-crit-bg: #F4DCD7;
+    --phos-info: #16697A;  --phos-info-bg: #DCEAEE;
+
+    --phos-v1: #147A50; --phos-v2: #16697A; --phos-v3: #8A5A00;
+    --phos-v4: #7B4B94; --phos-v5: #B3362B; --phos-v6: #3D5FA6;
+
+    --phos-glow: none;
+  }
+}
+
+/* Explicit theme override (viewer toggles stamp data-theme on the root;
+   it must win in both directions). Keep in sync with the two blocks above. */
+:root[data-theme="dark"] {
+  --phos-ground: #0A0F0C; --phos-surface: #0F1511;
+  --phos-border: #1E2B23; --phos-strong: #33473B;
+  --phos-ink: #CFE0D0; --phos-muted: #7A9183;
+  --phos-accent: #3FE68F; --phos-accent-ink: #06110B;
+  --phos-ok: #3FE68F; --phos-ok-bg: #10281C;
+  --phos-warn: #FFB454; --phos-warn-bg: #2E2113;
+  --phos-crit: #FF6B5E; --phos-crit-bg: #301512;
+  --phos-info: #5CC9D6; --phos-info-bg: #0F2529;
+  --phos-v1: #3FE68F; --phos-v2: #5CC9D6; --phos-v3: #FFB454;
+  --phos-v4: #C792EA; --phos-v5: #FF6B5E; --phos-v6: #82AAFF;
+  --phos-glow: 0 0 14px rgba(63, 230, 143, 0.35);
+}
+:root[data-theme="light"] {
+  --phos-ground: #F2F1E9; --phos-surface: #FAF9F3;
+  --phos-border: #D6D4C6; --phos-strong: #AFAD9C;
+  --phos-ink: #23372B; --phos-muted: #5D6F62;
+  --phos-accent: #147A50; --phos-accent-ink: #FAF9F3;
+  --phos-ok: #147A50; --phos-ok-bg: #E3F0E7;
+  --phos-warn: #8A5A00; --phos-warn-bg: #F0E4C9;
+  --phos-crit: #B3362B; --phos-crit-bg: #F4DCD7;
+  --phos-info: #16697A; --phos-info-bg: #DCEAEE;
+  --phos-v1: #147A50; --phos-v2: #16697A; --phos-v3: #8A5A00;
+  --phos-v4: #7B4B94; --phos-v5: #B3362B; --phos-v6: #3D5FA6;
+  --phos-glow: none;
+}
+
+/* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
+.phos-doc, .phos-panels {
+  box-sizing: border-box; -webkit-font-smoothing: antialiased;
+  background: var(--phos-ground); color: var(--phos-ink);
+  font-family: var(--phos-mono); font-size: 14px; line-height: 1.6;
+}
+.phos-doc *, .phos-doc *::before, .phos-doc *::after,
+.phos-panels *, .phos-panels *::before, .phos-panels *::after { box-sizing: inherit; }
+
+.phos-page { max-width: 880px; margin: 0 auto; padding: var(--phos-s7) var(--phos-s5) var(--phos-s8); }
+
+/* Links: ink with a dim underline; green only on hover — an unvisited link
+   has earned no claim. */
+.phos-doc a, .phos-panels a {
+  color: inherit; text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 3px;
+}
+.phos-doc a:hover, .phos-panels a:hover {
+  color: var(--phos-accent); text-decoration-color: var(--phos-accent);
+}
+.phos-doc :focus-visible, .phos-panels :focus-visible {
+  outline: 2px solid var(--phos-accent); outline-offset: 2px;
+}
+.phos-doc img, .phos-panels img { max-width: 100%; height: auto; }
+
+.phos-num { font-variant-numeric: tabular-nums; }
+.phos-right { text-align: right; }
+/* Uppercase letterspaced label — the system's only "small type" voice. */
+.phos-label {
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--phos-muted);
+}
+
+/* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
+/* Long-form reports, investigations, post-mortems. Same ground as panel
+   mode — a terminal has one screen. Prose measure capped at 70ch. */
+
+.phos-eyebrow {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--phos-muted); margin: 0 0 var(--phos-s4);
+}
+
+/* Title: the one permitted glow, plus a blinking block cursor. The cursor
+   is a CSS steps() animation — disabled under prefers-reduced-motion and
+   in print, where a frozen cursor would read as a typo. */
+.phos-title {
+  font-family: var(--phos-mono); font-weight: 700;
+  font-size: clamp(21px, 3.6vw, 29px); line-height: 1.25;
+  letter-spacing: 0.01em; margin: 0 0 var(--phos-s3);
+  color: var(--phos-accent);
+  text-shadow: var(--phos-glow);
+  text-wrap: balance;
+}
+.phos-title::after {
+  content: "▊"; margin-left: 0.18em;
+  animation: phos-blink 1.1s steps(2, jump-none) infinite;
+}
+@keyframes phos-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .phos-title::after { animation: none; }
+}
+
+.phos-subtitle {
+  font-size: 15px; line-height: 1.6; font-weight: 400;
+  color: var(--phos-muted); max-width: 70ch; margin: 0 0 var(--phos-s5);
+}
+
+/* Meta block: author / date / status. Facts, not decoration. */
+.phos-meta {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--phos-s3) var(--phos-s5);
+  border-top: 1px solid var(--phos-border);
+  border-bottom: 1px solid var(--phos-border);
+  padding: var(--phos-s3) 0; margin: 0 0 var(--phos-s7);
+  font-size: 12px;
+}
+.phos-meta dt {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--phos-muted); margin: 0 0 2px;
+}
+.phos-meta dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Section header: a rule-line with an embedded label —
+     ── § 01 · RECONCILIATION ─────────────────────
+   Built with flex + borders (never literal repeated glyphs) so the tail
+   stretches to any width. The number is optional; drop the span when
+   order carries no meaning. */
+.phos-section { margin: 0 0 var(--phos-s7); }
+.phos-sec-h {
+  display: flex; align-items: center; gap: var(--phos-s3);
+  margin: var(--phos-s7) 0 var(--phos-s4);
+}
+.phos-sec-h::before {
+  content: ""; flex: none; width: var(--phos-s5);
+  border-top: 1px solid var(--phos-strong);
+}
+.phos-sec-h::after {
+  content: ""; flex: 1; min-width: var(--phos-s5);
+  border-top: 1px solid var(--phos-strong);
+}
+.phos-sec-num {
+  flex: none; font-size: 12px; letter-spacing: 0.1em;
+  color: var(--phos-muted); font-variant-numeric: tabular-nums;
+}
+.phos-sec-num::after { content: " ·"; }
+.phos-sec-h h2 {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--phos-ink); margin: 0;
+}
+
+.phos-doc p  { max-width: 70ch; margin: 0 0 var(--phos-s4); }
+.phos-doc ul, .phos-doc ol { max-width: 70ch; margin: 0 0 var(--phos-s4); padding-left: 22px; }
+.phos-doc li { margin-bottom: var(--phos-s1); }
+
+/* Evidence citation: a dim bracketed ref inline, straight after the claim —
+     [src: FundsRouter.java:214 · 2026-07-30]
+   The brackets come from CSS; write only the payload. Dim on purpose:
+   provenance should be checkable, not shouty. */
+.phos-ref {
+  font-size: 11px; color: var(--phos-muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.phos-ref::before { content: "["; }
+.phos-ref::after  { content: "]"; }
+
+/* Pull quote: one bright line against a green bar. The strong run carries
+   the point; the rest stays dim. */
+.phos-pull {
+  border-left: 2px solid var(--phos-accent);
+  margin: var(--phos-s5) 0; padding: var(--phos-s2) 0 var(--phos-s2) var(--phos-s5);
+  font-size: 15px; line-height: 1.65; color: var(--phos-muted); max-width: 62ch;
+}
+.phos-pull strong { color: var(--phos-ink); font-weight: 700; }
+
+/* Headline-stats strip: numbers between rules. Values are green — the
+   metric idiom of this system (see also .phos-metric-v). */
+.phos-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--phos-s5);
+  border-top: 1px solid var(--phos-strong);
+  border-bottom: 1px solid var(--phos-border);
+  padding: var(--phos-s4) 0; margin: 0 0 var(--phos-s5);
+}
+.phos-stat-label {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--phos-muted); margin-bottom: var(--phos-s1);
+}
+.phos-stat-value {
+  font-size: 24px; font-weight: 700; line-height: 1.15;
+  color: var(--phos-accent); font-variant-numeric: tabular-nums;
+}
+.phos-stat-value .phos-unit {
+  font-size: 11px; font-weight: 400; color: var(--phos-muted); margin-left: 4px;
+}
+
+/* Tables: dense, hairline rows, uppercase headers. 13px in both modes —
+   a console table is scanned, not read. */
+.phos-table-wrap { overflow-x: auto; margin: 0 0 var(--phos-s4); }
+.phos-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.phos-table th {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--phos-muted); text-align: left;
+  padding: var(--phos-s2) var(--phos-s3);
+  border-bottom: 1px solid var(--phos-strong);
+}
+.phos-table td {
+  padding: var(--phos-s2) var(--phos-s3);
+  border-bottom: 1px solid var(--phos-border);
+  vertical-align: top;
+}
+.phos-table td.phos-num, .phos-table th.phos-num {
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+/* Accountant's total rule: thin line above, double rule below. */
+.phos-table tr.phos-total td {
+  border-top: 1px solid var(--phos-strong);
+  border-bottom: 3px double var(--phos-strong);
+  font-weight: 700;
+}
+
+/* ── 4. PANEL MODE ─────────────────────────────────────────────────────── */
+/* TUI dashboard — htop/k9s energy. 1px borders carry all elevation;
+   there are no shadows in a terminal. */
+
+/* Board header: page-level strip for a dashboard page. */
+.phos-board-h {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--phos-s2) var(--phos-s4);
+  margin: 0 0 var(--phos-s5);
+}
+.phos-board-h h1 {
+  font-size: 16px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; margin: 0;
+}
+.phos-board-h .phos-board-meta {
+  margin-left: auto; font-size: 11.5px; color: var(--phos-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Metric cards: caps label + large green value + dim unit. Cells divided
+   by 1px hairlines drawn with each cell's shadow, so a ragged last row
+   leaves clean space, never a filler slab. */
+.phos-metric-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; padding: 1px; margin: 0 0 var(--phos-s5);
+}
+.phos-metric {
+  background: var(--phos-surface);
+  box-shadow: 0 0 0 1px var(--phos-border);
+  padding: var(--phos-s3) var(--phos-s4);
+}
+.phos-metric-l {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--phos-muted); margin-bottom: var(--phos-s1);
+}
+.phos-metric-v {
+  font-size: 23px; font-weight: 700; line-height: 1.15;
+  color: var(--phos-accent); font-variant-numeric: tabular-nums;
+}
+.phos-metric-v .phos-unit {
+  font-size: 11px; font-weight: 400; color: var(--phos-muted); margin-left: 4px;
+}
+
+/* Panel: a bordered TUI cell. The header is a reversed-video strip —
+   fg/bg swapped, the terminal's native way of saying "chrome". */
+.phos-panel { background: var(--phos-surface); border: 1px solid var(--phos-strong); }
+.phos-panel-h {
+  display: flex; align-items: baseline; gap: var(--phos-s3);
+  padding: 5px var(--phos-s3);
+  background: var(--phos-ink); color: var(--phos-ground);
+}
+.phos-panel-h h3 {
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; margin: 0;
+}
+.phos-panel-h .phos-panel-meta {
+  margin-left: auto; font-size: 11px;
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+.phos-panel-b { padding: var(--phos-s3) var(--phos-s3) var(--phos-s3); }
+
+/* Key–value rows with dot-leaders: key … value, the leader dotted line
+   stretches (border trick, never typed dots). Values are machine truth —
+   tabular, right-hand side. */
+.phos-kv {
+  display: flex; align-items: flex-end; gap: var(--phos-s1);
+  padding: 5px 0; font-size: 13px;
+}
+.phos-kv > span:first-child { color: var(--phos-muted); flex: none; }
+.phos-leader {
+  flex: 1; min-width: var(--phos-s5);
+  border-bottom: 1px dotted var(--phos-strong);
+  margin: 0 var(--phos-s1) 4px;
+}
+.phos-kv > b, .phos-kv > span:last-child {
+  flex: none; font-weight: 600; font-size: 12.5px;
+  font-variant-numeric: tabular-nums; text-align: right;
+}
+
+/* Register rows: ▪ status dot + title + mono metadata. */
+.phos-reg-row {
+  display: flex; align-items: center; gap: var(--phos-s2);
+  padding: 6px 0; border-bottom: 1px solid var(--phos-border);
+  font-size: 13px;
+}
+.phos-reg-row:last-child { border-bottom: 0; }
+.phos-reg-row b { font-weight: 600; }
+.phos-reg-meta {
+  margin-left: auto; font-size: 11.5px; color: var(--phos-muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+/* ── 5. SHARED COMPONENTS ──────────────────────────────────────────────── */
+
+/* Status vocabulary — bracket text-chips. The chip is typed text in fixed
+   six-character forms so columns of chips align in mono:
+     [ OK ]  [WARN]  [CRIT]  [INFO]  [ -- ]
+   Write the brackets yourself; the class supplies colour and the deep
+   tinted ground. ok = healthy/verified · warn = degraded/in-review ·
+   crit = failing/stale · info = informational · neutral = draft/unknown. */
+.phos-chip {
+  display: inline-block; font-weight: 700; font-size: 12px;
+  letter-spacing: 0.02em; white-space: pre; padding: 0 3px;
+}
+.phos-chip.ok      { color: var(--phos-ok);   background: var(--phos-ok-bg); }
+.phos-chip.warn    { color: var(--phos-warn); background: var(--phos-warn-bg); }
+.phos-chip.crit    { color: var(--phos-crit); background: var(--phos-crit-bg); }
+.phos-chip.info    { color: var(--phos-info); background: var(--phos-info-bg); }
+.phos-chip.neutral { color: var(--phos-muted); background: transparent; }
+
+/* Dot form for rows: a small ▪ supplied by CSS. Same vocabulary. */
+.phos-dot { flex: none; font-size: 12px; line-height: 1; }
+.phos-dot::before { content: "▪"; }
+.phos-dot.ok      { color: var(--phos-ok); }
+.phos-dot.warn    { color: var(--phos-warn); }
+.phos-dot.crit    { color: var(--phos-crit); }
+.phos-dot.info    { color: var(--phos-info); }
+.phos-dot.neutral { color: var(--phos-muted); }
+
+/* Code: surface block with a thin left border. Shell lines carry a `$`
+   prompt in .phos-ps (dim, unselectable — copy the command, not the
+   prompt). Inline code sits on the surface with a hairline. */
+.phos-doc pre, .phos-panels pre {
+  background: var(--phos-surface);
+  border: 1px solid var(--phos-border);
+  border-left: 2px solid var(--phos-strong);
+  padding: var(--phos-s3) var(--phos-s4);
+  font-family: var(--phos-mono); font-size: 13px; line-height: 1.6;
+  overflow-x: auto; margin: 0 0 var(--phos-s4);
+}
+.phos-ps { color: var(--phos-muted); user-select: none; }
+.phos-doc code, .phos-panels code {
+  font-family: var(--phos-mono); font-size: 0.93em;
+  background: var(--phos-surface); border: 1px solid var(--phos-border);
+  padding: 0 4px;
+}
+.phos-doc pre code, .phos-panels pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+
+/* Verdict box: a double frame (border + offset outline) with a bracketed
+   label riding the top rule. Frame in ink — the box is furniture; only
+   the label wears green, because the verdict is the claim. */
+.phos-verdict {
+  border: 1px solid var(--phos-ink);
+  outline: 1px solid var(--phos-ink); outline-offset: 3px;
+  background: var(--phos-surface);
+  padding: var(--phos-s5); margin: var(--phos-s7) var(--phos-s1) var(--phos-s1);
+  position: relative;
+}
+.phos-verdict::before {
+  content: "[ " attr(data-label) " ]";
+  position: absolute; top: -11px; left: var(--phos-s4);
+  background: var(--phos-ground); color: var(--phos-accent);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0 var(--phos-s2); white-space: nowrap;
+}
+.phos-verdict h3 {
+  font-size: 16px; font-weight: 700; line-height: 1.4;
+  margin: 0 0 var(--phos-s3);
+}
+.phos-verdict p { margin-bottom: var(--phos-s3); }
+.phos-verdict ol, .phos-verdict ul { margin-bottom: 0; }
+
+/* Statusline colophon: a tmux/vim-style reversed-video strip closing the
+   page — mode · title · (stretch) · date · revision. The mode segment is
+   the accent block, like an active tmux window. */
+.phos-statusline {
+  display: flex; align-items: stretch; flex-wrap: wrap;
+  margin-top: var(--phos-s8);
+  background: var(--phos-ink); color: var(--phos-ground);
+  font-size: 11.5px; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.phos-sl-mode {
+  background: var(--phos-accent); color: var(--phos-accent-ink);
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px var(--phos-s3);
+}
+.phos-sl-item { padding: 7px var(--phos-s3); white-space: nowrap; }
+.phos-sl-item + .phos-sl-item {
+  border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+.phos-sl-fill { flex: 1; min-width: var(--phos-s4); }
+
+/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+@media print {
+  .phos-doc, .phos-panels { background: #FFFFFF; color: #000000; }
+  .phos-title { color: #000000; text-shadow: none; }
+  .phos-title::after { content: none; }
+  .phos-statusline { background: #FFFFFF; color: #000000; border-top: 1px solid #000000; }
+  .phos-sl-mode { background: #FFFFFF; color: #000000; }
+  .phos-panel-h { background: #FFFFFF; color: #000000; border-bottom: 1px solid #000000; }
+  .phos-no-print { display: none !important; }
+}

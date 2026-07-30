@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brut Design System</title>
+<link rel="stylesheet" href="brut.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 24px; }
+  .sw { width: 108px; font-family: var(--brut-mono); font-size: 10.5px; }
+  .sw i { display: block; height: 40px; border: 2px solid var(--brut-border); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--brut-muted); }
+  .demo-note { font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+               text-transform: uppercase; color: var(--brut-muted); margin: 24px 0 12px; }
+  .panel-demo { border: 1.5px dashed var(--brut-muted); padding: 24px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .type-specimen { border-bottom: 1.5px solid var(--brut-border); padding: 12px 0; display: flex;
+                   align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .type-specimen .lbl { font-family: var(--brut-mono); font-size: 10.5px; color: var(--brut-muted);
+                        width: 200px; flex: none; }
+  .chip-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+</style>
+</head>
+<body class="brut-doc">
+<button class="brut-btn brut-theme-toggle" id="theme-toggle" type="button" hidden>Theme</button>
+<div class="brut-page">
+
+  <header class="brut-masthead">
+    <div class="brut-eyebrow">Brut Design System · v1.0.0 · Living Style Guide</div>
+    <div class="brut-masthead-b">
+      <h1 class="brut-title">Concrete for <mark>documents</mark></h1>
+      <p class="brut-subtitle">A neo-brutalist system for AI-generated engineering HTML: thick borders, hard shadows, flat acid fills — and underneath it all, a grid that never flinches. The furniture shouts so the prose does not have to.</p>
+    </div>
+    <dl class="brut-meta">
+      <div><dt>Owner</dt><dd>Dexter</dd></div>
+      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
+      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Stylesheet</dt><dd><a href="brut.css">brut.css</a></dd></div>
+      <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+    </dl>
+  </header>
+
+  <div class="brut-frame">
+
+    <!-- ============ 01 PRINCIPLES ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">01</span><h2>Principles</h2></div>
+      <p><strong>Honest structure.</strong> Every container shows its edges: 3px borders, hard offset shadows with zero blur, radius 0. Nothing floats, nothing fades, nothing pretends. A box is a box, and the shadow is a solid slab of ink — béton brut, raw concrete, for documents.</p>
+      <p><strong>Yellow is a fill, never a voice.</strong> The single accent — acid yellow — marks the one thing that matters in each context: the hero metric, the total row, the verdict strip. It always carries black text and black borders; it never colours type, because it has no contrast to give.</p>
+      <p><strong>Loudness lives in furniture.</strong> Headings run 800–900 weight, uppercase, tight. Body prose stays at weight 400, 16px, capped at 70ch. A report you cannot read is not brutalist; it is broken.</p>
+      <p><strong>Energy without chaos.</strong> One spacing scale, one accent, one display face, at most one tilt per page. The noise is rationed — that is what separates a system from a poster.</p>
+    </section>
+
+    <!-- ============ 02 TOKENS ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">02</span><h2>Tokens</h2></div>
+      <p>All values live as CSS custom properties in <a href="brut.css"><code>brut.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches below show the current theme's resolved values.</p>
+
+      <p class="demo-note">Accent &amp; semantics — fills only, text stays black</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--brut-accent)"></i><span>--brut-accent · the one loud thing</span></div>
+        <div class="sw"><i style="background:var(--brut-ok)"></i><span>--brut-ok · verified / healthy</span></div>
+        <div class="sw"><i style="background:var(--brut-warn)"></i><span>--brut-warn · degraded / review</span></div>
+        <div class="sw"><i style="background:var(--brut-crit)"></i><span>--brut-crit · failing / stale</span></div>
+        <div class="sw"><i style="background:var(--brut-info)"></i><span>--brut-info · informational</span></div>
+      </div>
+
+      <p class="demo-note">Data-viz categorical (use in order, outline in ink)</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--brut-v1)"></i><span>--brut-v1</span></div>
+        <div class="sw"><i style="background:var(--brut-v2)"></i><span>--brut-v2</span></div>
+        <div class="sw"><i style="background:var(--brut-v3)"></i><span>--brut-v3</span></div>
+        <div class="sw"><i style="background:var(--brut-v4)"></i><span>--brut-v4</span></div>
+        <div class="sw"><i style="background:var(--brut-v5)"></i><span>--brut-v5</span></div>
+        <div class="sw"><i style="background:var(--brut-v6)"></i><span>--brut-v6</span></div>
+      </div>
+
+      <p class="demo-note">Grounds &amp; ink</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--brut-ground)"></i><span>--brut-ground · cream sheet</span></div>
+        <div class="sw"><i style="background:var(--brut-surface)"></i><span>--brut-surface · card face</span></div>
+        <div class="sw"><i style="background:var(--brut-ink)"></i><span>--brut-ink / --brut-border</span></div>
+        <div class="sw"><i style="background:var(--brut-code)"></i><span>--brut-code · code slab</span></div>
+      </div>
+
+      <p class="demo-note">Type roles (system stacks, no webfonts)</p>
+      <div style="margin-bottom:24px;">
+        <div class="type-specimen"><span class="lbl">--brut-sans · display 900</span><span style="font-family:var(--brut-sans); font-weight:900; text-transform:uppercase; letter-spacing:-0.02em; font-size:22px;">Money moves once</span></div>
+        <div class="type-specimen"><span class="lbl">--brut-sans · body 400</span><span style="font-family:var(--brut-sans); font-size:16px;">Ledgers remember it twice, and the mirrors can drift.</span></div>
+        <div class="type-specimen"><span class="lbl">--brut-mono · machine truth</span><span class="brut-mono brut-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
+      </div>
+
+      <p class="demo-note">Structure tokens</p>
+      <p style="font-family:var(--brut-mono); font-size:12.5px; max-width:none;">--brut-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Borders --brut-bw = 3px, hairlines --brut-hair = 1.5px. Shadows --brut-shadow = 5px 5px 0, --brut-shadow-sm = 3px 3px 0 — hard, never blurred. Radius 0 everywhere except --brut-r-chip.</p>
+    </section>
+
+    <!-- ============ 03 DOCUMENT MODE ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">03</span><h2>Document mode</h2></div>
+      <p>For investigations, design docs, post-mortems, and wiki exports. The report is a zine: masthead with an acid eyebrow strip, numbered black tabs for sections, a bordered content frame with chunky rules — and quiet, readable prose inside it. This whole page is Document mode; everything below is live.</p>
+
+      <p class="demo-note">Stat strip — headline numbers in a divided slab</p>
+      <div class="brut-stats">
+        <div><div class="brut-stat-label">Wallets funded</div><div class="brut-stat-value">12,408</div></div>
+        <div><div class="brut-stat-label">Float balance</div><div class="brut-stat-value">€2.4<span class="brut-unit">M</span></div></div>
+        <div><div class="brut-stat-label">Automated movements</div><div class="brut-stat-value">1</div></div>
+        <div><div class="brut-stat-label">Recon gap</div><div class="brut-stat-value">0.02<span class="brut-unit">%</span></div></div>
+      </div>
+
+      <p class="demo-note">Evidence tags — provenance stamped after the claim</p>
+      <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet. <span class="brut-evidence">WalletService.java:214 · 2026-07-29</span> Every other record — the authorisation ledger, the double-entry journal — is a mirror, and mirrors drift. The June close found drift on 2% of wallets. <span class="brut-evidence">RECON-4411</span></p>
+
+      <p class="demo-note">Pull quote — acid fill, optional one-degree tilt</p>
+      <blockquote class="brut-pull brut-tilt"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
+
+      <p class="demo-note">Table — 3px header rule, hairline rows, acid total row</p>
+      <div class="brut-table-wrap">
+        <table class="brut-table">
+          <thead><tr><th>Rail</th><th>Mechanism</th><th class="brut-num">Volume (Jun)</th></tr></thead>
+          <tbody>
+            <tr><td>Card checkout</td><td>PSP hosted page</td><td class="brut-num">€1,204,880</td></tr>
+            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="brut-num">€863,110</td></tr>
+            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="brut-num">€98,400</td></tr>
+            <tr class="brut-total"><td>Total in</td><td></td><td class="brut-num">€2,166,390</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="demo-note">Code — warm slab, hard small shadow; inline code takes the hairline</p>
+      <pre><code>SELECT wallet_id, float_total - ledger_total AS gap
+FROM   nightly_recon
+WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
+      <p>Run it nightly and alert on any per-wallet <code>gap</code> over €1.</p>
+
+      <p class="demo-note">Buttons — press into the shadow on hover (cosmetic only)</p>
+      <p class="chip-row" style="max-width:none;">
+        <a class="brut-btn brut-accent" href="README.md">Read the spec</a>
+        <a class="brut-btn" href="brut.css">View the tokens</a>
+      </p>
+
+      <p class="demo-note">Verdict — the stamp. Label strip from data-label</p>
+      <div class="brut-verdict" data-label="Recommendation" style="margin-top:0;">
+        <div class="brut-verdict-b">
+          <h3>Reconcile the mirrors nightly, not monthly.</h3>
+          <p>The drift window is the exposure. A nightly three-way check — float, wallet ledger, journal — shrinks the maximum undetected divergence from thirty days to one.</p>
+          <ol>
+            <li>Add a scheduled comparison job keyed on wallet ID.</li>
+            <li>Alert on any per-wallet gap over €1.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 PANEL MODE ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">04</span><h2>Panel mode</h2></div>
+      <p>For dashboards, risk registers, and status pages: a sticker sheet. Each metric and panel is its own thick-bordered slab on the cream ground; the hero metric — at most one per board — takes the acid fill. Status is a bordered square dot in rows and a sticker-pill chip inline.</p>
+
+      <p class="demo-note">Live demo — board header, metric cards, panels, register rows, chips</p>
+      <div class="brut-panels panel-demo">
+        <div class="brut-board-h"><h1>Payments Ops</h1><span class="brut-board-meta">refreshed 2026-07-30 08:15</span></div>
+
+        <div class="brut-metric-grid">
+          <div class="brut-metric brut-hero"><div class="brut-metric-l">Transfers today</div><div class="brut-metric-v">1,284</div></div>
+          <div class="brut-metric"><div class="brut-metric-l">Failed</div><div class="brut-metric-v">3</div></div>
+          <div class="brut-metric"><div class="brut-metric-l">P95 latency</div><div class="brut-metric-v">412<span class="brut-unit">ms</span></div></div>
+          <div class="brut-metric"><div class="brut-metric-l">Queue depth</div><div class="brut-metric-v">0</div></div>
+        </div>
+
+        <div class="two-col">
+          <div class="brut-panel">
+            <div class="brut-panel-h"><h3>wallet-service</h3><span class="brut-panel-meta">eu-west-1</span></div>
+            <div class="brut-panel-b">
+              <div class="brut-kv"><span>Version</span><b>v4.2.1</b></div>
+              <div class="brut-kv"><span>Idempotency</span><b>order-scoped</b></div>
+              <div class="brut-kv"><span>Last deploy</span><b>2026-07-28 18:40</b></div>
+              <div class="brut-kv"><span>Error budget</span><b>92% remaining</b></div>
+            </div>
+          </div>
+          <div class="brut-panel">
+            <div class="brut-panel-h"><h3>Risk register</h3><span class="brut-panel-meta">4 open</span></div>
+            <div class="brut-panel-b">
+              <div class="brut-reg-row"><span class="brut-dot crit"></span><b>Auth rule in placeholder state</b><span class="brut-reg-meta">RISK-101</span></div>
+              <div class="brut-reg-row"><span class="brut-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="brut-reg-meta">RISK-097</span></div>
+              <div class="brut-reg-row"><span class="brut-dot warn"></span><b>Float funded manually</b><span class="brut-reg-meta">RISK-088</span></div>
+              <div class="brut-reg-row"><span class="brut-dot ok"></span><b>One-way valve verified</b><span class="brut-reg-meta">closed</span></div>
+              <div class="brut-reg-row"><span class="brut-dot info"></span><b>SEPA cut-off moved to 16:30</b><span class="brut-reg-meta">notice</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="demo-note">Status vocabulary — square dots for rows, sticker chips inline</p>
+        <div class="chip-row">
+          <span class="brut-chip ok">verified</span>
+          <span class="brut-chip warn">in review</span>
+          <span class="brut-chip crit">stale</span>
+          <span class="brut-chip info">notice</span>
+          <span class="brut-chip neutral">draft</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 DIAGRAMS ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">05</span><h2>Diagrams</h2></div>
+      <p>Brut reuses the DDS two-tier diagram discipline and reskins it: the semantic edge and node grammar is unchanged (a restyle may recolour it, never reinterpret it), and every diagram carries a legend plus a title block. Mermaid diagrams pre-render with this directory's <a href="mermaid-config.json"><code>mermaid-config.json</code></a>. The frame is a <code>.brut-diagram</code> slab.</p>
+      <figure class="brut-diagram" style="margin-bottom:16px;">
+        <svg viewBox="0 0 720 120" role="img" aria-label="Example funds-flow diagram: finance team funds the platform float manually; the float funds the customer wallet; the wallet journal mirrors the movement">
+          <rect x="8" y="38" width="120" height="44" rx="22" fill="none" stroke="var(--brut-border)" stroke-width="2.5"/>
+          <text x="68" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Finance team</text>
+          <text x="68" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">human</text>
+          <line x1="128" y1="60" x2="186" y2="60" stroke="var(--brut-warn)" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+          <path d="M194 60 l-9 -5 v10 z" fill="var(--brut-warn)"/>
+          <rect x="196" y="38" width="130" height="44" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
+          <text x="261" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Platform float</text>
+          <text x="261" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">service</text>
+          <line x1="326" y1="60" x2="384" y2="60" stroke="var(--brut-ok)" stroke-width="3"/>
+          <path d="M392 60 l-9 -5 v10 z" fill="var(--brut-ok)"/>
+          <rect x="394" y="38" width="130" height="44" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
+          <text x="459" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Customer wallet</text>
+          <text x="459" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">service</text>
+          <line x1="524" y1="60" x2="582" y2="60" stroke="var(--brut-info)" stroke-width="2" stroke-dasharray="8 5"/>
+          <path d="M590 60 l-9 -5 v10 z" fill="var(--brut-info)"/>
+          <rect x="592" y="38" width="120" height="44" rx="10" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
+          <text x="652" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Journal</text>
+          <text x="652" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">mirror · datastore</text>
+        </svg>
+        <figcaption style="display:flex; flex-wrap:wrap; gap:8px 32px; font-family:var(--brut-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--brut-muted); margin-top:12px;">
+          <span><i style="display:inline-block; width:28px; border-top:3px solid var(--brut-ok);"></i> real money / sync</span>
+          <span><i style="display:inline-block; width:28px; border-top:2.5px dotted var(--brut-warn);"></i> manual step</span>
+          <span><i style="display:inline-block; width:28px; border-top:2.5px dashed var(--brut-info);"></i> mirror / async</span>
+        </figcaption>
+      </figure>
+      <p>Title block, revision date, and verification status are mandatory on real drawings — see the DDS README §6 for the full grammar and the coverage table. Prose that narrates a flow step by step must also draw it.</p>
+    </section>
+
+    <!-- ============ 06 ANTI-PATTERNS ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">06</span><h2>Anti-patterns</h2></div>
+      <div class="brut-table-wrap">
+        <table class="brut-table">
+          <thead><tr><th>Never</th><th>Because</th></tr></thead>
+          <tbody>
+            <tr><td>Gradients</td><td>Fills are flat; a gradient is a fill that cannot make up its mind</td></tr>
+            <tr><td>Blur / soft shadows</td><td>Shadows are hard slabs of ink; blur is a lie about light</td></tr>
+            <tr><td>Grey-on-grey</td><td>Ink on ground or nothing — low contrast is low honesty</td></tr>
+            <tr><td>Yellow text</td><td>The accent has no contrast to give; it carries black type as a fill</td></tr>
+            <tr><td>Rounded cards</td><td>Radius 0; only the sticker chips round</td></tr>
+            <tr><td>A second display face</td><td>Helvetica shouts and talks; mono attests; nobody else speaks</td></tr>
+            <tr><td>Borders under 1.5px</td><td>A 1px hairline belongs to another system</td></tr>
+            <tr><td>Decoration as hierarchy</td><td>A fill or a tilt never substitutes for a real heading or a real verdict</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 07 FOR AI AGENTS ============ -->
+    <section class="brut-section">
+      <div class="brut-sec-h"><span class="brut-sec-num">07</span><h2>Using this system with AI agents</h2></div>
+      <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-brut</code> skill loads it automatically.</p>
+      <pre>Generate the report as HTML using the Brut design system:
+https://dexteryo.github.io/design-systems/brut/ (spec: README.md, tokens: brut.css)
+Inline the stylesheet if the output must be self-contained.</pre>
+    </section>
+
+  </div>
+
+  <footer class="brut-colophon">
+    <div>Brut Design System · v1.0.0 · rev 2026-07-30</div>
+    <div>Brutalist web · riso zine · Memphis restraint</div>
+  </footer>
+
+</div>
+<script>
+  (function () {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var root = document.documentElement;
+    function current() {
+      return root.getAttribute('data-theme') ||
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    function label() { btn.textContent = current() === 'dark' ? 'Light' : 'Dark'; }
+    btn.hidden = false;
+    btn.addEventListener('click', function () {
+      root.setAttribute('data-theme', current() === 'dark' ? 'light' : 'dark');
+      label();
+    });
+    label();
+  })();
+</script>
+</body>
+</html>

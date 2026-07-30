@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier — Living Style Guide</title>
+<link rel="stylesheet" href="atelier.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .sw { width: 108px; font-family: var(--atl-mono); font-size: 10.5px; }
+  .sw i { display: block; height: 36px; border: 1px solid var(--atl-rule); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--atl-muted); }
+  .demo-note { font-family: var(--atl-sans); font-size: 10.5px; letter-spacing: .18em;
+               text-transform: uppercase; color: var(--atl-muted); margin: 0 0 12px; }
+  .panel-demo { border-top: 1px dashed var(--atl-rule); border-bottom: 1px dashed var(--atl-rule);
+                padding: 24px 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .type-specimen { border-bottom: 1px solid var(--atl-rule); padding: 12px 0; display: flex;
+                   align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .type-specimen .lbl { font-family: var(--atl-mono); font-size: 10.5px; color: var(--atl-muted);
+                        width: 200px; flex: none; }
+  .atl-theme-toggle { position: fixed; top: 16px; right: 16px;
+    font-family: var(--atl-sans); font-size: 11px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase;
+    background: var(--atl-paper); color: var(--atl-muted);
+    border: 1px solid var(--atl-rule); padding: 6px 12px; cursor: pointer; }
+  .atl-theme-toggle:hover { color: var(--atl-accent); border-color: var(--atl-accent); }
+</style>
+</head>
+<body class="atl-doc">
+<button class="atl-theme-toggle" id="themeToggle" hidden>Theme</button>
+<div class="atl-page">
+
+  <header class="atl-masthead">
+    <div class="atl-eyebrow">Atelier · v1.0.0 · Living Style Guide</div>
+    <h1 class="atl-title">Trust, set in a <em>light</em> serif</h1>
+    <p class="atl-standfirst">A design system for AI-generated engineering documents in the editorial idiom: magazine typography, hairline rules, one oxblood accent, and evidence gathered in footnote strips.</p>
+  </header>
+  <dl class="atl-meta">
+    <div><dt>Owner</dt><dd>Dexter</dd></div>
+    <div><dt>Revision</dt><dd>2026-07-30</dd></div>
+    <div><dt>Status</dt><dd>v1.0.0</dd></div>
+    <div><dt>Stylesheet</dt><dd><a href="atelier.css">atelier.css</a></dd></div>
+    <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+  </dl>
+
+  <!-- ============ № 01 PRINCIPLES ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 01</span><h2>Principles</h2></div>
+    <p class="atl-dropcap">Lightness is the luxury. A display face set at 300 says the argument does not need to raise its voice; a bold headline is a system shouting to be believed. Atelier earns financial-grade trust the way a good magazine does — confident type, generous margins, and every claim answered by a citation.<sup class="atl-fnref">1</sup></p>
+    <p><strong>Whitespace is the structure.</strong> Sections are separated by space and a folio number, not by rules or boxes. Where a line is needed it is a hairline; the double rule appears only where print tradition put it — under the masthead, over the colophon, closing a sum.</p>
+    <p><strong>One accent, spent like ink.</strong> Oxblood is the printer's second colour: the drop cap, the hanging quotation mark, one emphasised word, the verdict label. It is never a background and never decoration.</p>
+    <p><strong>Evidence closes the section.</strong> Claims carry superscript numbers and each section ends with a footnote strip under the short printer's rule — monospace citations, verification dates. Not margin sidenotes; those belong to DDS.</p>
+    <div class="atl-footnotes">
+      <p class="atl-fn"><span class="atl-fn-num">1.</span> The lineage: Stripe Press, The Paris Review, FT Weekend, Economist print charts, Tschichold's Penguin composition rules. <span class="atl-cite">README.md — Lineage</span></p>
+    </div>
+  </section>
+
+  <!-- ============ № 02 TOKENS ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 02</span><h2>Tokens</h2></div>
+    <p>All values live as CSS custom properties in <a href="atelier.css"><code>atelier.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches show the current theme's resolved values.</p>
+
+    <p class="demo-note">Accent &amp; semantics</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--atl-accent)"></i><span>--atl-accent · oxblood</span></div>
+      <div class="sw"><i style="background:var(--atl-ok)"></i><span>--atl-ok · verified</span></div>
+      <div class="sw"><i style="background:var(--atl-warn)"></i><span>--atl-warn · in review</span></div>
+      <div class="sw"><i style="background:var(--atl-crit)"></i><span>--atl-crit · failing</span></div>
+      <div class="sw"><i style="background:var(--atl-info)"></i><span>--atl-info · informational</span></div>
+    </div>
+
+    <p class="demo-note">Data-viz categorical (use in order)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--atl-v1)"></i><span>--atl-v1</span></div>
+      <div class="sw"><i style="background:var(--atl-v2)"></i><span>--atl-v2</span></div>
+      <div class="sw"><i style="background:var(--atl-v3)"></i><span>--atl-v3</span></div>
+      <div class="sw"><i style="background:var(--atl-v4)"></i><span>--atl-v4</span></div>
+      <div class="sw"><i style="background:var(--atl-v5)"></i><span>--atl-v5</span></div>
+      <div class="sw"><i style="background:var(--atl-v6)"></i><span>--atl-v6</span></div>
+    </div>
+
+    <p class="demo-note">Grounds</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--atl-paper)"></i><span>--atl-paper</span></div>
+      <div class="sw"><i style="background:var(--atl-surface)"></i><span>--atl-surface</span></div>
+      <div class="sw"><i style="background:var(--atl-ink)"></i><span>--atl-ink</span></div>
+      <div class="sw"><i style="background:var(--atl-rule)"></i><span>--atl-rule · hairline</span></div>
+      <div class="sw"><i style="background:var(--atl-code)"></i><span>--atl-code · plate</span></div>
+    </div>
+
+    <p class="demo-note">Type roles (system stacks, no webfonts)</p>
+    <div style="margin-bottom:24px;">
+      <div class="type-specimen"><span class="lbl">--atl-display · light, tight</span><span style="font-family:var(--atl-display); font-weight:300; font-size:26px; line-height:1.1;">The float reconciles nightly</span></div>
+      <div class="type-specimen"><span class="lbl">--atl-serif · body 17/1.65</span><span style="font-family:var(--atl-serif); font-size:17px;">Money moves once; ledgers remember it twice.</span></div>
+      <div class="type-specimen"><span class="lbl">--atl-sans · micro-labels</span><span class="atl-caps" style="font-size:12px;">reconciliation · eu-west-1 · verified</span></div>
+      <div class="type-specimen"><span class="lbl">--atl-mono · machine truth</span><span class="atl-mono atl-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
+    </div>
+
+    <p class="demo-note">Spacing · 4px scale · radius 0</p>
+    <p style="font-family:var(--atl-mono); font-size:12.5px;">--atl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. No radius tokens exist: everything in Atelier is square.</p>
+  </section>
+
+  <!-- ============ № 03 DOCUMENT MODE ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 03</span><h2>Document mode</h2></div>
+    <p>For investigations, design essays, post-mortems, and wiki exports. Charter body at 17px capped at 66ch; the opening paragraph takes the document's only drop cap; each section closes with its footnote strip. Everything below is live — the demo content is a fictional payments platform.</p>
+
+    <p class="demo-note">Live demo — stat strip, footnote refs, pull quote, table with total, verdict</p>
+
+    <div class="atl-stats">
+      <div><div class="atl-stat-label">Wallets funded</div><div class="atl-stat-value atl-num">12,408</div></div>
+      <div><div class="atl-stat-label">Float balance</div><div class="atl-stat-value atl-num">€2.4<span class="atl-unit">M</span></div></div>
+      <div><div class="atl-stat-label">Automated moves</div><div class="atl-stat-value atl-num">1</div></div>
+      <div><div class="atl-stat-label">Recon gap</div><div class="atl-stat-value atl-num">0.02<span class="atl-unit">%</span></div></div>
+    </div>
+
+    <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet.<sup class="atl-fnref">2</sup> Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.<sup class="atl-fnref">3</sup></p>
+
+    <blockquote class="atl-pull"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
+
+    <div class="atl-table-wrap">
+      <table class="atl-table">
+        <thead><tr><th>Rail</th><th>Mechanism</th><th class="atl-num">Volume (Jun)</th></tr></thead>
+        <tbody>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="atl-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="atl-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="atl-num">€98,400</td></tr>
+          <tr class="atl-total"><td>Total in</td><td></td><td class="atl-num">€2,166,390</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The comparison job keys on wallet ID and runs inside the ledger service:</p>
+    <pre><code>SELECT wallet_id, float_total - journal_total AS gap
+FROM   nightly_recon
+WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
+
+    <div class="atl-footnotes">
+      <p class="atl-fn"><span class="atl-fn-num">2.</span> <span class="atl-cite">WalletService.java:214</span> — verified 2026-07-29 against the production branch.</p>
+      <p class="atl-fn"><span class="atl-fn-num">3.</span> <span class="atl-cite">RECON-441</span> — drift observed on 2% of wallets, June close.</p>
+    </div>
+
+    <div class="atl-verdict" data-label="Recommendation">
+      <h3>Reconcile the mirrors nightly, not monthly.</h3>
+      <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
+      <ol>
+        <li>Add a scheduled comparison job keyed on wallet ID.</li>
+        <li>Alert on any per-wallet gap over €1.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ № 04 PANEL MODE ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 04</span><h2>Panel mode</h2></div>
+    <p>The Economist/FT print-data idiom: the same warm paper, hairline horizontal rules, no cards and no boxes. Numbers are very large and very light; statuses are solid squares in the semantic ink; chips are small-caps text with a thin coloured underline.</p>
+
+    <p class="demo-note">Live demo — board header, metric strip, panels, register rows, chips</p>
+    <div class="atl-panels panel-demo">
+      <div class="atl-board-h"><h1>Payments operations</h1><span class="atl-board-meta">eu-west-1 · 2026-07-30 08:00</span></div>
+
+      <div class="atl-metric-strip">
+        <div><div class="atl-metric-l">Transfers today</div><div class="atl-metric-v">1,284</div></div>
+        <div><div class="atl-metric-l">Failed</div><div class="atl-metric-v">3</div></div>
+        <div><div class="atl-metric-l">P95 latency</div><div class="atl-metric-v">412<span class="atl-unit">ms</span></div></div>
+        <div><div class="atl-metric-l">Queue depth</div><div class="atl-metric-v">0</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="atl-panel">
+          <div class="atl-panel-h"><h3>wallet-service</h3><span class="atl-panel-meta">eu-west-1</span></div>
+          <div class="atl-panel-b">
+            <div class="atl-kv"><span>Version</span><b>v4.2.1</b></div>
+            <div class="atl-kv"><span>Idempotency</span><b>order-scoped</b></div>
+            <div class="atl-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+          </div>
+        </div>
+        <div class="atl-panel">
+          <div class="atl-panel-h"><h3>Risk register</h3><span class="atl-panel-meta">4 open</span></div>
+          <div class="atl-panel-b">
+            <div class="atl-reg-row"><span class="atl-sq crit"></span><b>Auth rule in placeholder state</b><span class="atl-reg-meta">RISK-101</span></div>
+            <div class="atl-reg-row"><span class="atl-sq warn"></span><b>Ledger drift on 2% of wallets</b><span class="atl-reg-meta">RISK-097</span></div>
+            <div class="atl-reg-row"><span class="atl-sq neutral"></span><b>SEPA instant rollout draft</b><span class="atl-reg-meta">RISK-104</span></div>
+            <div class="atl-reg-row"><span class="atl-sq ok"></span><b>One-way valve verified</b><span class="atl-reg-meta">closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px; display:flex; gap:24px; flex-wrap:wrap;">
+        <span class="atl-chip ok">verified</span>
+        <span class="atl-chip warn">in review</span>
+        <span class="atl-chip crit">stale</span>
+        <span class="atl-chip info">mirror</span>
+        <span class="atl-chip neutral">draft</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ № 05 FIGURES ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 05</span><h2>Figures</h2></div>
+    <p>Charts and diagrams sit between hairlines like a plate in a book, captioned in small caps and numbered ("Fig. № 1"). Charts are inline SVG using the viz palette in order; sequence, state, and ER diagrams are Mermaid pre-rendered to static SVG with <a href="mermaid-config.json"><code>mermaid-config.json</code></a>.</p>
+
+    <figure class="atl-figure" style="margin-top:24px;">
+      <svg viewBox="0 0 640 180" role="img" aria-label="Bar chart of June funding volume by rail">
+        <line x1="120" y1="20" x2="120" y2="150" stroke="var(--atl-rule)" stroke-width="1"/>
+        <rect x="121" y="28"  width="420" height="24" fill="var(--atl-v1)"/>
+        <rect x="121" y="70"  width="301" height="24" fill="var(--atl-v2)"/>
+        <rect x="121" y="112" width="34"  height="24" fill="var(--atl-v3)"/>
+        <text x="112" y="44"  text-anchor="end" font-family="Avenir Next, Avenir, Segoe UI, system-ui, sans-serif" font-size="12" fill="var(--atl-ink)">Card checkout</text>
+        <text x="112" y="86"  text-anchor="end" font-family="Avenir Next, Avenir, Segoe UI, system-ui, sans-serif" font-size="12" fill="var(--atl-ink)">Virtual IBAN</text>
+        <text x="112" y="128" text-anchor="end" font-family="Avenir Next, Avenir, Segoe UI, system-ui, sans-serif" font-size="12" fill="var(--atl-ink)">Manual</text>
+        <text x="549" y="44"  font-family="SF Mono, ui-monospace, Menlo, monospace" font-size="11" fill="var(--atl-muted)">€1.20M</text>
+        <text x="430" y="86"  font-family="SF Mono, ui-monospace, Menlo, monospace" font-size="11" fill="var(--atl-muted)">€0.86M</text>
+        <text x="163" y="128" font-family="SF Mono, ui-monospace, Menlo, monospace" font-size="11" fill="var(--atl-muted)">€0.10M</text>
+      </svg>
+      <figcaption class="atl-figcap">Fig. № 1 — June funding volume by rail. Source: nightly_recon, 2026-07-01.</figcaption>
+    </figure>
+
+    <p>Atelier has no native diagram grammar; anything that needs the money/mirror/blocked edge semantics is a DDS job — use the Dexter Design System for it.</p>
+  </section>
+
+  <!-- ============ № 06 FOR AI AGENTS ============ -->
+  <section class="atl-section">
+    <div class="atl-sec-h"><span class="atl-folio">№ 06</span><h2>Using this system with AI agents</h2></div>
+    <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-atelier</code> skill loads it automatically.</p>
+    <pre>Generate the report as HTML using the Atelier design system:
+https://dexteryo.github.io/design-systems/atelier/ (spec: README.md, tokens: atelier.css)
+Inline the stylesheet if the output must be self-contained.</pre>
+  </section>
+
+  <footer class="atl-colophon">
+    <div>Atelier · v1.0.0 · rev 2026-07-30</div>
+    <div>Stripe Press · FT Weekend · Economist charts · Tschichold</div>
+  </footer>
+
+</div>
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var root = document.documentElement;
+  var stored = null;
+  try { stored = localStorage.getItem('atl-theme'); } catch (e) {}
+  if (stored === 'light' || stored === 'dark') root.setAttribute('data-theme', stored);
+  function label() {
+    var t = root.getAttribute('data-theme');
+    btn.textContent = t === 'dark' ? 'Light' : t === 'light' ? 'Dark' : 'Theme';
+  }
+  btn.hidden = false;
+  label();
+  btn.addEventListener('click', function () {
+    var current = root.getAttribute('data-theme');
+    if (!current) {
+      current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('atl-theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+</body>
+</html>

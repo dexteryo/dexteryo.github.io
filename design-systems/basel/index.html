@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basel Design System</title>
+<link rel="stylesheet" href="basel.css">
+<style>
+  /* Guide chrome only — layout helpers for THIS page, not part of the system. */
+  body { margin: 0; }
+  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+  .sw { width: 108px; font-family: var(--bsl-mono); font-size: 10.5px; }
+  .sw i { display: block; height: 36px; border: 1px solid var(--bsl-hairline); font-style: normal; }
+  .sw span { display: block; margin-top: 4px; color: var(--bsl-muted); }
+  .demo-note { font-size: 10px; font-weight: 700; letter-spacing: .14em;
+               text-transform: uppercase; color: var(--bsl-muted); margin: 0 0 12px; }
+  .panel-demo { border: 1px dashed var(--bsl-hairline); padding: 24px; }
+  .type-specimen { border-bottom: 1px solid var(--bsl-hairline); padding: 10px 0; display: flex;
+                   align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .type-specimen .lbl { font-family: var(--bsl-mono); font-size: 10.5px; color: var(--bsl-muted);
+                        width: 210px; flex: none; }
+  .bsl-theme-toggle { position: fixed; top: 16px; right: 16px;
+                      font: 700 10px var(--bsl-sans); letter-spacing: .14em; text-transform: uppercase;
+                      background: var(--bsl-ground); color: var(--bsl-ink);
+                      border: 1px solid var(--bsl-structural); padding: 8px 12px; cursor: pointer; }
+</style>
+</head>
+<body class="bsl-doc">
+<button class="bsl-theme-toggle" hidden>Theme</button>
+<div class="bsl-page">
+
+  <div class="bsl-eyebrow">Basel Design System · v1.0.0 · Living Style Guide</div>
+  <header class="bsl-masthead">
+    <div>
+      <h1 class="bsl-title">Grid, type, and <em>one red</em></h1>
+      <p class="bsl-subtitle">A design system for AI-generated engineering documents in the Swiss International Typographic Style: visible load-bearing grids, poster-confident Helvetica, and a single red that is both the signal and the alarm.</p>
+    </div>
+    <dl class="bsl-meta">
+      <div><dt>Owner</dt><dd>Dexter</dd></div>
+      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
+      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Stylesheet</dt><dd><a href="basel.css">basel.css</a></dd></div>
+      <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+    </dl>
+  </header>
+
+  <!-- ============ 01 PRINCIPLES ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">01</span><h2>Principles</h2></div>
+    <p><strong>The grid is the argument.</strong> Alignment is not styling; it is the visual proof that the document was composed, not accumulated. Every element sits flush-left on the column grid, and the grid may be shown (<code>.bsl-grid-visible</code>) because there is nothing to hide.</p>
+    <p><strong>Type is the only ornament.</strong> Hierarchy comes from size and weight alone — a 64px headline against a 10px letterspaced label needs no colour, no rule, no icon to explain which is which. There are no italics anywhere in this system.</p>
+    <p><strong>One red, two meanings, zero decoration.</strong> Pantone 186 is both the key emphasis and the critical state. When you see red, either something matters most or something is wrong — the reader never has to ask which colour system applies, because there is only one.</p>
+    <p><strong>Objectivity is the tone.</strong> Müller-Brockmann called the style objective-informative: the designer's hand disappears behind the structure. A Basel report should read as if the facts arranged themselves.</p>
+    <div class="bsl-evidence">Müller-Brockmann, Grid Systems in Graphic Design · 1981</div>
+  </section>
+
+  <!-- ============ 02 TOKENS ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">02</span><h2>Tokens</h2></div>
+    <p>All values live as CSS custom properties in <a href="basel.css"><code>basel.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches show the current theme's resolved values.</p>
+
+    <p class="demo-note">The red &amp; semantics</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--bsl-accent)"></i><span>--bsl-accent · signal + alarm</span></div>
+      <div class="sw"><i style="background:var(--bsl-ok)"></i><span>--bsl-ok · verified</span></div>
+      <div class="sw"><i style="background:var(--bsl-warn)"></i><span>--bsl-warn · degraded</span></div>
+      <div class="sw"><i style="background:var(--bsl-crit)"></i><span>--bsl-crit · = accent</span></div>
+      <div class="sw"><i style="background:var(--bsl-info)"></i><span>--bsl-info · async</span></div>
+    </div>
+
+    <p class="demo-note">Data-viz categorical (use in order — red first, black second)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--bsl-v1)"></i><span>--bsl-v1</span></div>
+      <div class="sw"><i style="background:var(--bsl-v2)"></i><span>--bsl-v2</span></div>
+      <div class="sw"><i style="background:var(--bsl-v3)"></i><span>--bsl-v3</span></div>
+      <div class="sw"><i style="background:var(--bsl-v4)"></i><span>--bsl-v4</span></div>
+      <div class="sw"><i style="background:var(--bsl-v5)"></i><span>--bsl-v5</span></div>
+      <div class="sw"><i style="background:var(--bsl-v6)"></i><span>--bsl-v6</span></div>
+    </div>
+
+    <p class="demo-note">Grounds &amp; structure</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--bsl-ground)"></i><span>--bsl-ground</span></div>
+      <div class="sw"><i style="background:var(--bsl-ink)"></i><span>--bsl-ink</span></div>
+      <div class="sw"><i style="background:var(--bsl-structural)"></i><span>--bsl-structural · 2px bars</span></div>
+      <div class="sw"><i style="background:var(--bsl-hairline)"></i><span>--bsl-hairline</span></div>
+      <div class="sw"><i style="background:var(--bsl-muted)"></i><span>--bsl-muted</span></div>
+    </div>
+
+    <p class="demo-note">Spacing · 4px scale</p>
+    <p style="font-family:var(--bsl-mono); font-size:12.5px;">--bsl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale; off-scale spacing is a defect.</p>
+  </section>
+
+  <!-- ============ 03 TYPOGRAPHY ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">03</span><h2>Typography</h2></div>
+    <p>One family for everything — Helvetica Neue with system fallbacks — and monospace reserved for evidence and machine values. Hierarchy is size and weight only. <strong>No italics exist in this system</strong>: the stylesheet forces <code>em</code> and <code>i</code> upright and bold.</p>
+    <div style="margin-bottom:24px;">
+      <div class="type-specimen"><span class="lbl">display · clamp(34–64px) · 700 · −0.02em</span><span style="font-size:40px; font-weight:700; letter-spacing:-0.02em; line-height:1;">Reconciliation gap</span></div>
+      <div class="type-specimen"><span class="lbl">ghost numeral · 56px · 700 · muted</span><span class="bsl-sec-num">04</span></div>
+      <div class="type-specimen"><span class="lbl">body · 16px/1.55 · 400</span><span>Money moves once; ledgers remember it twice.</span></div>
+      <div class="type-specimen"><span class="lbl">micro-label · 10px · 700 · +0.16em caps</span><span class="bsl-caps" style="color:var(--bsl-muted)">Wallets funded · June</span></div>
+      <div class="type-specimen"><span class="lbl">--bsl-mono · machine truth</span><span class="bsl-mono bsl-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 04 DOCUMENT MODE ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">04</span><h2>Document mode</h2></div>
+    <p>For investigations, design docs, post-mortems, and wiki exports. A 2px black bar opens every section; the oversized ghost numeral carries the order; evidence sits flush-right in monospace directly under the claim it supports. Everything below is live — the demo content is a fictional payments platform.</p>
+
+    <p class="demo-note">Live demo — stat strip, claim with evidence lines, pull quote, table with total rule, code, verdict slab</p>
+
+    <div class="bsl-stats">
+      <div><div class="bsl-stat-label">Wallets funded</div><div class="bsl-stat-value">12,408</div></div>
+      <div><div class="bsl-stat-label">Float balance</div><div class="bsl-stat-value">€2.4<span class="bsl-unit">M</span></div></div>
+      <div><div class="bsl-stat-label">Automated movements</div><div class="bsl-stat-value">1</div></div>
+      <div><div class="bsl-stat-label">Reconciliation gap</div><div class="bsl-stat-value">0.02<span class="bsl-unit">%</span></div></div>
+    </div>
+
+    <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet. Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.</p>
+    <div class="bsl-evidence">WalletService.java:214 · verified 2026-07-30</div>
+    <div class="bsl-evidence">PAY-1204 · closed 2026-07-28</div>
+
+    <blockquote class="bsl-pull">Money enters through five rails and leaves through <strong>one</strong>.</blockquote>
+
+    <div class="bsl-table-wrap">
+      <table class="bsl-table">
+        <thead><tr><th>Rail</th><th>Mechanism</th><th class="bsl-num">Volume (Jun)</th></tr></thead>
+        <tbody>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="bsl-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="bsl-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="bsl-num">€98,400</td></tr>
+          <tr class="bsl-total"><td>Total in</td><td></td><td class="bsl-num">€2,166,390</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The nightly comparison job keys on wallet ID and alerts on any per-wallet gap over €1:</p>
+    <pre><code>SELECT wallet_id, float_cents - journal_cents AS gap
+FROM   reconciliation_snapshot
+WHERE  ABS(float_cents - journal_cents) > 100;</code></pre>
+
+    <div class="bsl-verdict" data-label="Recommendation">
+      <h3>Reconcile the mirrors nightly, not monthly.</h3>
+      <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
+      <ol>
+        <li>Add a scheduled comparison job keyed on wallet ID.</li>
+        <li>Alert on any per-wallet gap over €1.</li>
+      </ol>
+    </div>
+    <p style="margin-top:16px;">The slab above is the system's <strong>one inversion</strong>: black field, white type, red label. Because nothing else on the page inverts, it cannot be missed — which is why a second inversion anywhere is a defect.</p>
+  </section>
+
+  <!-- ============ 05 PANEL MODE ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">05</span><h2>Panel mode</h2></div>
+    <p>For dashboards, risk registers, and status pages: a Müller-Brockmann poster grid. Cells share 1px black rules like a printed table, values are huge and tight, status markers are hard squares, and chips are letterspaced text over a 2px semantic underline. No fills, no pills, no shadows.</p>
+
+    <p class="demo-note">Live demo — board header, shared-rule metric grid, panels, register rows, chips</p>
+    <div class="bsl-panels panel-demo">
+      <div class="bsl-board-h"><h1>Payments operations</h1><span class="bsl-board-meta">2026-07-30 09:00 UTC</span></div>
+
+      <div class="bsl-metric-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="bsl-metric"><div class="bsl-metric-l">Transfers today</div><div class="bsl-metric-v">1,284</div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">Failed</div><div class="bsl-metric-v">3</div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">P95 latency</div><div class="bsl-metric-v">412<span class="bsl-unit">ms</span></div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">Queue depth</div><div class="bsl-metric-v">0</div></div>
+      </div>
+
+      <div class="bsl-panel-grid">
+        <div class="bsl-panel">
+          <div class="bsl-panel-h"><h3>wallet-service</h3><span class="bsl-panel-meta">eu-west-1</span></div>
+          <div class="bsl-panel-b">
+            <div class="bsl-kv"><span>Version</span><b>v4.2.1</b></div>
+            <div class="bsl-kv"><span>Idempotency</span><b>order-scoped</b></div>
+            <div class="bsl-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+          </div>
+        </div>
+        <div class="bsl-panel">
+          <div class="bsl-panel-h"><h3>Risk register</h3><span class="bsl-panel-meta">4 open</span></div>
+          <div class="bsl-panel-b">
+            <div class="bsl-reg-row"><span class="bsl-dot crit"></span><b>Auth rule in placeholder state</b><span class="bsl-reg-meta">RISK-101</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="bsl-reg-meta">RISK-097</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot neutral"></span><b>Float funding runbook in draft</b><span class="bsl-reg-meta">RISK-088</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot ok"></span><b>One-way valve verified</b><span class="bsl-reg-meta">closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        <span class="bsl-chip ok">verified</span>
+        <span class="bsl-chip warn">in review</span>
+        <span class="bsl-chip crit">failing</span>
+        <span class="bsl-chip info">async</span>
+        <span class="bsl-chip neutral">draft</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 THE VISIBLE GRID ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">06</span><h2>The visible grid</h2></div>
+    <p>Add <code>.bsl-grid-visible</code> to any container to expose the 12-column rules — the working-draft view. The grid may stay in a final document; it is honest.</p>
+    <div class="bsl-grid-visible" style="border:1px solid var(--bsl-hairline); padding: 24px;">
+      <p style="margin:0;"><strong>Working draft.</strong> Every flush-left edge in this box sits on a column rule. If an element does not land on the grid, it is off the system.</p>
+    </div>
+  </section>
+
+  <!-- ============ 07 DIAGRAMS ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">07</span><h2>Diagrams</h2></div>
+    <p>Mermaid, themed through <a href="mermaid-config.json"><code>mermaid-config.json</code></a>: white ground, black lines, red reserved for the one path or state that matters. Pre-render to static SVG for self-contained output and keep the DSL beside the figure in a <code>&lt;details&gt;</code> block. Every figure gets a flush-left numbered caption.</p>
+    <pre><code>npx -y @mermaid-js/mermaid-cli -i flow.mmd -o flow.svg --configFile mermaid-config.json</code></pre>
+    <div class="bsl-evidence">FIG numbering rule · README.md §6</div>
+  </section>
+
+  <!-- ============ 08 FOR AI AGENTS ============ -->
+  <section class="bsl-section">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">08</span><h2>Using this system with AI agents</h2></div>
+    <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-basel</code> skill loads it automatically.</p>
+    <pre>Generate the report as HTML using the Basel design system:
+https://dexteryo.github.io/design-systems/basel/ (spec: README.md, tokens: basel.css)
+Inline the stylesheet if the output must be self-contained.</pre>
+  </section>
+
+  <footer class="bsl-colophon">
+    <div>Basel Design System · v1.0.0 · rev 2026-07-30</div>
+    <div>Müller-Brockmann grids · Ruder typography · Helvetica · Vignelli</div>
+  </footer>
+
+</div>
+<script>
+  (function () {
+    var btn = document.querySelector('.bsl-theme-toggle');
+    if (!btn) return;
+    btn.hidden = false;
+    var root = document.documentElement;
+    function current() {
+      return root.dataset.theme ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    btn.addEventListener('click', function () {
+      root.dataset.theme = current() === 'dark' ? 'light' : 'dark';
+    });
+  })();
+</script>
+</body>
+</html>
