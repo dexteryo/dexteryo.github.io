@@ -1,0 +1,612 @@
+/* ==========================================================================
+   Tracer — v1.0.0 · 2026-07-30
+   Dexter's ops-briefing design system: IBM Carbon-dark palette, blueprint
+   grid ground, uppercase display headings, verdict banners, stat strips,
+   and the signature — native SVG trace diagrams with animated dashed
+   flows, where each edge colour is a declared route meaning.
+   Dark-first. Light counterpart ships in every output.
+   Spec: README.md in this directory. Prefix: trc-.
+   ========================================================================== */
+
+/* --- 1. Tokens — dark (default, the system's identity) ------------------- */
+:root {
+  --trc-bg: #161616;
+  --trc-panel: #1f1f1f;
+  --trc-panel-2: #262626;
+  --trc-code-bg: #0d0d0d;
+  --trc-line: rgba(255, 255, 255, 0.10);
+  --trc-line-strong: rgba(255, 255, 255, 0.20);
+  --trc-ink: #e8e8e8;
+  --trc-ink-bright: #f4f4f4;
+  --trc-muted: #8d8d8d;
+
+  --trc-accent: #4589ff;      /* Carbon Blue 60 — the pointing colour */
+  --trc-accent-2: #78a9ff;    /* Carbon Blue 40 — links, labels on dark */
+  --trc-ok: #42be65;          /* Carbon Green 50 */
+  --trc-ok-2: #6fdc8c;        /* Carbon Green 30 — text on dark tints */
+  --trc-warn: #f1c21b;        /* Carbon Yellow 30 */
+  --trc-crit: #fa4d56;        /* Carbon Red 50 */
+  --trc-crit-2: #ff8389;      /* Carbon Red 30 — text on dark tints */
+  --trc-teal: #3ddbd9;        /* Carbon Teal 30 */
+  --trc-purple: #be95ff;      /* Carbon Purple 40 */
+
+  --trc-ink-on-accent: #001141;
+  --trc-ink-on-warn: #241a00;
+  --trc-ink-on-crit: #2a0508;
+  --trc-ink-on-ok: #022d0d;
+
+  --trc-tint-accent: rgba(69, 137, 255, 0.12);
+  --trc-tint-ok: rgba(66, 190, 101, 0.14);
+  --trc-tint-warn: rgba(241, 194, 27, 0.16);
+  --trc-tint-crit: rgba(250, 77, 86, 0.16);
+
+  /* Route colours for trace diagrams — meaning is fixed, see spec §6 */
+  --trc-route-main: var(--trc-accent);   /* the nominal / happy path      */
+  --trc-route-fail: var(--trc-crit);     /* the failing / lost path       */
+  --trc-route-ctrl: var(--trc-ok);       /* the proven control path       */
+  --trc-route-alt: var(--trc-teal);      /* a secondary read/derived path */
+  --trc-route-async: var(--trc-purple);  /* async / out-of-band path      */
+
+  --trc-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    system-ui, Helvetica, Arial, sans-serif;
+  --trc-mono: "IBM Plex Mono", "SF Mono", ui-monospace, "Cascadia Code",
+    Menlo, Consolas, monospace;
+
+  --trc-maxw: 1140px;
+  --trc-r-lg: 12px;
+  --trc-r-md: 10px;
+  --trc-r-sm: 8px;
+  --trc-r-xs: 4px;
+
+  --trc-grid-line: var(--trc-line);
+  --trc-diagram-halo: rgba(69, 137, 255, 0.06);
+}
+
+/* --- 1b. Tokens — light counterpart (Carbon Gray 10 family) -------------- */
+@media (prefers-color-scheme: light) {
+  :root {
+    --trc-bg: #f4f4f4;
+    --trc-panel: #ffffff;
+    --trc-panel-2: #f8f8f8;
+    --trc-line: rgba(0, 0, 0, 0.10);
+    --trc-line-strong: rgba(0, 0, 0, 0.22);
+    --trc-ink: #262626;
+    --trc-ink-bright: #161616;
+    --trc-muted: #6f6f6f;
+
+    --trc-accent: #0f62fe;
+    --trc-accent-2: #0043ce;
+    --trc-ok: #198038;
+    --trc-ok-2: #0e6027;
+    --trc-warn: #8e6a00;
+    --trc-crit: #da1e28;
+    --trc-crit-2: #a2191f;
+    --trc-teal: #007d79;
+    --trc-purple: #8a3ffc;
+
+    --trc-ink-on-accent: #ffffff;
+    --trc-ink-on-warn: #241a00;
+    --trc-ink-on-crit: #ffffff;
+    --trc-ink-on-ok: #ffffff;
+
+    --trc-tint-accent: rgba(15, 98, 254, 0.08);
+    --trc-tint-ok: rgba(25, 128, 56, 0.10);
+    --trc-tint-warn: rgba(142, 106, 0, 0.12);
+    --trc-tint-crit: rgba(218, 30, 40, 0.10);
+
+    --trc-grid-line: rgba(0, 0, 0, 0.06);
+    --trc-diagram-halo: rgba(15, 98, 254, 0.05);
+  }
+}
+
+:root[data-theme="dark"] {
+  --trc-bg: #161616;
+  --trc-panel: #1f1f1f;
+  --trc-panel-2: #262626;
+  --trc-line: rgba(255, 255, 255, 0.10);
+  --trc-line-strong: rgba(255, 255, 255, 0.20);
+  --trc-ink: #e8e8e8;
+  --trc-ink-bright: #f4f4f4;
+  --trc-muted: #8d8d8d;
+  --trc-accent: #4589ff;
+  --trc-accent-2: #78a9ff;
+  --trc-ok: #42be65;
+  --trc-ok-2: #6fdc8c;
+  --trc-warn: #f1c21b;
+  --trc-crit: #fa4d56;
+  --trc-crit-2: #ff8389;
+  --trc-teal: #3ddbd9;
+  --trc-purple: #be95ff;
+  --trc-ink-on-accent: #001141;
+  --trc-ink-on-warn: #241a00;
+  --trc-ink-on-crit: #2a0508;
+  --trc-ink-on-ok: #022d0d;
+  --trc-tint-accent: rgba(69, 137, 255, 0.12);
+  --trc-tint-ok: rgba(66, 190, 101, 0.14);
+  --trc-tint-warn: rgba(241, 194, 27, 0.16);
+  --trc-tint-crit: rgba(250, 77, 86, 0.16);
+  --trc-grid-line: rgba(255, 255, 255, 0.10);
+  --trc-diagram-halo: rgba(69, 137, 255, 0.06);
+}
+
+:root[data-theme="light"] {
+  --trc-bg: #f4f4f4;
+  --trc-panel: #ffffff;
+  --trc-panel-2: #f8f8f8;
+  --trc-line: rgba(0, 0, 0, 0.10);
+  --trc-line-strong: rgba(0, 0, 0, 0.22);
+  --trc-ink: #262626;
+  --trc-ink-bright: #161616;
+  --trc-muted: #6f6f6f;
+  --trc-accent: #0f62fe;
+  --trc-accent-2: #0043ce;
+  --trc-ok: #198038;
+  --trc-ok-2: #0e6027;
+  --trc-warn: #8e6a00;
+  --trc-crit: #da1e28;
+  --trc-crit-2: #a2191f;
+  --trc-teal: #007d79;
+  --trc-purple: #8a3ffc;
+  --trc-ink-on-accent: #ffffff;
+  --trc-ink-on-warn: #241a00;
+  --trc-ink-on-crit: #ffffff;
+  --trc-ink-on-ok: #ffffff;
+  --trc-tint-accent: rgba(15, 98, 254, 0.08);
+  --trc-tint-ok: rgba(25, 128, 56, 0.10);
+  --trc-tint-warn: rgba(142, 106, 0, 0.12);
+  --trc-tint-crit: rgba(218, 30, 40, 0.10);
+  --trc-grid-line: rgba(0, 0, 0, 0.06);
+  --trc-diagram-halo: rgba(15, 98, 254, 0.05);
+}
+
+/* --- 2. Base -------------------------------------------------------------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body.trc {
+  margin: 0;
+  background: var(--trc-bg);
+  color: var(--trc-ink);
+  font-family: var(--trc-sans);
+  font-size: 15.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.trc a { color: var(--trc-accent-2); text-decoration: none; }
+.trc a:hover { text-decoration: underline; }
+.trc code, .trc .trc-mono {
+  font-family: var(--trc-mono);
+  font-size: 0.85em;
+}
+.trc .trc-num { font-variant-numeric: tabular-nums; }
+
+/* Blueprint grid ground — fades out down the page via mask */
+body.trc::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--trc-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--trc-grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 120% 80% at 50% 0, #000 35%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 120% 80% at 50% 0, #000 35%, transparent 95%);
+}
+
+.trc-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: var(--trc-maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- 3. Topbar ------------------------------------------------------------ */
+.trc-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: color-mix(in srgb, var(--trc-bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--trc-line);
+}
+.trc-topbar .trc-topbar-inner {
+  max-width: var(--trc-maxw);
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-family: var(--trc-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.trc-topbar a { color: var(--trc-muted); }
+.trc-topbar a:hover { color: var(--trc-accent-2); text-decoration: none; }
+
+/* --- 4. Hero -------------------------------------------------------------- */
+.trc-hero { padding: 64px 0 28px; position: relative; z-index: 1; }
+.trc-kicker {
+  font-family: var(--trc-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--trc-accent-2);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.trc-kicker .trc-kicker-bar {
+  height: 1px;
+  width: 42px;
+  background: linear-gradient(90deg, var(--trc-accent), transparent);
+}
+.trc h1, .trc-title {
+  font-family: var(--trc-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 5.4vw, 4rem);
+  line-height: 1.02;
+  margin: 0.3em 0 0.12em;
+  color: var(--trc-ink-bright);
+}
+.trc h1 .trc-lo, .trc-title .trc-lo { color: var(--trc-accent-2); }
+.trc-sub { max-width: 740px; color: var(--trc-muted); font-size: 1.04rem; }
+
+/* Verdict banner — filled, mono, unmissable. Default = accent (finding). */
+.trc-verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  font-family: var(--trc-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.5em 0.85em;
+  border-radius: 5px;
+  background: var(--trc-accent);
+  color: var(--trc-ink-on-accent);
+}
+.trc-verdict.warn { background: var(--trc-warn); color: var(--trc-ink-on-warn); }
+.trc-verdict.bad  { background: var(--trc-crit); color: var(--trc-ink-on-crit); }
+.trc-verdict.ok   { background: var(--trc-ok);   color: var(--trc-ink-on-ok); }
+
+/* Stat strip — headline numbers in one bordered rail */
+.trc-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  margin: 34px 0 4px;
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-md);
+  overflow: hidden;
+  background: var(--trc-panel);
+}
+.trc-meta .trc-cell { padding: 16px 18px; border-right: 1px solid var(--trc-line); }
+.trc-meta .trc-cell:last-child { border-right: none; }
+.trc-meta .trc-lab {
+  font-family: var(--trc-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--trc-muted);
+}
+.trc-meta .trc-val {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--trc-ink-bright);
+  margin-top: 5px;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.trc-meta .trc-val small {
+  font-weight: 400;
+  font-size: 0.66rem;
+  color: var(--trc-muted);
+  display: block;
+  margin-top: 3px;
+  letter-spacing: 0;
+}
+.trc-meta .trc-val.ok   { color: var(--trc-ok); }
+.trc-meta .trc-val.info { color: var(--trc-accent-2); }
+.trc-meta .trc-val.bad  { color: var(--trc-crit); }
+.trc-meta .trc-val.warn { color: var(--trc-warn); }
+
+/* --- 5. Sections ----------------------------------------------------------- */
+.trc section, .trc-section { padding: 48px 0; position: relative; }
+.trc-seclabel {
+  font-family: var(--trc-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--trc-accent-2);
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.trc-seclabel .trc-n { color: var(--trc-muted); }
+.trc h2 {
+  font-family: var(--trc-sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  line-height: 1.05;
+  margin: 0 0 0.5em;
+  color: var(--trc-ink-bright);
+}
+.trc h3 {
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: var(--trc-ink-bright);
+  margin: 1.4em 0 0.4em;
+}
+.trc p { margin: 0.65em 0; }
+.trc .trc-lead { font-size: 1.08rem; color: var(--trc-ink); }
+
+/* Inline chip — mono tag for ids, envs, tickets */
+.trc-chip {
+  font-family: var(--trc-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  background: var(--trc-tint-accent);
+  border: 1px solid color-mix(in srgb, var(--trc-accent) 35%, transparent);
+  color: var(--trc-accent-2);
+  padding: 0.1em 0.5em;
+  border-radius: var(--trc-r-xs);
+  white-space: nowrap;
+}
+.trc-chip.ok   { background: var(--trc-tint-ok);   border-color: color-mix(in srgb, var(--trc-ok) 35%, transparent);   color: var(--trc-ok); }
+.trc-chip.warn { background: var(--trc-tint-warn); border-color: color-mix(in srgb, var(--trc-warn) 40%, transparent); color: var(--trc-warn); }
+.trc-chip.bad  { background: var(--trc-tint-crit); border-color: color-mix(in srgb, var(--trc-crit) 40%, transparent); color: var(--trc-crit-2); }
+
+/* --- 6. Cards, grids, callouts --------------------------------------------- */
+.trc-grid { display: grid; gap: 15px; }
+.trc-grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.trc-grid.g3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 800px) { .trc-grid.g2, .trc-grid.g3 { grid-template-columns: 1fr; } }
+
+.trc-card {
+  background: var(--trc-panel);
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-md);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.trc-card .trc-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--trc-mono);
+  font-size: 0.62rem;
+  color: var(--trc-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-left: 1px solid var(--trc-line);
+  border-bottom: 1px solid var(--trc-line);
+  border-bottom-left-radius: var(--trc-r-sm);
+}
+.trc-card h3 { margin-top: 0; }
+.trc-card h3.ok   { color: var(--trc-ok); }
+.trc-card h3.bad  { color: var(--trc-crit); }
+.trc-card h3.alt  { color: var(--trc-teal); }
+.trc-card h3.warn { color: var(--trc-warn); }
+
+.trc-callout {
+  border-radius: var(--trc-r-md);
+  padding: 18px 20px;
+  border: 1px solid var(--trc-line);
+  border-left: 4px solid var(--trc-accent);
+  background: var(--trc-tint-accent);
+}
+.trc-callout.bad  { border-left-color: var(--trc-crit); background: var(--trc-tint-crit); }
+.trc-callout.ok   { border-left-color: var(--trc-ok);   background: var(--trc-tint-ok); }
+.trc-callout.warn { border-left-color: var(--trc-warn); background: var(--trc-tint-warn); }
+.trc-callout .trc-t {
+  font-family: var(--trc-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--trc-accent-2);
+}
+.trc-callout.bad .trc-t  { color: var(--trc-crit-2); }
+.trc-callout.ok .trc-t   { color: var(--trc-ok); }
+.trc-callout.warn .trc-t { color: var(--trc-warn); }
+
+/* Key–value row for panel-ish summaries */
+.trc-kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--trc-line);
+  font-size: 0.92rem;
+}
+.trc-kv:last-child { border-bottom: none; }
+.trc-kv > span { color: var(--trc-muted); }
+.trc-kv > b {
+  font-family: var(--trc-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--trc-ink-bright);
+}
+
+/* --- 7. Tables + severity pills --------------------------------------------- */
+.trc-tbl {
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-md);
+  overflow: hidden;
+  background: var(--trc-panel);
+}
+.trc-tbl table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.trc-tbl th, .trc-tbl td {
+  text-align: left;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--trc-line);
+  vertical-align: top;
+}
+.trc-tbl tr:last-child td { border-bottom: none; }
+.trc-tbl th {
+  font-family: var(--trc-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--trc-muted);
+  font-weight: 500;
+}
+.trc-tbl tbody tr:hover { background: color-mix(in srgb, var(--trc-ink) 3%, transparent); }
+.trc-tbl td.trc-num { text-align: right; }
+
+.trc-sev {
+  font-family: var(--trc-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 0.18em 0.5em;
+  border-radius: var(--trc-r-xs);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.trc-sev.hi  { background: var(--trc-tint-crit); color: var(--trc-crit-2); border: 1px solid color-mix(in srgb, var(--trc-crit) 40%, transparent); }
+.trc-sev.med { background: var(--trc-tint-warn); color: var(--trc-warn);   border: 1px solid color-mix(in srgb, var(--trc-warn) 40%, transparent); }
+.trc-sev.low { background: var(--trc-tint-ok);   color: var(--trc-ok);     border: 1px solid color-mix(in srgb, var(--trc-ok) 35%, transparent); }
+
+/* --- 8. Code ---------------------------------------------------------------- */
+.trc pre {
+  background: var(--trc-code-bg, #0d0d0d);
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-sm);
+  padding: 15px 16px;
+  overflow-x: auto;
+  font-family: var(--trc-mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #c6c6c6;
+  margin: 11px 0;
+}
+/* Code blocks stay dark in both themes — terminal truth. Sanctioned literals. */
+:root[data-theme="light"] .trc pre { background: #0d0d0d; border-color: rgba(0, 0, 0, 0.6); }
+.trc pre .c { color: #8d8d8d; }  /* comment  */
+.trc pre .k { color: #78a9ff; }  /* keyword  */
+.trc pre .s { color: #42be65; }  /* string   */
+.trc pre .r { color: #fa4d56; }  /* alarm    */
+
+/* --- 9. Trace diagrams -------------------------------------------------------
+   Native SVG only. Boxes and text take these classes; edges are .trc-flow
+   paths in route colours with matching markers. Legend is mandatory. */
+.trc-diagram {
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-lg);
+  background:
+    radial-gradient(800px 360px at 50% 0, var(--trc-diagram-halo), transparent 70%),
+    var(--trc-panel);
+  padding: 16px;
+  overflow-x: auto;
+}
+.trc-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 12px 4px 0;
+  font-family: var(--trc-mono);
+  font-size: 0.7rem;
+  color: var(--trc-muted);
+}
+.trc-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.trc-legend i { width: 20px; height: 3px; border-radius: 2px; }
+.trc-legend i.main  { background: var(--trc-route-main); }
+.trc-legend i.fail  { background: var(--trc-route-fail); }
+.trc-legend i.ctrl  { background: var(--trc-route-ctrl); }
+.trc-legend i.alt   { background: var(--trc-route-alt); }
+.trc-legend i.async { background: var(--trc-route-async); }
+
+.trc-diagram svg .trc-box {
+  fill: var(--trc-panel-2);
+  stroke: var(--trc-line-strong);
+  stroke-width: 1.2;
+}
+.trc-diagram svg .trc-box.src  { stroke: color-mix(in srgb, var(--trc-accent) 45%, transparent); }
+.trc-diagram svg .trc-box.bad  { stroke: color-mix(in srgb, var(--trc-crit) 55%, transparent); }
+.trc-diagram svg .trc-box.ok   {
+  fill: color-mix(in srgb, var(--trc-ok) 12%, var(--trc-panel-2));
+  stroke: color-mix(in srgb, var(--trc-ok) 50%, transparent);
+}
+.trc-diagram svg .trc-nlabel { font-family: var(--trc-sans); font-weight: 600; fill: var(--trc-ink-bright); }
+.trc-diagram svg .trc-nlabel.ok  { fill: var(--trc-ok-2); }
+.trc-diagram svg .trc-nlabel.bad { fill: var(--trc-crit-2); }
+.trc-diagram svg .trc-nsub  { font-family: var(--trc-mono); fill: var(--trc-muted); }
+.trc-diagram svg .trc-ntag  { font-family: var(--trc-mono); fill: var(--trc-accent-2); }
+.trc-diagram svg .trc-ntag.bad { fill: var(--trc-crit-2); }
+.trc-diagram svg .trc-stage {
+  font-family: var(--trc-mono);
+  fill: var(--trc-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.trc-diagram svg .trc-edge { fill: none; stroke-width: 2; }
+.trc-diagram svg .trc-edge.main  { stroke: var(--trc-route-main); }
+.trc-diagram svg .trc-edge.fail  { stroke: var(--trc-route-fail); }
+.trc-diagram svg .trc-edge.ctrl  { stroke: var(--trc-route-ctrl); }
+.trc-diagram svg .trc-edge.alt   { stroke: var(--trc-route-alt); }
+.trc-diagram svg .trc-edge.async { stroke: var(--trc-route-async); }
+.trc-diagram svg marker.trc-m-main path,  .trc-diagram svg .trc-m-main path  { fill: var(--trc-route-main); }
+.trc-diagram svg marker.trc-m-fail path,  .trc-diagram svg .trc-m-fail path  { fill: var(--trc-route-fail); }
+.trc-diagram svg marker.trc-m-ctrl path,  .trc-diagram svg .trc-m-ctrl path  { fill: var(--trc-route-ctrl); }
+.trc-diagram svg marker.trc-m-alt path,   .trc-diagram svg .trc-m-alt path   { fill: var(--trc-route-alt); }
+.trc-diagram svg marker.trc-m-async path, .trc-diagram svg .trc-m-async path { fill: var(--trc-route-async); }
+
+/* The signature: marching-ants flow animation on trace edges */
+.trc-flow {
+  stroke-dasharray: 7 7;
+  animation: trc-dash 1.1s linear infinite;
+}
+@keyframes trc-dash { to { stroke-dashoffset: -28; } }
+
+/* Diagram caption — provenance line under the legend */
+.trc-figcap {
+  margin: 10px 4px 0;
+  font-family: var(--trc-mono);
+  font-size: 0.68rem;
+  color: var(--trc-muted);
+}
+
+/* --- 10. Footer / colophon ----------------------------------------------------- */
+.trc-foot {
+  padding: 40px 0 70px;
+  color: var(--trc-muted);
+  font-size: 0.84rem;
+  border-top: 1px solid var(--trc-line);
+  margin-top: 28px;
+}
+.trc-foot strong { color: var(--trc-ink-bright); }
+
+/* --- 11. Scroll reveal (progressive enhancement) --------------------------------
+   Sections opt in with .trc-rv. Hidden state applies ONLY once JS has run
+   (root gets .trc-js), so content is fully readable without scripts. */
+.trc-js .trc-rv {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.trc-js .trc-rv.in { opacity: 1; transform: none; }
+
+/* --- 12. Motion discipline ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .trc-flow { animation: none; }
+  .trc-js .trc-rv { opacity: 1; transform: none; transition: none; }
+}
+
+/* --- 13. Print ------------------------------------------------------------------- */
+@media print {
+  body.trc::before, .trc-topbar { display: none; }
+  .trc-js .trc-rv { opacity: 1; transform: none; }
+  .trc section, .trc-section { padding: 24px 0; }
+}

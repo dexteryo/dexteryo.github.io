@@ -98,6 +98,19 @@
   .sp-noct .m { margin-top: 10px; font: 600 18px/1 "SF Mono", ui-monospace, Menlo, monospace; }
   .sp-noct .m span { font-size: 11px; color: #9AA0B0; font-weight: 400; margin-left: 4px; }
 
+  .sp-trc { background: #161616; color: #e8e8e8; font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+            background-size: 32px 32px; }
+  .sp-trc .kick { display: flex; align-items: center; gap: 8px; font: 10px/1 "IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace; letter-spacing: .28em; text-transform: uppercase; color: #78a9ff; margin-bottom: 12px; }
+  .sp-trc .kick::before { content: ""; width: 28px; height: 1px; background: linear-gradient(90deg, #4589ff, transparent); }
+  .sp-trc h3 { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; color: #f4f4f4; }
+  .sp-trc h3 span { color: #78a9ff; }
+  .sp-trc .vd { display: inline-block; margin-top: 12px; font: 600 9px/1 "IBM Plex Mono", "SF Mono", ui-monospace, Menlo, monospace; letter-spacing: .12em; background: #fa4d56; color: #2a0508; padding: 5px 8px; border-radius: 4px; }
+  .sp-trc svg { display: block; margin-top: 12px; }
+  .sp-trc .fl { stroke-dasharray: 6 6; animation: trcdash 1.1s linear infinite; }
+  @keyframes trcdash { to { stroke-dashoffset: -24; } }
+  @media (prefers-reduced-motion: reduce) { .sp-trc .fl { animation: none; } }
+
   .sp-brut { background: #FBF6EC; color: #111111; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .sp-brut .tag { display: inline-block; background: #FFD43A; border: 2.5px solid #111; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 9px; box-shadow: 3px 3px 0 #111; margin-bottom: 14px; }
   .sp-brut h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
@@ -109,7 +122,7 @@
   <header class="masthead">
     <div>
       <p class="kicker">Dexter · design systems · 2026-07-30</p>
-      <h1>Six systems, one contract</h1>
+      <h1>Seven systems, one contract</h1>
       <p class="lede">Every system below covers the same ground — long-form reports, dashboards,
       evidence citations, status vocabulary, both themes, no external assets — in a different
       visual language. Pick by taste; the deliverable types are interchangeable. Each card shows
@@ -219,6 +232,31 @@
     </div>
 
     <div class="card">
+      <div class="specimen sp-trc">
+        <div class="kick">Incident · staging · trace</div>
+        <h3>Declined shows <span>successful</span></h3>
+        <div class="vd">APP-SIDE — EVENT EMISSION GAP</div>
+        <svg width="220" height="26" viewBox="0 0 220 26" aria-hidden="true">
+          <path class="fl" d="M2,8 L96,8" fill="none" stroke="#4589ff" stroke-width="2"/>
+          <path class="fl" d="M2,19 L60,19" fill="none" stroke="#fa4d56" stroke-width="2"/>
+          <path d="M60,13 L60,25" stroke="#fa4d56" stroke-width="2"/>
+          <path class="fl" d="M104,8 L218,8" fill="none" stroke="#42be65" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="name">Tracer <small>ops briefing · v1.0.0 · dark-first</small></div>
+        <p class="desc">IBM Carbon dark on a blueprint grid: verdict banners, stat strips,
+        hop-by-hop evidence tables, and native SVG trace diagrams with animated dashed
+        routes — each colour a declared meaning.</p>
+        <div class="links">
+          <a href="tracer/">Style guide</a>
+          <a href="tracer/README.md">Agent spec</a>
+        </div>
+        <div class="skillname">skill: dexter-ds-tracer</div>
+      </div>
+    </div>
+
+    <div class="card">
       <div class="specimen sp-brut">
         <div class="tag">Incident 2026-041</div>
         <h3>The webhook<br>never came</h3>
@@ -240,7 +278,7 @@
   </div>
 
   <footer>
-    Shared contract across all six: system font stacks only · no external assets · light and dark
+    Shared contract across all seven: system font stacks only · no external assets · light and dark
     themes via tokens · 4px spacing scale · tabular numerals · evidence cited in monospace ·
     no AI attribution. Each system has a matching global Claude skill; trigger it by name.
   </footer>

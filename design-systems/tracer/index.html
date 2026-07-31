@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracer — living style guide</title>
+<link rel="stylesheet" href="tracer.css">
+<style>
+  /* Guide chrome only — not part of the system */
+  .guide-note { font-size: 0.84rem; color: var(--trc-muted); border-left: 2px solid var(--trc-line-strong); padding-left: 12px; margin: 14px 0; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .swatch { border: 1px solid var(--trc-line-strong); border-radius: 8px; overflow: hidden; background: var(--trc-panel); }
+  .swatch .chipbox { height: 52px; }
+  .swatch .swlab { padding: 8px 10px; font-family: var(--trc-mono); font-size: 0.66rem; color: var(--trc-muted); }
+  .swatch .swlab b { display: block; color: var(--trc-ink-bright); font-weight: 600; }
+  .toggle { position: fixed; right: 18px; bottom: 18px; z-index: 9; border: 1px solid var(--trc-line-strong);
+            background: var(--trc-panel); color: var(--trc-ink); font: inherit; font-size: 13px;
+            padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+  .type-spec { border-bottom: 1px solid var(--trc-line); padding: 14px 0; }
+  .type-spec .tlab { font-family: var(--trc-mono); font-size: 0.66rem; color: var(--trc-muted); margin-bottom: 6px; }
+</style>
+</head>
+<body class="trc">
+
+<div class="trc-topbar"><div class="trc-topbar-inner">
+  <a href="#tokens">Tokens</a><a href="#type">Type</a><a href="#hero">Hero</a>
+  <a href="#components">Components</a><a href="#evidence">Evidence</a><a href="#diagram">Trace diagram</a>
+  <a href="../">All systems</a>
+</div></div>
+
+<header class="trc-hero"><div class="trc-wrap">
+  <div class="trc-kicker"><span class="trc-kicker-bar"></span>DESIGN SYSTEM · TRACER · V1.0.0</div>
+  <h1>The ops briefing<br><span class="trc-lo">verdict first, then the trace</span></h1>
+  <p class="trc-sub">Carbon-dark ground, blueprint grid, uppercase display, filled verdict banners,
+  and native SVG trace diagrams whose dashed edges march along the routes they describe. Every
+  component on this page is the system — if it isn't demonstrated here, it isn't in Tracer.</p>
+  <div class="trc-verdict">SYSTEM SPECIMEN — ALL COMPONENTS LIVE</div>
+  <div class="trc-meta">
+    <div class="trc-cell"><div class="trc-lab">Version</div><div class="trc-val">1.0.0<small>2026-07-30</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">Themes</div><div class="trc-val info">2<small>dark-first · light counterpart</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">Route colours</div><div class="trc-val">5<small>each one a declared meaning</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">External assets</div><div class="trc-val ok">0<small>local Plex or system stack</small></div></div>
+  </div>
+</div></header>
+
+<section id="tokens"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">01 /</span> Tokens</div>
+  <h2>Colour is meaning</h2>
+  <p class="trc-lead">Every value is a <code>--trc-*</code> custom property. The accent points; the
+  other hues are states and routes — red fails, green is proven, yellow degrades, teal derives,
+  purple runs out-of-band. A hue used decoratively is a defect.</p>
+  <div class="swatches" style="margin-top:16px">
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-bg)"></div><div class="swlab"><b>--trc-bg</b>ground</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-panel)"></div><div class="swlab"><b>--trc-panel</b>surface</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-panel-2)"></div><div class="swlab"><b>--trc-panel-2</b>raised</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-accent)"></div><div class="swlab"><b>--trc-accent</b>points · nominal route</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-crit)"></div><div class="swlab"><b>--trc-crit</b>failing · lost</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-ok)"></div><div class="swlab"><b>--trc-ok</b>proven · clean</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-warn)"></div><div class="swlab"><b>--trc-warn</b>degraded · attention</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-teal)"></div><div class="swlab"><b>--trc-teal</b>secondary · derived</div></div>
+    <div class="swatch"><div class="chipbox" style="background:var(--trc-purple)"></div><div class="swlab"><b>--trc-purple</b>async · out-of-band</div></div>
+  </div>
+  <p class="guide-note">Dark is the identity; the light counterpart ships in every output via the
+  <code>@media</code> block and <code>data-theme</code> overrides. Code blocks stay dark in both.</p>
+</div></section>
+
+<section id="type"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">02 /</span> Typography</div>
+  <h2>Plex voice, uppercase display</h2>
+  <div class="type-spec"><div class="tlab">h1 · sans 700 · uppercase · clamp(2.2–4rem) · one accent phrase</div>
+    <h1 style="margin:0">Signal lost <span class="trc-lo">at the relay</span></h1></div>
+  <div class="type-spec"><div class="tlab">h2 · sans 700 · uppercase · clamp(1.5–2.3rem)</div>
+    <h2 style="margin:0">Where the decline dies</h2></div>
+  <div class="type-spec"><div class="tlab">kicker · mono · 0.34em tracking · with gradient bar</div>
+    <div class="trc-kicker"><span class="trc-kicker-bar"></span>INCIDENT ANALYSIS · STAGING · TICKET-123</div></div>
+  <div class="type-spec"><div class="tlab">body 15.5px/1.6 · lead 1.08rem · machine truth in mono</div>
+    <p class="trc-lead" style="margin:0">The queue drained at <code>15:16:38Z</code>, the document stayed
+    <code>status=pending</code>, and the control case <span class="trc-chip">bef12f3a</span> proves the pipeline works.</p></div>
+</div></section>
+
+<section id="hero"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">03 /</span> Hero grammar</div>
+  <h2>A reader who stops here knows the answer</h2>
+  <p>Kicker → uppercase title with one <code>.trc-lo</code> phrase → stand-first → verdict banner →
+  stat strip. Verdict variants carry the conclusion's severity:</p>
+  <p>
+    <span class="trc-verdict">FINDING — DEFAULT ACCENT</span>&nbsp;
+    <span class="trc-verdict ok">CLEARED — VERIFIED CLEAN</span>&nbsp;
+    <span class="trc-verdict warn">DEGRADED — UNDER OBSERVATION</span>&nbsp;
+    <span class="trc-verdict bad">DEFECT CONFIRMED — APP-SIDE</span>
+  </p>
+  <div class="trc-meta">
+    <div class="trc-cell"><div class="trc-lab">Decline events emitted</div><div class="trc-val bad">0<small>whole day, both txns</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">Events relayed</div><div class="trc-val">1 / txn<small>TransactionAdded only</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">Pipeline defects</div><div class="trc-val ok">0<small>SQS 0 · DLQ 0 · no errors</small></div></div>
+    <div class="trc-cell"><div class="trc-lab">Control case</div><div class="trc-val info">PASS<small>bef12f3a → rejected ✓</small></div></div>
+  </div>
+</div></section>
+
+<section id="components"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">04 /</span> Components</div>
+  <h2>Cards, callouts, chips, key–values</h2>
+  <div class="trc-grid g3">
+    <div class="trc-card"><span class="trc-corner">CLEAN</span><h3 class="ok">Proven fine</h3>
+      <p>Corner tag states the card's role; the heading colour states its verdict.</p></div>
+    <div class="trc-card"><span class="trc-corner">GAP</span><h3 class="bad">Where it dies</h3>
+      <p>One red heading per briefing — the gap. More than one means the analysis isn't finished.</p></div>
+    <div class="trc-card"><span class="trc-corner">CONTROL</span><h3 class="alt">The control case</h3>
+      <p>Teal marks the derived or comparative path that anchors the argument.</p></div>
+  </div>
+  <div style="margin-top:16px" class="trc-grid g2">
+    <div>
+      <div class="trc-callout bad"><div class="trc-t">Root gap — transaction-fulfilment</div>
+        <p style="margin:.4em 0 0">Callouts carry the action. The left bar is the severity;
+        the mono label names the owner.</p></div>
+      <div class="trc-callout ok" style="margin-top:12px"><div class="trc-t">Verified clean — pipeline</div>
+        <p style="margin:.4em 0 0">Green callouts close questions so nobody re-investigates them.</p></div>
+    </div>
+    <div class="trc-card">
+      <h3>Key–values</h3>
+      <div class="trc-kv"><span>Queue depth</span><b>0</b></div>
+      <div class="trc-kv"><span>DLQ</span><b>0</b></div>
+      <div class="trc-kv"><span>Last write</span><b>15:16:41Z</b></div>
+      <div class="trc-kv"><span>Ticket</span><b><span class="trc-chip">CLEV-10965</span></b></div>
+      <p style="margin-top:10px">Inline chips: <span class="trc-chip">staging</span>
+        <span class="trc-chip ok">verified</span> <span class="trc-chip warn">observing</span>
+        <span class="trc-chip bad">blocked</span></p>
+    </div>
+  </div>
+</div></section>
+
+<section id="evidence"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">05 /</span> Evidence</div>
+  <h2>Hop-by-hop tables, terminal code</h2>
+  <div class="trc-tbl"><table>
+    <thead><tr><th>Hop</th><th>Source</th><th>Observed</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Service events</td><td><span class="trc-mono">svc-staging stdouterr 15:16:38Z</span></td>
+        <td>Only <span class="trc-mono">TransactionAdded</span> emitted; the decline stays inside a balance event.</td>
+        <td><span class="trc-sev hi">Gap here</span></td></tr>
+      <tr><td>Relay whitelist</td><td><span class="trc-mono">opensearch.ex (HEAD)</span></td>
+        <td>No clause for <span class="trc-mono">BalanceUpdated</span> → falls to <span class="trc-mono">{:skipped}</span>.</td>
+        <td><span class="trc-sev med">By design</span></td></tr>
+      <tr><td>Queue + DLQ</td><td><span class="trc-mono">ingestion-transaction-data-staging</span></td>
+        <td>0 visible, 0 in-flight, DLQ 0.</td>
+        <td><span class="trc-sev low">Clean</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Code evidence — four token classes, alarm on the failing line only</h3>
+  <pre><span class="c"># genservers/opensearch.ex — the clause that drops it</span>
+<span class="k">defp</span> publish_sqs(%{type: <span class="s">"TransactionAdded"</span>} = e), <span class="k">do:</span> enqueue(e)
+defp publish_sqs(_tf_event_data), <span class="k">do:</span> {<span class="r">:skipped</span>}   <span class="c"># ← BalanceUpdated lands here</span></pre>
+</div></section>
+
+<section id="diagram"><div class="trc-wrap trc-rv">
+  <div class="trc-seclabel"><span class="trc-n">06 /</span> Trace diagram</div>
+  <h2>The signature: routes that move</h2>
+  <p class="trc-lead">Columns are stages; boxes are systems; dashed edges march in the direction of
+  data flow. The red route terminates at the box where the signal dies. Every colour on the wire
+  appears in the legend with its meaning in <em>this</em> diagram.</p>
+
+  <div class="trc-diagram" style="margin-top:18px">
+    <svg viewBox="0 0 1120 300" width="100%" role="img"
+         aria-label="Trace: purchase flows to the relay and on to the index as pending; the decline code travels inside a balance event and is dropped at the relay; the auth database feeds the support tool which shows the correct state.">
+      <defs>
+        <marker id="tm-main" class="trc-m-main" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+        <marker id="tm-fail" class="trc-m-fail" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+        <marker id="tm-alt"  class="trc-m-alt"  markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+      </defs>
+
+      <text class="trc-stage" x="22" y="24" font-size="11">Source</text>
+      <text class="trc-stage" x="322" y="24" font-size="11">Relay</text>
+      <text class="trc-stage" x="672" y="24" font-size="11">Serving</text>
+
+      <rect class="trc-box src" x="22" y="44" width="220" height="66" rx="9"/>
+      <text class="trc-nlabel" x="36" y="68" font-size="13">Purchase event</text>
+      <text class="trc-nsub" x="36" y="87" font-size="10.5">status=pending · rc=00</text>
+
+      <rect class="trc-box bad" x="22" y="140" width="220" height="66" rx="9"/>
+      <text class="trc-nlabel" x="36" y="164" font-size="13">Balance event</text>
+      <text class="trc-ntag bad" x="36" y="183" font-size="10.5">decline code trapped here</text>
+
+      <rect class="trc-box src" x="22" y="234" width="220" height="52" rx="9"/>
+      <text class="trc-nlabel" x="36" y="256" font-size="13">Auth DB</text>
+      <text class="trc-nsub" x="36" y="273" font-size="10.5">rc 57 / 65 on the row</text>
+
+      <rect class="trc-box" x="322" y="44" width="240" height="66" rx="9"/>
+      <text class="trc-nlabel" x="336" y="68" font-size="13">Projection whitelist</text>
+      <text class="trc-nsub" x="336" y="87" font-size="10.5">Added · Updated · Declined …</text>
+
+      <rect class="trc-box bad" x="322" y="140" width="240" height="52" rx="9"/>
+      <text class="trc-nlabel bad" x="336" y="162" font-size="13">DROPPED — {:skipped}</text>
+      <text class="trc-nsub" x="336" y="179" font-size="10.5">never enqueued</text>
+
+      <rect class="trc-box" x="672" y="44" width="240" height="66" rx="9"/>
+      <text class="trc-nlabel" x="686" y="68" font-size="13">Search index</text>
+      <text class="trc-ntag bad" x="686" y="87" font-size="10.5">status=pending forever</text>
+
+      <rect class="trc-box ok" x="672" y="234" width="240" height="52" rx="9"/>
+      <text class="trc-nlabel ok" x="686" y="256" font-size="13">Support tool</text>
+      <text class="trc-nsub" x="686" y="273" font-size="10.5">reads auth DB → DECLINED</text>
+
+      <path class="trc-edge trc-flow main" d="M242,77 L322,77" marker-end="url(#tm-main)"/>
+      <path class="trc-edge trc-flow main" d="M562,77 L672,77" marker-end="url(#tm-main)"/>
+      <path class="trc-edge trc-flow fail" d="M242,169 L322,169" marker-end="url(#tm-fail)"/>
+      <path class="trc-edge trc-flow alt"  d="M242,260 L672,260" marker-end="url(#tm-alt)"/>
+    </svg>
+    <div class="trc-legend">
+      <span><i class="main"></i> nominal path — event created, stays pending</span>
+      <span><i class="fail"></i> decline code — trapped, dropped at the relay</span>
+      <span><i class="alt"></i> auth DB read — why the support tool is correct</span>
+    </div>
+    <div class="trc-figcap">source: service logs + relay code at HEAD · revised 2026-07-30</div>
+  </div>
+  <p class="guide-note">Route meanings are fixed system-wide: <b>main</b> nominal · <b>fail</b>
+  failing/lost · <b>ctrl</b> proven control · <b>alt</b> secondary/derived · <b>async</b>
+  out-of-band. Dashes stop marching under <code>prefers-reduced-motion</code>.</p>
+</div></section>
+
+<div class="trc-wrap"><div class="trc-foot">
+  <strong>Tracer</strong> — living style guide · <span class="trc-mono">v1.0.0 · 2026-07-30</span><br/>
+  Spec for agents: <a href="README.md">README.md</a> · stylesheet: <a href="tracer.css">tracer.css</a> ·
+  skill: <span class="trc-mono">dexter-ds-tracer</span> · sibling systems: <a href="../">gallery</a>.
+</div></div>
+
+<button class="toggle" id="themeToggle" type="button">Toggle theme</button>
+<script>
+  document.documentElement.classList.add('trc-js');
+  const o = new IntersectionObserver((es) => { es.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('in'), i * 55); o.unobserve(e.target); }
+  }); }, { threshold: 0.12 });
+  document.querySelectorAll('.trc-rv').forEach((el) => o.observe(el));
+
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var root = document.documentElement;
+    var dark = root.dataset.theme === 'dark' ||
+      (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+    root.dataset.theme = dark ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>
