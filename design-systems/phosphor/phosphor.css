@@ -1,6 +1,6 @@
 /* ==========================================================================
    PHOSPHOR — canonical stylesheet
-   v1.0.0 · 2026-07-30
+   v2.0.0 · 2026-10-07 · engineering edition
    Canonical home:  https://dexteryo.github.io/design-systems/phosphor/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/phosphor/phosphor.css
    Spec for agents: README.md in the same directory
@@ -13,6 +13,11 @@
    aesthetic is carried by type, colour, and furniture — rule-line section
    headers, bracket status chips, dot-leader rows, a statusline colophon,
    and exactly one glow (the h1, and only in the dark theme).
+
+   v2 adds the engineering layer: a full-width shell with a sticky index
+   rail, native SVG architecture / sequence / state diagrams drawn in the
+   ANSI palette (every hue is a declared route or node kind), and service,
+   API, ADR, trade-off, latency-budget and timeline components.
 
    Portability rule: system font stacks only — no webfont requests. The
    stylesheet must work inlined in a sandboxed artifact, attached to a
@@ -58,6 +63,44 @@
   /* The one glow. Permitted on the h1 title ONLY. The light theme and
      print both zero it. A second glow anywhere is a defect. */
   --phos-glow: 0 0 14px rgba(63, 230, 143, 0.35);
+
+  /* ANSI palette (v2). Drives diagram routes, node kinds and API methods —
+     never prose or furniture. Green stays reserved for ok / added. */
+  --phos-ansi-red:      #FF6B5E;  --phos-ansi-green:    #3FE68F;
+  --phos-ansi-yellow:   #E5D26A;  --phos-ansi-blue:     #6E9CFF;
+  --phos-ansi-magenta:  #C792EA;  --phos-ansi-cyan:     #5CC9D6;
+  --phos-ansi-bmagenta: #FF8FC8;  --phos-ansi-bblue:    #A5B4FF;
+  --phos-ansi-white:    #CFE0D0;  --phos-ansi-bblack:   #8FA597;
+
+  /* Derived diagram tokens. Defined once: they alias the ANSI slots above,
+     which are the only values that flip per theme. */
+  --phos-route-sync:  var(--phos-ansi-cyan);
+  --phos-route-async: var(--phos-ansi-magenta);
+  --phos-route-data:  var(--phos-ansi-blue);
+  --phos-route-ctrl:  var(--phos-ansi-yellow);
+  --phos-route-ext:   var(--phos-ansi-bblack);
+  --phos-route-fail:  var(--phos-ansi-red);
+
+  --phos-node-client: var(--phos-ansi-white);
+  --phos-node-edge:   var(--phos-ansi-yellow);
+  --phos-node-svc:    var(--phos-ansi-cyan);
+  --phos-node-fn:     var(--phos-ansi-bmagenta);
+  --phos-node-store:  var(--phos-ansi-blue);
+  --phos-node-queue:  var(--phos-ansi-magenta);
+  --phos-node-cache:  var(--phos-ansi-bblue);
+  --phos-node-ext:    var(--phos-ansi-bblack);
+
+  /* Layout (v2): fluid shell, readable prose measure, index rail. */
+  --phos-gutter: clamp(16px, 4vw, 64px);
+  --phos-shell-max: 1920px;
+  --phos-measure: 76ch;
+  --phos-toc-w: 220px;
+
+  /* Diagram legibility floor: SVG text is never under 12.5 user units and
+     a figure never renders below ~80% of its viewBox — below that it
+     scrolls inside its frame. Override --phos-svg-min per figure as
+     0.8 × the viewBox width. */
+  --phos-svg-min: 1000px;
 }
 
 /* Light counterpart: the paper terminal. A DEC printout — warm paper,
@@ -83,6 +126,12 @@
     --phos-v4: #7B4B94; --phos-v5: #B3362B; --phos-v6: #3D5FA6;
 
     --phos-glow: none;
+
+    --phos-ansi-red:      #B3362B;  --phos-ansi-green:    #147A50;
+    --phos-ansi-yellow:   #806A00;  --phos-ansi-blue:     #2F5BB7;
+    --phos-ansi-magenta:  #7B4B94;  --phos-ansi-cyan:     #16697A;
+    --phos-ansi-bmagenta: #A63D7E;  --phos-ansi-bblue:    #5A5FB8;
+    --phos-ansi-white:    #23372B;  --phos-ansi-bblack:   #5D6F62;
   }
 }
 
@@ -100,6 +149,11 @@
   --phos-v1: #3FE68F; --phos-v2: #5CC9D6; --phos-v3: #FFB454;
   --phos-v4: #C792EA; --phos-v5: #FF6B5E; --phos-v6: #82AAFF;
   --phos-glow: 0 0 14px rgba(63, 230, 143, 0.35);
+  --phos-ansi-red: #FF6B5E; --phos-ansi-green: #3FE68F;
+  --phos-ansi-yellow: #E5D26A; --phos-ansi-blue: #6E9CFF;
+  --phos-ansi-magenta: #C792EA; --phos-ansi-cyan: #5CC9D6;
+  --phos-ansi-bmagenta: #FF8FC8; --phos-ansi-bblue: #A5B4FF;
+  --phos-ansi-white: #CFE0D0; --phos-ansi-bblack: #8FA597;
 }
 :root[data-theme="light"] {
   --phos-ground: #F2F1E9; --phos-surface: #FAF9F3;
@@ -113,18 +167,70 @@
   --phos-v1: #147A50; --phos-v2: #16697A; --phos-v3: #8A5A00;
   --phos-v4: #7B4B94; --phos-v5: #B3362B; --phos-v6: #3D5FA6;
   --phos-glow: none;
+  --phos-ansi-red: #B3362B; --phos-ansi-green: #147A50;
+  --phos-ansi-yellow: #806A00; --phos-ansi-blue: #2F5BB7;
+  --phos-ansi-magenta: #7B4B94; --phos-ansi-cyan: #16697A;
+  --phos-ansi-bmagenta: #A63D7E; --phos-ansi-bblue: #5A5FB8;
+  --phos-ansi-white: #23372B; --phos-ansi-bblack: #5D6F62;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
 .phos-doc, .phos-panels {
   box-sizing: border-box; -webkit-font-smoothing: antialiased;
   background: var(--phos-ground); color: var(--phos-ink);
-  font-family: var(--phos-mono); font-size: 14px; line-height: 1.6;
+  font-family: var(--phos-mono); font-size: 15px; line-height: 1.7;
 }
 .phos-doc *, .phos-doc *::before, .phos-doc *::after,
 .phos-panels *, .phos-panels *::before, .phos-panels *::after { box-sizing: inherit; }
 
-.phos-page { max-width: 880px; margin: 0 auto; padding: var(--phos-s7) var(--phos-s5) var(--phos-s8); }
+.phos-page {
+  max-width: var(--phos-shell-max); margin: 0 auto;
+  padding: var(--phos-s7) var(--phos-gutter) var(--phos-s8);
+}
+
+/* Index rail: a sticky TOC beside the content at ≥1680px (narrower and
+   it would squeeze diagrams below their legibility floor), a bordered
+   block above it below that. Plain anchor links — the active-section
+   highlight is progressive enhancement (.is-active set by script). */
+.phos-layout { display: block; }
+.phos-layout > main { min-width: 0; }
+.phos-toc {
+  border: 1px solid var(--phos-border); background: var(--phos-surface);
+  padding: var(--phos-s3) var(--phos-s4); margin: 0 0 var(--phos-s6);
+  font-size: 12.5px;
+}
+.phos-toc-h {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--phos-muted);
+  margin: 0 0 var(--phos-s2);
+}
+.phos-doc .phos-toc ol, .phos-panels .phos-toc ol {
+  list-style: none; margin: 0; padding: 0; max-width: none;
+  display: flex; flex-wrap: wrap; gap: 2px var(--phos-s4);
+}
+.phos-doc .phos-toc li, .phos-panels .phos-toc li { margin: 0; }
+.phos-doc .phos-toc a, .phos-panels .phos-toc a {
+  position: relative; display: block; padding: 2px 0 2px 14px;
+  color: var(--phos-muted); text-decoration: none;
+}
+.phos-toc a::before { content: ""; position: absolute; left: 0; }
+.phos-toc a span { color: var(--phos-strong); margin-right: var(--phos-s1); font-variant-numeric: tabular-nums; }
+.phos-doc .phos-toc a:hover, .phos-panels .phos-toc a:hover { color: var(--phos-ink); }
+.phos-doc .phos-toc a.is-active, .phos-panels .phos-toc a.is-active { color: var(--phos-accent); }
+.phos-toc a.is-active::before { content: "▸"; }
+.phos-toc a.is-active span { color: inherit; }
+@media (min-width: 1680px) {
+  .phos-layout {
+    display: grid; grid-template-columns: var(--phos-toc-w) minmax(0, 1fr);
+    gap: var(--phos-s7); align-items: start;
+  }
+  .phos-toc {
+    position: sticky; top: var(--phos-s5);
+    max-height: calc(100vh - 2 * var(--phos-s5)); overflow-y: auto;
+    margin: 0; padding: var(--phos-s4);
+  }
+  .phos-doc .phos-toc ol, .phos-panels .phos-toc ol { display: block; }
+}
 
 /* Links: ink with a dim underline; green only on hover — an unvisited link
    has earned no claim. */
@@ -164,7 +270,7 @@
    in print, where a frozen cursor would read as a typo. */
 .phos-title {
   font-family: var(--phos-mono); font-weight: 700;
-  font-size: clamp(21px, 3.6vw, 29px); line-height: 1.25;
+  font-size: clamp(24px, 3.2vw, 38px); line-height: 1.2;
   letter-spacing: 0.01em; margin: 0 0 var(--phos-s3);
   color: var(--phos-accent);
   text-shadow: var(--phos-glow);
@@ -180,8 +286,9 @@
 }
 
 .phos-subtitle {
-  font-size: 15px; line-height: 1.6; font-weight: 400;
-  color: var(--phos-muted); max-width: 70ch; margin: 0 0 var(--phos-s5);
+  font-size: 16px; line-height: 1.65; font-weight: 400;
+  color: var(--phos-muted); max-width: var(--phos-measure); margin: 0 0 var(--phos-s5);
+  text-wrap: pretty;
 }
 
 /* Meta block: author / date / status. Facts, not decoration. */
@@ -207,7 +314,8 @@
 .phos-section { margin: 0 0 var(--phos-s7); }
 .phos-sec-h {
   display: flex; align-items: center; gap: var(--phos-s3);
-  margin: var(--phos-s7) 0 var(--phos-s4);
+  margin: var(--phos-s8) 0 var(--phos-s5);
+  scroll-margin-top: var(--phos-s5);
 }
 .phos-sec-h::before {
   content: ""; flex: none; width: var(--phos-s5);
@@ -223,12 +331,22 @@
 }
 .phos-sec-num::after { content: " ·"; }
 .phos-sec-h h2 {
-  font-size: 13px; font-weight: 700; letter-spacing: 0.18em;
+  font-size: 16px; font-weight: 700; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--phos-ink); margin: 0;
+  text-wrap: balance;
 }
 
-.phos-doc p  { max-width: 70ch; margin: 0 0 var(--phos-s4); }
-.phos-doc ul, .phos-doc ol { max-width: 70ch; margin: 0 0 var(--phos-s4); padding-left: 22px; }
+/* Sub-heading: a markdown-style "## " prefix in the dim voice — the
+   console's own way of marking a heading inside a section. */
+.phos-h3 {
+  font-size: 15.5px; font-weight: 700; color: var(--phos-ink);
+  margin: var(--phos-s6) 0 var(--phos-s3); scroll-margin-top: var(--phos-s5);
+  text-wrap: balance;
+}
+.phos-h3::before { content: "## "; color: var(--phos-muted); font-weight: 400; }
+
+.phos-doc p  { max-width: var(--phos-measure); margin: 0 0 var(--phos-s4); text-wrap: pretty; }
+.phos-doc ul, .phos-doc ol { max-width: var(--phos-measure); margin: 0 0 var(--phos-s4); padding-left: 22px; }
 .phos-doc li { margin-bottom: var(--phos-s1); }
 
 /* Evidence citation: a dim bracketed ref inline, straight after the claim —
@@ -247,7 +365,7 @@
 .phos-pull {
   border-left: 2px solid var(--phos-accent);
   margin: var(--phos-s5) 0; padding: var(--phos-s2) 0 var(--phos-s2) var(--phos-s5);
-  font-size: 15px; line-height: 1.65; color: var(--phos-muted); max-width: 62ch;
+  font-size: 16px; line-height: 1.65; color: var(--phos-muted); max-width: 66ch;
 }
 .phos-pull strong { color: var(--phos-ink); font-weight: 700; }
 
@@ -275,7 +393,7 @@
 /* Tables: dense, hairline rows, uppercase headers. 13px in both modes —
    a console table is scanned, not read. */
 .phos-table-wrap { overflow-x: auto; margin: 0 0 var(--phos-s4); }
-.phos-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.phos-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 .phos-table th {
   font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--phos-muted); text-align: left;
@@ -482,7 +600,351 @@
 }
 .phos-sl-fill { flex: 1; min-width: var(--phos-s4); }
 
-/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 6. DIAGRAMS (v2) ──────────────────────────────────────────────────── */
+/* Native SVG, three figure types sharing one grammar:
+     .phos-arch  — architecture / container diagram
+     .phos-seq   — sequence diagram
+     .phos-state — state machine
+   Colour is a declared meaning: route classes (sync async data ctrl ext
+   fail ret) set --r for edges; node-kind classes (client edge svc fn store
+   queue cache ext) and state classes (ok warn crit info neutral) set --k
+   for shapes. Every hue used appears in the figure's .phos-legend. Square
+   everything except the store cylinder: this is a terminal. */
+
+.phos-arch, .phos-seq, .phos-state {
+  margin: 0 0 var(--phos-s6); padding: var(--phos-s4);
+  background: var(--phos-surface); border: 1px solid var(--phos-strong);
+  overflow-x: auto;
+}
+.phos-arch svg, .phos-seq svg, .phos-state svg {
+  display: block; width: 100%; height: auto;
+  min-width: var(--phos-svg-min, 1000px);
+  font-family: var(--phos-mono); overflow: visible;
+}
+
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) :is(
+  .client, .edge, .svc, .fn, .store, .queue, .cache, .ext,
+  .ok, .warn, .crit, .info, .neutral
+) { --k-bg: color-mix(in srgb, var(--k) 13%, var(--phos-surface)); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .client  { --k: var(--phos-node-client); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .edge    { --k: var(--phos-node-edge); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .svc     { --k: var(--phos-node-svc); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .fn      { --k: var(--phos-node-fn); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .store   { --k: var(--phos-node-store); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .queue   { --k: var(--phos-node-queue); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .cache   { --k: var(--phos-node-cache); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .ext     { --k: var(--phos-node-ext);  --r: var(--phos-route-ext); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .ok      { --k: var(--phos-ok); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .warn    { --k: var(--phos-warn); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .crit    { --k: var(--phos-crit); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .info    { --k: var(--phos-info); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .neutral { --k: var(--phos-muted); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .sync    { --r: var(--phos-route-sync); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .async   { --r: var(--phos-route-async); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .data    { --r: var(--phos-route-data); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .ctrl    { --r: var(--phos-route-ctrl); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .fail    { --r: var(--phos-route-fail); }
+:where(.phos-arch, .phos-seq, .phos-state, .phos-legend, .phos-budget, .phos-svc-grid) .ret     { --r: var(--phos-muted); }
+
+/* Nodes: <g class="phos-node svc"> + .phos-shape (+ .phos-rim on a
+   cylinder, .phos-qbar on a queue, .phos-cbar on a cache) + text. */
+.phos-node .phos-shape {
+  fill: var(--k-bg); stroke: var(--k); stroke-width: 1.5;
+  transition: stroke-width 120ms linear, fill 120ms linear;
+}
+.phos-node.ext .phos-shape { stroke-dasharray: 5 4; }
+.phos-node.edge .phos-shape { stroke-width: 2.25; }
+.phos-node .phos-rim  { fill: none; stroke: var(--k); stroke-width: 1.5; }
+.phos-node .phos-qbar { fill: var(--k); opacity: 0.55; }
+.phos-node .phos-cbar { stroke: var(--k); stroke-width: 1.5; }
+.phos-node:hover .phos-shape { stroke-width: 3; fill: color-mix(in srgb, var(--k) 22%, var(--phos-surface)); }
+.phos-node.is-hot .phos-shape { stroke-width: 3; fill: color-mix(in srgb, var(--k) 20%, var(--phos-surface)); }
+.phos-node.is-fail { --k: var(--phos-crit); }
+.phos-node.is-new .phos-shape { stroke: var(--phos-ok); stroke-dasharray: 6 4; }
+.phos-node.is-new .phos-ntag { fill: var(--phos-ok); }
+
+.phos-nlabel { font-size: 15px; font-weight: 700; fill: var(--phos-ink); }
+.phos-nsub   { font-size: 12.5px; fill: var(--phos-muted); }
+.phos-ntag   { font-size: 12.5px; font-weight: 700; fill: var(--k); }
+.phos-nkind  { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; fill: var(--k); text-anchor: end; }
+.phos-node.is-fail .phos-nlabel { fill: var(--phos-crit); }
+
+/* Edges: <path class="phos-edge sync phos-flow" marker-end="url(#m-sync)">.
+   Every dash pattern's period divides 22 so one keyframe marches them all
+   without a visible jump. Long dashes = sync, short = async, sparse = fail,
+   dots = ext — the pattern still separates routes in greyscale. */
+.phos-edge {
+  fill: none; stroke: var(--r, var(--phos-muted)); stroke-width: 1.75;
+  stroke-linejoin: miter;
+}
+.phos-edge.async { stroke-dasharray: 6 5; }
+.phos-edge.fail  { stroke-dasharray: 4 7; stroke-width: 2; }
+.phos-edge.ext   { stroke-dasharray: 2 9; stroke-linecap: square; stroke-width: 2; }
+.phos-edge.ret   { stroke-dasharray: 3 3; stroke-width: 1.25; }
+.phos-flow { stroke-dasharray: 16 6; animation: phos-march 1.1s linear infinite; }
+.phos-edge.async.phos-flow { stroke-dasharray: 6 5; }
+.phos-edge.fail.phos-flow { stroke-dasharray: 4 7; }
+.phos-edge.ext.phos-flow  { stroke-dasharray: 2 9; }
+@keyframes phos-march { to { stroke-dashoffset: -22; } }
+
+.phos-mk path { fill: var(--r, var(--phos-muted)); }
+
+/* Packets: square cursor blocks riding an edge via <animateMotion>. */
+.phos-pkt { fill: var(--r, var(--phos-ink)); }
+
+.phos-elabel {
+  font-size: 12.5px; fill: var(--phos-muted);
+  paint-order: stroke; stroke: var(--phos-surface); stroke-width: 5px; stroke-linejoin: round;
+}
+.phos-elabel.is-key { fill: var(--r, var(--phos-ink)); font-weight: 700; }
+
+/* Zones: dashed boundaries for VPC / region / bounded context. A trust
+   boundary is a control-plane fact, so it wears the ctrl hue. */
+.phos-zone {
+  fill: color-mix(in srgb, var(--phos-ink) 2.5%, transparent);
+  stroke: var(--phos-strong); stroke-width: 1; stroke-dasharray: 4 4;
+}
+.phos-zone.trust { fill: none; stroke: var(--phos-route-ctrl); stroke-width: 1.25; stroke-dasharray: 8 4 2 4; }
+.phos-zlabel { font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; fill: var(--phos-muted); }
+.phos-zlabel.trust { fill: var(--phos-route-ctrl); }
+.phos-stage  { font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em; fill: var(--phos-muted); }
+
+/* Step markers: reversed-video squares keyed to a .phos-steps list. */
+.phos-step rect { fill: var(--phos-ink); }
+.phos-step text { font-size: 12.5px; font-weight: 700; fill: var(--phos-ground); text-anchor: middle; }
+
+/* Sequence parts. Actor heads reuse .phos-node; lifelines are dim dashes;
+   activation bars take the actor's kind colour. */
+.phos-lifeline { stroke: var(--phos-strong); stroke-width: 1; stroke-dasharray: 3 4; }
+.phos-act { fill: var(--k-bg); stroke: var(--k); stroke-width: 1.25; }
+.phos-note rect {
+  fill: color-mix(in srgb, var(--phos-route-ctrl) 10%, var(--phos-surface));
+  stroke: color-mix(in srgb, var(--phos-route-ctrl) 55%, transparent); stroke-width: 1;
+}
+.phos-note text { font-size: 12.5px; fill: var(--phos-ink); }
+
+/* State parts. Initial = filled square; terminal = double frame. */
+.phos-initial { fill: var(--phos-ink); }
+.phos-node.is-terminal .phos-shape { stroke-width: 3; }
+.phos-node .phos-inner { fill: none; stroke: var(--k); stroke-width: 1; }
+
+/* Legend + caption. Route swatches are line samples in the route's dash
+   pattern; node swatches (.n) are tinted squares. */
+.phos-legend {
+  display: flex; flex-wrap: wrap; gap: var(--phos-s2) var(--phos-s5);
+  margin: var(--phos-s4) 0 0; padding: var(--phos-s3) 0 0;
+  border-top: 1px solid var(--phos-border);
+  font-size: 12px; color: var(--phos-muted);
+}
+.phos-legend span { display: inline-flex; align-items: center; gap: var(--phos-s2); }
+.phos-legend i {
+  flex: none; width: 24px; height: 0; font-style: normal;
+  border-top: 2px solid var(--r, var(--phos-muted));
+}
+.phos-legend i.async { border-top-style: dashed; }
+.phos-legend i.fail, .phos-legend i.ret { border-top-style: dashed; }
+.phos-legend i.ext  { border-top-style: dotted; }
+.phos-legend i.n {
+  width: 12px; height: 12px; border: 1.5px solid var(--k); background: var(--k-bg);
+}
+.phos-legend i.n.ext { border-style: dashed; }
+.phos-legend i.n.is-new { border: 1.5px dashed var(--phos-ok); background: transparent; }
+.phos-legend i.note {
+  width: 12px; height: 12px;
+  border: 1px solid color-mix(in srgb, var(--phos-route-ctrl) 55%, transparent);
+  background: color-mix(in srgb, var(--phos-route-ctrl) 10%, var(--phos-surface));
+}
+.phos-legend i.pkt { width: 8px; height: 8px; border: 0; background: var(--phos-route-sync); }
+.phos-figcap {
+  margin: var(--phos-s3) 0 0; font-size: 11px; color: var(--phos-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Numbered walkthrough keyed to diagram step markers. */
+.phos-doc .phos-steps, .phos-panels .phos-steps {
+  list-style: none; padding: 0; counter-reset: phos-step;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--phos-s2) var(--phos-s5); max-width: none;
+}
+.phos-steps li { counter-increment: phos-step; position: relative; padding-left: 32px; margin: 0; }
+.phos-steps li::before {
+  content: counter(phos-step); position: absolute; left: 0; top: 0;
+  width: 20px; height: 20px; line-height: 20px; text-align: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--phos-ink); color: var(--phos-ground);
+  margin-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phos-flow { animation: none; }
+  .phos-pkt { display: none; }
+}
+
+/* ── 7. ENGINEERING COMPONENTS (v2) ────────────────────────────────────── */
+
+/* Service card: a TUI cell per service — kind colour on the top rule,
+   status dot + name, owner, kv rows, tech tags, dependency arrows. */
+.phos-svc-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--phos-s3); margin: 0 0 var(--phos-s6);
+}
+.phos-svc {
+  background: var(--phos-surface); border: 1px solid var(--phos-strong);
+  border-top: 3px solid var(--k, var(--phos-strong));
+  padding: var(--phos-s3) var(--phos-s4) var(--phos-s4);
+}
+.phos-svc-h { display: flex; align-items: center; gap: var(--phos-s2); margin: 0 0 var(--phos-s2); }
+.phos-svc-h b { font-size: 14px; font-weight: 700; }
+.phos-svc-h .phos-svc-kind {
+  margin-left: auto; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--k, var(--phos-muted));
+}
+.phos-svc-owner { font-size: 11.5px; color: var(--phos-muted); margin: 0 0 var(--phos-s2); }
+.phos-tags { display: flex; flex-wrap: wrap; gap: var(--phos-s1); margin: var(--phos-s2) 0 0; }
+.phos-tag {
+  font-size: 11px; padding: 0 5px; color: var(--phos-ink);
+  border: 1px solid var(--phos-border); background: var(--phos-ground);
+}
+.phos-svc-deps { margin: var(--phos-s2) 0 0; font-size: 11.5px; color: var(--phos-muted); }
+.phos-svc-deps b { color: var(--phos-ink); font-weight: 600; }
+
+/* API endpoint table: add .phos-api to a .phos-table. Methods are
+   reversed-video blocks, one ANSI hue each, fixed width so paths align. */
+.phos-method {
+  display: inline-block; width: 7ch; text-align: center;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--phos-ground); background: var(--phos-muted);
+}
+.phos-method.get    { background: var(--phos-ansi-cyan); }
+.phos-method.post   { background: var(--phos-ansi-green); }
+.phos-method.put    { background: var(--phos-ansi-yellow); }
+.phos-method.patch  { background: var(--phos-ansi-magenta); }
+.phos-method.delete { background: var(--phos-ansi-red); }
+.phos-api td:nth-child(2) { white-space: nowrap; font-weight: 600; }
+.phos-api .phos-param { color: var(--phos-ansi-yellow); }
+
+/* Decision record. Status is a bracket chip (proposed = warn, accepted =
+   ok, superseded = neutral, rejected = crit). Consequences read as a diff. */
+.phos-adr {
+  border: 1px solid var(--phos-strong); background: var(--phos-surface);
+  margin: 0 0 var(--phos-s6);
+}
+.phos-adr-h {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--phos-s2) var(--phos-s3);
+  padding: var(--phos-s3) var(--phos-s4); border-bottom: 1px solid var(--phos-strong);
+}
+.phos-adr-h .phos-adr-id { font-size: 12px; font-weight: 700; color: var(--phos-muted); }
+.phos-adr-h h3, .phos-adr-h h4 { margin: 0; font-size: 15px; font-weight: 700; }
+.phos-adr-h .phos-chip { margin-left: auto; }
+.phos-adr-b {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--phos-s4) var(--phos-s6); padding: var(--phos-s4);
+}
+.phos-adr-sec > .phos-label { display: block; margin: 0 0 var(--phos-s1); }
+.phos-adr-sec p, .phos-adr-sec ul { margin: 0; max-width: none; }
+.phos-doc .phos-diff, .phos-panels .phos-diff { list-style: none; padding: 0; margin: 0; }
+.phos-diff li { padding-left: 2ch; text-indent: -2ch; margin: 0 0 2px; }
+.phos-diff li.plus::before  { content: "+ "; color: var(--phos-ok); font-weight: 700; }
+.phos-diff li.minus::before { content: "- "; color: var(--phos-crit); font-weight: 700; }
+.phos-diff li.tilde::before { content: "~ "; color: var(--phos-warn); font-weight: 700; }
+
+/* Trade-off matrix: add .phos-tradeoff to a .phos-table. Cells score with
+   a typed glyph AND a tint — never colour alone. */
+.phos-tradeoff td.good, .phos-tradeoff td.mid, .phos-tradeoff td.bad { font-weight: 600; }
+.phos-tradeoff td.good { color: var(--phos-ok);   background: var(--phos-ok-bg); }
+.phos-tradeoff td.mid  { color: var(--phos-warn); background: var(--phos-warn-bg); }
+.phos-tradeoff td.bad  { color: var(--phos-crit); background: var(--phos-crit-bg); }
+.phos-tradeoff td.good::before { content: "+ "; }
+.phos-tradeoff td.mid::before  { content: "~ "; }
+.phos-tradeoff td.bad::before  { content: "- "; }
+.phos-tradeoff tr.is-chosen td:first-child { font-weight: 700; color: var(--phos-accent); }
+.phos-tradeoff tr.is-chosen td:first-child::before { content: "▸ "; }
+
+/* Latency / error budget: stacked bar of hops (kind colours) against a
+   target marker. Widths are data, passed as --w / --at on the element. */
+.phos-budget { margin: 0 0 var(--phos-s6); }
+.phos-budget-h {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--phos-s3);
+  margin: 0 0 var(--phos-s2); font-size: 12.5px;
+}
+.phos-budget-h b { margin-left: auto; font-variant-numeric: tabular-nums; }
+.phos-budget-bar {
+  position: relative; display: flex; height: 30px; margin-top: 22px;
+  border: 1px solid var(--phos-strong); background: var(--phos-ground);
+}
+.phos-budget-bar > span {
+  flex: 0 0 var(--w); overflow: hidden; white-space: nowrap; text-overflow: clip;
+  background: var(--k-bg); border-right: 1px solid var(--phos-ground);
+  box-shadow: inset 0 3px 0 var(--k);
+  font-size: 11px; line-height: 27px; padding: 0 6px; color: var(--phos-ink);
+  font-variant-numeric: tabular-nums;
+}
+.phos-budget-target {
+  position: absolute; top: -22px; bottom: -4px; left: var(--at);
+  border-left: 2px solid var(--phos-ink);
+}
+.phos-budget-target::after {
+  content: attr(data-label); position: absolute; top: 0; left: 6px;
+  font-size: 10.5px; font-weight: 700; white-space: nowrap; color: var(--phos-ink);
+}
+.phos-budget .phos-legend { border-top: 0; padding-top: 0; margin-top: var(--phos-s3); }
+
+/* Timeline: time · marker · event. A vertical rule ties the markers. */
+.phos-timeline { margin: 0 0 var(--phos-s6); padding: 0; list-style: none; position: relative; }
+.phos-doc .phos-timeline, .phos-panels .phos-timeline { padding: 0; max-width: none; }
+.phos-tl-item {
+  display: grid; grid-template-columns: 14ch 12px minmax(0, 1fr);
+  gap: var(--phos-s3); position: relative; padding: 0 0 var(--phos-s4); margin: 0;
+}
+.phos-tl-item::before {
+  content: ""; position: absolute; left: calc(14ch + var(--phos-s3) + 5px);
+  top: 14px; bottom: 0; border-left: 1px solid var(--phos-strong);
+}
+.phos-tl-item:last-child::before { content: none; }
+.phos-tl-item time { font-size: 12px; color: var(--phos-muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.phos-tl-mark { width: 12px; height: 12px; margin-top: 6px; background: var(--phos-muted); }
+.phos-tl-item.ok   .phos-tl-mark { background: var(--phos-ok); }
+.phos-tl-item.warn .phos-tl-mark { background: var(--phos-warn); }
+.phos-tl-item.crit .phos-tl-mark { background: var(--phos-crit); }
+.phos-tl-item.info .phos-tl-mark { background: var(--phos-info); }
+.phos-tl-item b { display: block; font-weight: 700; }
+.phos-tl-item p { margin: 0; color: var(--phos-muted); font-size: 13.5px; }
+
+/* Callouts: a coloured left rule and a typed label. */
+.phos-callout {
+  border: 1px solid var(--phos-border); border-left: 3px solid var(--phos-info);
+  background: var(--phos-surface); padding: var(--phos-s3) var(--phos-s4);
+  margin: 0 0 var(--phos-s5); max-width: calc(var(--phos-measure) + 8ch);
+}
+.phos-callout::before {
+  content: "NOTE"; display: block; margin: 0 0 var(--phos-s1);
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; color: var(--phos-info);
+}
+.phos-callout.warn     { border-left-color: var(--phos-warn); }
+.phos-callout.warn::before { content: "WARN"; color: var(--phos-warn); }
+.phos-callout.risk     { border-left-color: var(--phos-crit); }
+.phos-callout.risk::before { content: "RISK"; color: var(--phos-crit); }
+.phos-callout.decision { border-left-color: var(--phos-accent); }
+.phos-callout.decision::before { content: "DECISION"; color: var(--phos-accent); }
+.phos-callout p:last-child { margin-bottom: 0; }
+
+/* Code with a file header strip: filename left, language right. */
+.phos-code { margin: 0 0 var(--phos-s5); }
+.phos-code-h {
+  display: flex; gap: var(--phos-s3); align-items: baseline;
+  padding: 4px var(--phos-s3); font-size: 11.5px;
+  border: 1px solid var(--phos-border); border-bottom: 0;
+  border-left: 2px solid var(--phos-strong); background: var(--phos-ground);
+}
+.phos-code-h b { font-weight: 700; }
+.phos-code-h span { margin-left: auto; color: var(--phos-muted); text-transform: uppercase; letter-spacing: 0.14em; font-size: 10px; }
+.phos-doc .phos-code pre, .phos-panels .phos-code pre { margin: 0; }
+.phos-code .k { color: var(--phos-ansi-magenta); }
+.phos-code .s { color: var(--phos-ansi-green); }
+.phos-code .n { color: var(--phos-ansi-yellow); }
+.phos-code .c { color: var(--phos-muted); }
+
+/* ── 8. PRINT ──────────────────────────────────────────────────────────── */
 @media print {
   .phos-doc, .phos-panels { background: #FFFFFF; color: #000000; }
   .phos-title { color: #000000; text-shadow: none; }
@@ -490,5 +952,7 @@
   .phos-statusline { background: #FFFFFF; color: #000000; border-top: 1px solid #000000; }
   .phos-sl-mode { background: #FFFFFF; color: #000000; }
   .phos-panel-h { background: #FFFFFF; color: #000000; border-bottom: 1px solid #000000; }
-  .phos-no-print { display: none !important; }
+  .phos-no-print, .phos-toc, .phos-pkt { display: none !important; }
+  .phos-layout { display: block; }
+  .phos-flow { animation: none; }
 }

@@ -9,17 +9,18 @@
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
   body { margin: 0; }
   .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
-  .sw { width: 108px; font-family: var(--bsl-mono); font-size: 10.5px; }
+  .sw { width: 116px; font-family: var(--bsl-mono); font-size: 10.5px; }
   .sw i { display: block; height: 36px; border: 1px solid var(--bsl-hairline); font-style: normal; }
   .sw span { display: block; margin-top: 4px; color: var(--bsl-muted); }
   .demo-note { font-size: 10px; font-weight: 700; letter-spacing: .14em;
-               text-transform: uppercase; color: var(--bsl-muted); margin: 0 0 12px; }
+               text-transform: uppercase; color: var(--bsl-muted); margin: 32px 0 12px; }
   .panel-demo { border: 1px dashed var(--bsl-hairline); padding: 24px; }
   .type-specimen { border-bottom: 1px solid var(--bsl-hairline); padding: 10px 0; display: flex;
                    align-items: baseline; gap: 24px; flex-wrap: wrap; }
   .type-specimen .lbl { font-family: var(--bsl-mono); font-size: 10.5px; color: var(--bsl-muted);
                         width: 210px; flex: none; }
-  .bsl-theme-toggle { position: fixed; top: 16px; right: 16px;
+  .two-up { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px; }
+  .bsl-theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10;
                       font: 700 10px var(--bsl-sans); letter-spacing: .14em; text-transform: uppercase;
                       background: var(--bsl-ground); color: var(--bsl-ink);
                       border: 1px solid var(--bsl-structural); padding: 8px 12px; cursor: pointer; }
@@ -27,35 +28,56 @@
 </head>
 <body class="bsl-doc">
 <button class="bsl-theme-toggle" hidden>Theme</button>
-<div class="bsl-page">
+<div class="bsl-shell">
 
-  <div class="bsl-eyebrow">Basel Design System · v1.0.0 · Living Style Guide</div>
+  <div class="bsl-eyebrow">Basel Design System · v2.0.0 · Engineering edition · Living Style Guide</div>
   <header class="bsl-masthead">
     <div>
       <h1 class="bsl-title">Grid, type, and <em>one red</em></h1>
-      <p class="bsl-subtitle">A design system for AI-generated engineering documents in the Swiss International Typographic Style: visible load-bearing grids, poster-confident Helvetica, and a single red that is both the signal and the alarm.</p>
+      <p class="bsl-subtitle">A design system for AI-generated engineering documents in the Swiss International Typographic Style: a visible load-bearing grid, poster-confident Helvetica, a single red that is both signal and alarm, and architecture diagrams drawn in the constructivist primaries.</p>
     </div>
     <dl class="bsl-meta">
       <div><dt>Owner</dt><dd>Dexter</dd></div>
-      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
-      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+      <div><dt>Status</dt><dd>v2.0.0</dd></div>
       <div><dt>Stylesheet</dt><dd><a href="basel.css">basel.css</a></dd></div>
       <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
     </dl>
   </header>
 
+  <div class="bsl-layout">
+    <nav class="bsl-toc" aria-label="Contents">
+      <div class="bsl-toc-h">Contents</div>
+      <ol>
+        <li><a href="#principles"><b>01</b>Principles</a></li>
+        <li><a href="#tokens"><b>02</b>Tokens</a></li>
+        <li><a href="#type"><b>03</b>Typography</a></li>
+        <li><a href="#layout"><b>04</b>Layout</a></li>
+        <li><a href="#document"><b>05</b>Document mode</a></li>
+        <li><a href="#panel"><b>06</b>Panel mode</a></li>
+        <li><a href="#diagrams"><b>07</b>Architecture diagrams</a></li>
+        <li><a href="#components"><b>08</b>Engineering components</a></li>
+        <li><a href="#grid"><b>09</b>The visible grid</a></li>
+        <li><a href="#mermaid"><b>10</b>Mermaid fallback</a></li>
+        <li><a href="#agents"><b>11</b>For AI agents</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
   <!-- ============ 01 PRINCIPLES ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">01</span><h2>Principles</h2></div>
+  <section class="bsl-section" id="principles">
+    <div class="bsl-sec-h" style="margin-top:0"><span class="bsl-sec-num">01</span><h2>Principles</h2></div>
     <p><strong>The grid is the argument.</strong> Alignment is not styling; it is the visual proof that the document was composed, not accumulated. Every element sits flush-left on the column grid, and the grid may be shown (<code>.bsl-grid-visible</code>) because there is nothing to hide.</p>
     <p><strong>Type is the only ornament.</strong> Hierarchy comes from size and weight alone — a 64px headline against a 10px letterspaced label needs no colour, no rule, no icon to explain which is which. There are no italics anywhere in this system.</p>
-    <p><strong>One red, two meanings, zero decoration.</strong> Pantone 186 is both the key emphasis and the critical state. When you see red, either something matters most or something is wrong — the reader never has to ask which colour system applies, because there is only one.</p>
+    <p><strong>One red, two meanings, zero decoration.</strong> Pantone 186 is both the key emphasis and the critical state. When you see red, either something matters most or something is wrong.</p>
+    <p><strong>Diagrams speak in primaries.</strong> Inside a figure, the constructivist palette — blue, yellow, green, violet, orange, black — names routes and node kinds. Every hue is declared in a legend; red stays reserved for failure. Outside figures the page is still black, white and one red.</p>
     <p><strong>Objectivity is the tone.</strong> Müller-Brockmann called the style objective-informative: the designer's hand disappears behind the structure. A Basel report should read as if the facts arranged themselves.</p>
     <div class="bsl-evidence">Müller-Brockmann, Grid Systems in Graphic Design · 1981</div>
   </section>
 
   <!-- ============ 02 TOKENS ============ -->
-  <section class="bsl-section">
+  <section class="bsl-section" id="tokens">
     <div class="bsl-sec-h"><span class="bsl-sec-num">02</span><h2>Tokens</h2></div>
     <p>All values live as CSS custom properties in <a href="basel.css"><code>basel.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches show the current theme's resolved values.</p>
 
@@ -65,7 +87,29 @@
       <div class="sw"><i style="background:var(--bsl-ok)"></i><span>--bsl-ok · verified</span></div>
       <div class="sw"><i style="background:var(--bsl-warn)"></i><span>--bsl-warn · degraded</span></div>
       <div class="sw"><i style="background:var(--bsl-crit)"></i><span>--bsl-crit · = accent</span></div>
-      <div class="sw"><i style="background:var(--bsl-info)"></i><span>--bsl-info · async</span></div>
+      <div class="sw"><i style="background:var(--bsl-info)"></i><span>--bsl-info</span></div>
+    </div>
+
+    <p class="demo-note">Diagram routes — one hue per meaning</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--bsl-route-sync)"></i><span>route-sync · request</span></div>
+      <div class="sw"><i style="background:var(--bsl-route-async)"></i><span>route-async · events</span></div>
+      <div class="sw"><i style="background:var(--bsl-route-data)"></i><span>route-data · stores</span></div>
+      <div class="sw"><i style="background:var(--bsl-route-ctrl)"></i><span>route-ctrl · control</span></div>
+      <div class="sw"><i style="background:var(--bsl-route-ext)"></i><span>route-ext · third party</span></div>
+      <div class="sw"><i style="background:var(--bsl-route-fail)"></i><span>route-fail · error</span></div>
+    </div>
+
+    <p class="demo-note">Node kinds — stroke on a flat tint</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--bsl-node-client-bg); border:2px solid var(--bsl-node-client)"></i><span>node-client</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-edge-bg); border:3px solid var(--bsl-node-edge)"></i><span>node-edge</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-svc-bg); border:2px solid var(--bsl-node-svc)"></i><span>node-svc</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-fn-bg); border:2px solid var(--bsl-node-fn)"></i><span>node-fn</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-store-bg); border:2px solid var(--bsl-node-store)"></i><span>node-store</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-queue-bg); border:2px solid var(--bsl-node-queue)"></i><span>node-queue</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-cache-bg); border:2px solid var(--bsl-node-cache)"></i><span>node-cache</span></div>
+      <div class="sw"><i style="background:var(--bsl-node-ext-bg); border:2px dashed var(--bsl-node-ext)"></i><span>node-ext</span></div>
     </div>
 
     <p class="demo-note">Data-viz categorical (use in order — red first, black second)</p>
@@ -87,103 +131,115 @@
       <div class="sw"><i style="background:var(--bsl-muted)"></i><span>--bsl-muted</span></div>
     </div>
 
-    <p class="demo-note">Spacing · 4px scale</p>
-    <p style="font-family:var(--bsl-mono); font-size:12.5px;">--bsl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale; off-scale spacing is a defect.</p>
+    <p class="demo-note">Spacing · layout</p>
+    <p style="font-family:var(--bsl-mono); font-size:12.5px;">--bsl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · --bsl-gutter = clamp(16px, 4vw, 64px) · --bsl-measure = 72ch · --bsl-rail = 220px. Off-scale spacing is a defect.</p>
   </section>
 
   <!-- ============ 03 TYPOGRAPHY ============ -->
-  <section class="bsl-section">
+  <section class="bsl-section" id="type">
     <div class="bsl-sec-h"><span class="bsl-sec-num">03</span><h2>Typography</h2></div>
     <p>One family for everything — Helvetica Neue with system fallbacks — and monospace reserved for evidence and machine values. Hierarchy is size and weight only. <strong>No italics exist in this system</strong>: the stylesheet forces <code>em</code> and <code>i</code> upright and bold.</p>
     <div style="margin-bottom:24px;">
-      <div class="type-specimen"><span class="lbl">display · clamp(34–64px) · 700 · −0.02em</span><span style="font-size:40px; font-weight:700; letter-spacing:-0.02em; line-height:1;">Reconciliation gap</span></div>
-      <div class="type-specimen"><span class="lbl">ghost numeral · 56px · 700 · muted</span><span class="bsl-sec-num">04</span></div>
-      <div class="type-specimen"><span class="lbl">body · 16px/1.55 · 400</span><span>Money moves once; ledgers remember it twice.</span></div>
+      <div class="type-specimen"><span class="lbl">display · clamp(34–64px) · 700</span><span style="font-size:40px; font-weight:700; letter-spacing:-0.02em; line-height:1;">Reconciliation gap</span></div>
+      <div class="type-specimen"><span class="lbl">ghost numeral · 64px · 700 · muted</span><span class="bsl-sec-num">04</span></div>
+      <div class="type-specimen"><span class="lbl">section title · 24px · 700</span><span style="font-size:24px; font-weight:700; letter-spacing:-0.015em;">Request lifecycle</span></div>
+      <div class="type-specimen"><span class="lbl">body · 17px/1.6 · 400 · ≤72ch</span><span>Money moves once; ledgers remember it twice.</span></div>
       <div class="type-specimen"><span class="lbl">micro-label · 10px · 700 · +0.16em caps</span><span class="bsl-caps" style="color:var(--bsl-muted)">Wallets funded · June</span></div>
-      <div class="type-specimen"><span class="lbl">--bsl-mono · machine truth</span><span class="bsl-mono bsl-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
+      <div class="type-specimen"><span class="lbl">--bsl-mono · machine truth</span><span class="bsl-mono bsl-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-10-07T14:02:11Z</span></div>
     </div>
   </section>
 
-  <!-- ============ 04 DOCUMENT MODE ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">04</span><h2>Document mode</h2></div>
-    <p>For investigations, design docs, post-mortems, and wiki exports. A 2px black bar opens every section; the oversized ghost numeral carries the order; evidence sits flush-right in monospace directly under the claim it supports. Everything below is live — the demo content is a fictional payments platform.</p>
+  <!-- ============ 04 LAYOUT ============ -->
+  <section class="bsl-section" id="layout">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">04</span><h2>Layout</h2></div>
+    <p>The shell (<code>.bsl-shell</code>, alias <code>.bsl-page</code>) spans the viewport with a fluid gutter and stops only at 1920px. Prose keeps a 72-character measure so it stays readable on a wide screen; diagrams, tables, grids, code and stat strips take the full width, because that is where width earns its keep.</p>
+    <p>From 1200px, <code>.bsl-layout</code> sets a sticky contents rail (<code>.bsl-toc</code>) beside the content — the rail on the left of this page. Below 1200px the rail becomes a ruled list above the content. The current section is marked by a small inline script; without it, the rail is still a working list of links.</p>
+    <pre><code>&lt;div class="bsl-shell"&gt;
+  &lt;header class="bsl-masthead"&gt;…&lt;/header&gt;
+  &lt;div class="bsl-layout"&gt;
+    &lt;nav class="bsl-toc"&gt;&lt;div class="bsl-toc-h"&gt;Contents&lt;/div&gt;&lt;ol&gt;&lt;li&gt;&lt;a href="#s1"&gt;&lt;b&gt;01&lt;/b&gt;Context&lt;/a&gt;&lt;/li&gt;…&lt;/ol&gt;&lt;/nav&gt;
+    &lt;main&gt;&lt;section class="bsl-section" id="s1"&gt;…&lt;/section&gt;&lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  </section>
 
-    <p class="demo-note">Live demo — stat strip, claim with evidence lines, pull quote, table with total rule, code, verdict slab</p>
+  <!-- ============ 05 DOCUMENT MODE ============ -->
+  <section class="bsl-section" id="document">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">05</span><h2>Document mode</h2></div>
+    <p>For investigations, design docs, post-mortems, and RFCs. A 2px black bar opens every section; the oversized ghost numeral carries the order; evidence sits flush-right in monospace directly under the claim it supports. The demo content throughout is a fictional payments platform.</p>
+
+    <p class="demo-note">Live demo — stat strip, claim with evidence lines, pull quote, table, code, verdict slab</p>
 
     <div class="bsl-stats">
-      <div><div class="bsl-stat-label">Wallets funded</div><div class="bsl-stat-value">12,408</div></div>
-      <div><div class="bsl-stat-label">Float balance</div><div class="bsl-stat-value">€2.4<span class="bsl-unit">M</span></div></div>
-      <div><div class="bsl-stat-label">Automated movements</div><div class="bsl-stat-value">1</div></div>
-      <div><div class="bsl-stat-label">Reconciliation gap</div><div class="bsl-stat-value">0.02<span class="bsl-unit">%</span></div></div>
+      <div><div class="bsl-stat-label">Payments / day</div><div class="bsl-stat-value">48,210</div></div>
+      <div><div class="bsl-stat-label">p95 authorise</div><div class="bsl-stat-value">182<span class="bsl-unit">ms</span></div></div>
+      <div><div class="bsl-stat-label">Duplicate charges</div><div class="bsl-stat-value">0</div></div>
+      <div><div class="bsl-stat-label">Ledger lag p99</div><div class="bsl-stat-value">1.4<span class="bsl-unit">s</span></div></div>
+      <div><div class="bsl-stat-label">Error budget left</div><div class="bsl-stat-value">71<span class="bsl-unit">%</span></div></div>
     </div>
 
-    <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet. Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.</p>
-    <div class="bsl-evidence">WalletService.java:214 · verified 2026-07-30</div>
-    <div class="bsl-evidence">PAY-1204 · closed 2026-07-28</div>
+    <p>Every authorisation carries the client's idempotency key from the gateway to the card PSP. <code>payments-svc</code> claims the key in Redis before calling out, so a retried request after a timeout reaches the PSP with the same key and is deduplicated there rather than charged twice.</p>
+    <div class="bsl-evidence">PaymentController.kt:88 · verified 2026-10-06</div>
+    <div class="bsl-evidence">PAY-2210 · closed 2026-09-30</div>
 
-    <blockquote class="bsl-pull">Money enters through five rails and leaves through <strong>one</strong>.</blockquote>
+    <blockquote class="bsl-pull">A retry is safe only if the key travels <strong>end to end</strong>.</blockquote>
 
     <div class="bsl-table-wrap">
       <table class="bsl-table">
-        <thead><tr><th>Rail</th><th>Mechanism</th><th class="bsl-num">Volume (Jun)</th></tr></thead>
+        <thead><tr><th>Hop</th><th>Transport</th><th>Owner</th><th class="bsl-num">p95</th><th class="bsl-num">Timeout</th></tr></thead>
         <tbody>
-          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="bsl-num">€1,204,880</td></tr>
-          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="bsl-num">€863,110</td></tr>
-          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="bsl-num">€98,400</td></tr>
-          <tr class="bsl-total"><td>Total in</td><td></td><td class="bsl-num">€2,166,390</td></tr>
+          <tr><td>Client → API gateway</td><td>HTTPS · TLS 1.3</td><td>Platform</td><td class="bsl-num">14 ms</td><td class="bsl-num">10 s</td></tr>
+          <tr><td>Gateway → payments-svc</td><td>gRPC · mTLS</td><td>Payments</td><td class="bsl-num">6 ms</td><td class="bsl-num">5 s</td></tr>
+          <tr><td>payments-svc → Card PSP</td><td>HTTPS · HMAC</td><td>Payments</td><td class="bsl-num">118 ms</td><td class="bsl-num">3 s</td></tr>
+          <tr class="bsl-total"><td>End to end</td><td></td><td></td><td class="bsl-num">182 ms</td><td class="bsl-num">10 s</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p>The nightly comparison job keys on wallet ID and alerts on any per-wallet gap over €1:</p>
-    <pre><code>SELECT wallet_id, float_cents - journal_cents AS gap
-FROM   reconciliation_snapshot
-WHERE  ABS(float_cents - journal_cents) > 100;</code></pre>
-
     <div class="bsl-verdict" data-label="Recommendation">
-      <h3>Reconcile the mirrors nightly, not monthly.</h3>
-      <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
+      <h3>Dead-letter the ledger writer before peak season.</h3>
+      <p>Poison events currently block a Kafka partition until an engineer intervenes. A DLQ after three retries keeps the ledger moving and turns a page into a ticket.</p>
       <ol>
-        <li>Add a scheduled comparison job keyed on wallet ID.</li>
-        <li>Alert on any per-wallet gap over €1.</li>
+        <li>Add <code>ledger.dlq</code> with a 14-day retention.</li>
+        <li>Alert when DLQ depth exceeds zero for ten minutes.</li>
       </ol>
     </div>
-    <p style="margin-top:16px;">The slab above is the system's <strong>one inversion</strong>: black field, white type, red label. Because nothing else on the page inverts, it cannot be missed — which is why a second inversion anywhere is a defect.</p>
+    <p style="margin-top:16px;">The slab above is the system's <strong>one inversion</strong>: black field, white type, red label. Because nothing else on the page inverts, it cannot be missed.</p>
   </section>
 
-  <!-- ============ 05 PANEL MODE ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">05</span><h2>Panel mode</h2></div>
-    <p>For dashboards, risk registers, and status pages: a Müller-Brockmann poster grid. Cells share 1px black rules like a printed table, values are huge and tight, status markers are hard squares, and chips are letterspaced text over a 2px semantic underline. No fills, no pills, no shadows.</p>
+  <!-- ============ 06 PANEL MODE ============ -->
+  <section class="bsl-section" id="panel">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">06</span><h2>Panel mode</h2></div>
+    <p>For dashboards, risk registers, and status pages: a Müller-Brockmann poster grid. Cells share 1px black rules like a printed table, values are huge and tight, status markers are hard squares, and chips are letterspaced text over a 2px semantic underline.</p>
 
-    <p class="demo-note">Live demo — board header, shared-rule metric grid, panels, register rows, chips</p>
     <div class="bsl-panels panel-demo">
-      <div class="bsl-board-h"><h1>Payments operations</h1><span class="bsl-board-meta">2026-07-30 09:00 UTC</span></div>
+      <div class="bsl-board-h"><h1>Payments · production</h1><span class="bsl-board-meta">eu-west-1 · 2026-10-07 09:00 UTC</span></div>
 
-      <div class="bsl-metric-grid" style="grid-template-columns: repeat(4, 1fr);">
-        <div class="bsl-metric"><div class="bsl-metric-l">Transfers today</div><div class="bsl-metric-v">1,284</div></div>
-        <div class="bsl-metric"><div class="bsl-metric-l">Failed</div><div class="bsl-metric-v">3</div></div>
-        <div class="bsl-metric"><div class="bsl-metric-l">P95 latency</div><div class="bsl-metric-v">412<span class="bsl-unit">ms</span></div></div>
-        <div class="bsl-metric"><div class="bsl-metric-l">Queue depth</div><div class="bsl-metric-v">0</div></div>
+      <div class="bsl-metric-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+        <div class="bsl-metric"><div class="bsl-metric-l">Authorisations</div><div class="bsl-metric-v">48,210</div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">Declined</div><div class="bsl-metric-v">1.9<span class="bsl-unit">%</span></div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">p95 latency</div><div class="bsl-metric-v">182<span class="bsl-unit">ms</span></div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">Kafka lag</div><div class="bsl-metric-v">0</div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">DLQ depth</div><div class="bsl-metric-v">0</div></div>
+        <div class="bsl-metric"><div class="bsl-metric-l">Deploys today</div><div class="bsl-metric-v">3</div></div>
       </div>
 
       <div class="bsl-panel-grid">
         <div class="bsl-panel">
-          <div class="bsl-panel-h"><h3>wallet-service</h3><span class="bsl-panel-meta">eu-west-1</span></div>
+          <div class="bsl-panel-h"><h3>payments-svc</h3><span class="bsl-panel-meta">deploy #612</span></div>
           <div class="bsl-panel-b">
-            <div class="bsl-kv"><span>Version</span><b>v4.2.1</b></div>
-            <div class="bsl-kv"><span>Idempotency</span><b>order-scoped</b></div>
-            <div class="bsl-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+            <div class="bsl-kv"><span>Version</span><b>v5.8.0</b></div>
+            <div class="bsl-kv"><span>Idempotency</span><b>Redis SET NX · 24h</b></div>
+            <div class="bsl-kv"><span>Last deploy</span><b>2026-10-07 08:40</b></div>
           </div>
         </div>
         <div class="bsl-panel">
           <div class="bsl-panel-h"><h3>Risk register</h3><span class="bsl-panel-meta">4 open</span></div>
           <div class="bsl-panel-b">
-            <div class="bsl-reg-row"><span class="bsl-dot crit"></span><b>Auth rule in placeholder state</b><span class="bsl-reg-meta">RISK-101</span></div>
-            <div class="bsl-reg-row"><span class="bsl-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="bsl-reg-meta">RISK-097</span></div>
-            <div class="bsl-reg-row"><span class="bsl-dot neutral"></span><b>Float funding runbook in draft</b><span class="bsl-reg-meta">RISK-088</span></div>
-            <div class="bsl-reg-row"><span class="bsl-dot ok"></span><b>One-way valve verified</b><span class="bsl-reg-meta">closed</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot crit"></span><b>Poison event blocks ledger partition</b><span class="bsl-reg-meta">RISK-131</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot warn"></span><b>PSP timeout at 3 s is tight for 3-DS</b><span class="bsl-reg-meta">RISK-127</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot neutral"></span><b>DLQ runbook in draft</b><span class="bsl-reg-meta">RISK-125</span></div>
+            <div class="bsl-reg-row"><span class="bsl-dot ok"></span><b>Idempotency verified end to end</b><span class="bsl-reg-meta">closed</span></div>
           </div>
         </div>
       </div>
@@ -192,41 +248,453 @@ WHERE  ABS(float_cents - journal_cents) > 100;</code></pre>
         <span class="bsl-chip ok">verified</span>
         <span class="bsl-chip warn">in review</span>
         <span class="bsl-chip crit">failing</span>
-        <span class="bsl-chip info">async</span>
+        <span class="bsl-chip info">informational</span>
         <span class="bsl-chip neutral">draft</span>
       </div>
     </div>
   </section>
 
-  <!-- ============ 06 THE VISIBLE GRID ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">06</span><h2>The visible grid</h2></div>
+  <!-- ============ 07 ARCHITECTURE DIAGRAMS ============ -->
+  <section class="bsl-section" id="diagrams">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">07</span><h2>Architecture diagrams</h2></div>
+    <p>Native SVG, drawn by hand on the grid: rectangles with radius 0, orthogonal edges, square packets. Routes and node kinds take the constructivist primaries; every hue used is declared in the legend, and red only ever means failure. Dashes march in the direction of travel and square packets ride the hot path — both stop under reduced motion.</p>
+
+    <h3 class="bsl-h3">FIG 01 — Container architecture</h3>
+    <p>Zones are dashed boundaries; the heavy dashed frame is a trust boundary. Numbered squares on the edges key the figure to the walkthrough beneath it.</p>
+
+    <figure class="bsl-arch">
+      <svg viewBox="0 0 1244 520" role="img" aria-label="Card payment architecture. Mobile and web clients call the API gateway, which forwards to payments-svc inside the PCI scope. payments-svc claims an idempotency key in Redis, calls the card PSP outside the VPC, and publishes PaymentAuthorised to Kafka. ledger-writer consumes the topic and writes the ledger database; failed events go to a proposed dead-letter queue. Identity supplies signing keys to the gateway.">
+        <defs>
+          <marker id="a-sync"  class="bsl-m-sync"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="a-async" class="bsl-m-async" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="a-data"  class="bsl-m-data"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="a-ctrl"  class="bsl-m-ctrl"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="a-ext"   class="bsl-m-ext"   markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="a-fail"  class="bsl-m-fail"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+        </defs>
+
+        <text class="bsl-stage" x="16" y="30">Clients</text>
+        <text class="bsl-stage" x="236" y="30">Edge</text>
+        <text class="bsl-stage" x="456" y="30">Services</text>
+        <text class="bsl-stage" x="672" y="30">Async</text>
+        <text class="bsl-stage" x="876" y="30">Data</text>
+        <text class="bsl-stage" x="1056" y="30">External</text>
+
+        <rect class="bsl-zone" x="16" y="46" width="182" height="458"/>
+        <text class="bsl-zlabel" x="28" y="66">Public internet</text>
+        <rect class="bsl-zone" x="214" y="46" width="826" height="458"/>
+        <text class="bsl-zlabel" x="226" y="66">eu-west-1 · VPC</text>
+        <rect class="bsl-zone trust" x="444" y="72" width="204" height="206"/>
+        <text class="bsl-zlabel trust" x="454" y="272">PCI scope</text>
+        <rect class="bsl-zone" x="1048" y="46" width="180" height="458"/>
+        <text class="bsl-zlabel" x="1060" y="66">Third parties</text>
+
+        <g class="bsl-node client"><rect class="bsl-nbox" x="32" y="80" width="150" height="64"/>
+          <text class="bsl-nlabel" x="46" y="106">Mobile app</text><text class="bsl-nsub" x="46" y="125">iOS · Android</text></g>
+        <g class="bsl-node client"><rect class="bsl-nbox" x="32" y="190" width="150" height="64"/>
+          <text class="bsl-nlabel" x="46" y="216">Web checkout</text><text class="bsl-nsub" x="46" y="235">SPA · 3-DS</text></g>
+        <g class="bsl-node client"><rect class="bsl-nbox" x="32" y="420" width="150" height="64"/>
+          <text class="bsl-nlabel" x="46" y="446">Ops console</text><text class="bsl-nsub" x="46" y="465">internal · SSO</text></g>
+
+        <g class="bsl-node edge"><rect class="bsl-nbox" x="236" y="80" width="170" height="174"/>
+          <text class="bsl-nlabel" x="250" y="106">API gateway</text><text class="bsl-nsub" x="250" y="125">Envoy · mTLS</text>
+          <text class="bsl-ntag" x="250" y="144">2k rps limit</text></g>
+        <g class="bsl-node svc"><rect class="bsl-nbox" x="236" y="420" width="170" height="64"/>
+          <text class="bsl-nlabel" x="250" y="446">Identity · OIDC</text><text class="bsl-nsub" x="250" y="465">Keycloak · JWKS</text></g>
+
+        <g class="bsl-node cache"><rect class="bsl-nbox" x="456" y="80" width="180" height="64"/>
+          <text class="bsl-nlabel" x="470" y="106">Idempotency cache</text><text class="bsl-nsub" x="470" y="125">Redis · TTL 24h</text></g>
+        <g class="bsl-node svc is-hot"><rect class="bsl-nbox" x="456" y="190" width="180" height="64"/>
+          <text class="bsl-nlabel" x="470" y="216">payments-svc</text><text class="bsl-nsub" x="470" y="235">Kotlin · p95 182 ms</text></g>
+
+        <g class="bsl-node queue"><rect class="bsl-nbox" x="672" y="310" width="160" height="64"/>
+          <line class="bsl-nbar" x1="814" y1="320" x2="814" y2="364"/><line class="bsl-nbar" x1="820" y1="320" x2="820" y2="364"/><line class="bsl-nbar" x1="826" y1="320" x2="826" y2="364"/>
+          <text class="bsl-nlabel" x="686" y="336">payments.events</text><text class="bsl-nsub" x="686" y="355">Kafka · 12 parts</text></g>
+        <g class="bsl-node queue is-new"><rect class="bsl-nbox" x="672" y="420" width="160" height="64"/>
+          <line class="bsl-nbar" x1="814" y1="430" x2="814" y2="474"/><line class="bsl-nbar" x1="820" y1="430" x2="820" y2="474"/><line class="bsl-nbar" x1="826" y1="430" x2="826" y2="474"/>
+          <text class="bsl-nlabel" x="686" y="446">ledger.dlq</text><text class="bsl-ntag" x="686" y="465">proposed · SQS</text></g>
+
+        <g class="bsl-node fn"><rect class="bsl-nbox" x="876" y="310" width="150" height="64"/>
+          <text class="bsl-nlabel" x="890" y="336">ledger-writer</text><text class="bsl-nsub" x="890" y="355">Lambda · Java 21</text></g>
+        <g class="bsl-node store"><rect class="bsl-nbox" x="876" y="420" width="150" height="64"/>
+          <line class="bsl-nline" x1="876" y1="428" x2="1026" y2="428"/>
+          <text class="bsl-nlabel" x="890" y="452">Ledger DB</text><text class="bsl-nsub" x="890" y="471">Postgres 16</text></g>
+
+        <g class="bsl-node ext"><rect class="bsl-nbox" x="1056" y="190" width="160" height="64"/>
+          <text class="bsl-nlabel" x="1070" y="216">Card PSP</text><text class="bsl-nsub" x="1070" y="235">REST · HMAC</text></g>
+
+        <path class="bsl-edge sync" d="M182,112 L234,112" marker-end="url(#a-sync)"/>
+        <path class="bsl-edge sync bsl-flow" d="M182,222 L234,222" marker-end="url(#a-sync)"/>
+        <path id="p-hot" class="bsl-edge sync hot bsl-flow" d="M406,222 L454,222" marker-end="url(#a-sync)"/>
+        <path class="bsl-edge data" d="M546,190 L546,146" marker-end="url(#a-data)"/>
+        <path class="bsl-edge ext bsl-flow" d="M636,222 L1054,222" marker-end="url(#a-ext)"/>
+        <path class="bsl-edge async bsl-flow" d="M546,254 L546,342 L670,342" marker-end="url(#a-async)"/>
+        <path class="bsl-edge async bsl-flow" d="M832,342 L874,342" marker-end="url(#a-async)"/>
+        <path class="bsl-edge data" d="M951,374 L951,418" marker-end="url(#a-data)"/>
+        <path class="bsl-edge fail bsl-flow" d="M876,362 L854,362 L854,452 L834,452" marker-end="url(#a-fail)"/>
+        <path class="bsl-edge ctrl" d="M321,420 L321,256" marker-end="url(#a-ctrl)"/>
+        <path class="bsl-edge sync" d="M182,452 L234,452" marker-end="url(#a-sync)"/>
+        <text class="bsl-elabel" x="330" y="352">JWKS keys</text>
+        <text class="bsl-elabel" x="862" y="410">3× retry</text>
+
+        <rect class="bsl-pkt sync" x="-4" y="-4" width="8" height="8"><animateMotion dur="1.6s" repeatCount="indefinite" path="M182,222 L234,222"/></rect>
+        <rect class="bsl-pkt sync" x="-4" y="-4" width="8" height="8"><animateMotion dur="1.2s" repeatCount="indefinite" path="M406,222 L454,222"/></rect>
+        <rect class="bsl-pkt ext" x="-4" y="-4" width="8" height="8"><animateMotion dur="2.8s" repeatCount="indefinite" path="M636,222 L1054,222"/></rect>
+        <rect class="bsl-pkt async" x="-4" y="-4" width="8" height="8"><animateMotion dur="2.4s" repeatCount="indefinite" path="M546,254 L546,342 L670,342"/></rect>
+
+        <g class="bsl-step"><rect x="198" y="212" width="20" height="20"/><text x="208" y="227">1</text></g>
+        <g class="bsl-step"><rect x="420" y="212" width="20" height="20"/><text x="430" y="227">2</text></g>
+        <g class="bsl-step"><rect x="536" y="157" width="20" height="20"/><text x="546" y="172">3</text></g>
+        <g class="bsl-step"><rect x="750" y="212" width="20" height="20"/><text x="760" y="227">4</text></g>
+        <g class="bsl-step"><rect x="600" y="332" width="20" height="20"/><text x="610" y="347">5</text></g>
+        <g class="bsl-step"><rect x="843" y="332" width="20" height="20"/><text x="853" y="347">6</text></g>
+        <g class="bsl-step"><rect x="941" y="386" width="20" height="20"/><text x="951" y="401">7</text></g>
+      </svg>
+      <div class="bsl-legend">
+        <span><i class="sync"></i>sync request</span>
+        <span><i class="async"></i>async event</span>
+        <span><i class="data"></i>store read / write</span>
+        <span><i class="ctrl"></i>control plane</span>
+        <span><i class="ext"></i>third-party call</span>
+        <span><i class="fail"></i>failure path</span>
+        <span><i class="n-client"></i>client</span>
+        <span><i class="n-edge"></i>edge</span>
+        <span><i class="n-svc"></i>service</span>
+        <span><i class="n-fn"></i>function</span>
+        <span><i class="n-store"></i>database</span>
+        <span><i class="n-queue"></i>queue</span>
+        <span><i class="n-cache"></i>cache</span>
+        <span><i class="n-ext"></i>external</span>
+        <span><i class="n-new"></i>proposed</span>
+      </div>
+      <figcaption class="bsl-figcap"><b>FIG 01</b> · Card payment containers · source: payments-platform/infra@a41c9e · rev 2026-10-07</figcaption>
+    </figure>
+
+    <ol class="bsl-steps">
+      <li><span><strong>Client → gateway.</strong> HTTPS with an <code>Idempotency-Key</code> header; the gateway enforces rate limits and validates the JWT against Identity's keys.</span></li>
+      <li><span><strong>Gateway → payments-svc.</strong> gRPC over mTLS into the PCI scope — the hot path.</span></li>
+      <li><span><strong>Claim the key.</strong> <code>SET NX</code> in Redis; a second request with the same key returns the stored result.</span></li>
+      <li><span><strong>Authorise with the PSP.</strong> Leaves the VPC; the key is forwarded so PSP-side retries are deduplicated.</span></li>
+      <li><span><strong>Publish.</strong> <code>PaymentAuthorised</code> to <code>payments.events</code>, keyed by wallet ID.</span></li>
+      <li><span><strong>Consume.</strong> <code>ledger-writer</code> reads the partition in order.</span></li>
+      <li><span><strong>Write the ledger.</strong> Double-entry rows in one transaction; after three failures the event goes to the proposed DLQ.</span></li>
+    </ol>
+
+    <h3 class="bsl-h3">FIG 02 — Sequence: authorise with a PSP timeout</h3>
+    <p>Lifelines are dashed, activations are open bars, solid arrows are calls, dashed grey arrows are returns. The red message is the failure; the yellow note states the rule that makes the retry safe.</p>
+
+    <figure class="bsl-seq">
+      <svg viewBox="0 0 1200 560" role="img" aria-label="Sequence: the client posts a payment through the gateway to payments-svc, which claims the idempotency key in Redis and calls the PSP. The PSP times out after three seconds; payments-svc retries with the same key, receives an authorisation, publishes PaymentAuthorised to Kafka and returns 201 to the client.">
+        <defs>
+          <marker id="s-sync"  class="bsl-m-sync"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="s-data"  class="bsl-m-data"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="s-ext"   class="bsl-m-ext"   markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="s-async" class="bsl-m-async" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="s-fail"  class="bsl-m-fail"  markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="s-ret"   class="bsl-m-ret"   markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+        </defs>
+
+        <g class="bsl-node client"><rect class="bsl-nbox" x="25" y="16" width="150" height="40"/><text class="bsl-nlabel" x="39" y="41">Client</text></g>
+        <g class="bsl-node edge"><rect class="bsl-nbox" x="225" y="16" width="150" height="40"/><text class="bsl-nlabel" x="239" y="41">API gateway</text></g>
+        <g class="bsl-node svc"><rect class="bsl-nbox" x="425" y="16" width="150" height="40"/><text class="bsl-nlabel" x="439" y="41">payments-svc</text></g>
+        <g class="bsl-node cache"><rect class="bsl-nbox" x="625" y="16" width="150" height="40"/><text class="bsl-nlabel" x="639" y="41">Redis</text></g>
+        <g class="bsl-node ext"><rect class="bsl-nbox" x="825" y="16" width="150" height="40"/><text class="bsl-nlabel" x="839" y="41">Card PSP</text></g>
+        <g class="bsl-node queue"><rect class="bsl-nbox" x="1025" y="16" width="150" height="40"/><text class="bsl-nlabel" x="1039" y="41">Kafka</text></g>
+
+        <line class="bsl-life" x1="100" y1="56" x2="100" y2="548"/>
+        <line class="bsl-life" x1="300" y1="56" x2="300" y2="548"/>
+        <line class="bsl-life" x1="500" y1="56" x2="500" y2="548"/>
+        <line class="bsl-life" x1="700" y1="56" x2="700" y2="548"/>
+        <line class="bsl-life" x1="900" y1="56" x2="900" y2="548"/>
+        <line class="bsl-life" x1="1100" y1="56" x2="1100" y2="548"/>
+
+        <rect class="bsl-act" x="94" y="90" width="12" height="440"/>
+        <rect class="bsl-act" x="294" y="98" width="12" height="404"/>
+        <rect class="bsl-act" x="494" y="128" width="12" height="352"/>
+        <rect class="bsl-act" x="694" y="164" width="12" height="44"/>
+        <rect class="bsl-act" x="894" y="236" width="12" height="48"/>
+        <rect class="bsl-act" x="894" y="364" width="12" height="44"/>
+        <rect class="bsl-act" x="1094" y="432" width="12" height="20"/>
+
+        <path class="bsl-edge sync" d="M106,104 L292,104" marker-end="url(#s-sync)"/>
+        <text class="bsl-mlabel" x="118" y="96">POST /v1/payments</text>
+        <path class="bsl-edge sync" d="M306,136 L492,136" marker-end="url(#s-sync)"/>
+        <text class="bsl-mlabel" x="318" y="128">Authorise(order-1204)</text>
+        <path class="bsl-edge data" d="M506,172 L692,172" marker-end="url(#s-data)"/>
+        <text class="bsl-mlabel" x="518" y="164">SET NX idem:order-1204</text>
+        <path class="bsl-edge ret" d="M694,204 L508,204" marker-end="url(#s-ret)"/>
+        <text class="bsl-mlabel muted" x="560" y="198">OK · first seen</text>
+        <path class="bsl-edge ext" d="M506,244 L892,244" marker-end="url(#s-ext)"/>
+        <text class="bsl-mlabel" x="518" y="236">POST /authorise  Idempotency-Key: order-1204</text>
+        <path class="bsl-edge fail" d="M894,280 L508,280" marker-end="url(#s-fail)"/>
+        <text class="bsl-mlabel fail" x="716" y="274">× timeout after 3 s</text>
+
+        <rect class="bsl-note" x="520" y="296" width="392" height="48"/>
+        <text class="bsl-ntext" x="532" y="317">Retry with the same key — the PSP</text>
+        <text class="bsl-ntext" x="532" y="335">returns the original result, never a second charge.</text>
+
+        <path class="bsl-edge ext" d="M506,372 L892,372" marker-end="url(#s-ext)"/>
+        <text class="bsl-mlabel" x="518" y="364">POST /authorise  (retry 1, same key)</text>
+        <path class="bsl-edge ret" d="M894,404 L508,404" marker-end="url(#s-ret)"/>
+        <text class="bsl-mlabel muted" x="740" y="398">200 · authorised</text>
+        <path class="bsl-edge async bsl-flow" d="M506,440 L1092,440" marker-end="url(#s-async)"/>
+        <text class="bsl-mlabel" x="518" y="432">publish PaymentAuthorised (key = wallet_id)</text>
+        <path class="bsl-edge ret" d="M494,476 L308,476" marker-end="url(#s-ret)"/>
+        <text class="bsl-mlabel muted" x="380" y="470">201 Created</text>
+        <path class="bsl-edge ret" d="M294,512 L108,512" marker-end="url(#s-ret)"/>
+        <text class="bsl-mlabel muted" x="180" y="506">201 Created</text>
+
+        <rect class="bsl-pkt async" x="-4" y="-4" width="8" height="8"><animateMotion dur="2.2s" repeatCount="indefinite" path="M506,440 L1092,440"/></rect>
+      </svg>
+      <div class="bsl-legend">
+        <span><i class="sync"></i>sync call</span>
+        <span><i class="ret"></i>return</span>
+        <span><i class="data"></i>store command</span>
+        <span><i class="ext"></i>third-party call</span>
+        <span><i class="async"></i>async publish</span>
+        <span><i class="fail"></i>failure</span>
+      </div>
+      <figcaption class="bsl-figcap"><b>FIG 02</b> · Authorise with PSP timeout and safe retry · source: PaymentController.kt, PspClient.kt · rev 2026-10-07</figcaption>
+    </figure>
+
+    <h3 class="bsl-h3">FIG 03 — State machine: payment lifecycle</h3>
+    <p>States are coloured by meaning, not by kind: blue in flight, green settled, red declined, grey closed by an operator; the yellow loop is a retry. Terminal states carry an inset frame.</p>
+
+    <figure class="bsl-state">
+      <svg viewBox="0 36 1130 280" role="img" aria-label="Payment state machine: created, authorising, authorised, captured, settled. Authorising may retry on timeout or end in declined. Authorised may be voided by operations. Settled may be refunded.">
+        <defs>
+          <marker id="t-sync" class="bsl-m-sync" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="t-async" class="bsl-m-async" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="t-fail" class="bsl-m-fail" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="t-warn" class="bsl-m-warn" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+          <marker id="t-ctrl" class="bsl-m-ctrl" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z"/></marker>
+        </defs>
+
+        <rect class="bsl-start" x="20" y="121" width="14" height="14"/>
+        <path class="bsl-edge sync" d="M34,128 L68,128" marker-end="url(#t-sync)"/>
+
+        <g class="bsl-node info"><rect class="bsl-nbox" x="70" y="100" width="150" height="56"/>
+          <text class="bsl-nlabel" x="84" y="124">CREATED</text><text class="bsl-nsub" x="84" y="142">key claimed</text></g>
+        <g class="bsl-node info is-hot"><rect class="bsl-nbox" x="290" y="100" width="150" height="56"/>
+          <text class="bsl-nlabel" x="304" y="124">AUTHORISING</text><text class="bsl-nsub" x="304" y="142">PSP call pending</text></g>
+        <g class="bsl-node info"><rect class="bsl-nbox" x="510" y="100" width="150" height="56"/>
+          <text class="bsl-nlabel" x="524" y="124">AUTHORISED</text><text class="bsl-nsub" x="524" y="142">funds reserved</text></g>
+        <g class="bsl-node info"><rect class="bsl-nbox" x="730" y="100" width="150" height="56"/>
+          <text class="bsl-nlabel" x="744" y="124">CAPTURED</text><text class="bsl-nsub" x="744" y="142">awaiting file</text></g>
+        <g class="bsl-node ok"><rect class="bsl-nbox" x="950" y="100" width="150" height="56"/>
+          <rect class="bsl-nterm" x="955" y="105" width="140" height="46"/>
+          <text class="bsl-nlabel" x="964" y="124">SETTLED</text><text class="bsl-nsub" x="964" y="142">ledger closed</text></g>
+
+        <g class="bsl-node crit"><rect class="bsl-nbox" x="290" y="240" width="150" height="56"/>
+          <rect class="bsl-nterm" x="295" y="245" width="140" height="46"/>
+          <text class="bsl-nlabel" x="304" y="264">DECLINED</text><text class="bsl-nsub" x="304" y="282">rc 05 / 51</text></g>
+        <g class="bsl-node neutral"><rect class="bsl-nbox" x="510" y="240" width="150" height="56"/>
+          <rect class="bsl-nterm" x="515" y="245" width="140" height="46"/>
+          <text class="bsl-nlabel" x="524" y="264">VOIDED</text><text class="bsl-nsub" x="524" y="282">released by ops</text></g>
+        <g class="bsl-node neutral"><rect class="bsl-nbox" x="950" y="240" width="150" height="56"/>
+          <rect class="bsl-nterm" x="955" y="245" width="140" height="46"/>
+          <text class="bsl-nlabel" x="964" y="264">REFUNDED</text><text class="bsl-nsub" x="964" y="282">reversal posted</text></g>
+
+        <path class="bsl-edge sync" d="M220,128 L288,128" marker-end="url(#t-sync)"/>
+        <text class="bsl-elabel" x="228" y="120">submit</text>
+        <path class="bsl-edge sync bsl-flow" d="M440,128 L508,128" marker-end="url(#t-sync)"/>
+        <text class="bsl-elabel" x="448" y="120">200</text>
+        <path class="bsl-edge sync" d="M660,128 L728,128" marker-end="url(#t-sync)"/>
+        <text class="bsl-elabel" x="666" y="120">capture</text>
+        <path class="bsl-edge async bsl-flow" d="M880,128 L948,128" marker-end="url(#t-async)"/>
+        <text class="bsl-elabel" x="888" y="120">file</text>
+
+        <path class="bsl-edge warn bsl-flow" d="M340,100 L340,70 L400,70 L400,98" marker-end="url(#t-warn)"/>
+        <text class="bsl-elabel" x="310" y="60">timeout · retry ≤ 3, same key</text>
+
+        <path class="bsl-edge fail" d="M370,156 L370,238" marker-end="url(#t-fail)"/>
+        <text class="bsl-elabel" x="378" y="204">psp decline</text>
+        <path class="bsl-edge ctrl" d="M590,156 L590,238" marker-end="url(#t-ctrl)"/>
+        <text class="bsl-elabel" x="598" y="204">void · ops</text>
+        <path class="bsl-edge ctrl" d="M1025,156 L1025,238" marker-end="url(#t-ctrl)"/>
+        <text class="bsl-elabel" x="1033" y="204">refund</text>
+      </svg>
+      <div class="bsl-legend">
+        <span><i class="n-info"></i>in flight</span>
+        <span><i class="n-ok"></i>settled</span>
+        <span><i class="n-crit"></i>declined</span>
+        <span><i class="n-neutral"></i>closed by operator</span>
+        <span><i class="sync"></i>request-driven</span>
+        <span><i class="async"></i>batch file</span>
+        <span><i class="warn"></i>retry</span>
+        <span><i class="fail"></i>decline</span>
+        <span><i class="ctrl"></i>operator action</span>
+      </div>
+      <figcaption class="bsl-figcap"><b>FIG 03</b> · Payment lifecycle · source: PaymentState.kt · rev 2026-10-07</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ 08 ENGINEERING COMPONENTS ============ -->
+  <section class="bsl-section" id="components">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">08</span><h2>Engineering components</h2></div>
+    <p>The vocabulary of a design doc or service review, set on the same grid. Kind colours match the diagram nodes, so a service card, a budget segment and a box in FIG 01 read as the same thing.</p>
+
+    <h3 class="bsl-h3">Service cards</h3>
+    <div class="bsl-svc-grid">
+      <div class="bsl-svc">
+        <div class="bsl-svc-h"><h4>payments-svc</h4><span class="bsl-dot ok" title="healthy"></span></div>
+        <div class="bsl-svc-kind">Service · Payments team</div>
+        <div class="bsl-kv"><span>SLO</span><b>99.95% · p95 &lt; 250 ms</b></div>
+        <div class="bsl-kv"><span>Depends on</span><b>Redis · PSP · Kafka</b></div>
+        <div class="bsl-kv"><span>On call</span><b>#payments-oncall</b></div>
+        <ul class="bsl-tech"><li>Kotlin</li><li>gRPC</li><li>EKS</li></ul>
+      </div>
+      <div class="bsl-svc fn">
+        <div class="bsl-svc-h"><h4>ledger-writer</h4><span class="bsl-dot warn" title="degraded"></span></div>
+        <div class="bsl-svc-kind">Function · Ledger team</div>
+        <div class="bsl-kv"><span>SLO</span><b>lag p99 &lt; 5 s</b></div>
+        <div class="bsl-kv"><span>Depends on</span><b>Kafka · Ledger DB</b></div>
+        <div class="bsl-kv"><span>On call</span><b>#ledger-oncall</b></div>
+        <ul class="bsl-tech"><li>Java 21</li><li>Lambda</li><li>MSK trigger</li></ul>
+      </div>
+      <div class="bsl-svc store">
+        <div class="bsl-svc-h"><h4>ledger-db</h4><span class="bsl-dot ok" title="healthy"></span></div>
+        <div class="bsl-svc-kind">Database · Ledger team</div>
+        <div class="bsl-kv"><span>SLO</span><b>RPO 0 · RTO 15 min</b></div>
+        <div class="bsl-kv"><span>Size</span><b>1.8 TB · 3 replicas</b></div>
+        <div class="bsl-kv"><span>Backups</span><b>PITR 35 days</b></div>
+        <ul class="bsl-tech"><li>Postgres 16</li><li>Aurora</li></ul>
+      </div>
+      <div class="bsl-svc queue">
+        <div class="bsl-svc-h"><h4>payments.events</h4><span class="bsl-dot ok" title="healthy"></span></div>
+        <div class="bsl-svc-kind">Topic · Platform team</div>
+        <div class="bsl-kv"><span>Partitions</span><b>12 · key wallet_id</b></div>
+        <div class="bsl-kv"><span>Retention</span><b>7 days</b></div>
+        <div class="bsl-kv"><span>Consumers</span><b>ledger · analytics</b></div>
+        <ul class="bsl-tech"><li>Kafka</li><li>MSK</li><li>Avro</li></ul>
+      </div>
+    </div>
+
+    <h3 class="bsl-h3">API endpoints</h3>
+    <div class="bsl-table-wrap">
+      <table class="bsl-table bsl-api">
+        <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Idempotent</th><th class="bsl-num">p95</th></tr></thead>
+        <tbody>
+          <tr><td><span class="bsl-method post">POST</span></td><td class="bsl-path">/v1/payments</td><td class="bsl-mono">JWT · payments:write</td><td>Key header, 24 h</td><td class="bsl-num">182 ms</td></tr>
+          <tr><td><span class="bsl-method get">GET</span></td><td class="bsl-path">/v1/payments/<i>{id}</i></td><td class="bsl-mono">JWT · payments:read</td><td>Safe</td><td class="bsl-num">9 ms</td></tr>
+          <tr><td><span class="bsl-method post">POST</span></td><td class="bsl-path">/v1/payments/<i>{id}</i>/capture</td><td class="bsl-mono">JWT · payments:write</td><td>By state</td><td class="bsl-num">131 ms</td></tr>
+          <tr><td><span class="bsl-method patch">PATCH</span></td><td class="bsl-path">/v1/payments/<i>{id}</i>/metadata</td><td class="bsl-mono">JWT · payments:write</td><td>Last write wins</td><td class="bsl-num">12 ms</td></tr>
+          <tr><td><span class="bsl-method put">PUT</span></td><td class="bsl-path">/v1/webhooks/<i>{name}</i></td><td class="bsl-mono">mTLS · ops</td><td>Yes</td><td class="bsl-num">15 ms</td></tr>
+          <tr><td><span class="bsl-method delete">DELETE</span></td><td class="bsl-path">/v1/payments/<i>{id}</i></td><td class="bsl-mono">SSO · ops-admin</td><td>Voids if authorised</td><td class="bsl-num">140 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="bsl-h3">Decision record</h3>
+    <div class="bsl-adr">
+      <div class="bsl-adr-h"><span class="bsl-adr-id">ADR-014</span><h4>Claim idempotency keys in Redis, not Postgres</h4><span class="bsl-chip accepted">Accepted</span></div>
+      <div class="bsl-adr-body">
+        <div><h5>Context</h5><p>Clients retry on timeouts. Without a shared claim, two pods can authorise the same order. The claim must cost under 5 ms at p95 and expire on its own.</p></div>
+        <div><h5>Decision</h5><p><code>SET NX</code> with a 24 h TTL in the existing Redis cluster, keyed by <code>idem:&lt;key&gt;</code>; the stored value is the final response, returned verbatim on replay.</p></div>
+        <div><h5>Consequences</h5>
+          <ul class="bsl-cons">
+            <li class="pro">3 ms claim at p95; no write amplification on Postgres.</li>
+            <li class="pro">Expiry is free — no sweeper job.</li>
+            <li class="con">A Redis failover inside the window can admit one duplicate; the PSP key is the backstop.</li>
+          </ul></div>
+      </div>
+    </div>
+
+    <h3 class="bsl-h3">Trade-off matrix</h3>
+    <div class="bsl-table-wrap">
+      <table class="bsl-table bsl-tradeoff">
+        <thead><tr><th>Option</th><th>Latency</th><th>Durability</th><th>Operational cost</th><th>Duplicate risk</th></tr></thead>
+        <tbody>
+          <tr class="bsl-chosen"><td>Redis SET NX</td><td class="good">3 ms</td><td class="mid">Failover gap</td><td class="good">Existing cluster</td><td class="mid">Backstopped</td></tr>
+          <tr><td>Postgres unique index</td><td class="mid">11 ms</td><td class="good">Durable</td><td class="mid">Sweeper job</td><td class="good">None</td></tr>
+          <tr><td>PSP key only</td><td class="good">0 ms</td><td class="bad">Out of our hands</td><td class="good">None</td><td class="bad">Ledger duplicates</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px; color:var(--bsl-muted);">■ good · ◧ acceptable · □ poor — the symbol carries the verdict, the colour only repeats it. The chosen row carries a 4px structural bar.</p>
+
+    <h3 class="bsl-h3">Latency budget</h3>
+    <div class="bsl-budget" role="img" aria-label="Authorise latency, 182 ms at p95 against a 250 ms target: gateway 14, payments-svc 22, Redis 3, card PSP 118, Kafka 7, overhead 18.">
+      <div class="bsl-budget-bar">
+        <div class="bsl-budget-seg edge"  style="--w: 4.67%"><span>Gateway</span><b>14</b></div>
+        <div class="bsl-budget-seg svc below" style="--w: 7.33%"><span>payments-svc</span><b>22</b></div>
+        <div class="bsl-budget-seg cache" style="--w: 1%"><span>Redis 3</span></div>
+        <div class="bsl-budget-seg ext"   style="--w: 39.33%"><b>Card PSP · 118 ms</b></div>
+        <div class="bsl-budget-seg queue" style="--w: 2.33%"><span>Kafka 7</span></div>
+        <div class="bsl-budget-seg fn below" style="--w: 6%"><span>Overhead</span><b>18</b></div>
+        <div class="bsl-budget-target" style="--at: 83.33%" data-label="target p95 250 ms"></div>
+      </div>
+      <div class="bsl-budget-scale"><span>0 ms</span><span>150 ms</span><span>300 ms</span></div>
+      <ul class="bsl-budget-key">
+        <li class="edge">Gateway 14 ms</li><li class="svc">payments-svc 22 ms</li><li class="cache">Redis 3 ms</li>
+        <li class="ext">Card PSP 118 ms</li><li class="queue">Kafka 7 ms</li><li class="fn">Overhead 18 ms</li>
+      </ul>
+      <p style="font-size:13px; color:var(--bsl-muted); margin-top:12px;">Measured p95 182 ms — 68 ms of headroom. Segment colours are the node kinds from FIG 01.</p>
+    </div>
+
+    <h3 class="bsl-h3">Timeline</h3>
+    <ol class="bsl-timeline">
+      <li class="info"><time>09:00</time><b>Canary 5%</b><span>ledger-writer v3.2 with DLQ routing</span></li>
+      <li class="ok"><time>09:20</time><b>25%</b><span>Lag p99 1.1 s, DLQ depth 0</span></li>
+      <li class="crit"><time>10:05</time><b>Alert</b><span>Schema mismatch sends 41 events to the DLQ</span></li>
+      <li class="warn"><time>10:12</time><b>Paused at 25%</b><span>Producer fix PAY-2231 deployed</span></li>
+      <li class="ok"><time>11:30</time><b>100%</b><span>DLQ redriven, ledger reconciled</span></li>
+    </ol>
+
+    <h3 class="bsl-h3">Callouts</h3>
+    <div class="two-up">
+      <div>
+        <div class="bsl-callout" data-label="Note"><p>Redis keys are namespaced per environment; staging cannot collide with production.</p></div>
+        <div class="bsl-callout warn" data-label="Warning"><p>The PSP timeout of 3 s is shorter than the slowest 3-DS challenge. Raise it before enabling 3-DS 2.2.</p></div>
+      </div>
+      <div>
+        <div class="bsl-callout risk" data-label="Risk"><p>A poison event blocks its partition until the DLQ ships. Owner: Ledger team, due 2026-10-20.</p></div>
+        <div class="bsl-callout decision" data-label="Decision"><p>Idempotency keys live in Redis for 24 h. See ADR-014.</p></div>
+      </div>
+    </div>
+
+    <h3 class="bsl-h3">Code with a file header</h3>
+    <div class="bsl-code">
+      <div class="bsl-code-h"><span>payments-svc/src/main/kotlin/IdempotencyGuard.kt</span><span>Kotlin</span></div>
+      <pre><code>suspend fun claim(key: String, ttl: Duration = 24.hours): Claim =
+    when (redis.set("idem:$key", PENDING, SetArgs().nx().ex(ttl))) {
+        "OK" -&gt; Claim.First
+        else -&gt; Claim.Replay(redis.get("idem:$key"))
+    }</code></pre>
+    </div>
+  </section>
+
+  <!-- ============ 09 THE VISIBLE GRID ============ -->
+  <section class="bsl-section" id="grid">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">09</span><h2>The visible grid</h2></div>
     <p>Add <code>.bsl-grid-visible</code> to any container to expose the 12-column rules — the working-draft view. The grid may stay in a final document; it is honest.</p>
     <div class="bsl-grid-visible" style="border:1px solid var(--bsl-hairline); padding: 24px;">
       <p style="margin:0;"><strong>Working draft.</strong> Every flush-left edge in this box sits on a column rule. If an element does not land on the grid, it is off the system.</p>
     </div>
   </section>
 
-  <!-- ============ 07 DIAGRAMS ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">07</span><h2>Diagrams</h2></div>
-    <p>Mermaid, themed through <a href="mermaid-config.json"><code>mermaid-config.json</code></a>: white ground, black lines, red reserved for the one path or state that matters. Pre-render to static SVG for self-contained output and keep the DSL beside the figure in a <code>&lt;details&gt;</code> block. Every figure gets a flush-left numbered caption.</p>
-    <pre><code>npx -y @mermaid-js/mermaid-cli -i flow.mmd -o flow.svg --configFile mermaid-config.json</code></pre>
-    <div class="bsl-evidence">FIG numbering rule · README.md §6</div>
+  <!-- ============ 10 MERMAID FALLBACK ============ -->
+  <section class="bsl-section" id="mermaid">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">10</span><h2>Mermaid fallback</h2></div>
+    <p>Native SVG is the default for architecture, sequence and state. For shapes the grammar does not cover — ER, Gantt, pie — use Mermaid, themed through <a href="mermaid-config.json"><code>mermaid-config.json</code></a>: white ground, black lines, red reserved for the one path that matters. Pre-render to static SVG and keep the DSL beside the figure in a <code>&lt;details&gt;</code> block.</p>
+    <pre><code>npx -y @mermaid-js/mermaid-cli -i er.mmd -o er.svg --configFile mermaid-config.json</code></pre>
   </section>
 
-  <!-- ============ 08 FOR AI AGENTS ============ -->
-  <section class="bsl-section">
-    <div class="bsl-sec-h"><span class="bsl-sec-num">08</span><h2>Using this system with AI agents</h2></div>
+  <!-- ============ 11 FOR AI AGENTS ============ -->
+  <section class="bsl-section" id="agents">
+    <div class="bsl-sec-h"><span class="bsl-sec-num">11</span><h2>Using this system with AI agents</h2></div>
     <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-basel</code> skill loads it automatically.</p>
-    <pre>Generate the report as HTML using the Basel design system:
+    <pre>Generate the design doc as HTML using the Basel design system:
 https://dexteryo.github.io/design-systems/basel/ (spec: README.md, tokens: basel.css)
 Inline the stylesheet if the output must be self-contained.</pre>
   </section>
 
+    </main>
+  </div>
+
   <footer class="bsl-colophon">
-    <div>Basel Design System · v1.0.0 · rev 2026-07-30</div>
-    <div>Müller-Brockmann grids · Ruder typography · Helvetica · Vignelli</div>
+    <div>Basel Design System · v2.0.0 · rev 2026-10-07</div>
+    <div>Müller-Brockmann grids · Ruder typography · Helvetica · Vignelli · Bauhaus primaries</div>
   </footer>
 
 </div>
@@ -243,6 +711,20 @@ Inline the stylesheet if the output must be self-contained.</pre>
     btn.addEventListener('click', function () {
       root.dataset.theme = current() === 'dark' ? 'light' : 'dark';
     });
+  })();
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.bsl-toc a[href^="#"]'));
+    var targets = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+    if (!links.length) return;
+    var queued = false;
+    function mark() {
+      queued = false;
+      var active = 0;
+      targets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 120) active = i; });
+      links.forEach(function (a, i) { a.classList.toggle('is-active', i === active); });
+    }
+    addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
+    mark();
   })();
 </script>
 </body>

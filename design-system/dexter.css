@@ -1,6 +1,6 @@
 /* ==========================================================================
    DEXTER DESIGN SYSTEM (DDS) — canonical stylesheet
-   v1.1.0 · 2026-07-04
+   v2.0.0 · 2026-10-07 · engineering edition
    Canonical home:  https://dexteryo.github.io/design-system/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-system/dexter.css
    Spec for agents: README.md in the same directory
@@ -12,10 +12,14 @@
      Panel mode    (.dds-panels) — dashboards, risk registers, status.
                                    Geist/Linear economy, light-first:
                                    1px borders, key–value rows, status dots.
-     Diagram grammar (.dds-diagram) — Swiss-schematic vocabulary with
-                                   semantic edges (solid = real/sync,
-                                   dotted = manual, dashed = mirror/async)
-                                   and a provenance title block.
+     Architecture grammar (.dds-arch / .dds-seq / .dds-state) — v2 native
+                                   SVG: coloured node kinds, six route
+                                   meanings, zones, animated flows, packets.
+     Funds-flow grammar (.dds-diagram) — v1 Swiss-schematic vocabulary
+                                   (money / manual / mirror / blocked edges).
+
+   Layout (v2): fluid full-width shell, optional sticky contents rail,
+   prose held to a 72ch measure while figures and tables take the width.
 
    Portability rule: system font stacks only — no webfont requests. The
    stylesheet must work inlined in a sandboxed artifact, attached to a
@@ -67,6 +71,36 @@
   --dds-p-muted:   #5E6663;
   --dds-p-border:  #E1E5E3;
   --dds-p-strong:  #C6CDCA;
+
+  /* Routes (v2 architecture grammar). Sync is the accent: the hot path is
+     the real path, exactly as the money edge was in v1. */
+  --dds-route-sync:  #0B6E4F;
+  --dds-route-async: #2F5DB3;
+  --dds-route-data:  #7B4B94;
+  --dds-route-ctrl:  #9A6A00;
+  --dds-route-ext:   #13809A;
+  --dds-route-fail:  #B23A2E;
+
+  /* Node kinds: stroke + tinted fill. */
+  --dds-node-client: #4F5966;  --dds-node-client-bg: #EEF0F3;
+  --dds-node-edge:   #13809A;  --dds-node-edge-bg:   #E0F1F5;
+  --dds-node-svc:    #2F5DB3;  --dds-node-svc-bg:    #E6ECF8;
+  --dds-node-fn:     #7B4B94;  --dds-node-fn-bg:     #F1E8F5;
+  --dds-node-store:  #9A5B14;  --dds-node-store-bg:  #F6EBDD;
+  --dds-node-queue:  #A33A6B;  --dds-node-queue-bg:  #F7E4EC;
+  --dds-node-cache:  #5B7A16;  --dds-node-cache-bg:  #EBF1DC;
+  --dds-node-ext:    #6B6F76;  --dds-node-ext-bg:    #F3F3F0;
+
+  /* HTTP methods alias the node/route hues (they flip with them). */
+  --dds-m-get:    var(--dds-node-svc);
+  --dds-m-post:   var(--dds-node-edge);
+  --dds-m-put:    var(--dds-route-ctrl);
+  --dds-m-patch:  var(--dds-node-fn);
+  --dds-m-delete: var(--dds-route-fail);
+
+  --dds-gutter: clamp(16px, 4vw, 64px);
+  --dds-measure: 72ch;
+  --dds-shell-max: 1920px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -95,6 +129,22 @@
     --dds-p-muted:   #99A19D;
     --dds-p-border:  #2B302E;
     --dds-p-strong:  #454C49;
+
+    --dds-route-sync:  #6FBF9F;
+    --dds-route-async: #86A9EE;
+    --dds-route-data:  #C59BDA;
+    --dds-route-ctrl:  #E0B54A;
+    --dds-route-ext:   #5CC6DE;
+    --dds-route-fail:  #F08A7D;
+
+    --dds-node-client: #A9B2BF;  --dds-node-client-bg: #232830;
+    --dds-node-edge:   #5CC6DE;  --dds-node-edge-bg:   #11282E;
+    --dds-node-svc:    #86A9EE;  --dds-node-svc-bg:    #18223A;
+    --dds-node-fn:     #C59BDA;  --dds-node-fn-bg:     #2A1E31;
+    --dds-node-store:  #E2A35C;  --dds-node-store-bg:  #2E2215;
+    --dds-node-queue:  #EE8DB8;  --dds-node-queue-bg:  #321A26;
+    --dds-node-cache:  #A9CF5E;  --dds-node-cache-bg:  #1F2914;
+    --dds-node-ext:    #9AA0A8;  --dds-node-ext-bg:    #202224;
   }
 }
 
@@ -112,6 +162,16 @@
   --dds-doc-muted: #5D5A4F; --dds-doc-rule: #E3DFD1; --dds-doc-code: #F0EDE0;
   --dds-p-bg: #F6F8F7; --dds-p-surface: #FFFFFF; --dds-p-ink: #1B201E;
   --dds-p-muted: #5E6663; --dds-p-border: #E1E5E3; --dds-p-strong: #C6CDCA;
+  --dds-route-sync: #0B6E4F; --dds-route-async: #2F5DB3; --dds-route-data: #7B4B94;
+  --dds-route-ctrl: #9A6A00; --dds-route-ext: #13809A; --dds-route-fail: #B23A2E;
+  --dds-node-client: #4F5966; --dds-node-client-bg: #EEF0F3;
+  --dds-node-edge: #13809A;   --dds-node-edge-bg: #E0F1F5;
+  --dds-node-svc: #2F5DB3;    --dds-node-svc-bg: #E6ECF8;
+  --dds-node-fn: #7B4B94;     --dds-node-fn-bg: #F1E8F5;
+  --dds-node-store: #9A5B14;  --dds-node-store-bg: #F6EBDD;
+  --dds-node-queue: #A33A6B;  --dds-node-queue-bg: #F7E4EC;
+  --dds-node-cache: #5B7A16;  --dds-node-cache-bg: #EBF1DC;
+  --dds-node-ext: #6B6F76;    --dds-node-ext-bg: #F3F3F0;
 }
 :root[data-theme="dark"] {
   --dds-accent: #6FBF9F; --dds-accent-ink: #0E241C;
@@ -125,12 +185,80 @@
   --dds-doc-muted: #A5A091; --dds-doc-rule: #38362D; --dds-doc-code: #2B2A22;
   --dds-p-bg: #131615; --dds-p-surface: #1A1E1C; --dds-p-ink: #E4E8E6;
   --dds-p-muted: #99A19D; --dds-p-border: #2B302E; --dds-p-strong: #454C49;
+  --dds-route-sync: #6FBF9F; --dds-route-async: #86A9EE; --dds-route-data: #C59BDA;
+  --dds-route-ctrl: #E0B54A; --dds-route-ext: #5CC6DE; --dds-route-fail: #F08A7D;
+  --dds-node-client: #A9B2BF; --dds-node-client-bg: #232830;
+  --dds-node-edge: #5CC6DE;   --dds-node-edge-bg: #11282E;
+  --dds-node-svc: #86A9EE;    --dds-node-svc-bg: #18223A;
+  --dds-node-fn: #C59BDA;     --dds-node-fn-bg: #2A1E31;
+  --dds-node-store: #E2A35C;  --dds-node-store-bg: #2E2215;
+  --dds-node-queue: #EE8DB8;  --dds-node-queue-bg: #321A26;
+  --dds-node-cache: #A9CF5E;  --dds-node-cache-bg: #1F2914;
+  --dds-node-ext: #9AA0A8;    --dds-node-ext-bg: #202224;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
 .dds-doc, .dds-panels { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 .dds-doc *, .dds-doc *::before, .dds-doc *::after,
 .dds-panels *, .dds-panels *::before, .dds-panels *::after { box-sizing: inherit; }
+
+/* Mode-resolved aliases: shared components (tables, v2 diagrams, engineering
+   components) read these, so one rule renders correctly in either mode. */
+.dds-doc {
+  --dds-ground: var(--dds-doc-bg); --dds-surface: var(--dds-doc-surface);
+  --dds-ink: var(--dds-doc-ink);   --dds-muted: var(--dds-doc-muted);
+  --dds-rule: var(--dds-doc-rule); --dds-strong: var(--dds-doc-muted);
+  --dds-code: var(--dds-doc-code); --dds-r: 0px;
+}
+.dds-panels {
+  --dds-ground: var(--dds-p-bg);     --dds-surface: var(--dds-p-surface);
+  --dds-ink: var(--dds-p-ink);       --dds-muted: var(--dds-p-muted);
+  --dds-rule: var(--dds-p-border);   --dds-strong: var(--dds-p-strong);
+  --dds-code: var(--dds-p-bg);       --dds-r: var(--dds-r-panel);
+}
+
+/* ── 2a. LAYOUT (v2) ─────────────────────────────────────────────────────
+   The shell is fluid full width. Prose keeps its measure (--dds-measure);
+   figures, tables, grids and panels take the whole content width. */
+.dds-page {
+  max-width: var(--dds-shell-max); margin: 0 auto;
+  padding: var(--dds-s7) var(--dds-gutter) 96px;
+}
+.dds-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--dds-s5); }
+.dds-main { min-width: 0; }
+.dds-toc {
+  font-family: var(--dds-mono); font-size: 12px; line-height: 1.5;
+  border-top: 1px solid var(--dds-rule); border-bottom: 1px solid var(--dds-rule);
+  padding: var(--dds-s3) 0;
+}
+.dds-toc-h {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dds-muted); margin: 0 0 var(--dds-s2);
+}
+.dds-toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--dds-s1) var(--dds-s4); }
+.dds-toc a { text-decoration: none; color: var(--dds-muted); }
+.dds-toc a:hover { color: var(--dds-ink); }
+.dds-toc a.is-active { color: var(--dds-ink); font-weight: 600; }
+@media (min-width: 1200px) {
+  .dds-layout { grid-template-columns: 220px minmax(0, 1fr); gap: var(--dds-s7); }
+  .dds-toc {
+    position: sticky; top: var(--dds-s5); align-self: start;
+    max-height: calc(100vh - 48px); overflow-y: auto;
+    border-bottom: 0; padding-top: var(--dds-s4);
+  }
+  .dds-toc ol { display: block; }
+  .dds-toc li { margin: 0; }
+  .dds-toc a {
+    display: block; padding: 5px 0 5px var(--dds-s3);
+    border-left: 2px solid var(--dds-rule);
+  }
+  .dds-toc a.is-active { border-left-color: var(--dds-ink); }
+}
+.dds-doc h2, .dds-doc h3, .dds-panels h2, .dds-panels h3,
+.dds-section, [id] { scroll-margin-top: var(--dds-s5); }
+.dds-doc h1, .dds-doc h2, .dds-doc h3 { text-wrap: balance; }
+.dds-doc p, .dds-doc li { text-wrap: pretty; }
+.dds-wide { max-width: none; }
 
 /* Links: understated — ink with a muted underline; accent only on hover.
    (The accent means verified; an unvisited link has earned no claim.) */
@@ -162,7 +290,6 @@
   font-size: 17px;
   line-height: 1.7;
 }
-.dds-page { max-width: 960px; margin: 0 auto; padding: var(--dds-s8) var(--dds-s5) 96px; }
 
 .dds-eyebrow {
   font-family: var(--dds-mono);
@@ -174,12 +301,12 @@
   font-family: var(--dds-serif); font-weight: 400;
   font-size: clamp(30px, 4.5vw, 42px); line-height: 1.15;
   letter-spacing: -0.01em; margin: 0 0 var(--dds-s3);
-  text-wrap: balance;
+  text-wrap: balance; max-width: 24em;
 }
 .dds-title em { font-style: italic; color: var(--dds-accent); }
 .dds-subtitle {
   font-style: italic; font-size: 19px; line-height: 1.5;
-  color: var(--dds-doc-muted); max-width: 60ch; margin: 0 0 var(--dds-s5);
+  color: var(--dds-doc-muted); max-width: 64ch; margin: 0 0 var(--dds-s5);
 }
 
 /* Hero header: title/subtitle on the left, a status/facts card in the sidenote
@@ -188,7 +315,7 @@
    (the title keeps text-wrap: balance). Put the eyebrow ABOVE .dds-hero and the
    .dds-meta bar BELOW it, both full-measure. */
 .dds-hero {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
   gap: var(--dds-s6); align-items: start; margin: 0 0 var(--dds-s5);
 }
 .dds-hero > :first-child .dds-subtitle { margin-bottom: 0; }
@@ -244,17 +371,18 @@
 }
 .dds-sec-h h2 {
   font-family: var(--dds-serif); font-weight: 400;
-  font-size: 26px; line-height: 1.2; letter-spacing: -0.005em; margin: 0;
+  font-size: clamp(26px, 2.4vw, 32px); line-height: 1.2; letter-spacing: -0.005em; margin: 0;
 }
 
-.dds-doc p { max-width: 66ch; margin: 0 0 var(--dds-s4); }
-.dds-doc ul, .dds-doc ol { max-width: 66ch; margin: 0 0 var(--dds-s4); padding-left: 22px; }
+.dds-doc p { max-width: var(--dds-measure); margin: 0 0 var(--dds-s4); }
+.dds-doc h3 { font-family: var(--dds-serif); font-weight: 600; font-size: 20px; line-height: 1.3; margin: var(--dds-s6) 0 var(--dds-s3); }
+.dds-doc ul, .dds-doc ol { max-width: var(--dds-measure); margin: 0 0 var(--dds-s4); padding-left: 22px; }
 .dds-doc li { margin-bottom: var(--dds-s1); }
 
 /* Sidenote layout: a note-bearing block is a .dds-row; prose in .dds-main,
    evidence/citations in .dds-side. Collapses to inset boxes on small screens. */
 .dds-row {
-  display: grid; grid-template-columns: minmax(0, 1fr) 210px;
+  display: grid; grid-template-columns: minmax(0, var(--dds-measure)) minmax(200px, 280px);
   gap: var(--dds-s6); align-items: start;
 }
 .dds-sidenote {
@@ -291,30 +419,30 @@
 .dds-pull {
   border-left: 3px solid var(--dds-accent);
   margin: var(--dds-s5) 0; padding: var(--dds-s2) 0 var(--dds-s2) var(--dds-s5);
-  font-style: italic; font-size: 18px; color: var(--dds-doc-muted); max-width: 58ch;
+  font-style: italic; font-size: 18px; color: var(--dds-doc-muted); max-width: 64ch;
 }
 .dds-pull strong { color: var(--dds-doc-ink); font-style: normal; }
 
 /* Tables: hairlines only; mono uppercase headers; numerals right + tabular. */
 .dds-table-wrap { overflow-x: auto; margin: 0 0 var(--dds-s4); }
-.dds-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.dds-table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
 .dds-table th {
   font-family: var(--dds-mono); font-size: 10px; font-weight: 600;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--dds-doc-muted); text-align: left;
+  color: var(--dds-muted); text-align: left;
   padding: var(--dds-s2) var(--dds-s3);
-  border-bottom: 2px solid var(--dds-doc-ink);
+  border-bottom: 2px solid var(--dds-ink);
 }
 .dds-table td {
   padding: var(--dds-s2) var(--dds-s3);
-  border-bottom: 1px solid var(--dds-doc-rule);
+  border-bottom: 1px solid var(--dds-rule);
   vertical-align: top;
 }
 .dds-table td.dds-num, .dds-table th.dds-num { text-align: right; font-variant-numeric: tabular-nums; }
 /* Accountant's total rule: thin line above, heavy below the closing row. */
 .dds-table tr.dds-total td {
-  border-top: 1px solid var(--dds-doc-ink);
-  border-bottom: 3px double var(--dds-doc-ink);
+  border-top: 1px solid var(--dds-ink);
+  border-bottom: 3px double var(--dds-ink);
   font-weight: 600;
 }
 
@@ -374,10 +502,9 @@
   background: var(--dds-p-bg);
   color: var(--dds-p-ink);
   font-family: var(--dds-sans);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
 }
-.dds-panels .dds-page { padding-top: var(--dds-s7); }
 
 /* Board header: page-level title strip for a Panel-mode page. */
 .dds-board-h {
@@ -385,7 +512,7 @@
   gap: var(--dds-s2) var(--dds-s4);
   margin: 0 0 var(--dds-s5);
 }
-.dds-board-h h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.dds-board-h h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
 .dds-board-h .dds-board-meta {
   margin-left: auto; font-family: var(--dds-mono); font-size: 11.5px;
   color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
@@ -402,7 +529,7 @@
   padding: var(--dds-s3) var(--dds-s4);
   border-bottom: 1px solid var(--dds-p-border);
 }
-.dds-panel-h h3 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+.dds-panel-h h3 { font-size: 15px; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
 .dds-panel-h .dds-panel-meta {
   margin-left: auto; font-family: var(--dds-mono); font-size: 11px;
   color: var(--dds-p-muted); font-variant-numeric: tabular-nums;
@@ -493,7 +620,7 @@
 .dds-panels code { font-family: var(--dds-mono); font-size: 0.92em; }
 .dds-cmd .dds-ps { color: var(--dds-p-muted); user-select: none; }
 
-/* ── 5. DIAGRAM GRAMMAR ────────────────────────────────────────────────── */
+/* ── 5. FUNDS-FLOW GRAMMAR (v1, Tier 1) ───────────────────────────────── */
 /* Frame. Works inside either mode; brings its own surface. */
 .dds-diagram {
   background: var(--dds-p-surface);
@@ -503,7 +630,7 @@
   margin: 0 0 var(--dds-s4);
 }
 .dds-doc .dds-diagram { background: var(--dds-doc-surface); border-color: var(--dds-doc-ink); }
-.dds-diagram svg { display: block; width: 100%; height: auto; }
+.dds-diagram svg { display: block; width: 100%; height: auto; max-width: 960px; min-width: 720px; }
 
 /* Optional grid-paper working surface */
 .dds-grid-paper {
@@ -591,7 +718,256 @@
   .dds-titleblock > div:first-child { border-top: 0; }
 }
 
-/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 6. ARCHITECTURE GRAMMAR (v2) ──────────────────────────────────────────
+   Native SVG for architecture (.dds-arch), sequence (.dds-seq) and state
+   (.dds-state) diagrams. Colour is meaning: node kinds and routes each own
+   a hue, and every hue used must appear in the figure's legend.        */
+.dds-arch, .dds-seq, .dds-state {
+  margin: 0 0 var(--dds-s5);
+  background: var(--dds-surface);
+  border: 1.5px solid var(--dds-ink);
+  border-radius: var(--dds-r);
+  padding: var(--dds-s4) var(--dds-s4) var(--dds-s3);
+  overflow-x: auto;
+}
+/* Readability floor: viewBoxes ≤1000 wide render ~1:1; narrower screens scroll the figure, never shrink it. */
+.dds-arch svg, .dds-seq svg, .dds-state svg { display: block; width: 100%; height: auto; min-width: 860px; }
+.dds-arch .dds-titleblock, .dds-seq .dds-titleblock, .dds-state .dds-titleblock { margin: var(--dds-s3) 0 0; }
+
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.client) { --k: var(--dds-node-client); --kb: var(--dds-node-client-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.edge)   { --k: var(--dds-node-edge);   --kb: var(--dds-node-edge-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.svc)    { --k: var(--dds-node-svc);    --kb: var(--dds-node-svc-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.fn)     { --k: var(--dds-node-fn);     --kb: var(--dds-node-fn-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.store)  { --k: var(--dds-node-store);  --kb: var(--dds-node-store-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.queue)  { --k: var(--dds-node-queue);  --kb: var(--dds-node-queue-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.cache)  { --k: var(--dds-node-cache);  --kb: var(--dds-node-cache-bg); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend, .dds-svc-grid) :is(.ext)    { --k: var(--dds-node-ext);    --kb: var(--dds-node-ext-bg); --r: var(--dds-route-ext); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.sync)  { --r: var(--dds-route-sync); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.async) { --r: var(--dds-route-async); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.data)  { --r: var(--dds-route-data); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.ctrl)  { --r: var(--dds-route-ctrl); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.fail)  { --r: var(--dds-route-fail); }
+:is(.dds-arch, .dds-seq, .dds-state, .dds-legend) :is(.ret)   { --r: var(--dds-muted); }
+:is(.dds-seq, .dds-state, .dds-legend) :is(.ok)      { --k: var(--dds-ok);   --kb: var(--dds-ok-bg); }
+:is(.dds-seq, .dds-state, .dds-legend) :is(.warn)    { --k: var(--dds-warn); --kb: var(--dds-warn-bg); }
+:is(.dds-seq, .dds-state, .dds-legend) :is(.crit)    { --k: var(--dds-crit); --kb: var(--dds-crit-bg); }
+:is(.dds-seq, .dds-state, .dds-legend) :is(.info)    { --k: var(--dds-info); --kb: var(--dds-info-bg); }
+:is(.dds-seq, .dds-state, .dds-legend) :is(.neutral) { --k: var(--dds-strong); --kb: var(--dds-surface); }
+
+/* Nodes: <g class="dds-node svc"> + .dds-shape + text lines. */
+.dds-node .dds-shape { fill: var(--kb, var(--dds-surface)); stroke: var(--k, var(--dds-ink)); stroke-width: 1.5; transition: stroke-width .15s; }
+.dds-node .dds-qbar { fill: var(--k); opacity: .55; }
+.dds-node.ext .dds-shape { stroke-dasharray: 5 4; }
+.dds-node:hover .dds-shape { stroke-width: 2.75; }
+.dds-node.is-hot .dds-shape { stroke-width: 2.75; }
+.dds-node.is-fail .dds-shape { stroke: var(--dds-route-fail); fill: var(--dds-crit-bg); stroke-width: 2.25; }
+.dds-node.is-new .dds-shape { stroke-dasharray: 7 4; stroke-width: 2; }
+.dds-nkind { font: 700 12px var(--dds-mono); letter-spacing: .08em; text-transform: uppercase; fill: var(--k, var(--dds-muted)); }
+.dds-nlabel { font: 600 15px var(--dds-sans); fill: var(--dds-ink); }
+.dds-nsub   { font: 400 12px var(--dds-mono); fill: var(--dds-muted); }
+.dds-ntag   { font: 600 12px var(--dds-mono); fill: var(--k, var(--dds-ink)); }
+.dds-node.is-fail .dds-ntag, .dds-ntag.bad { fill: var(--dds-route-fail); }
+
+/* Edges: <path class="dds-edge sync dds-flow" marker-end="url(#mk-sync)">. */
+.dds-edge { fill: none; stroke: var(--r, var(--dds-ink)); stroke-width: 2; stroke-linejoin: round; }
+.dds-edge.sync { stroke-width: 2.5; }
+.dds-edge.async, .dds-edge.fail { stroke-dasharray: 7 5; }
+.dds-edge.ctrl { stroke-dasharray: 2 5; stroke-linecap: round; }
+.dds-mk path { fill: var(--dds-ink); }
+.dds-mk.sync path  { fill: var(--dds-route-sync); }
+.dds-mk.async path { fill: var(--dds-route-async); }
+.dds-mk.data path  { fill: var(--dds-route-data); }
+.dds-mk.ctrl path  { fill: var(--dds-route-ctrl); }
+.dds-mk.ext path   { fill: var(--dds-route-ext); }
+.dds-mk.fail path  { fill: var(--dds-route-fail); }
+.dds-mk.ret path   { fill: var(--dds-muted); }
+.dds-flow { stroke-dasharray: 7 5; animation: dds-dash 1.1s linear infinite; }
+.dds-edge.ctrl.dds-flow { stroke-dasharray: 2 5; animation-duration: 1.6s; }
+@keyframes dds-dash { to { stroke-dashoffset: -24; } }
+.dds-pkt { fill: var(--r, var(--dds-ink)); stroke: var(--dds-surface); stroke-width: 2; }
+.dds-elabel {
+  font: 500 12px var(--dds-mono); fill: var(--r, var(--dds-muted));
+  paint-order: stroke; stroke: var(--dds-surface); stroke-width: 4px; stroke-linejoin: round;
+}
+
+/* Zones, stages, numbered steps. */
+.dds-zone { fill: color-mix(in srgb, var(--dds-ink) 3%, transparent); stroke: var(--dds-strong); stroke-width: 1.25; stroke-dasharray: 4 4; }
+.dds-zone.trust { fill: none; stroke: var(--dds-route-fail); stroke-dasharray: 9 4 2 4; }
+.dds-zlabel { font: 700 12px var(--dds-mono); letter-spacing: .14em; text-transform: uppercase; fill: var(--dds-muted); }
+.dds-zlabel.trust { fill: var(--dds-route-fail); }
+.dds-stage { font: 600 12px var(--dds-mono); letter-spacing: .16em; text-transform: uppercase; fill: var(--dds-muted); }
+.dds-step circle { fill: var(--dds-ink); stroke: var(--dds-surface); stroke-width: 2; }
+.dds-step text { font: 700 12px var(--dds-mono); fill: var(--dds-surface); text-anchor: middle; dominant-baseline: central; }
+
+/* Sequence: actors reuse .dds-node; lifelines, activations, messages, notes. */
+.dds-life { stroke: var(--dds-strong); stroke-width: 1.25; stroke-dasharray: 4 5; }
+.dds-act { fill: var(--kb, var(--dds-surface)); stroke: var(--k, var(--dds-ink)); stroke-width: 1.5; }
+.dds-msg { fill: none; stroke: var(--r, var(--dds-ink)); stroke-width: 1.75; }
+.dds-msg.async, .dds-msg.fail { stroke-dasharray: 7 5; }
+.dds-msg.ret { stroke-dasharray: 4 4; stroke-width: 1.25; }
+.dds-mlabel { font: 500 13px var(--dds-mono); fill: var(--dds-ink); paint-order: stroke; stroke: var(--dds-surface); stroke-width: 4px; }
+.dds-mlabel.ret { fill: var(--dds-muted); }
+.dds-mlabel.fail { fill: var(--dds-route-fail); }
+.dds-note rect { fill: var(--dds-warn-bg); stroke: var(--dds-warn); stroke-width: 1; }
+.dds-note text { font: 400 13px var(--dds-sans); fill: var(--dds-ink); }
+
+/* State machine: <g class="dds-node dds-st ok"> pills; initial/final marks. */
+.dds-st-init { fill: var(--dds-ink); }
+.dds-st-final { fill: var(--dds-surface); stroke: var(--dds-ink); stroke-width: 2; }
+.dds-st-final-dot { fill: var(--dds-ink); }
+
+/* Legend (v2 swatches): <i class="sync"> route line · <i class="node svc"> kind. */
+.dds-legend i:not(.dds-leg-line) { display: inline-block; width: 28px; border-top: 3px solid var(--r, var(--dds-ink)); }
+.dds-legend i.async, .dds-legend i.fail { border-top-style: dashed; }
+.dds-legend i.ctrl { border-top-style: dotted; }
+.dds-legend i.ret { border-top-style: dashed; border-top-width: 2px; }
+.dds-legend i.node { width: 14px; height: 12px; border: 1.5px solid var(--k); background: var(--kb); }
+.dds-legend i.node.ext { border-style: dashed; }
+.dds-legend i.zone { width: 18px; height: 12px; border: 1.25px dashed var(--dds-strong); }
+.dds-legend i.zone.trust { border-color: var(--dds-route-fail); }
+.dds-legend i.pkt { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--dds-route-sync); }
+.dds-figcap { font-family: var(--dds-mono); font-size: 11px; color: var(--dds-muted); margin-top: var(--dds-s2); }
+
+/* Numbered walkthrough keyed to .dds-step badges. */
+.dds-steps { list-style: none; counter-reset: dds-step; padding: 0; margin: 0 0 var(--dds-s5); max-width: var(--dds-measure); }
+.dds-steps li { counter-increment: dds-step; position: relative; padding-left: 36px; margin-bottom: var(--dds-s2); }
+.dds-steps li::before {
+  content: counter(dds-step); position: absolute; left: 0; top: 2px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--dds-ink); color: var(--dds-surface);
+  font: 700 11px/22px var(--dds-mono); text-align: center;
+}
+
+/* ── 7. ENGINEERING COMPONENTS (v2) ────────────────────────────────────── */
+.dds-tag {
+  display: inline-block; font-family: var(--dds-mono); font-size: 11px;
+  border: 1px solid var(--dds-rule); border-radius: 3px;
+  padding: 1px 6px; color: var(--dds-ink); background: var(--dds-ground); white-space: nowrap;
+}
+
+/* Service card: kind colour on the top bar; facts as a mono dl. */
+.dds-svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--dds-s4); margin: 0 0 var(--dds-s5); }
+.dds-svc {
+  background: var(--dds-surface); border: 1px solid var(--dds-rule);
+  border-top: 3px solid var(--k, var(--dds-ink)); border-radius: var(--dds-r);
+  padding: var(--dds-s4); font-family: var(--dds-sans); font-size: 14px; line-height: 1.5;
+}
+.dds-svc-h { display: flex; align-items: center; gap: var(--dds-s2); margin: 0 0 2px; }
+.dds-svc-h h4 { margin: 0; font: 600 15px var(--dds-mono); letter-spacing: -0.01em; }
+.dds-svc-h .dds-dot { margin-left: auto; }
+.dds-svc-kind { font: 700 9.5px var(--dds-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--k, var(--dds-muted)); }
+.dds-svc-own { color: var(--dds-muted); font-size: 13px; margin: 0 0 var(--dds-s3); }
+.dds-svc-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 var(--dds-s3); }
+.dds-svc-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--dds-s3); margin: 0; font-size: 12.5px; }
+.dds-svc-facts dt { color: var(--dds-muted); }
+.dds-svc-facts dd { margin: 0; font-family: var(--dds-mono); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* API endpoint table: .dds-table.dds-api + method pills. */
+.dds-api td:nth-child(2) { font-family: var(--dds-mono); font-size: 13px; white-space: nowrap; }
+.dds-method {
+  display: inline-block; min-width: 58px; text-align: center;
+  font: 700 10.5px var(--dds-mono); letter-spacing: .06em; text-transform: uppercase;
+  border: 1.5px solid var(--m); color: var(--m);
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  border-radius: 3px; padding: 2px 6px;
+}
+.dds-method.get    { --m: var(--dds-m-get); }
+.dds-method.post   { --m: var(--dds-m-post); }
+.dds-method.put    { --m: var(--dds-m-put); }
+.dds-method.patch  { --m: var(--dds-m-patch); }
+.dds-method.delete { --m: var(--dds-m-delete); }
+
+/* Architecture decision record. */
+.dds-adr { border: 1.5px solid var(--dds-ink); border-radius: var(--dds-r); background: var(--dds-surface); margin: 0 0 var(--dds-s5); }
+.dds-adr-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--dds-s2) var(--dds-s4); padding: var(--dds-s4) var(--dds-s5); border-bottom: 1px solid var(--dds-rule); }
+.dds-adr-id { font: 600 12px var(--dds-mono); color: var(--dds-muted); }
+.dds-adr-h h3 { margin: 0; font-size: 20px; }
+.dds-adr-h .dds-adr-date { margin-left: auto; font: 400 11.5px var(--dds-mono); color: var(--dds-muted); }
+.dds-adr-status { font: 700 10px var(--dds-mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid; border-radius: 999px; padding: 2px 10px; }
+.dds-adr-status.accepted   { color: var(--dds-ok);   background: var(--dds-ok-bg); }
+.dds-adr-status.proposed   { color: var(--dds-warn); background: var(--dds-warn-bg); }
+.dds-adr-status.superseded { color: var(--dds-muted); text-decoration: line-through; }
+.dds-adr-status.rejected   { color: var(--dds-crit); background: var(--dds-crit-bg); }
+.dds-adr-b { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.dds-adr-sec { padding: var(--dds-s4) var(--dds-s5); border-right: 1px solid var(--dds-rule); }
+.dds-adr-sec:last-child { border-right: 0; }
+.dds-adr-l { font: 700 10px var(--dds-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dds-muted); margin: 0 0 var(--dds-s2); }
+.dds-adr-sec p, .dds-adr-sec ul { font-size: 15px; margin: 0 0 var(--dds-s2); }
+.dds-adr .dds-pros, .dds-adr .dds-cons { list-style: none; padding: 0; }
+.dds-pros li, .dds-cons li { position: relative; padding-left: 20px; }
+.dds-pros li::before, .dds-cons li::before { font: 700 13px var(--dds-mono); position: absolute; left: 0; }
+.dds-pros li::before { content: "+"; color: var(--dds-ok); }
+.dds-cons li::before { content: "−"; color: var(--dds-crit); }
+
+/* Trade-off matrix: colour + glyph, never colour alone. */
+.dds-tradeoff td.good, .dds-tradeoff td.mid, .dds-tradeoff td.bad { font-size: 13.5px; }
+.dds-tradeoff td.good { background: var(--dds-ok-bg); }
+.dds-tradeoff td.mid  { background: var(--dds-warn-bg); }
+.dds-tradeoff td.bad  { background: var(--dds-crit-bg); }
+.dds-tradeoff td.good::before, .dds-tradeoff td.mid::before, .dds-tradeoff td.bad::before { font: 700 12px var(--dds-mono); margin-right: 6px; }
+.dds-tradeoff td.good::before { content: "▲"; color: var(--dds-ok); }
+.dds-tradeoff td.mid::before  { content: "◆"; color: var(--dds-warn); }
+.dds-tradeoff td.bad::before  { content: "▼"; color: var(--dds-crit); }
+.dds-tradeoff tr.chosen td:first-child { font-weight: 700; box-shadow: inset 3px 0 0 var(--dds-accent); }
+
+/* Latency / error budget: segments sized by --w (share of the scale). */
+.dds-budget { margin: 0 0 var(--dds-s5); font-family: var(--dds-sans); }
+.dds-budget-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--dds-s2) var(--dds-s4); margin: 0 0 var(--dds-s2); font-size: 14px; }
+.dds-budget-h b { margin-left: auto; font: 600 13px var(--dds-mono); font-variant-numeric: tabular-nums; }
+.dds-budget-bar { position: relative; display: flex; height: 28px; margin-top: 26px; background: var(--dds-ground); border: 1px solid var(--dds-rule); border-radius: var(--dds-r); }
+.dds-budget-bar > span { flex: 0 0 var(--w); height: 100%; border-right: 2px solid var(--dds-surface); }
+.dds-budget-bar > span:first-child { border-radius: var(--dds-r) 0 0 var(--dds-r); }
+.dds-budget-target { position: absolute; top: -6px; bottom: -6px; left: var(--at); border-left: 2px solid var(--dds-ink); }
+.dds-budget-target span { position: absolute; top: -18px; left: 4px; font: 600 10px var(--dds-mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--dds-ink); }
+.dds-budget-keys { display: flex; flex-wrap: wrap; gap: var(--dds-s1) var(--dds-s5); list-style: none; padding: 0; margin: var(--dds-s3) 0 0; font-size: 13px; }
+.dds-budget-keys li { display: inline-flex; align-items: center; gap: 6px; }
+.dds-budget-keys b { font: 500 12px var(--dds-mono); color: var(--dds-muted); font-variant-numeric: tabular-nums; }
+.dds-budget-keys i { width: 10px; height: 10px; display: inline-block; }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v1 { background: var(--dds-v1); }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v2 { background: var(--dds-v2); }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v3 { background: var(--dds-v3); }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v4 { background: var(--dds-v4); }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v5 { background: var(--dds-v5); }
+:is(.dds-budget-bar > span, .dds-budget-keys i).v6 { background: var(--dds-v6); }
+
+/* Timeline: vertical rail, semantic dots, mono timestamps. */
+.dds-timeline { list-style: none; margin: 0 0 var(--dds-s5); padding: 0; max-width: var(--dds-measure); }
+.dds-timeline li { display: grid; grid-template-columns: 92px 18px minmax(0, 1fr); gap: 0 var(--dds-s3); position: relative; padding-bottom: var(--dds-s4); }
+.dds-timeline li::before { content: ""; position: absolute; left: calc(92px + var(--dds-s3) + 8px); top: 14px; bottom: -2px; border-left: 2px solid var(--dds-rule); }
+.dds-timeline li:last-child::before { display: none; }
+.dds-timeline time { font: 500 12px var(--dds-mono); color: var(--dds-muted); text-align: right; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.dds-timeline li > i { width: 12px; height: 12px; margin: 5px 3px 0; border-radius: 50%; background: var(--dds-surface); box-shadow: inset 0 0 0 2.5px var(--t, var(--dds-strong)); position: relative; z-index: 1; }
+.dds-timeline li.ok   { --t: var(--dds-ok); }
+.dds-timeline li.warn { --t: var(--dds-warn); }
+.dds-timeline li.crit { --t: var(--dds-crit); }
+.dds-timeline li.info { --t: var(--dds-info); }
+.dds-timeline li.ok > i, .dds-timeline li.crit > i { background: var(--t); }
+.dds-timeline b { font-weight: 600; }
+.dds-timeline p { grid-column: 3; margin: 2px 0 0; font-size: 0.92em; color: var(--dds-muted); }
+
+/* Callouts: note / warn / risk / decision. */
+.dds-callout { border-left: 3px solid var(--c); background: var(--cb); padding: var(--dds-s3) var(--dds-s4); margin: 0 0 var(--dds-s4); max-width: calc(var(--dds-measure) + 48px); border-radius: 0 var(--dds-r) var(--dds-r) 0; }
+.dds-callout.note     { --c: var(--dds-info); --cb: var(--dds-info-bg); }
+.dds-callout.warn     { --c: var(--dds-warn); --cb: var(--dds-warn-bg); }
+.dds-callout.risk     { --c: var(--dds-crit); --cb: var(--dds-crit-bg); }
+.dds-callout.decision { --c: var(--dds-ink);  --cb: var(--dds-surface); border: 1px solid var(--dds-rule); border-left: 3px solid var(--dds-ink); }
+.dds-callout-t { font: 700 10.5px var(--dds-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--c); margin: 0 0 4px; }
+.dds-callout p:last-child { margin-bottom: 0; }
+
+/* Code block with a filename strip. */
+.dds-code { margin: 0 0 var(--dds-s4); border: 1px solid var(--dds-rule); border-radius: var(--dds-r); overflow: hidden; }
+.dds-code-h { display: flex; gap: var(--dds-s3); padding: 6px var(--dds-s4); background: var(--dds-surface); border-bottom: 1px solid var(--dds-rule); font: 500 11.5px var(--dds-mono); }
+.dds-code-h span:last-child { margin-left: auto; color: var(--dds-muted); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; }
+.dds-code pre, .dds-doc .dds-code pre, .dds-panels .dds-code pre { margin: 0; border: 0; border-radius: 0; background: var(--dds-code); }
+
+/* ── 8. MOTION ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .dds-flow { animation: none; }
+  .dds-pkt { display: none; }
+  .dds-node .dds-shape { transition: none; }
+}
+
+/* ── 9. PRINT ──────────────────────────────────────────────────────────── */
 @media print {
   .dds-doc { background: #FFFFFF; }
   .dds-panels { background: #FFFFFF; }

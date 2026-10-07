@@ -6,30 +6,47 @@
 <title>Components · Dexter Design System</title>
 <link rel="stylesheet" href="dexter.css">
 <style>
-  body { margin: 0; }
+  body { margin: 0; background: var(--dds-doc-bg); }
   .comp { margin: 0 0 40px; }
   .comp-name { font-family: var(--dds-mono); font-size: 12px; font-weight: 600;
                letter-spacing: .04em; margin: 0 0 4px; }
-  .comp-note { font-size: 14px; color: var(--dds-doc-muted); margin: 0 0 14px; max-width: 66ch; }
+  .comp-note { font-size: 14px; color: var(--dds-doc-muted); margin: 0 0 14px; max-width: 72ch; }
   .comp-demo { border: 1px dashed var(--dds-doc-rule); padding: 20px; margin: 0 0 10px; }
   details.snippet > summary { font-family: var(--dds-mono); font-size: 11px; letter-spacing: .08em;
         text-transform: uppercase; color: var(--dds-doc-muted); cursor: pointer; padding: 4px 0; }
   details.snippet pre { margin-top: 8px; }
   .panel-demo { border-radius: 6px; }
+  .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10; font-family: var(--dds-mono);
+                  font-size: 11px; color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+                  border: 1px solid var(--dds-doc-ink); padding: 6px 12px; cursor: pointer; }
 </style>
 </head>
 <body class="dds-doc">
+<button class="theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.1.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v2.0.0 · Reference</div>
     <h1 class="dds-title">Components</h1>
     <p class="dds-subtitle">Every component in the system, rendered live with its markup. If a component is not on this page, it is not in the system — build it from these, or propose a change.</p>
   </header>
 
+  <div class="dds-layout">
+    <nav class="dds-toc" aria-label="Contents">
+      <div class="dds-toc-h">Contents</div>
+      <ol>
+        <li><a href="#document-mode">01 Document mode</a></li>
+        <li><a href="#panel-mode">02 Panel mode</a></li>
+        <li><a href="#layout">03 Layout (v2)</a></li>
+        <li><a href="#engineering">04 Engineering components (v2)</a></li>
+        <li><a href="#shared-utilities">05 Shared utilities</a></li>
+      </ol>
+    </nav>
+    <main class="dds-main">
+
   <!-- ============ DOCUMENT MODE ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Document mode</h2></div>
+  <section class="dds-section" id="document-mode">
+    <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 01</span><h2>Document mode</h2></div>
 
     <div class="comp">
       <p class="comp-name">Masthead — .dds-eyebrow / .dds-title / .dds-subtitle / .dds-meta</p>
@@ -185,7 +202,7 @@
   </section>
 
   <!-- ============ PANEL MODE ============ -->
-  <section class="dds-section">
+  <section class="dds-section" id="panel-mode">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Panel mode</h2></div>
     <p class="comp-note">Demos below sit inside a <code>.dds-panels</code> container. On a real dashboard, <code>dds-panels</code> is the body class.</p>
 
@@ -278,9 +295,199 @@
     </div>
   </section>
 
+  <!-- ============ LAYOUT ============ -->
+  <section class="dds-section" id="layout">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Layout (v2)</h2></div>
+
+    <div class="comp">
+      <p class="comp-name">Shell — .dds-page</p>
+      <p class="comp-note">Fluid full width with a <code>clamp(16px, 4vw, 64px)</code> gutter, capped at 1920px. Prose inside holds <code>--dds-measure</code> (72ch); figures, tables, grids and panels take the whole width. Add <code>.dds-wide</code> to lift the measure from a paragraph that genuinely needs it.</p>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Contents rail — .dds-layout / .dds-toc / .dds-main</p>
+      <p class="comp-note">A sticky contents rail from 1200px; below that it folds into a wrapped list above the content. The links work with no script; an optional inline IntersectionObserver adds <code>.is-active</code> to the current section's link (this page uses it).</p>
+      <details class="snippet" open><summary>Markup</summary><pre><code>&lt;div class="dds-layout"&gt;
+  &lt;nav class="dds-toc" aria-label="Contents"&gt;
+    &lt;div class="dds-toc-h"&gt;Contents&lt;/div&gt;
+    &lt;ol&gt;&lt;li&gt;&lt;a href="#context"&gt;01 Context&lt;/a&gt;&lt;/li&gt; …&lt;/ol&gt;
+  &lt;/nav&gt;
+  &lt;main class="dds-main"&gt;
+    &lt;section class="dds-section" id="context"&gt;…&lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+  </section>
+
+  <!-- ============ ENGINEERING ============ -->
+  <section class="dds-section" id="engineering">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Engineering components (v2)</h2></div>
+    <p>These read the mode-resolved aliases (<code>--dds-ink</code>, <code>--dds-surface</code>, <code>--dds-rule</code>, <code>--dds-r</code>…), so the same markup renders square on paper in Document mode and rounded on the cool ground in Panel mode.</p>
+
+    <div class="comp">
+      <p class="comp-name">Service card — .dds-svc-grid / .dds-svc.&lt;kind&gt;</p>
+      <p class="comp-note">The kind class (<code>svc</code>, <code>fn</code>, <code>store</code>, <code>queue</code>, <code>cache</code>, <code>edge</code>, <code>client</code>, <code>ext</code>) colours the top bar and the kind label with the same hue the node has in diagrams. Facts are a mono <code>dl</code>; health is a status dot.</p>
+      <div class="comp-demo">
+        <div class="dds-svc-grid" style="margin:0;">
+          <article class="dds-svc svc">
+            <div class="dds-svc-kind">Service</div>
+            <div class="dds-svc-h"><h4>checkout-api</h4><span class="dds-dot ok"></span></div>
+            <p class="dds-svc-own">Owner: payments-core · PCI scope</p>
+            <div class="dds-svc-tags"><span class="dds-tag">Kotlin</span><span class="dds-tag">ECS</span></div>
+            <dl class="dds-svc-facts"><dt>SLO</dt><dd>99.95%</dd><dt>p95</dt><dd>180 ms</dd></dl>
+          </article>
+          <article class="dds-svc queue">
+            <div class="dds-svc-kind">Queue</div>
+            <div class="dds-svc-h"><h4>wallet.events</h4><span class="dds-dot ok"></span></div>
+            <p class="dds-svc-own">Owner: ledger · Kafka</p>
+            <div class="dds-svc-tags"><span class="dds-tag">12 partitions</span><span class="dds-tag">7d retention</span></div>
+            <dl class="dds-svc-facts"><dt>Lag p99</dt><dd>40 ms</dd><dt>Consumers</dt><dd>2</dd></dl>
+          </article>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-svc-grid"&gt;
+  &lt;article class="dds-svc svc"&gt;
+    &lt;div class="dds-svc-kind"&gt;Service&lt;/div&gt;
+    &lt;div class="dds-svc-h"&gt;&lt;h4&gt;checkout-api&lt;/h4&gt;&lt;span class="dds-dot ok"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;p class="dds-svc-own"&gt;Owner: payments-core&lt;/p&gt;
+    &lt;div class="dds-svc-tags"&gt;&lt;span class="dds-tag"&gt;Kotlin&lt;/span&gt;&lt;/div&gt;
+    &lt;dl class="dds-svc-facts"&gt;&lt;dt&gt;SLO&lt;/dt&gt;&lt;dd&gt;99.95%&lt;/dd&gt;&lt;/dl&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">API table — .dds-table.dds-api + .dds-method.&lt;verb&gt;</p>
+      <p class="comp-note">Method pills each own a hue (GET blue, POST cyan, PUT amber, PATCH purple, DELETE red); the path column is mono and never wraps.</p>
+      <div class="comp-demo">
+        <div class="dds-table-wrap" style="margin:0;">
+          <table class="dds-table dds-api">
+            <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Idempotent</th><th class="dds-num">p95</th></tr></thead>
+            <tbody>
+              <tr><td><span class="dds-method post">POST</span></td><td>/v1/payments</td><td>JWT</td><td>Idempotency-Key</td><td class="dds-num">412 ms</td></tr>
+              <tr><td><span class="dds-method get">GET</span></td><td>/v1/payments/{id}</td><td>JWT</td><td>natural</td><td class="dds-num">38 ms</td></tr>
+              <tr><td><span class="dds-method delete">DELETE</span></td><td>/v1/cards/{id}</td><td>JWT</td><td>natural</td><td class="dds-num">47 ms</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;table class="dds-table dds-api"&gt; …
+  &lt;tr&gt;&lt;td&gt;&lt;span class="dds-method post"&gt;POST&lt;/span&gt;&lt;/td&gt;&lt;td&gt;/v1/payments&lt;/td&gt; … &lt;/tr&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Decision record — .dds-adr</p>
+      <p class="comp-note">Header: id, title, status pill (<code>accepted</code> · <code>proposed</code> · <code>superseded</code> · <code>rejected</code>), date and owner. Body: Context / Decision / Consequences columns that stack on narrow screens; consequences use <code>.dds-pros</code> (+) and <code>.dds-cons</code> (−).</p>
+      <div class="comp-demo">
+        <article class="dds-adr" style="margin:0;">
+          <div class="dds-adr-h"><span class="dds-adr-id">ADR-015</span><h3>Export the ledger nightly to S3</h3><span class="dds-adr-status proposed">Proposed</span><span class="dds-adr-date">2026-10-07 · data-eng</span></div>
+          <div class="dds-adr-b">
+            <div class="dds-adr-sec"><div class="dds-adr-l">Context</div><p>Finance queries hit the primary during month end.</p></div>
+            <div class="dds-adr-sec"><div class="dds-adr-l">Decision</div><p>A nightly <code>ledger-export</code> job writes Parquet to S3.</p></div>
+            <div class="dds-adr-sec"><div class="dds-adr-l">Consequences</div><ul class="dds-pros"><li>No analytical load on the primary.</li></ul><ul class="dds-cons"><li>Reports lag by up to a day.</li></ul></div>
+          </div>
+        </article>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;article class="dds-adr"&gt;
+  &lt;div class="dds-adr-h"&gt;&lt;span class="dds-adr-id"&gt;ADR-015&lt;/span&gt;&lt;h3&gt;Title&lt;/h3&gt;
+    &lt;span class="dds-adr-status proposed"&gt;Proposed&lt;/span&gt;&lt;span class="dds-adr-date"&gt;date · owner&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="dds-adr-b"&gt;
+    &lt;div class="dds-adr-sec"&gt;&lt;div class="dds-adr-l"&gt;Context&lt;/div&gt;&lt;p&gt;…&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="dds-adr-sec"&gt;&lt;div class="dds-adr-l"&gt;Decision&lt;/div&gt;&lt;p&gt;…&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="dds-adr-sec"&gt;&lt;div class="dds-adr-l"&gt;Consequences&lt;/div&gt;
+      &lt;ul class="dds-pros"&gt;&lt;li&gt;…&lt;/li&gt;&lt;/ul&gt;&lt;ul class="dds-cons"&gt;&lt;li&gt;…&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Trade-off matrix — .dds-table.dds-tradeoff</p>
+      <p class="comp-note">Cells take <code>good</code> (▲), <code>mid</code> (◆) or <code>bad</code> (▼): colour and glyph together, never colour alone. Mark the chosen option's row with <code>tr.chosen</code>.</p>
+      <div class="comp-demo">
+        <div class="dds-table-wrap" style="margin:0;">
+          <table class="dds-table dds-tradeoff">
+            <thead><tr><th>Option</th><th>Correctness</th><th>Latency</th><th>Ops load</th></tr></thead>
+            <tbody>
+              <tr><td>Gateway cache</td><td class="bad">Lost on eviction</td><td class="good">&lt;1 ms</td><td class="mid">Redis cluster</td></tr>
+              <tr class="chosen"><td>Ledger constraint</td><td class="good">Exactly once</td><td class="mid">≈2 ms</td><td class="good">None new</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;tr class="chosen"&gt;&lt;td&gt;Option&lt;/td&gt;&lt;td class="good"&gt;…&lt;/td&gt;&lt;td class="mid"&gt;…&lt;/td&gt;&lt;td class="bad"&gt;…&lt;/td&gt;&lt;/tr&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Latency budget — .dds-budget</p>
+      <p class="comp-note">Segments are sized by <code>--w</code> (their share of the scale, not of the total) and coloured <code>v1…v6</code>; <code>.dds-budget-target</code> at <code>--at</code> marks the SLO. Keys below carry the numbers, so narrow segments never need labels.</p>
+      <div class="comp-demo">
+        <div class="dds-budget" style="margin:0;">
+          <div class="dds-budget-h"><span>GET /v1/payments/{id} — p95 (scale 0–60 ms)</span><b>38 / 50 ms</b></div>
+          <div class="dds-budget-bar" role="img" aria-label="38 of 50 milliseconds: gateway 9, service 17, cache 12.">
+            <span class="v2" style="--w:15%"></span><span class="v1" style="--w:28.3%"></span><span class="v6" style="--w:20%"></span>
+            <i class="dds-budget-target" style="--at:83.3%"><span>SLO 50 ms</span></i>
+          </div>
+          <ul class="dds-budget-keys"><li><i class="v2"></i>gateway <b>9</b></li><li><i class="v1"></i>checkout-api <b>17</b></li><li><i class="v6"></i>balance-cache <b>12</b></li></ul>
+        </div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-budget"&gt;
+  &lt;div class="dds-budget-h"&gt;&lt;span&gt;Route — p95 (scale 0–60 ms)&lt;/span&gt;&lt;b&gt;38 / 50 ms&lt;/b&gt;&lt;/div&gt;
+  &lt;div class="dds-budget-bar" role="img" aria-label="…"&gt;
+    &lt;span class="v2" style="--w:15%"&gt;&lt;/span&gt; …
+    &lt;i class="dds-budget-target" style="--at:83.3%"&gt;&lt;span&gt;SLO 50 ms&lt;/span&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;ul class="dds-budget-keys"&gt;&lt;li&gt;&lt;i class="v2"&gt;&lt;/i&gt;gateway &lt;b&gt;9&lt;/b&gt;&lt;/li&gt; …&lt;/ul&gt;
+&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Timeline — .dds-timeline</p>
+      <p class="comp-note">Rollouts and incidents: mono timestamps, a rail, and a dot coloured by the status vocabulary (<code>ok</code>, <code>warn</code>, <code>crit</code>, <code>info</code>; no class = pending).</p>
+      <div class="comp-demo">
+        <ol class="dds-timeline" style="margin:0;">
+          <li class="info"><time>14:02</time><i></i><b>Canary 5%</b><p>Deploy #512.</p></li>
+          <li class="crit"><time>14:33</time><i></i><b>Rolled back</b><p>SLO burn-rate guard.</p></li>
+          <li class="ok"><time>15:10</time><i></i><b>v4.3.1 at 100%</b></li>
+        </ol>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;ol class="dds-timeline"&gt;
+  &lt;li class="crit"&gt;&lt;time&gt;14:33&lt;/time&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt;Rolled back&lt;/b&gt;&lt;p&gt;Why.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Callouts — .dds-callout.note | warn | risk | decision</p>
+      <p class="comp-note">A tinted block with a mono label. <code>risk</code> names a ticket; <code>decision</code> points at an ADR. Use sparingly — a page of callouts is a page of nothing.</p>
+      <div class="comp-demo">
+        <div class="dds-callout warn"><div class="dds-callout-t">Warning</div><p>Do not reuse an idempotency key across wallets.</p></div>
+        <div class="dds-callout decision" style="margin:0;"><div class="dds-callout-t">Decision</div><p>Idempotency lives in the ledger. See ADR-014.</p></div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-callout risk"&gt;&lt;div class="dds-callout-t"&gt;Risk · RISK-114&lt;/div&gt;&lt;p&gt;…&lt;/p&gt;&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Code with filename — .dds-code / .dds-code-h</p>
+      <p class="comp-note">A filename strip (path left, language right) above any code block that comes from a real file.</p>
+      <div class="comp-demo">
+        <div class="dds-code" style="margin:0;"><div class="dds-code-h"><span>wallet/FundWallet.java:214</span><span>java</span></div>
+<pre><code>ledger.insertIgnoringConflict(walletId, idempotencyKey, amount);</code></pre></div>
+      </div>
+      <details class="snippet"><summary>Markup</summary><pre><code>&lt;div class="dds-code"&gt;&lt;div class="dds-code-h"&gt;&lt;span&gt;path/File.java:214&lt;/span&gt;&lt;span&gt;java&lt;/span&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;…&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</code></pre></details>
+    </div>
+
+    <div class="comp">
+      <p class="comp-name">Numbered walkthrough — .dds-steps</p>
+      <p class="comp-note">An ordered list whose counters match the <code>.dds-step</code> badges drawn on a diagram.</p>
+      <div class="comp-demo">
+        <ol class="dds-steps" style="margin:0;"><li>The client posts the payment through the gateway.</li><li>The gateway verifies the JWT with auth-service.</li></ol>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ SHARED ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Shared utilities</h2></div>
+  <section class="dds-section" id="shared-utilities">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Shared utilities</h2></div>
     <div class="dds-table-wrap">
       <table class="dds-table">
         <thead><tr><th>Class</th><th>Effect</th><th>Use for</th></tr></thead>
@@ -296,11 +503,45 @@
     <p style="margin-bottom:0;">Links are ink with a muted underline in both modes, turning accent on hover; keyboard focus draws a 2px accent outline. Both come free from the stylesheet — never restyle them per page.</p>
   </section>
 
+    </main>
+  </div>
+
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Components · v1.1.0 · rev 2026-07-04</div>
+    <div><a href="index.html">← Style guide</a> · Components · v2.0.0 · rev 2026-10-07</div>
     <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="diagrams.html">Diagrams</a></div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.dds-toc a[href^="#"]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    var byId = {}, visible = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var ids = Object.keys(byId);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = ids.filter(function (id) { return visible[id]; })[0];
+      if (!current) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[current]); });
+    }, { rootMargin: '0px 0px -60% 0px' });
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'light', 'dark'], current = 'auto';
+  try { current = localStorage.getItem('dds-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('dds-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
 </body>
 </html>

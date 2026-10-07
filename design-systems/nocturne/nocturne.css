@@ -1,6 +1,6 @@
 /* ==========================================================================
    NOCTURNE — canonical stylesheet
-   v1.0.0 · 2026-07-30
+   v2.0.0 · 2026-10-07 · engineering edition
    Canonical home:  https://dexteryo.github.io/design-systems/nocturne/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/nocturne/nocturne.css
    Spec for agents: README.md in the same directory
@@ -12,12 +12,22 @@
    Explicitly NOT the generic AI look: no gradient heroes, no gradient text,
    no glassmorphism, no glow.
 
-     Document mode (.noct-doc)    — long-form on the dark ground with a
-                                    slightly raised content column, sans body,
-                                    accent mono section numbers (01 —).
+     Document mode (.noct-doc)    — long-form on the dark ground, full-width
+                                    shell, sticky TOC rail, prose held to a
+                                    72ch measure, accent mono section numbers.
      Panel mode    (.noct-panels) — the flagship: metric card grids, panels
                                     with header strips, key–value rows,
                                     register rows with status dots, chips.
+     Architecture  (.noct-arch)   — native SVG diagrams: node kinds, six
+                                    route hues, zones, marching flows,
+                                    travelling packets, sequence + state.
+     Engineering   (.noct-svc …)  — service cards, API tables, ADRs,
+                                    trade-off matrices, latency budgets,
+                                    timelines, callouts, titled code.
+
+   v2 colour rule: the categorical palette now works in diagrams. Route and
+   node-kind hues are encodings declared in a legend — not accents — so the
+   one-accent rule still governs everything outside a figure.
 
    The one shadow in the system is the card's one-pixel top inner highlight
    (inset 0 1px 0). Everything else is borders. Elevation = border + a step
@@ -88,6 +98,44 @@
 
   /* Code ground: one step below the surface it sits on. */
   --noct-code-bg: #10121A;
+
+  /* Architecture routes. One hue per meaning, ≥ 3:1 on ground in both
+     themes: sync hot path · async events · data store I/O · control plane ·
+     third-party calls · failure / retry / dead-letter. */
+  --noct-route-sync:  #62A6F9;
+  --noct-route-async: #C792EA;
+  --noct-route-data:  #45C4B0;
+  --noct-route-ctrl:  #EE8FC4;
+  --noct-route-ext:   #F0B44C;
+  --noct-route-fail:  #EF6F6C;
+
+  /* Layout. Full-width shell, readable prose measure, TOC rail. */
+  --noct-gutter: clamp(16px, 4vw, 64px);
+  --noct-shell-max: 1920px;
+  --noct-measure: 72ch;
+  --noct-toc-w: 232px;
+}
+
+/* Node kinds borrow the hue of the route that serves them (a store is
+   reached by data, a queue by async …), so a diagram reads as one palette.
+   Declared once: they resolve against whichever theme block won on :root. */
+:root {
+  --noct-node-client: var(--noct-muted);
+  --noct-node-edge:   var(--noct-accent);
+  --noct-node-svc:    var(--noct-route-sync);
+  --noct-node-fn:     var(--noct-route-ctrl);
+  --noct-node-store:  var(--noct-route-data);
+  --noct-node-queue:  var(--noct-route-async);
+  --noct-node-cache:  var(--noct-ok);
+  --noct-node-ext:    var(--noct-route-ext);
+  --noct-node-client-bg: color-mix(in srgb, var(--noct-node-client) 9%,  var(--noct-surface));
+  --noct-node-edge-bg:   color-mix(in srgb, var(--noct-node-edge)   13%, var(--noct-surface));
+  --noct-node-svc-bg:    color-mix(in srgb, var(--noct-node-svc)    13%, var(--noct-surface));
+  --noct-node-fn-bg:     color-mix(in srgb, var(--noct-node-fn)     12%, var(--noct-surface));
+  --noct-node-store-bg:  color-mix(in srgb, var(--noct-node-store)  12%, var(--noct-surface));
+  --noct-node-queue-bg:  color-mix(in srgb, var(--noct-node-queue)  12%, var(--noct-surface));
+  --noct-node-cache-bg:  color-mix(in srgb, var(--noct-node-cache)  12%, var(--noct-surface));
+  --noct-node-ext-bg:    color-mix(in srgb, var(--noct-node-ext)    10%, var(--noct-surface));
 }
 
 @media (prefers-color-scheme: light) {
@@ -119,6 +167,8 @@
     --noct-highlight: rgba(255, 255, 255, 0.85);
     --noct-dot: rgba(27, 29, 37, 0.10);
     --noct-code-bg: #F2F3F7;
+    --noct-route-sync: #2F6BBF; --noct-route-async: #8348B8; --noct-route-data: #0E7C6B;
+    --noct-route-ctrl: #B23C7E; --noct-route-ext: #8A6100; --noct-route-fail: #C13F3B;
   }
 }
 
@@ -140,6 +190,8 @@
   --noct-highlight: rgba(232, 234, 241, 0.07);
   --noct-dot: rgba(232, 234, 241, 0.09);
   --noct-code-bg: #10121A;
+  --noct-route-sync: #62A6F9; --noct-route-async: #C792EA; --noct-route-data: #45C4B0;
+  --noct-route-ctrl: #EE8FC4; --noct-route-ext: #F0B44C; --noct-route-fail: #EF6F6C;
 }
 :root[data-theme="light"] {
   --noct-ground: #F7F8FA; --noct-surface: #FFFFFF; --noct-raised: #FFFFFF;
@@ -157,6 +209,8 @@
   --noct-highlight: rgba(255, 255, 255, 0.85);
   --noct-dot: rgba(27, 29, 37, 0.10);
   --noct-code-bg: #F2F3F7;
+  --noct-route-sync: #2F6BBF; --noct-route-async: #8348B8; --noct-route-data: #0E7C6B;
+  --noct-route-ctrl: #B23C7E; --noct-route-ext: #8A6100; --noct-route-fail: #C13F3B;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
@@ -245,31 +299,93 @@
 }
 
 /* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
-/* Long-form on the dark ground. The content column is slightly raised —
-   surface over ground, hairline border, edge highlight — so the document
-   itself is the card. Sans body at 15px; measure capped at 68ch. */
+/* Long-form on the dark ground, full width. The shell spans the viewport;
+   prose holds a 72ch measure while diagrams, tables, grids, and code use
+   the whole column. The content column is slightly raised — surface over
+   ground, hairline border, edge highlight — so the document is the card. */
 .noct-doc {
   background: var(--noct-ground);
   color: var(--noct-ink);
   font-family: var(--noct-sans);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.65;
 }
 .noct-doc .noct-page {
-  max-width: 880px;
+  max-width: var(--noct-shell-max);
   margin: 0 auto;
-  padding: var(--noct-s6) var(--noct-s4) 96px;
+  padding: var(--noct-s6) var(--noct-gutter) 96px;
 }
 .noct-doc .noct-col {
+  min-width: 0;
   background: var(--noct-surface);
   border: 1px solid var(--noct-border-subtle);
   border-radius: var(--noct-r-panel);
   box-shadow: inset 0 1px 0 var(--noct-highlight);
-  padding: var(--noct-s7) var(--noct-s7) var(--noct-s7);
+  padding: var(--noct-s7) clamp(var(--noct-s4), 2.4vw, var(--noct-s7));
 }
 @media (max-width: 640px) {
-  .noct-doc .noct-page { padding: var(--noct-s4) var(--noct-s2) var(--noct-s7); }
+  .noct-doc .noct-page { padding: var(--noct-s4) var(--noct-gutter) var(--noct-s7); }
   .noct-doc .noct-col { padding: var(--noct-s5) var(--noct-s4); }
+}
+
+/* Hero band: full shell width, dot grid, sits above the layout grid. */
+.noct-hero {
+  background-color: var(--noct-surface);
+  border: 1px solid var(--noct-border-subtle);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  padding: var(--noct-s7) clamp(var(--noct-s4), 2.4vw, var(--noct-s7)) var(--noct-s6);
+  margin: 0 0 var(--noct-s5);
+}
+.noct-hero .noct-meta { margin-bottom: 0; }
+
+/* Layout: sticky TOC rail + content at ≥ 1200px, one column below. */
+.noct-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--noct-s5);
+  align-items: start;
+}
+.noct-toc {
+  font-size: 13px;
+  border: 1px solid var(--noct-border-subtle);
+  border-radius: var(--noct-r-panel);
+  background: var(--noct-surface);
+  padding: var(--noct-s3) var(--noct-s4);
+}
+.noct-toc-h {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--noct-faint); margin: 0 0 var(--noct-s2);
+}
+.noct-toc ol {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: var(--noct-s1) var(--noct-s4);
+}
+.noct-toc a {
+  display: block; color: var(--noct-muted);
+  padding: 2px 0; text-decoration: none;
+}
+.noct-toc a .noct-toc-n {
+  font-family: var(--noct-mono); font-size: 11px;
+  color: var(--noct-faint); margin-right: var(--noct-s2);
+}
+.noct-toc a:hover { color: var(--noct-ink); text-decoration: none; }
+.noct-toc a.is-active { color: var(--noct-ink); }
+.noct-toc a.is-active .noct-toc-n { color: var(--noct-accent); }
+@media (min-width: 1200px) {
+  .noct-layout { grid-template-columns: var(--noct-toc-w) minmax(0, 1fr); gap: var(--noct-s6); }
+  .noct-toc {
+    position: sticky; top: var(--noct-s5);
+    max-height: calc(100vh - 2 * var(--noct-s5)); overflow-y: auto;
+    padding: var(--noct-s4);
+  }
+  .noct-toc ol { display: block; }
+  .noct-toc a {
+    padding: 5px 0 5px var(--noct-s3);
+    border-left: 1px solid var(--noct-border);
+  }
+  .noct-toc a.is-active { border-left: 2px solid var(--noct-accent); padding-left: 11px; }
 }
 
 /* Eyebrow: the overline voice, above the title. */
@@ -283,7 +399,7 @@
 /* Title: 550–650 weight, tight tracking. Never thin on dark. */
 .noct-title {
   font-weight: 650;
-  font-size: clamp(26px, 4vw, 36px); line-height: 1.15;
+  font-size: clamp(28px, 4vw, 44px); line-height: 1.12;
   letter-spacing: -0.02em;
   margin: 0 0 var(--noct-s3);
   text-wrap: balance;
@@ -292,7 +408,8 @@
 .noct-subtitle {
   font-size: 17px; font-weight: 400; line-height: 1.55;
   color: var(--noct-muted);
-  max-width: 60ch; margin: 0 0 var(--noct-s5);
+  max-width: 64ch; margin: 0 0 var(--noct-s5);
+  text-wrap: pretty;
 }
 
 /* Meta bar: author / date / status. Facts in mono, framed by hairlines. */
@@ -314,10 +431,11 @@
 
 /* Section heading: accent mono number (01 —) as an overline, then the
    title. The number is the only accent the heading gets. */
-.noct-section { margin: 0 0 var(--noct-s7); }
+.noct-section { margin: 0 0 var(--noct-s7); scroll-margin-top: var(--noct-s5); }
+.noct-section:first-child > .noct-sec-h { border-top: 0; margin-top: 0; padding-top: 0; }
 .noct-sec-h {
   border-top: 1px solid var(--noct-border-subtle);
-  padding-top: var(--noct-s5); margin: var(--noct-s7) 0 var(--noct-s4);
+  padding-top: var(--noct-s6); margin: var(--noct-s7) 0 var(--noct-s4);
 }
 .noct-sec-h .noct-sec-num {
   display: block;
@@ -328,16 +446,18 @@
 }
 .noct-sec-h h2 {
   font-weight: 600;
-  font-size: 22px; line-height: 1.2; letter-spacing: -0.015em;
-  margin: 0;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+  margin: 0; text-wrap: balance;
 }
 .noct-doc h3 {
-  font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
-  margin: var(--noct-s5) 0 var(--noct-s3);
+  font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
+  margin: var(--noct-s6) 0 var(--noct-s3);
+  text-wrap: balance; scroll-margin-top: var(--noct-s5);
 }
 
-.noct-doc p { max-width: 68ch; margin: 0 0 var(--noct-s4); }
-.noct-doc ul, .noct-doc ol { max-width: 68ch; margin: 0 0 var(--noct-s4); padding-left: 22px; }
+.noct-doc p { max-width: var(--noct-measure); margin: 0 0 var(--noct-s4); text-wrap: pretty; }
+.noct-doc ul, .noct-doc ol { max-width: var(--noct-measure); margin: 0 0 var(--noct-s4); padding-left: 22px; }
+.noct-doc :is(.noct-panel, .noct-card, .noct-svc, .noct-adr, .noct-callout, .noct-verdict) :is(p, ul, ol) { max-width: none; }
 .noct-doc li { margin-bottom: var(--noct-s1); }
 .noct-doc strong { font-weight: 600; }
 
@@ -367,14 +487,14 @@
   border-left: 2px solid var(--noct-accent);
   margin: var(--noct-s5) 0;
   padding: var(--noct-s2) 0 var(--noct-s2) var(--noct-s5);
-  font-size: 17px; line-height: 1.55;
-  color: var(--noct-muted); max-width: 58ch;
+  font-size: 18px; line-height: 1.55;
+  color: var(--noct-muted); max-width: 64ch;
 }
 .noct-pull strong { color: var(--noct-ink); font-weight: 600; }
 
 /* Tables: hairline rows; overline headers; digits mono + tabular, right. */
 .noct-table-wrap { overflow-x: auto; margin: 0 0 var(--noct-s4); }
-.noct-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.noct-table { border-collapse: collapse; width: 100%; font-size: 14px; }
 .noct-table th {
   font-family: var(--noct-sans);
   font-size: 10px; font-weight: 600;
@@ -469,12 +589,12 @@
   background: var(--noct-ground);
   color: var(--noct-ink);
   font-family: var(--noct-sans);
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.6;
 }
 .noct-panels .noct-page {
-  max-width: 1080px; margin: 0 auto;
-  padding: var(--noct-s6) var(--noct-s4) var(--noct-s8);
+  max-width: var(--noct-shell-max); margin: 0 auto;
+  padding: var(--noct-s6) var(--noct-gutter) var(--noct-s8);
 }
 
 /* Board header: page-level title strip. Pairs with .noct-dotgrid when the
@@ -576,7 +696,7 @@
 /* Metric cards: label overline + big mono value + muted unit. Each cell is
    a full Nocturne card — border plus edge highlight. */
 .noct-metric-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--noct-s3);
 }
 .noct-metric {
@@ -604,7 +724,414 @@
 /* Command line: prompt glyph muted, command in ink. */
 .noct-cmd .noct-ps { color: var(--noct-faint); user-select: none; }
 
-/* ── 5. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 5. ARCHITECTURE DIAGRAMS ──────────────────────────────────────────── */
+/* Native SVG on a dot-grid canvas. Hue encodes meaning: node kind (fill
+   tint + stroke) and route (edge stroke). Every hue used is declared in
+   the figure's legend. Motion is directional only: marching dashes and
+   travelling packets, both off under reduced motion. */
+.noct-arch { margin: var(--noct-s5) 0 var(--noct-s6); }
+.noct-arch-canvas {
+  overflow-x: auto;
+  background-color: var(--noct-ground);
+  background-image: radial-gradient(circle, var(--noct-dot) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-panel);
+  padding: var(--noct-s2);
+}
+.noct-arch svg {
+  display: block; width: 100%; height: auto;
+  min-width: var(--noct-arch-min, 760px);
+  font-family: var(--noct-sans);
+}
+.noct-arch svg text { fill: var(--noct-ink); }
+
+:where(.noct-node, .noct-actor, .noct-legend i.node) { --k: var(--noct-node-svc); --k-bg: var(--noct-node-svc-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).client { --k: var(--noct-node-client); --k-bg: var(--noct-node-client-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).edge   { --k: var(--noct-node-edge); --k-bg: var(--noct-node-edge-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).fn     { --k: var(--noct-node-fn); --k-bg: var(--noct-node-fn-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).store  { --k: var(--noct-node-store); --k-bg: var(--noct-node-store-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).queue  { --k: var(--noct-node-queue); --k-bg: var(--noct-node-queue-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).cache  { --k: var(--noct-node-cache); --k-bg: var(--noct-node-cache-bg); }
+:where(.noct-node, .noct-actor, .noct-legend i.node).ext    { --k: var(--noct-node-ext); --k-bg: var(--noct-node-ext-bg); }
+.noct-node > rect, .noct-node > .noct-shape {
+  fill: var(--k-bg); stroke: var(--k); stroke-width: 1.25;
+  transition: stroke-width 120ms ease;
+}
+.noct-node.ext > rect, .noct-node.ext > .noct-shape { stroke-dasharray: 5 4; }
+.noct-node > .noct-lid, .noct-node > .noct-glyph { fill: none; stroke: var(--k); stroke-width: 1.25; }
+.noct-node:hover > rect, .noct-node:hover > .noct-shape { stroke-width: 2.25; }
+.noct-node.is-hot > rect, .noct-node.is-hot > .noct-shape {
+  stroke-width: 2; fill: color-mix(in srgb, var(--k) 22%, var(--noct-surface));
+}
+.noct-node.is-fail { --k: var(--noct-crit); --k-bg: color-mix(in srgb, var(--noct-crit) 12%, var(--noct-surface)); }
+.noct-node.is-fail .noct-nlabel { fill: var(--noct-crit); }
+.noct-node.is-new > rect, .noct-node.is-new > .noct-shape {
+  stroke: var(--noct-accent); stroke-dasharray: 6 4; stroke-width: 1.5;
+}
+
+.noct-arch svg .noct-nlabel { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.noct-arch svg .noct-nsub   { font-family: var(--noct-mono); font-size: 11px; fill: var(--noct-muted); }
+.noct-arch svg .noct-ntag   { font-family: var(--noct-mono); font-size: 11px; fill: var(--k, var(--noct-accent)); }
+.noct-arch svg .noct-nkind  {
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; fill: var(--k); text-anchor: end;
+}
+.noct-arch svg .noct-stage {
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; fill: var(--noct-muted);
+}
+.noct-arch svg .noct-zone {
+  fill: color-mix(in srgb, var(--noct-ink) 2%, transparent);
+  stroke: var(--noct-border); stroke-width: 1; stroke-dasharray: 4 4;
+}
+.noct-arch svg .noct-zone.trust {
+  fill: color-mix(in srgb, var(--noct-warn) 5%, transparent);
+  stroke: var(--noct-warn); stroke-dasharray: 2 4;
+}
+.noct-arch svg .noct-zlabel {
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; fill: var(--noct-muted);
+}
+.noct-arch svg .noct-zone.trust + .noct-zlabel, .noct-arch svg .noct-zlabel.trust { fill: var(--noct-warn); }
+
+.noct-edge, .noct-mk, .noct-pkt, .noct-legend i { --r: var(--noct-route-sync); }
+.noct-edge.async, .noct-mk.async, .noct-pkt.async, .noct-legend i.async { --r: var(--noct-route-async); }
+.noct-edge.data,  .noct-mk.data,  .noct-pkt.data,  .noct-legend i.data  { --r: var(--noct-route-data); }
+.noct-edge.ctrl,  .noct-mk.ctrl,  .noct-pkt.ctrl,  .noct-legend i.ctrl  { --r: var(--noct-route-ctrl); }
+.noct-edge.ext,   .noct-mk.ext,   .noct-pkt.ext,   .noct-legend i.ext   { --r: var(--noct-route-ext); }
+.noct-edge.fail,  .noct-mk.fail,  .noct-pkt.fail,  .noct-legend i.fail  { --r: var(--noct-route-fail); }
+.noct-edge.ret,   .noct-mk.ret,                    .noct-legend i.ret   { --r: var(--noct-muted); }
+.noct-edge.st-ok,   .noct-mk.st-ok,   .noct-legend i.st-ok   { --r: var(--noct-ok); }
+.noct-edge.st-warn, .noct-mk.st-warn, .noct-legend i.st-warn { --r: var(--noct-warn); }
+.noct-edge.st-crit, .noct-mk.st-crit, .noct-legend i.st-crit { --r: var(--noct-crit); }
+.noct-edge.st-info, .noct-mk.st-info, .noct-legend i.st-info { --r: var(--noct-info); }
+
+.noct-edge {
+  fill: none; stroke: var(--r); stroke-width: 1.75;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: opacity 160ms ease;
+}
+.noct-edge.async, .noct-edge.fail, .noct-edge.ret { stroke-dasharray: 6 5; }
+.noct-edge.ret { stroke-width: 1.25; }
+.noct-mk path { fill: var(--r); }
+.noct-flow { stroke-dasharray: 6 5; animation: noct-march 0.9s linear infinite; }
+@keyframes noct-march { to { stroke-dashoffset: -22; } }
+.noct-pkt { fill: var(--r); stroke: var(--noct-ground); stroke-width: 2; }
+.noct-arch svg .noct-elabel {
+  font-family: var(--noct-mono); font-size: 11px; fill: var(--noct-muted);
+  paint-order: stroke; stroke: var(--noct-ground); stroke-width: 4px; stroke-linejoin: round;
+}
+.noct-step circle { fill: var(--noct-raised); stroke: var(--noct-accent); stroke-width: 1.25; }
+.noct-arch svg .noct-step text {
+  font-family: var(--noct-mono); font-size: 11.5px; font-weight: 600;
+  fill: var(--noct-accent); text-anchor: middle; dominant-baseline: central;
+}
+
+/* Legend focus (optional script): hovering a legend item stamps
+   data-focus on the figure and dims every other route. */
+.noct-arch[data-focus] .noct-edge { opacity: 0.18; }
+.noct-arch[data-focus] .noct-pkt { opacity: 0; }
+.noct-arch[data-focus="sync"]  :is(.noct-edge, .noct-pkt).sync,
+.noct-arch[data-focus="async"] :is(.noct-edge, .noct-pkt).async,
+.noct-arch[data-focus="data"]  :is(.noct-edge, .noct-pkt).data,
+.noct-arch[data-focus="ctrl"]  :is(.noct-edge, .noct-pkt).ctrl,
+.noct-arch[data-focus="ext"]   :is(.noct-edge, .noct-pkt).ext,
+.noct-arch[data-focus="fail"]  :is(.noct-edge, .noct-pkt).fail,
+.noct-arch[data-focus="ret"]   .noct-edge.ret { opacity: 1; }
+
+.noct-legend {
+  display: flex; flex-wrap: wrap; gap: var(--noct-s2) var(--noct-s5);
+  margin: var(--noct-s3) 0 0; padding: 0;
+  font-size: 12.5px; color: var(--noct-muted);
+}
+.noct-legend > span { display: inline-flex; align-items: center; gap: var(--noct-s2); cursor: default; }
+.noct-legend > span[data-route]:hover { color: var(--noct-ink); }
+.noct-legend i { display: inline-block; width: 22px; height: 0; border-top: 2px solid var(--r); flex: none; }
+.noct-legend i.async, .noct-legend i.fail, .noct-legend i.ret { border-top-style: dashed; }
+.noct-legend i.node {
+  width: 14px; height: 14px; border: 1.25px solid var(--k); background: var(--k-bg);
+  border-radius: 3px;
+}
+.noct-legend i.node.ext { border-style: dashed; }
+.noct-legend i.zone { width: 18px; height: 12px; border: 1px dashed var(--noct-border); border-radius: 2px; }
+.noct-legend i.zone.trust { border: 1px dotted var(--noct-warn); }
+.noct-legend-sep { width: 1px; align-self: stretch; background: var(--noct-border); }
+
+.noct-figcap {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--noct-s2) var(--noct-s3);
+  margin-top: var(--noct-s3); padding-top: var(--noct-s3);
+  border-top: 1px solid var(--noct-border-subtle);
+  font-family: var(--noct-mono); font-size: 11.5px; color: var(--noct-muted);
+}
+.noct-figcap b { color: var(--noct-ink); font-weight: 500; font-family: var(--noct-sans); font-size: 13px; }
+
+/* Numbered walkthrough keyed to .noct-step markers. */
+.noct-steps {
+  counter-reset: noct-step; list-style: none; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--noct-s3) var(--noct-s5); max-width: none !important;
+}
+.noct-steps li { counter-increment: noct-step; position: relative; padding-left: 32px; font-size: 14.5px; }
+.noct-steps li::before {
+  content: counter(noct-step);
+  position: absolute; left: 0; top: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.25px solid var(--noct-accent); color: var(--noct-accent);
+  font-family: var(--noct-mono); font-size: 10.5px; font-weight: 600;
+  display: grid; place-items: center;
+}
+
+/* Sequence diagram. Lifelines dashed; activation bars raised; sync solid,
+   return dashed muted, async in the async hue. */
+.noct-arch svg .noct-actor rect { fill: var(--k-bg); stroke: var(--k); stroke-width: 1.25; }
+.noct-arch svg .noct-actor.ext rect { stroke-dasharray: 5 4; }
+.noct-arch svg .noct-life { stroke: var(--noct-border); stroke-width: 1; stroke-dasharray: 3 5; }
+.noct-arch svg .noct-actbar { fill: var(--noct-raised); stroke: var(--noct-border); stroke-width: 1; }
+.noct-arch svg .noct-mlabel {
+  font-family: var(--noct-mono); font-size: 11.5px; fill: var(--noct-ink); text-anchor: middle;
+  paint-order: stroke; stroke: var(--noct-ground); stroke-width: 4px; stroke-linejoin: round;
+}
+.noct-arch svg .noct-mlabel.muted { fill: var(--noct-muted); }
+.noct-arch svg .noct-mlabel.crit { fill: var(--noct-crit); }
+.noct-arch svg .noct-note rect { fill: var(--noct-warn-bg); stroke: var(--noct-warn); stroke-width: 1; }
+.noct-arch svg .noct-note text { font-size: 12px; fill: var(--noct-ink); }
+
+/* State machine. States are pills tinted by meaning; transitions coloured
+   by outcome (st-ok / st-warn / st-crit / st-info). */
+.noct-state > rect { fill: var(--s-bg); stroke: var(--s); stroke-width: 1.25; }
+.noct-state { --s: var(--noct-muted); --s-bg: var(--noct-surface); }
+.noct-state.ok   { --s: var(--noct-ok);   --s-bg: var(--noct-ok-bg); }
+.noct-state.warn { --s: var(--noct-warn); --s-bg: var(--noct-warn-bg); }
+.noct-state.crit { --s: var(--noct-crit); --s-bg: var(--noct-crit-bg); }
+.noct-state.info { --s: var(--noct-info); --s-bg: var(--noct-info-bg); }
+.noct-state.accent { --s: var(--noct-accent); --s-bg: var(--noct-accent-bg); }
+.noct-arch svg .noct-state text { font-size: 14px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+.noct-arch svg .noct-state .noct-ssub {
+  font-family: var(--noct-mono); font-size: 11px; font-weight: 400; fill: var(--s);
+}
+.noct-arch svg .noct-pseudo { fill: var(--noct-ink); }
+.noct-arch svg .noct-pseudo-ring { fill: none; stroke: var(--noct-ink); stroke-width: 1.25; }
+
+/* ── 6. ENGINEERING COMPONENTS ─────────────────────────────────────────── */
+
+/* Service cards: one card per deployable. */
+.noct-svc-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--noct-s3); margin: 0 0 var(--noct-s5);
+}
+.noct-svc {
+  --k: var(--noct-node-svc);
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border);
+  border-top: 2px solid var(--k);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  padding: var(--noct-s4);
+  display: flex; flex-direction: column; gap: var(--noct-s2);
+  font-size: 13.5px;
+}
+.noct-svc.fn { --k: var(--noct-node-fn); }
+.noct-svc.store { --k: var(--noct-node-store); }
+.noct-svc.queue { --k: var(--noct-node-queue); }
+.noct-svc.edge { --k: var(--noct-node-edge); }
+.noct-svc-h { display: flex; align-items: center; gap: var(--noct-s2); }
+.noct-svc-h h4 { margin: 0; font-family: var(--noct-mono); font-size: 14px; font-weight: 600; }
+.noct-svc-kind {
+  margin-left: auto; font-family: var(--noct-mono); font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--k);
+}
+.noct-svc-desc { color: var(--noct-muted); margin: 0; line-height: 1.5; }
+.noct-svc .noct-kv { padding: 5px 0; font-size: 12.5px; }
+.noct-tags { display: flex; flex-wrap: wrap; gap: var(--noct-s1); }
+.noct-tag {
+  font-family: var(--noct-mono); font-size: 10.5px; color: var(--noct-muted);
+  border: 1px solid var(--noct-border); border-radius: var(--noct-r-sm);
+  padding: 0 6px; line-height: 1.7; white-space: nowrap;
+}
+.noct-deps { font-size: 12px; color: var(--noct-muted); }
+.noct-deps .noct-ref { margin: 2px 2px 0 0; }
+
+/* API endpoint table: method pills each carry their own hue. */
+.noct-method {
+  --m: var(--noct-route-sync);
+  display: inline-block; min-width: 54px; text-align: center;
+  font-family: var(--noct-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--m); background: color-mix(in srgb, var(--m) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 35%, transparent);
+  border-radius: var(--noct-r-sm); padding: 1px 6px;
+}
+.noct-method.post   { --m: var(--noct-ok); }
+.noct-method.put    { --m: var(--noct-warn); }
+.noct-method.patch  { --m: var(--noct-route-async); }
+.noct-method.delete { --m: var(--noct-crit); }
+.noct-api td:nth-child(2) { font-family: var(--noct-mono); font-size: 13px; white-space: nowrap; }
+.noct-api td { vertical-align: middle; }
+.noct-api .noct-path-param { color: var(--noct-route-async); }
+
+/* ADR: status pill, Context / Decision / Consequences. */
+.noct-adr {
+  background: var(--noct-surface);
+  border: 1px solid var(--noct-border);
+  border-radius: var(--noct-r-panel);
+  box-shadow: inset 0 1px 0 var(--noct-highlight);
+  margin: 0 0 var(--noct-s5); overflow: hidden;
+}
+.noct-adr-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--noct-s2) var(--noct-s3);
+  padding: var(--noct-s3) var(--noct-s5);
+  background: var(--noct-raised); border-bottom: 1px solid var(--noct-border);
+}
+.noct-adr-id { font-family: var(--noct-mono); font-size: 12px; color: var(--noct-muted); }
+.noct-adr-h h4 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.noct-adr-h .noct-chip, .noct-adr-h .noct-adr-meta { margin-left: auto; }
+.noct-adr-h .noct-chip + .noct-adr-meta { margin-left: 0; }
+.noct-adr-meta { font-family: var(--noct-mono); font-size: 11.5px; color: var(--noct-muted); }
+.noct-adr-b {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.noct-adr-b > div { padding: var(--noct-s4) var(--noct-s5); border-right: 1px solid var(--noct-border-subtle); font-size: 14px; }
+.noct-adr-b > div:last-child { border-right: 0; }
+.noct-adr-b h5 {
+  margin: 0 0 var(--noct-s2); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--noct-muted);
+}
+.noct-adr-b p { margin: 0 0 var(--noct-s2); }
+.noct-pros, .noct-cons { list-style: none; padding: 0 !important; margin: 0 0 var(--noct-s2) !important; }
+.noct-pros li, .noct-cons li { position: relative; padding-left: 20px; margin-bottom: var(--noct-s1); }
+.noct-pros li::before, .noct-cons li::before {
+  position: absolute; left: 0; top: 0; font-family: var(--noct-mono); font-weight: 700;
+}
+.noct-pros li::before { content: "+"; color: var(--noct-ok); }
+.noct-cons li::before { content: "−"; color: var(--noct-crit); }
+
+/* Trade-off matrix: colour plus a glyph, never colour alone. */
+.noct-tradeoff td.good, .noct-tradeoff td.mid, .noct-tradeoff td.bad { font-size: 13px; }
+.noct-tradeoff td.good::before, .noct-tradeoff td.mid::before, .noct-tradeoff td.bad::before {
+  display: inline-block; width: 18px; font-family: var(--noct-mono); font-weight: 700;
+}
+.noct-tradeoff td.good { background: var(--noct-ok-bg); }
+.noct-tradeoff td.good::before { content: "✓"; color: var(--noct-ok); }
+.noct-tradeoff td.mid { background: var(--noct-warn-bg); }
+.noct-tradeoff td.mid::before { content: "~"; color: var(--noct-warn); }
+.noct-tradeoff td.bad { background: var(--noct-crit-bg); }
+.noct-tradeoff td.bad::before { content: "✕"; color: var(--noct-crit); }
+.noct-tradeoff tr.is-chosen td:first-child { box-shadow: inset 2px 0 0 var(--noct-accent); font-weight: 600; }
+
+/* Latency / error budget: stacked segments per hop against a target. */
+.noct-budget { margin: var(--noct-s4) 0 var(--noct-s5); }
+.noct-budget-h {
+  display: flex; justify-content: space-between; gap: var(--noct-s3);
+  font-size: 13px; margin-bottom: var(--noct-s6);
+}
+.noct-budget-h b { font-weight: 600; }
+.noct-budget-h span { font-family: var(--noct-mono); font-size: 12px; color: var(--noct-muted); }
+.noct-budget-bar {
+  position: relative; display: flex; height: 30px;
+  border: 1px solid var(--noct-border); border-radius: var(--noct-r-sm);
+  background: var(--noct-ground); overflow: visible;
+}
+.noct-seg {
+  --c: var(--noct-v1);
+  width: var(--w); min-width: 2px;
+  background: color-mix(in srgb, var(--c) 30%, var(--noct-surface));
+  border-right: 1px solid var(--noct-ground);
+  box-shadow: inset 0 2px 0 var(--c);
+  font-family: var(--noct-mono); font-size: 10.5px; color: var(--noct-ink);
+  display: flex; align-items: center; padding: 0 6px; overflow: hidden; white-space: nowrap;
+}
+.noct-seg:first-child { border-radius: 5px 0 0 5px; }
+.noct-seg.v2 { --c: var(--noct-v2); } .noct-seg.v3 { --c: var(--noct-v3); }
+.noct-seg.v4 { --c: var(--noct-v4); } .noct-seg.v5 { --c: var(--noct-v5); }
+.noct-seg.v6 { --c: var(--noct-v6); }
+.noct-seg.over { --c: var(--noct-crit); background: var(--noct-crit-bg); }
+.noct-budget-target {
+  position: absolute; top: -6px; bottom: -6px; left: var(--at);
+  border-left: 2px solid var(--noct-ink);
+}
+.noct-budget-target::after {
+  content: attr(data-label);
+  position: absolute; top: -20px; left: 4px;
+  font-family: var(--noct-mono); font-size: 10.5px; color: var(--noct-ink); white-space: nowrap;
+}
+.noct-budget-legend {
+  display: flex; flex-wrap: wrap; gap: var(--noct-s1) var(--noct-s4);
+  margin-top: var(--noct-s2); font-size: 12px; color: var(--noct-muted);
+}
+.noct-budget-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.noct-budget-legend span b { font-family: var(--noct-mono); font-weight: 500; color: var(--noct-ink); }
+.noct-budget-legend i { width: 10px; height: 10px; border-radius: 2px; background: var(--c); --c: var(--noct-v1); }
+.noct-budget-legend i.v2 { --c: var(--noct-v2); } .noct-budget-legend i.v3 { --c: var(--noct-v3); }
+.noct-budget-legend i.v4 { --c: var(--noct-v4); } .noct-budget-legend i.v5 { --c: var(--noct-v5); }
+.noct-budget-legend i.v6 { --c: var(--noct-v6); } .noct-budget-legend i.over { --c: var(--noct-crit); }
+
+/* Timeline: mono timestamps, a hairline rail, status dots. */
+.noct-timeline { list-style: none; padding: 0 !important; margin: 0 0 var(--noct-s5); max-width: none !important; }
+.noct-timeline li {
+  display: grid; grid-template-columns: 148px 16px minmax(0, 1fr);
+  gap: 0 var(--noct-s3); position: relative; padding-bottom: var(--noct-s4); margin: 0;
+}
+.noct-timeline li::after {
+  content: ""; position: absolute; left: calc(148px + var(--noct-s3) + 7px);
+  top: 16px; bottom: 0; border-left: 1px solid var(--noct-border);
+}
+.noct-timeline li:last-child::after { display: none; }
+.noct-timeline time {
+  font-family: var(--noct-mono); font-size: 12px; color: var(--noct-muted);
+  text-align: right; padding-top: 2px; font-variant-numeric: tabular-nums;
+}
+.noct-timeline .noct-dot { width: 10px; height: 10px; margin: 6px 3px 0; position: relative; z-index: 1; }
+.noct-timeline b { display: block; font-weight: 600; font-size: 14.5px; }
+.noct-timeline p { margin: 2px 0 0; color: var(--noct-muted); font-size: 14px; }
+@media (max-width: 640px) {
+  .noct-timeline li { grid-template-columns: 16px minmax(0, 1fr); }
+  .noct-timeline time { grid-column: 2; text-align: left; order: -1; }
+  .noct-timeline li::after { left: 7px; }
+  .noct-timeline .noct-dot { grid-row: 1 / span 2; }
+}
+
+/* Callouts: semantic left bar on a tinted ground, overline title. */
+.noct-callout {
+  --c: var(--noct-info); --c-bg: var(--noct-info-bg);
+  border: 1px solid var(--noct-border);
+  border-left: 3px solid var(--c);
+  background: color-mix(in srgb, var(--c-bg) 70%, var(--noct-surface));
+  border-radius: var(--noct-r-sm);
+  padding: var(--noct-s3) var(--noct-s4);
+  margin: 0 0 var(--noct-s4); font-size: 14.5px;
+}
+.noct-callout.warn { --c: var(--noct-warn); --c-bg: var(--noct-warn-bg); }
+.noct-callout.risk { --c: var(--noct-crit); --c-bg: var(--noct-crit-bg); }
+.noct-callout.decision { --c: var(--noct-accent); --c-bg: var(--noct-accent-bg); }
+.noct-callout-t {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--c); margin-bottom: var(--noct-s1);
+}
+.noct-callout p:last-child { margin-bottom: 0; }
+
+/* Titled code block: filename left, language right. */
+.noct-code { margin: 0 0 var(--noct-s4); border: 1px solid var(--noct-border-subtle); border-radius: var(--noct-r-sm); overflow: hidden; }
+.noct-code-h {
+  display: flex; justify-content: space-between; gap: var(--noct-s3);
+  padding: 6px var(--noct-s4);
+  background: var(--noct-raised); border-bottom: 1px solid var(--noct-border-subtle);
+  font-family: var(--noct-mono); font-size: 11.5px; color: var(--noct-muted);
+}
+.noct-code-h span:last-child { text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.noct-doc .noct-code pre, .noct-panels .noct-code pre { margin: 0; border: 0; border-radius: 0; }
+.noct-code .tk-k { color: var(--noct-route-async); }
+.noct-code .tk-s { color: var(--noct-route-data); }
+.noct-code .tk-c { color: var(--noct-faint); }
+.noct-code .tk-n { color: var(--noct-route-ext); }
+.noct-code .tk-f { color: var(--noct-route-sync); }
+
+@media (prefers-reduced-motion: reduce) {
+  .noct-flow { animation: none; }
+  .noct-pkt { display: none; }
+  .noct-node > rect, .noct-node > .noct-shape, .noct-edge { transition: none; }
+}
+
+/* ── 7. PRINT ──────────────────────────────────────────────────────────── */
 /* Paper is light-first by physics. Flip to the light palette, drop the
    textures, hide interactive chrome. */
 @media print {
@@ -622,11 +1149,17 @@
     --noct-highlight: transparent;
     --noct-dot: transparent;
     --noct-code-bg: #F2F3F7;
+    --noct-route-sync: #1F4B85; --noct-route-async: #5B2E85; --noct-route-data: #0B5C50;
+    --noct-route-ctrl: #7E2858; --noct-route-ext: #5F4400; --noct-route-fail: #8A2B27;
   }
   .noct-doc, .noct-panels { background: #FFFFFF; color: #000000; }
   .noct-doc .noct-col, .noct-card, .noct-panel, .noct-metric, .noct-verdict {
     box-shadow: none;
   }
   .noct-chip { border: 1px solid currentColor; }
-  .noct-theme-toggle { display: none; }
+  .noct-theme-toggle, .noct-toc, .noct-pkt { display: none; }
+  .noct-layout { display: block; }
+  .noct-flow { animation: none; }
+  .noct-arch-canvas { overflow: visible; background-image: none; }
+  .noct-arch svg { min-width: 0; }
 }

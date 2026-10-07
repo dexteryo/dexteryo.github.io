@@ -1,6 +1,6 @@
 /* ==========================================================================
    BRUT DESIGN SYSTEM — canonical stylesheet
-   v1.0.0 · 2026-07-30
+   v2.0.0 · 2026-10-07 (engineering edition)
    Canonical home:  https://dexteryo.github.io/design-systems/brut/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/brut/brut.css
    Spec for agents: README.md in the same directory
@@ -20,6 +20,12 @@
                                     bordered metric blocks and panels sit on
                                     the cream ground; tables close with a
                                     3px header rule.
+
+   v2 engineering layer: a fluid full-width shell with a sticky contents
+   rail, a native-SVG architecture grammar (sticker nodes, route-coloured
+   edges, square packets that travel the hot path), and the engineering
+   components — service cards, API tables, ADRs, trade-off matrices,
+   latency budgets, timelines, callouts, captioned code.
 
    Portability rule: system font stacks only — no webfont requests. The
    stylesheet must work inlined in a sandboxed artifact, attached to a
@@ -81,6 +87,40 @@
   /* Data-viz categorical palette. Use in order; outline marks in ink. */
   --brut-v1: #FFD43A; --brut-v2: #3E63DD; --brut-v3: #00A05A;
   --brut-v4: #FF8A00; --brut-v5: #E5484D; --brut-v6: #9B5DE5;
+
+  /* Shell. Fluid full width; prose keeps its own measure inside it. */
+  --brut-gutter: clamp(16px, 4vw, 64px);
+  --brut-shell-max: 1920px;
+  --brut-measure: 72ch;
+  --brut-toc-w: 240px;
+
+  /* Routes: diagram edge strokes, one meaning per hue. These are the only
+     colours that draw thin lines, so each clears 4:1 on ground and surface
+     in both themes. */
+  --brut-route-sync:  #2D55E0;
+  --brut-route-async: #C2187A;
+  --brut-route-data:  #00874A;
+  --brut-route-ctrl:  #7A3FE0;
+  --brut-route-ext:   #B85A00;
+  --brut-route-fail:  #D92D33;
+
+  /* Node kinds: flat acid stickers, theme-invariant like the chips — paper
+     keeps its paper fill on either ground, so node type is pinned to
+     --brut-node-ink. -bg is the pale tint of the same kind. */
+  --brut-node-ink:   #111111;
+  --brut-node-ink-2: #3A3833;
+  --brut-node-client: #FF9ECF; --brut-node-client-bg: #FFE0F0;
+  --brut-node-edge:   #7CC4FF; --brut-node-edge-bg:   #DDEFFF;
+  --brut-node-svc:    #FFFFFF; --brut-node-svc-bg:    #F4F1EA;
+  --brut-node-fn:     #C8A8FF; --brut-node-fn-bg:     #EDE3FF;
+  --brut-node-store:  #B9F26B; --brut-node-store-bg:  #E9FBD2;
+  --brut-node-queue:  #FFB45C; --brut-node-queue-bg:  #FFE6C7;
+  --brut-node-cache:  #6EE7CF; --brut-node-cache-bg:  #D5F8F0;
+  --brut-node-ext:    #E9E2D2; --brut-node-ext-bg:    #F3EFE6;
+
+  /* HTTP method stickers (theme-invariant, black type). */
+  --brut-m-get: #7CC4FF; --brut-m-post: #B9F26B; --brut-m-put: #FFB45C;
+  --brut-m-patch: #C8A8FF; --brut-m-delete: #FF8A8A;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -111,6 +151,10 @@
 
     --brut-v1: #FFD43A; --brut-v2: #7A96F0; --brut-v3: #00B368;
     --brut-v4: #FF9A26; --brut-v5: #EF6B70; --brut-v6: #B07FF0;
+
+    --brut-route-sync: #7A96F0; --brut-route-async: #FF6BB5;
+    --brut-route-data: #2BD47D; --brut-route-ctrl:  #B48CFF;
+    --brut-route-ext:  #FF9A3C; --brut-route-fail:  #FF6B6B;
   }
 }
 
@@ -128,6 +172,9 @@
   --brut-info: #3E63DD; --brut-info-bg: #DAE2FA;
   --brut-v1: #FFD43A; --brut-v2: #3E63DD; --brut-v3: #00A05A;
   --brut-v4: #FF8A00; --brut-v5: #E5484D; --brut-v6: #9B5DE5;
+  --brut-route-sync: #2D55E0; --brut-route-async: #C2187A;
+  --brut-route-data: #00874A; --brut-route-ctrl:  #7A3FE0;
+  --brut-route-ext:  #B85A00; --brut-route-fail:  #D92D33;
 }
 :root[data-theme="dark"] {
   --brut-shadow-ink: #000000;
@@ -141,6 +188,9 @@
   --brut-info: #7A96F0; --brut-info-bg: #DAE2FA;
   --brut-v1: #FFD43A; --brut-v2: #7A96F0; --brut-v3: #00B368;
   --brut-v4: #FF9A26; --brut-v5: #EF6B70; --brut-v6: #B07FF0;
+  --brut-route-sync: #7A96F0; --brut-route-async: #FF6BB5;
+  --brut-route-data: #2BD47D; --brut-route-ctrl:  #B48CFF;
+  --brut-route-ext:  #FF9A3C; --brut-route-fail:  #FF6B6B;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
@@ -176,17 +226,21 @@
 
 /* ── 3. DOCUMENT MODE ──────────────────────────────────────────────────── */
 /* Reports as zines. The furniture (masthead, tabs, stamps) is loud; the
-   prose is not. Body stays weight 400 at 16px — a report you cannot read
+   prose is not. Body stays weight 400 at 17px — a report you cannot read
    is not brutalist, it is broken. */
 .brut-doc {
   background: var(--brut-ground);
   color: var(--brut-ink);
   font-family: var(--brut-sans);
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.65;
 }
-.brut-page { max-width: 980px; margin: 0 auto; padding: var(--brut-s7) var(--brut-s5) 96px; }
-@media (max-width: 640px) { .brut-page { padding: var(--brut-s5) var(--brut-s4) var(--brut-s8); } }
+.brut-page {
+  max-width: var(--brut-shell-max); margin: 0 auto;
+  padding: var(--brut-s7) var(--brut-gutter) 96px;
+}
+@media (max-width: 640px) { .brut-page { padding: var(--brut-s5) var(--brut-gutter) var(--brut-s8); } }
+.brut-doc [id] { scroll-margin-top: var(--brut-s5); }
 
 /* Masthead: the title block. A 3px-bordered slab with the eyebrow set as
    a full-width acid strip across the top and the meta grid closing it. */
@@ -223,8 +277,9 @@
   color: var(--brut-accent-ink); padding: 0 0.12em;
 }
 .brut-subtitle {
-  font-size: 18px; font-weight: 400; line-height: 1.5;
-  color: var(--brut-muted); max-width: 60ch; margin: 0;
+  font-size: 19px; font-weight: 400; line-height: 1.5;
+  color: var(--brut-muted); max-width: 64ch; margin: 0;
+  text-wrap: pretty;
 }
 
 /* Meta bar: author / date / status. Facts in mono, closed off from the
@@ -280,17 +335,19 @@
 }
 .brut-sec-h h2 {
   margin: 0; padding: var(--brut-s2) var(--brut-s4);
-  font-size: 19px; font-weight: 800;
+  font-size: 22px; font-weight: 800;
   text-transform: uppercase; letter-spacing: -0.005em;
-  line-height: 1.25;
+  line-height: 1.25; text-wrap: balance;
 }
 
-/* Prose: quiet on purpose. Weight 400, measure capped at 70ch. */
-.brut-doc p, .brut-doc ul, .brut-doc ol { max-width: 70ch; margin: 0 0 var(--brut-s4); }
+/* Prose: quiet on purpose. Weight 400, measure capped at --brut-measure;
+   wide furniture (diagrams, tables, grids) takes the full shell. */
+.brut-doc p, .brut-doc ul, .brut-doc ol { max-width: var(--brut-measure); margin: 0 0 var(--brut-s4); }
+.brut-doc p, .brut-doc li { text-wrap: pretty; }
 .brut-doc ul, .brut-doc ol { padding-left: 22px; }
 .brut-doc li { margin-bottom: var(--brut-s1); }
 .brut-doc h3 {
-  font-size: 15px; font-weight: 800;
+  font-size: 17px; font-weight: 800; text-wrap: balance;
   text-transform: uppercase; letter-spacing: 0.02em;
   margin: var(--brut-s5) 0 var(--brut-s3);
 }
@@ -593,8 +650,8 @@
 /* Theme toggle chrome (guide pages). Hidden in print. */
 .brut-theme-toggle { position: fixed; top: var(--brut-s4); right: var(--brut-s4); z-index: 10; }
 
-/* Diagram frame: Brut reuses the DDS two-tier diagram discipline (see
-   README §7) — this frame hosts either tier and brings its own slab. */
+/* Legacy diagram frame (v1): hosts a pre-rendered Mermaid SVG. Native
+   diagrams use the v2 grammar in section 7. */
 .brut-diagram {
   background: var(--brut-surface);
   border: var(--brut-bw) solid var(--brut-border);
@@ -604,7 +661,508 @@
 }
 .brut-diagram svg { display: block; width: 100%; height: auto; }
 
-/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 6. SHELL: CONTENTS RAIL ───────────────────────────────────────────── */
+/* Full-width layout: a sticky contents rail beside the frame from 1200px;
+   below that the rail sits above the content as a plain block. The links
+   work without script; the active highlight is progressive. */
+.brut-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--brut-s6); align-items: start; }
+@media (min-width: 1200px) {
+  .brut-layout { grid-template-columns: var(--brut-toc-w) minmax(0, 1fr); }
+  .brut-toc {
+    position: sticky; top: var(--brut-s5);
+    max-height: calc(100vh - 2 * var(--brut-s5)); overflow-y: auto;
+  }
+}
+.brut-toc {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+}
+.brut-toc-h {
+  background: var(--brut-block); color: var(--brut-block-ink);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: var(--brut-s2) var(--brut-s4);
+}
+.brut-toc ol { list-style: none; margin: 0; padding: var(--brut-s2) 0; max-width: none; }
+@media (max-width: 1199px) { .brut-toc ol { columns: 2 220px; column-gap: 0; } }
+.brut-toc li { margin: 0; break-inside: avoid; }
+.brut-doc .brut-toc a, .brut-panels .brut-toc a {
+  display: flex; gap: var(--brut-s3); align-items: baseline;
+  padding: 6px var(--brut-s4);
+  font-size: 13px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.01em; line-height: 1.3;
+  text-decoration: none;
+}
+.brut-toc a span {
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 700;
+  color: var(--brut-muted); font-variant-numeric: tabular-nums; flex: none;
+}
+.brut-doc .brut-toc a:hover, .brut-doc .brut-toc a.is-active,
+.brut-panels .brut-toc a:hover, .brut-panels .brut-toc a.is-active {
+  background: var(--brut-accent); color: var(--brut-accent-ink);
+}
+.brut-toc a:hover span, .brut-toc a.is-active span { color: var(--brut-accent-ink); }
+
+/* ── 7. ARCHITECTURE DIAGRAMS ──────────────────────────────────────────── */
+/* Native SVG, hand-authored. Three figure frames share one grammar:
+   .brut-arch (topology), .brut-seq (sequence), .brut-state (lifecycle).
+   Nodes are paper stickers: acid kind fill, black outline, hard slab
+   shadow. Edges are route-coloured 3px strokes; each hue is a declared
+   meaning and appears in the legend. The frame scrolls sideways on small
+   screens instead of shrinking the type into dust. Keep viewBoxes
+   ≤ ~990 units wide and SVG type ≥ 12 units so text renders ≥ 11px
+   beside the contents rail at 1440. */
+.brut-arch, .brut-seq, .brut-state {
+  background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+  padding: var(--brut-s4) var(--brut-s4) var(--brut-s3);
+  margin: 0 0 var(--brut-s5);
+  overflow-x: auto;
+}
+.brut-arch svg, .brut-seq svg, .brut-state svg {
+  display: block; width: 100%; height: auto;
+  min-width: var(--brut-min-w, 720px);
+}
+
+.brut-stage {
+  font: 700 12px var(--brut-mono); letter-spacing: 0.14em;
+  text-transform: uppercase; fill: var(--brut-muted);
+}
+.brut-zone {
+  fill: none; stroke: var(--brut-border); stroke-width: 2;
+  stroke-dasharray: 10 6;
+}
+.brut-zone.trust { stroke: var(--brut-route-fail); stroke-width: 3; stroke-dasharray: 4 4; }
+.brut-zlabel {
+  font: 700 12px var(--brut-mono); letter-spacing: 0.12em;
+  text-transform: uppercase; fill: var(--brut-ink);
+}
+
+/* Nodes: <g class="brut-node <kind> [is-hot|is-fail|is-new]"> holding a
+   .brut-nshape (rect, or the cylinder path for stores) and its text. */
+.brut-nshape {
+  fill: var(--brut-node-svc);
+  stroke: var(--brut-node-ink); stroke-width: 3;
+  filter: drop-shadow(4px 4px 0 var(--brut-shadow-ink));
+}
+.brut-node.client .brut-nshape { fill: var(--brut-node-client); }
+.brut-node.edge   .brut-nshape { fill: var(--brut-node-edge); }
+.brut-node.svc    .brut-nshape { fill: var(--brut-node-svc); }
+.brut-node.fn     .brut-nshape { fill: var(--brut-node-fn); }
+.brut-node.store  .brut-nshape { fill: var(--brut-node-store); }
+.brut-node.queue  .brut-nshape { fill: var(--brut-node-queue); }
+.brut-node.cache  .brut-nshape { fill: var(--brut-node-cache); }
+.brut-node.ext    .brut-nshape { fill: var(--brut-node-ext); stroke-dasharray: 7 5; }
+.brut-ncap  { fill: none; stroke: var(--brut-node-ink); stroke-width: 3; }
+.brut-nbars { fill: none; stroke: var(--brut-node-ink); stroke-width: 3; }
+
+/* State: hot = the slab turns acid (the path that matters), fail = the
+   slab turns red, new = proposed — dotted outline and no slab, because it
+   has not been poured yet. */
+.brut-node.is-hot  .brut-nshape { stroke-width: 4; filter: drop-shadow(6px 6px 0 var(--brut-accent)); }
+.brut-node.is-fail .brut-nshape { stroke: var(--brut-route-fail); stroke-width: 4;
+                                  filter: drop-shadow(5px 5px 0 var(--brut-route-fail)); }
+.brut-node.is-new  .brut-nshape { stroke-dasharray: 3 4; filter: none; }
+
+.brut-nlabel {
+  font: 800 13px var(--brut-sans); letter-spacing: 0.01em;
+  text-transform: uppercase; fill: var(--brut-node-ink);
+}
+.brut-nsub  { font: 500 12px var(--brut-mono); fill: var(--brut-node-ink-2); }
+.brut-ntag  { font: 700 12px var(--brut-mono); fill: var(--brut-node-ink); letter-spacing: 0.06em; }
+
+.brut-node { transition: transform 80ms ease-out; }
+.brut-node:hover { transform: translate(-2px, -2px); }
+
+/* Edges: <path class="brut-edge <route>"> + matching marker-end. */
+.brut-edge { fill: none; stroke-width: 3; stroke-linejoin: miter; pointer-events: stroke; }
+.brut-edge.sync  { stroke: var(--brut-route-sync); }
+.brut-edge.async { stroke: var(--brut-route-async); stroke-dasharray: 8 8; }
+.brut-edge.data  { stroke: var(--brut-route-data); }
+.brut-edge.ctrl  { stroke: var(--brut-route-ctrl); }
+.brut-edge.ext   { stroke: var(--brut-route-ext); }
+.brut-edge.fail  { stroke: var(--brut-route-fail); stroke-dasharray: 3 5; }
+.brut-edge.ret   { stroke: var(--brut-muted); stroke-width: 2; stroke-dasharray: 6 4; }
+.brut-m path { fill: var(--brut-ink); }
+.brut-m.sync  path { fill: var(--brut-route-sync); }
+.brut-m.async path { fill: var(--brut-route-async); }
+.brut-m.data  path { fill: var(--brut-route-data); }
+.brut-m.ctrl  path { fill: var(--brut-route-ctrl); }
+.brut-m.ext   path { fill: var(--brut-route-ext); }
+.brut-m.fail  path { fill: var(--brut-route-fail); }
+.brut-m.ret   path { fill: var(--brut-muted); }
+
+/* Marching dashes in the direction of travel. Every dash period divides
+   32, so the loop is seamless. */
+.brut-edge.brut-flow { stroke-dasharray: 14 2; animation: brut-march 1s linear infinite; }
+.brut-edge.async.brut-flow { stroke-dasharray: 8 8; }
+.brut-edge.fail.brut-flow  { stroke-dasharray: 3 5; }
+@keyframes brut-march { to { stroke-dashoffset: -32; } }
+
+/* Packets: SQUARE (a circle would be soft) travelling the hot path via
+   <animateMotion>. Draw at x=-5 y=-5 so the motion path is its centre. */
+.brut-pkt { stroke: var(--brut-node-ink); stroke-width: 2; fill: var(--brut-accent); }
+.brut-pkt.sync  { fill: var(--brut-route-sync); }
+.brut-pkt.async { fill: var(--brut-route-async); }
+.brut-pkt.data  { fill: var(--brut-route-data); }
+.brut-pkt.ext   { fill: var(--brut-route-ext); }
+
+/* Hovering an edge isolates it. Cosmetic; :has() is progressive. */
+.brut-arch svg:has(.brut-edge:hover) .brut-edge:not(:hover) { opacity: 0.25; }
+
+.brut-elabel {
+  font: 700 12px var(--brut-mono); fill: var(--brut-ink);
+  paint-order: stroke; stroke: var(--brut-surface); stroke-width: 5px;
+  stroke-linejoin: round;
+}
+/* Step markers: a miniature section tab (acid digit on a black square). */
+.brut-step rect { fill: var(--brut-block); stroke: var(--brut-border); stroke-width: 2; }
+.brut-step text {
+  font: 700 12px var(--brut-mono); fill: var(--brut-block-ink);
+  text-anchor: middle; dominant-baseline: central;
+}
+
+/* Sequence: actors reuse .brut-node; messages reuse .brut-edge. */
+.brut-life { stroke: var(--brut-muted); stroke-width: 1.5; stroke-dasharray: 4 6; }
+.brut-actbar { fill: var(--brut-node-svc-bg); stroke: var(--brut-node-ink); stroke-width: 2; }
+.brut-note { fill: var(--brut-accent); stroke: var(--brut-node-ink); stroke-width: 2;
+             filter: drop-shadow(3px 3px 0 var(--brut-shadow-ink)); }
+.brut-notetext { font: 700 12px var(--brut-sans); fill: var(--brut-node-ink); }
+
+/* State machines: <g class="brut-st ok|warn|crit|info [final]">. */
+.brut-st .brut-nshape { fill: var(--brut-node-svc); }
+.brut-st.ok   .brut-nshape { fill: var(--brut-ok-bg); }
+.brut-st.warn .brut-nshape { fill: var(--brut-warn-bg); }
+.brut-st.crit .brut-nshape { fill: var(--brut-crit-bg); }
+.brut-st.info .brut-nshape { fill: var(--brut-info-bg); }
+.brut-st.final .brut-nshape { stroke-width: 6; }
+.brut-st-start { fill: var(--brut-block); stroke: var(--brut-border); stroke-width: 2; }
+
+/* Legend + caption close every figure. */
+.brut-legend {
+  display: flex; flex-wrap: wrap; gap: var(--brut-s2) var(--brut-s5);
+  margin-top: var(--brut-s4); padding-top: var(--brut-s3);
+  border-top: var(--brut-hair) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.brut-legend span { display: inline-flex; align-items: center; gap: var(--brut-s2); }
+.brut-legend i {
+  display: inline-block; flex: none; width: 28px; height: 0;
+  border-top: 3px solid var(--brut-ink);
+}
+.brut-legend i.sync  { border-top-color: var(--brut-route-sync); }
+.brut-legend i.async { border-top: 3px dashed var(--brut-route-async); }
+.brut-legend i.data  { border-top-color: var(--brut-route-data); }
+.brut-legend i.ctrl  { border-top-color: var(--brut-route-ctrl); }
+.brut-legend i.ext   { border-top-color: var(--brut-route-ext); }
+.brut-legend i.fail  { border-top: 3px dotted var(--brut-route-fail); }
+.brut-legend i.ret   { border-top: 2px dashed var(--brut-muted); }
+.brut-legend i.node, .brut-legend i.state, .brut-legend i.hot {
+  width: 16px; height: 16px;
+  border: 2px solid var(--brut-node-ink); background: var(--brut-node-svc);
+}
+.brut-legend i.node.client { background: var(--brut-node-client); }
+.brut-legend i.node.edge   { background: var(--brut-node-edge); }
+.brut-legend i.node.fn     { background: var(--brut-node-fn); }
+.brut-legend i.node.store  { background: var(--brut-node-store); }
+.brut-legend i.node.queue  { background: var(--brut-node-queue); }
+.brut-legend i.node.cache  { background: var(--brut-node-cache); }
+.brut-legend i.node.ext    { background: var(--brut-node-ext); border-style: dashed; }
+.brut-legend i.node.new    { border-style: dotted; }
+.brut-legend i.hot         { box-shadow: 4px 4px 0 var(--brut-accent); }
+.brut-legend i.state.ok    { background: var(--brut-ok-bg); }
+.brut-legend i.state.warn  { background: var(--brut-warn-bg); }
+.brut-legend i.state.crit  { background: var(--brut-crit-bg); }
+.brut-legend i.state.info  { background: var(--brut-info-bg); }
+.brut-legend i.zone  { width: 24px; height: 14px; border: 2px dashed var(--brut-border); }
+.brut-legend i.zone.trust { border: 3px dashed var(--brut-route-fail); }
+.brut-figcap {
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: var(--brut-s1) var(--brut-s4);
+  margin-top: var(--brut-s2);
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--brut-muted);
+}
+
+/* Numbered walkthrough keyed to the diagram's step markers. */
+ol.brut-steps { list-style: none; padding: 0; counter-reset: brut-step; }
+ol.brut-steps > li {
+  counter-increment: brut-step;
+  position: relative; padding-left: 38px;
+  margin-bottom: var(--brut-s2);
+}
+ol.brut-steps > li::before {
+  content: counter(brut-step);
+  position: absolute; left: 0; top: 2px;
+  display: grid; place-items: center; width: 24px; height: 24px;
+  background: var(--brut-block); color: var(--brut-block-ink);
+  border: 2px solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 12px; font-weight: 700;
+}
+
+/* ── 8. ENGINEERING COMPONENTS ─────────────────────────────────────────── */
+/* Service card: a sticker whose header strip wears its node-kind fill. */
+.brut-svc-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--brut-s5); margin: 0 0 var(--brut-s5);
+}
+.brut-svc {
+  --brut-k: var(--brut-node-svc);
+  display: flex; flex-direction: column;
+  background: var(--brut-surface);
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow);
+}
+.brut-svc.client { --brut-k: var(--brut-node-client); }
+.brut-svc.edge   { --brut-k: var(--brut-node-edge); }
+.brut-svc.fn     { --brut-k: var(--brut-node-fn); }
+.brut-svc.store  { --brut-k: var(--brut-node-store); }
+.brut-svc.queue  { --brut-k: var(--brut-node-queue); }
+.brut-svc.cache  { --brut-k: var(--brut-node-cache); }
+.brut-svc.ext    { --brut-k: var(--brut-node-ext); }
+.brut-svc-h {
+  display: flex; align-items: center; gap: var(--brut-s3);
+  background: var(--brut-k); color: var(--brut-node-ink);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+  padding: var(--brut-s3) var(--brut-s4);
+}
+.brut-svc-h .brut-dot { border-color: var(--brut-node-ink); }
+.brut-doc .brut-svc-h h3, .brut-svc-h h3 {
+  margin: 0; font-size: 15px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.01em;
+}
+.brut-svc-kind {
+  margin-left: auto; font-family: var(--brut-mono); font-size: 10px;
+  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+}
+.brut-svc-b { flex: 1; padding: var(--brut-s3) var(--brut-s4); font-size: 14px; }
+.brut-doc .brut-svc-b p { margin: 0 0 var(--brut-s3); }
+.brut-svc-f {
+  border-top: var(--brut-hair) solid var(--brut-border);
+  padding: var(--brut-s2) var(--brut-s4);
+  font-family: var(--brut-mono); font-size: 11px; color: var(--brut-muted);
+}
+.brut-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 var(--brut-s3); }
+.brut-tag {
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 600;
+  border: var(--brut-hair) solid var(--brut-border);
+  background: var(--brut-code); padding: 1px 6px; white-space: nowrap;
+}
+
+/* API table: use on .brut-table. Methods are stickers; paths are mono. */
+.brut-api td:first-child { white-space: nowrap; width: 1%; }
+.brut-method {
+  --brut-mc: var(--brut-node-svc);
+  display: inline-block; min-width: 64px; text-align: center;
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--brut-node-ink); background: var(--brut-mc);
+  border: 2px solid var(--brut-node-ink);
+  box-shadow: 2px 2px 0 var(--brut-shadow-ink);
+  padding: 1px 6px;
+}
+.brut-method.get    { --brut-mc: var(--brut-m-get); }
+.brut-method.post   { --brut-mc: var(--brut-m-post); }
+.brut-method.put    { --brut-mc: var(--brut-m-put); }
+.brut-method.patch  { --brut-mc: var(--brut-m-patch); }
+.brut-method.delete { --brut-mc: var(--brut-m-delete); }
+.brut-path { font-family: var(--brut-mono); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.brut-path i { font-style: normal; color: var(--brut-muted); }
+
+/* Status stickers for decisions, on top of .brut-chip. */
+.brut-chip.proposed   { background: var(--brut-info-bg); }
+.brut-chip.accepted   { background: var(--brut-ok-bg); }
+.brut-chip.rejected   { background: var(--brut-crit-bg); }
+.brut-chip.superseded { background: var(--brut-node-svc); text-decoration: line-through; }
+
+/* ADR: tab-numbered slab; Context / Decision / Consequences cells are
+   divided by the same gap-over-border trick as the stat strip. */
+.brut-adr {
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-adr-h {
+  display: flex; align-items: stretch; flex-wrap: wrap;
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+}
+.brut-adr-id {
+  display: grid; place-items: center; padding: 0 var(--brut-s4);
+  background: var(--brut-block); color: var(--brut-block-ink);
+  border-right: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 14px; font-weight: 700;
+}
+.brut-doc .brut-adr-h h3, .brut-adr-h h3 {
+  flex: 1; margin: 0; padding: var(--brut-s3) var(--brut-s4);
+  font-size: 18px; font-weight: 900; text-transform: uppercase; line-height: 1.25;
+}
+.brut-adr-h .brut-chip { align-self: center; margin: var(--brut-s2) var(--brut-s4); }
+.brut-adr-b {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--brut-hair); background: var(--brut-border);
+}
+.brut-adr-b > div { background: var(--brut-surface); padding: var(--brut-s4); font-size: 15px; }
+.brut-doc .brut-adr-b p:last-child, .brut-doc .brut-adr-b ul:last-child { margin-bottom: 0; }
+.brut-adr-k {
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--brut-muted); margin-bottom: var(--brut-s2);
+}
+ul.brut-cons { list-style: none; padding: 0; }
+ul.brut-cons > li {
+  position: relative; padding-left: 30px;
+  margin-bottom: var(--brut-s2);
+}
+ul.brut-cons > li::before {
+  content: "+"; position: absolute; left: 0; top: 2px;
+  display: grid; place-items: center; width: 20px; height: 20px;
+  border: 2px solid var(--brut-node-ink); color: var(--brut-node-ink);
+  background: var(--brut-ok-bg);
+  font-family: var(--brut-mono); font-size: 13px; font-weight: 800; line-height: 1;
+}
+ul.brut-cons > li.con::before  { content: "\2212"; background: var(--brut-crit-bg); }
+ul.brut-cons > li.meh::before  { content: "~"; background: var(--brut-warn-bg); }
+
+/* Trade-off matrix: use on .brut-table. Colour AND symbol, never colour
+   alone. The chosen option's header takes the acid fill. */
+.brut-tradeoff td.good, .brut-tradeoff td.meh, .brut-tradeoff td.bad { color: var(--brut-node-ink); }
+.brut-tradeoff td.good { background: var(--brut-ok-bg); }
+.brut-tradeoff td.meh  { background: var(--brut-warn-bg); }
+.brut-tradeoff td.bad  { background: var(--brut-crit-bg); }
+.brut-tradeoff td.good::before, .brut-tradeoff td.meh::before, .brut-tradeoff td.bad::before {
+  font-family: var(--brut-mono); font-weight: 800; margin-right: 6px;
+}
+.brut-tradeoff td.good::before { content: "+"; }
+.brut-tradeoff td.meh::before  { content: "~"; }
+.brut-tradeoff td.bad::before  { content: "\2212"; }
+.brut-tradeoff th.is-chosen { background: var(--brut-accent); color: var(--brut-accent-ink); }
+
+/* Latency budget: segment widths are their share of the scale
+   (style="--w:18%"), filled with the node kind of the hop. */
+.brut-budget { position: relative; padding-top: 28px; margin: 0 0 var(--brut-s5); }
+.brut-budget-bar {
+  position: relative; display: flex; min-height: 58px;
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+}
+.brut-seg {
+  --brut-sc: var(--brut-node-svc);
+  flex: 0 0 var(--w); min-width: 0; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--brut-s1) var(--brut-s2);
+  background: var(--brut-sc); color: var(--brut-node-ink);
+  border-right: var(--brut-bw) solid var(--brut-node-ink);
+}
+.brut-seg b {
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.brut-seg span { font-family: var(--brut-mono); font-size: 11px; font-weight: 600; white-space: nowrap; }
+.brut-seg.client { --brut-sc: var(--brut-node-client); }
+.brut-seg.edge   { --brut-sc: var(--brut-node-edge); }
+.brut-seg.fn     { --brut-sc: var(--brut-node-fn); }
+.brut-seg.store  { --brut-sc: var(--brut-node-store); }
+.brut-seg.queue  { --brut-sc: var(--brut-node-queue); }
+.brut-seg.cache  { --brut-sc: var(--brut-node-cache); }
+.brut-seg.ext    { --brut-sc: var(--brut-node-ext); }
+.brut-seg.slack  { background: transparent; color: var(--brut-muted); border-right: 0; align-items: flex-end; }
+.brut-budget-target {
+  position: absolute; top: 18px; bottom: -8px; left: var(--at);
+  border-left: 4px solid var(--brut-route-fail);
+}
+.brut-budget-target::after {
+  content: attr(data-label);
+  position: absolute; top: -20px; right: 4px;
+  background: var(--brut-block); color: var(--brut-block-ink);
+  font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 1px 6px; white-space: nowrap;
+}
+.brut-budget-scale {
+  display: flex; justify-content: space-between; margin-top: var(--brut-s3);
+  font-family: var(--brut-mono); font-size: 10.5px; color: var(--brut-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timeline: a 3px rail with square markers in the state colour. */
+ol.brut-timeline {
+  list-style: none; margin: 0 0 var(--brut-s5) 10px; padding: 0;
+  border-left: var(--brut-bw) solid var(--brut-border);
+  max-width: var(--brut-measure);
+}
+.brut-tl-item { position: relative; margin: 0; padding: 0 0 var(--brut-s5) 28px; }
+.brut-tl-item:last-child { padding-bottom: 0; }
+.brut-tl-item::before {
+  content: ""; position: absolute; left: -11.5px; top: 4px;
+  width: 20px; height: 20px;
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+}
+.brut-tl-item.ok::before     { background: var(--brut-ok); }
+.brut-tl-item.warn::before   { background: var(--brut-warn); }
+.brut-tl-item.crit::before   { background: var(--brut-crit); }
+.brut-tl-item.info::before   { background: var(--brut-info); }
+.brut-tl-item.accent::before { background: var(--brut-accent); }
+.brut-tl-time {
+  display: block; font-family: var(--brut-mono); font-size: 11.5px;
+  font-weight: 700; color: var(--brut-muted); font-variant-numeric: tabular-nums;
+}
+.brut-tl-title { display: block; font-size: 15px; font-weight: 800; text-transform: uppercase; }
+.brut-doc .brut-tl-item p { margin: var(--brut-s1) 0 0; }
+
+/* Callout: a slab with a kind stripe. note = info, warn, risk = crit,
+   decision = the acid accent. */
+.brut-callout {
+  --brut-cc: var(--brut-info);
+  display: grid; grid-template-columns: 14px 1fr;
+  border: var(--brut-bw) solid var(--brut-border);
+  background: var(--brut-surface);
+  box-shadow: var(--brut-shadow);
+  margin: 0 0 var(--brut-s5); max-width: calc(var(--brut-measure) + 60px);
+}
+.brut-callout::before { content: ""; background: var(--brut-cc); border-right: var(--brut-bw) solid var(--brut-border); }
+.brut-callout.warn     { --brut-cc: var(--brut-warn); }
+.brut-callout.risk     { --brut-cc: var(--brut-crit); }
+.brut-callout.decision { --brut-cc: var(--brut-accent); }
+.brut-callout-b { padding: var(--brut-s3) var(--brut-s4); }
+.brut-callout-t {
+  font-family: var(--brut-mono); font-size: 11px; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: var(--brut-s1);
+}
+.brut-doc .brut-callout-b p:last-child { margin-bottom: 0; }
+
+/* Captioned code: a black filename strip on the warm slab. Filenames keep
+   their case; the language tag shouts. */
+.brut-code {
+  border: var(--brut-bw) solid var(--brut-border);
+  box-shadow: var(--brut-shadow-sm);
+  margin: 0 0 var(--brut-s5);
+}
+.brut-code-h {
+  display: flex; justify-content: space-between; gap: var(--brut-s4);
+  background: var(--brut-block); color: var(--brut-block-ink);
+  border-bottom: var(--brut-bw) solid var(--brut-border);
+  font-family: var(--brut-mono); font-size: 11.5px; font-weight: 700;
+  padding: 6px var(--brut-s3);
+}
+.brut-code-h span:last-child { letter-spacing: 0.14em; text-transform: uppercase; }
+.brut-doc .brut-code pre, .brut-panels .brut-code pre { margin: 0; border: 0; box-shadow: none; }
+
+/* ── 9. MOTION ─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .brut-edge.brut-flow { animation: none; }
+  .brut-pkt { display: none; }
+  .brut-node, .brut-btn { transition: none; }
+  .brut-node:hover { transform: none; }
+}
+
+/* ── 10. PRINT ──────────────────────────────────────────────────────────── */
 /* Monochrome-ish paper: borders carry the structure, shadows and the tilt
    go, the toggle disappears. Acid fills are left to the printer's mercy —
    they grey out gracefully because their text is already black. */
@@ -613,4 +1171,9 @@
   .brut-doc *, .brut-panels * { box-shadow: none !important; }
   .brut-tilt { transform: none; }
   .brut-theme-toggle { display: none; }
+  .brut-nshape, .brut-note { filter: none !important; }
+  .brut-pkt { display: none; }
+  .brut-edge.brut-flow { animation: none; }
+  .brut-toc { display: none; }
+  .brut-layout { display: block; }
 }

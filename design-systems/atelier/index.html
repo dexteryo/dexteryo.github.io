@@ -9,20 +9,19 @@
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
   body { margin: 0; }
   .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
-  .sw { width: 108px; font-family: var(--atl-mono); font-size: 10.5px; }
+  .sw { width: 120px; font-family: var(--atl-mono); font-size: 10.5px; }
   .sw i { display: block; height: 36px; border: 1px solid var(--atl-rule); font-style: normal; }
   .sw span { display: block; margin-top: 4px; color: var(--atl-muted); }
   .demo-note { font-family: var(--atl-sans); font-size: 10.5px; letter-spacing: .18em;
-               text-transform: uppercase; color: var(--atl-muted); margin: 0 0 12px; }
+               text-transform: uppercase; color: var(--atl-muted); margin: 32px 0 12px; }
   .panel-demo { border-top: 1px dashed var(--atl-rule); border-bottom: 1px dashed var(--atl-rule);
                 padding: 24px 0; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
-  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0 32px; }
   .type-specimen { border-bottom: 1px solid var(--atl-rule); padding: 12px 0; display: flex;
                    align-items: baseline; gap: 24px; flex-wrap: wrap; }
   .type-specimen .lbl { font-family: var(--atl-mono); font-size: 10.5px; color: var(--atl-muted);
                         width: 200px; flex: none; }
-  .atl-theme-toggle { position: fixed; top: 16px; right: 16px;
+  .atl-theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 5;
     font-family: var(--atl-sans); font-size: 11px; font-weight: 500;
     letter-spacing: .16em; text-transform: uppercase;
     background: var(--atl-paper); color: var(--atl-muted);
@@ -35,32 +34,50 @@
 <div class="atl-page">
 
   <header class="atl-masthead">
-    <div class="atl-eyebrow">Atelier · v1.0.0 · Living Style Guide</div>
-    <h1 class="atl-title">Trust, set in a <em>light</em> serif</h1>
-    <p class="atl-standfirst">A design system for AI-generated engineering documents in the editorial idiom: magazine typography, hairline rules, one oxblood accent, and evidence gathered in footnote strips.</p>
+    <div class="atl-eyebrow">Atelier · v2.0.0 · Living Style Guide · Engineering edition</div>
+    <h1 class="atl-title">Architecture, set in a <em>light</em> serif</h1>
+    <p class="atl-standfirst">A design system for AI-generated engineering documents in the editorial idiom: magazine typography across the full width of the page, hairline rules, one oxblood accent, evidence in footnote strips — and system diagrams drawn as printed plates in pigment inks.</p>
   </header>
   <dl class="atl-meta">
     <div><dt>Owner</dt><dd>Dexter</dd></div>
-    <div><dt>Revision</dt><dd>2026-07-30</dd></div>
-    <div><dt>Status</dt><dd>v1.0.0</dd></div>
+    <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+    <div><dt>Status</dt><dd>v2.0.0</dd></div>
     <div><dt>Stylesheet</dt><dd><a href="atelier.css">atelier.css</a></dd></div>
     <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
   </dl>
 
+  <div class="atl-layout">
+  <nav class="atl-toc" aria-label="Contents">
+    <div class="atl-toc-t">Contents</div>
+    <ol>
+      <li><a href="#principles"><span>01</span>Principles</a></li>
+      <li><a href="#tokens"><span>02</span>Tokens</a></li>
+      <li><a href="#document"><span>03</span>Document mode</a></li>
+      <li><a href="#diagrams"><span>04</span>Architecture diagrams</a></li>
+      <li><a href="#components"><span>05</span>Engineering components</a></li>
+      <li><a href="#panels"><span>06</span>Panel mode</a></li>
+      <li><a href="#figures"><span>07</span>Charts &amp; fallbacks</a></li>
+      <li><a href="#agents"><span>08</span>For AI agents</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
   <!-- ============ № 01 PRINCIPLES ============ -->
-  <section class="atl-section">
-    <div class="atl-sec-h"><span class="atl-folio">№ 01</span><h2>Principles</h2></div>
+  <section class="atl-section" id="principles">
+    <div class="atl-sec-h" style="margin-top:0"><span class="atl-folio">№ 01</span><h2>Principles</h2></div>
     <p class="atl-dropcap">Lightness is the luxury. A display face set at 300 says the argument does not need to raise its voice; a bold headline is a system shouting to be believed. Atelier earns financial-grade trust the way a good magazine does — confident type, generous margins, and every claim answered by a citation.<sup class="atl-fnref">1</sup></p>
+    <p><strong>The page is a broadsheet, the paragraph is a book.</strong> The shell spans the full width of the screen, with a sticky contents rail on wide displays. Diagrams, tables, stat strips and service directories use every column; prose alone keeps a 70-character measure so it still reads like a book.</p>
     <p><strong>Whitespace is the structure.</strong> Sections are separated by space and a folio number, not by rules or boxes. Where a line is needed it is a hairline; the double rule appears only where print tradition put it — under the masthead, over the colophon, closing a sum.</p>
-    <p><strong>One accent, spent like ink.</strong> Oxblood is the printer's second colour: the drop cap, the hanging quotation mark, one emphasised word, the verdict label. It is never a background and never decoration.</p>
-    <p><strong>Evidence closes the section.</strong> Claims carry superscript numbers and each section ends with a footnote strip under the short printer's rule — monospace citations, verification dates. Not margin sidenotes; those belong to DDS.</p>
+    <p><strong>One accent, many pigments.</strong> Oxblood is the printer's second colour: the drop cap, the hanging quotation mark, one emphasised word, the verdict label, a proposed change. Diagrams get their own case of pigment inks — indigo, plum, verdigris, ochre, sienna, moss — and every ink means one thing, declared in the legend.</p>
+    <p><strong>Architecture is drawn, not described.</strong> A flow narrated step by step is also drawn as a native SVG plate, with numbered steps tied to the walkthrough beneath it. Directional motion — marching dashes and a travelling packet on the hot path — shows which way the data goes, and stops for readers who ask for reduced motion.</p>
     <div class="atl-footnotes">
-      <p class="atl-fn"><span class="atl-fn-num">1.</span> The lineage: Stripe Press, The Paris Review, FT Weekend, Economist print charts, Tschichold's Penguin composition rules. <span class="atl-cite">README.md — Lineage</span></p>
+      <p class="atl-fn"><span class="atl-fn-num">1.</span> The lineage: Stripe Press, The Paris Review, FT Weekend, Economist print charts, Tschichold's Penguin composition rules, the engineering plates of an architectural monograph. <span class="atl-cite">README.md — Lineage</span></p>
     </div>
   </section>
 
   <!-- ============ № 02 TOKENS ============ -->
-  <section class="atl-section">
+  <section class="atl-section" id="tokens">
     <div class="atl-sec-h"><span class="atl-folio">№ 02</span><h2>Tokens</h2></div>
     <p>All values live as CSS custom properties in <a href="atelier.css"><code>atelier.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches show the current theme's resolved values.</p>
 
@@ -71,6 +88,28 @@
       <div class="sw"><i style="background:var(--atl-warn)"></i><span>--atl-warn · in review</span></div>
       <div class="sw"><i style="background:var(--atl-crit)"></i><span>--atl-crit · failing</span></div>
       <div class="sw"><i style="background:var(--atl-info)"></i><span>--atl-info · informational</span></div>
+    </div>
+
+    <p class="demo-note">Route inks — one meaning each (v2)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--atl-route-sync)"></i><span>route-sync · indigo</span></div>
+      <div class="sw"><i style="background:var(--atl-route-async)"></i><span>route-async · plum</span></div>
+      <div class="sw"><i style="background:var(--atl-route-data)"></i><span>route-data · verdigris</span></div>
+      <div class="sw"><i style="background:var(--atl-route-ctrl)"></i><span>route-ctrl · ochre</span></div>
+      <div class="sw"><i style="background:var(--atl-route-ext)"></i><span>route-ext · slate</span></div>
+      <div class="sw"><i style="background:var(--atl-route-fail)"></i><span>route-fail · red</span></div>
+    </div>
+
+    <p class="demo-note">Node kinds — stroke over pale plate (v2)</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--atl-node-client-bg); border-color:var(--atl-node-client)"></i><span>node-client</span></div>
+      <div class="sw"><i style="background:var(--atl-node-edge-bg); border-color:var(--atl-node-edge)"></i><span>node-edge</span></div>
+      <div class="sw"><i style="background:var(--atl-node-svc-bg); border-color:var(--atl-node-svc)"></i><span>node-svc</span></div>
+      <div class="sw"><i style="background:var(--atl-node-fn-bg); border-color:var(--atl-node-fn)"></i><span>node-fn</span></div>
+      <div class="sw"><i style="background:var(--atl-node-store-bg); border-color:var(--atl-node-store)"></i><span>node-store</span></div>
+      <div class="sw"><i style="background:var(--atl-node-queue-bg); border-color:var(--atl-node-queue)"></i><span>node-queue</span></div>
+      <div class="sw"><i style="background:var(--atl-node-cache-bg); border-color:var(--atl-node-cache)"></i><span>node-cache</span></div>
+      <div class="sw"><i style="background:var(--atl-node-ext-bg); border-color:var(--atl-node-ext); border-style:dashed"></i><span>node-ext</span></div>
     </div>
 
     <p class="demo-note">Data-viz categorical (use in order)</p>
@@ -100,14 +139,14 @@
       <div class="type-specimen"><span class="lbl">--atl-mono · machine truth</span><span class="atl-mono atl-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
     </div>
 
-    <p class="demo-note">Spacing · 4px scale · radius 0</p>
-    <p style="font-family:var(--atl-mono); font-size:12.5px;">--atl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. No radius tokens exist: everything in Atelier is square.</p>
+    <p class="demo-note">Spacing · layout · radius 0</p>
+    <p style="font-family:var(--atl-mono); font-size:12.5px;">--atl-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. --atl-gutter = clamp(16px, 4vw, 64px) · --atl-measure = 70ch · --atl-rail = 220px · --atl-shell-max = 1920px. No radius tokens exist: everything in Atelier is square.</p>
   </section>
 
   <!-- ============ № 03 DOCUMENT MODE ============ -->
-  <section class="atl-section">
+  <section class="atl-section" id="document">
     <div class="atl-sec-h"><span class="atl-folio">№ 03</span><h2>Document mode</h2></div>
-    <p>For investigations, design essays, post-mortems, and wiki exports. Charter body at 17px capped at 66ch; the opening paragraph takes the document's only drop cap; each section closes with its footnote strip. Everything below is live — the demo content is a fictional payments platform.</p>
+    <p>For investigations, design essays, post-mortems, RFCs and architecture reviews. Charter body at 17px capped at the 70ch measure; wide elements take the full column. The opening paragraph takes the document's only drop cap; each section closes with its footnote strip. Everything below is live — the demo content is a fictional payments platform.</p>
 
     <p class="demo-note">Live demo — stat strip, footnote refs, pull quote, table with total, verdict</p>
 
@@ -115,7 +154,9 @@
       <div><div class="atl-stat-label">Wallets funded</div><div class="atl-stat-value atl-num">12,408</div></div>
       <div><div class="atl-stat-label">Float balance</div><div class="atl-stat-value atl-num">€2.4<span class="atl-unit">M</span></div></div>
       <div><div class="atl-stat-label">Automated moves</div><div class="atl-stat-value atl-num">1</div></div>
+      <div><div class="atl-stat-label">Top-up p95</div><div class="atl-stat-value atl-num">346<span class="atl-unit">ms</span></div></div>
       <div><div class="atl-stat-label">Recon gap</div><div class="atl-stat-value atl-num">0.02<span class="atl-unit">%</span></div></div>
+      <div><div class="atl-stat-label">Services in path</div><div class="atl-stat-value atl-num">4</div></div>
     </div>
 
     <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet.<sup class="atl-fnref">2</sup> Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.<sup class="atl-fnref">3</sup></p>
@@ -124,23 +165,18 @@
 
     <div class="atl-table-wrap">
       <table class="atl-table">
-        <thead><tr><th>Rail</th><th>Mechanism</th><th class="atl-num">Volume (Jun)</th></tr></thead>
+        <thead><tr><th>Rail</th><th>Mechanism</th><th>Owner</th><th>Settlement</th><th class="atl-num">Volume (Jun)</th></tr></thead>
         <tbody>
-          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="atl-num">€1,204,880</td></tr>
-          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="atl-num">€863,110</td></tr>
-          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="atl-num">€98,400</td></tr>
-          <tr class="atl-total"><td>Total in</td><td></td><td class="atl-num">€2,166,390</td></tr>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td>team-payments</td><td>T+2</td><td class="atl-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td>team-banking</td><td>T+1</td><td class="atl-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td>ops</td><td>manual</td><td class="atl-num">€98,400</td></tr>
+          <tr class="atl-total"><td>Total in</td><td></td><td></td><td></td><td class="atl-num">€2,166,390</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p>The comparison job keys on wallet ID and runs inside the ledger service:</p>
-    <pre><code>SELECT wallet_id, float_total - journal_total AS gap
-FROM   nightly_recon
-WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
-
     <div class="atl-footnotes">
-      <p class="atl-fn"><span class="atl-fn-num">2.</span> <span class="atl-cite">WalletService.java:214</span> — verified 2026-07-29 against the production branch.</p>
+      <p class="atl-fn"><span class="atl-fn-num">2.</span> <span class="atl-cite">WalletService.kt:214</span> — verified 2026-10-02 against the production branch.</p>
       <p class="atl-fn"><span class="atl-fn-num">3.</span> <span class="atl-cite">RECON-441</span> — drift observed on 2% of wallets, June close.</p>
     </div>
 
@@ -148,26 +184,436 @@ WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
       <h3>Reconcile the mirrors nightly, not monthly.</h3>
       <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
       <ol>
-        <li>Add a scheduled comparison job keyed on wallet ID.</li>
+        <li>Ship <code>recon-worker</code> behind a flag (ADR-014, below).</li>
         <li>Alert on any per-wallet gap over €1.</li>
       </ol>
     </div>
   </section>
 
-  <!-- ============ № 04 PANEL MODE ============ -->
-  <section class="atl-section">
-    <div class="atl-sec-h"><span class="atl-folio">№ 04</span><h2>Panel mode</h2></div>
-    <p>The Economist/FT print-data idiom: the same warm paper, hairline horizontal rules, no cards and no boxes. Numbers are very large and very light; statuses are solid squares in the semantic ink; chips are small-caps text with a thin coloured underline.</p>
+  <!-- ============ № 04 ARCHITECTURE DIAGRAMS ============ -->
+  <section class="atl-section" id="diagrams">
+    <div class="atl-sec-h"><span class="atl-folio">№ 04</span><h2>Architecture diagrams</h2></div>
+    <p>Native SVG plates in pigment inks. Node kinds and route kinds each carry one ink; zones draw boundaries as dashed rules; numbered steps tie the plate to the walkthrough under it. The hot path carries marching dashes and a travelling packet — directional motion only, disabled under <code>prefers-reduced-motion</code>. Plates sit between a strong rule and a hairline, like every other Atelier figure, and scroll inside themselves on narrow screens.</p>
+
+    <figure class="atl-arch">
+      <div class="atl-plate">
+      <svg viewBox="0 0 1200 560" role="img" aria-label="Container architecture of wallet top-ups. Web and mobile clients call the API gateway, which verifies tokens with auth-service and routes to wallet-service. wallet-service writes the wallets database and balance cache, calls the external card PSP, and publishes to the funding.events queue. The PSP webhook reaches webhook-handler, which appends to the journal. A proposed recon-worker consumes funding.events, reads wallets and journal, and dead-letters failures to funding.dlq.">
+        <defs>
+          <marker id="a-sync"  class="atl-m sync"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-async" class="atl-m async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-data"  class="atl-m data"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-ctrl"  class="atl-m ctrl"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-ext"   class="atl-m ext"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-fail"  class="atl-m fail"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <text class="atl-stage" x="24"  y="30">Clients</text>
+        <text class="atl-stage" x="230" y="30">Edge</text>
+        <text class="atl-stage" x="456" y="30">Services</text>
+        <text class="atl-stage" x="702" y="30">Data</text>
+        <text class="atl-stage" x="938" y="30">Async</text>
+
+        <rect class="atl-zone" x="10" y="44" width="186" height="500"/>
+        <text class="atl-zlabel" x="22" y="532">Public internet</text>
+        <rect class="atl-zone" x="214" y="44" width="976" height="500"/>
+        <text class="atl-zlabel" x="226" y="532">VPC · eu-west-1</text>
+        <rect class="atl-zone trust" x="690" y="62" width="204" height="462"/>
+        <text class="atl-zlabel trust" x="702" y="512">Restricted subnet</text>
+
+        <path class="atl-edge sync atl-flow" d="M174,128 C204,128 200,168 228,168" marker-end="url(#a-sync)"/>
+        <path class="atl-edge sync atl-flow" d="M174,228 C204,228 200,196 228,196" marker-end="url(#a-sync)"/>
+        <path class="atl-edge sync atl-flow" d="M400,170 C428,170 426,152 454,152" marker-end="url(#a-sync)"/>
+        <path class="atl-edge ctrl" d="M315,220 V294" marker-end="url(#a-ctrl)"/>
+        <path class="atl-edge data atl-flow" d="M646,148 H700" marker-end="url(#a-data)"/>
+        <path class="atl-edge data" d="M600,200 V286 H700" marker-end="url(#a-data)"/>
+        <path class="atl-edge async atl-flow" d="M620,104 V74 H1038 V94" marker-end="url(#a-async)"/>
+        <path class="atl-edge async atl-flow" d="M1038,176 V248" marker-end="url(#a-async)"/>
+        <path class="atl-edge data" d="M938,270 C912,270 912,160 884,160" marker-end="url(#a-data)"/>
+        <path class="atl-edge data" d="M938,300 C912,300 912,420 884,420" marker-end="url(#a-data)"/>
+        <path class="atl-edge fail atl-flow" d="M1038,322 V398" marker-end="url(#a-fail)"/>
+        <path class="atl-edge ext" d="M456,184 H440 V446 H176" marker-end="url(#a-ext)"/>
+        <path class="atl-edge ext atl-flow" d="M174,476 H454" marker-end="url(#a-ext)"/>
+        <path class="atl-edge data atl-flow" d="M646,440 H700" marker-end="url(#a-data)"/>
+        <text class="atl-elabel fail" x="1048" y="366">after 3 tries</text>
+
+        <circle class="atl-pkt sync" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" path="M174,128 C204,128 200,168 228,168"/></circle>
+        <circle class="atl-pkt sync" r="4"><animateMotion dur="2.2s" begin="0.7s" repeatCount="indefinite" path="M400,170 C428,170 426,152 454,152"/></circle>
+        <circle class="atl-pkt data" r="4"><animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite" path="M646,148 H700"/></circle>
+
+        <g class="atl-node client"><rect class="atl-nbox" x="24" y="96" width="150" height="64"/>
+          <text class="atl-nlabel" x="38" y="122">Web app</text><text class="atl-nsub" x="38" y="142">React · checkout</text></g>
+        <g class="atl-node client"><rect class="atl-nbox" x="24" y="196" width="150" height="64"/>
+          <text class="atl-nlabel" x="38" y="222">Mobile app</text><text class="atl-nsub" x="38" y="242">iOS · Android</text></g>
+        <g class="atl-node ext"><rect class="atl-nbox" x="24" y="420" width="150" height="72"/>
+          <text class="atl-nlabel" x="38" y="446">Card PSP</text><text class="atl-nsub" x="38" y="466">hosted checkout</text></g>
+
+        <g class="atl-node edge is-hot"><rect class="atl-nbox" x="230" y="136" width="170" height="84"/>
+          <text class="atl-nlabel" x="244" y="162">API gateway</text><text class="atl-nsub" x="244" y="182">Envoy · TLS 1.3</text><text class="atl-ntag" x="244" y="202">400 rps limit</text></g>
+        <g class="atl-node svc"><rect class="atl-nbox" x="230" y="296" width="170" height="64"/>
+          <text class="atl-nlabel" x="244" y="322">auth-service</text><text class="atl-nsub" x="244" y="342">OIDC · JWT verify</text></g>
+
+        <g class="atl-node svc is-hot"><rect class="atl-nbox" x="456" y="104" width="190" height="96"/>
+          <text class="atl-nlabel" x="470" y="130">wallet-service</text><text class="atl-nsub" x="470" y="150">Kotlin · :8080</text><text class="atl-ntag" x="470" y="170">p95 180 ms · 99.95%</text></g>
+        <g class="atl-node svc"><rect class="atl-nbox" x="456" y="430" width="190" height="64"/>
+          <text class="atl-nlabel" x="470" y="456">webhook-handler</text><text class="atl-nsub" x="470" y="476">checks PSP signature</text></g>
+
+        <g class="atl-node store is-hot">
+          <path class="atl-nbox" d="M702,106 A90,10 0 0 1 882,106 V190 A90,10 0 0 1 702,190 Z"/>
+          <path class="atl-nline" d="M702,106 A90,10 0 0 0 882,106"/>
+          <text class="atl-nlabel" x="716" y="140">wallets</text><text class="atl-nsub" x="716" y="160">Postgres 16 · RW</text><text class="atl-ntag" x="716" y="180">SERIALIZABLE</text></g>
+        <g class="atl-node cache"><rect class="atl-nbox" x="702" y="256" width="180" height="60"/>
+          <text class="atl-nlabel" x="716" y="282">balance-cache</text><text class="atl-nsub" x="716" y="302">Redis · TTL 30 s</text></g>
+        <g class="atl-node store">
+          <path class="atl-nbox" d="M702,382 A90,10 0 0 1 882,382 V466 A90,10 0 0 1 702,466 Z"/>
+          <path class="atl-nline" d="M702,382 A90,10 0 0 0 882,382"/>
+          <text class="atl-nlabel" x="716" y="416">journal</text><text class="atl-nsub" x="716" y="436">append-only · WORM</text><text class="atl-ntag" x="716" y="456">double-entry</text></g>
+
+        <g class="atl-node queue"><rect class="atl-nbox" x="938" y="96" width="200" height="80"/>
+          <path class="atl-nline" d="M1110,112 V160 M1119,112 V160 M1128,112 V160"/>
+          <text class="atl-nlabel" x="952" y="122">funding.events</text><text class="atl-nsub" x="952" y="142">Kafka topic</text><text class="atl-ntag" x="952" y="162">12 partitions</text></g>
+        <g class="atl-node fn is-new"><rect class="atl-nbox" x="938" y="250" width="200" height="72"/>
+          <text class="atl-nlabel" x="952" y="276">recon-worker</text><text class="atl-nsub" x="952" y="296">Lambda · 02:00 UTC</text><text class="atl-ntag" x="952" y="314">proposed · ADR-014</text></g>
+        <g class="atl-node queue is-fail"><rect class="atl-nbox" x="938" y="400" width="200" height="64"/>
+          <path class="atl-nline" d="M1110,414 V450 M1119,414 V450 M1128,414 V450"/>
+          <text class="atl-nlabel" x="952" y="426">funding.dlq</text><text class="atl-nsub" x="952" y="446">redrive by on-call</text></g>
+
+        <g class="atl-step"><circle cx="201" cy="148" r="12"/><text x="201" y="148">1</text></g>
+        <g class="atl-step"><circle cx="315" cy="257" r="12"/><text x="315" y="257">2</text></g>
+        <g class="atl-step"><circle cx="427" cy="161" r="12"/><text x="427" y="161">3</text></g>
+        <g class="atl-step"><circle cx="440" cy="320" r="12"/><text x="440" y="320">4</text></g>
+        <g class="atl-step"><circle cx="314" cy="476" r="12"/><text x="314" y="476">5</text></g>
+        <g class="atl-step"><circle cx="673" cy="440" r="12"/><text x="673" y="440">6</text></g>
+        <g class="atl-step"><circle cx="830" cy="74" r="12"/><text x="830" y="74">7</text></g>
+        <g class="atl-step"><circle cx="1038" cy="212" r="12"/><text x="1038" y="212">8</text></g>
+      </svg>
+      </div>
+      <div class="atl-legend">
+        <span><i class="sync"></i><b>sync</b> request path</span>
+        <span><i class="async"></i><b>async</b> events</span>
+        <span><i class="data"></i><b>data</b> reads &amp; writes</span>
+        <span><i class="ctrl"></i><b>ctrl</b> auth &amp; config</span>
+        <span><i class="ext"></i><b>ext</b> third party</span>
+        <span><i class="fail"></i><b>fail</b> dead-letter</span>
+        <span><i class="n client"></i>client</span>
+        <span><i class="n edge"></i>edge</span>
+        <span><i class="n svc"></i>service</span>
+        <span><i class="n fn"></i>function</span>
+        <span><i class="n store"></i>store</span>
+        <span><i class="n queue"></i>queue</span>
+        <span><i class="n cache"></i>cache</span>
+        <span><i class="n ext"></i>external</span>
+        <span><i class="n is-hot"></i>hot path</span>
+        <span><i class="n is-new"></i>proposed</span>
+      </div>
+      <figcaption class="atl-figcap">Fig. № 1 — Wallet top-up, container view. Source: platform-infra/terraform @ 4c1e9a2, verified 2026-10-02.</figcaption>
+    </figure>
+
+    <ol class="atl-steps">
+      <li>A client submits a top-up to the <strong>API gateway</strong> with an <code>Idempotency-Key</code> header.</li>
+      <li>The gateway verifies the bearer token with <strong>auth-service</strong> — control plane, cached for 60 s.</li>
+      <li>The gateway routes the request to <strong>wallet-service</strong>, the only writer of wallet balances.</li>
+      <li>wallet-service reserves the key in <strong>wallets</strong> and creates a payment with the <strong>card PSP</strong>.</li>
+      <li>The PSP confirms by webhook to <strong>webhook-handler</strong>, which verifies the signature.</li>
+      <li>webhook-handler appends the double-entry pair to the <strong>journal</strong>.</li>
+      <li>wallet-service credits the wallet and publishes <code>wallet.funded</code> to <strong>funding.events</strong>.</li>
+      <li>The proposed <strong>recon-worker</strong> compares wallets with the journal nightly; poison events go to <strong>funding.dlq</strong>.</li>
+    </ol>
+
+    <figure class="atl-seq">
+      <div class="atl-plate">
+      <svg viewBox="0 0 1160 548" role="img" aria-label="Sequence of a top-up. Client posts to the gateway, which forwards to wallet-service. wallet-service inserts a pending row in the wallets database, then calls the card PSP, which fails with 503 once and succeeds on retry with the same idempotency key. wallet-service returns 202 to the client via the gateway. After the webhook it publishes wallet.funded to funding.events.">
+        <defs>
+          <marker id="s-sync"  class="atl-m sync"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-async" class="atl-m async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-data"  class="atl-m data"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-ext"   class="atl-m ext"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-fail"  class="atl-m fail"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-ret"   class="atl-m ret"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <line class="atl-life" x1="100"  y1="64" x2="100"  y2="536"/>
+        <line class="atl-life" x1="290"  y1="64" x2="290"  y2="536"/>
+        <line class="atl-life" x1="480"  y1="64" x2="480"  y2="536"/>
+        <line class="atl-life" x1="670"  y1="64" x2="670"  y2="536"/>
+        <line class="atl-life" x1="860"  y1="64" x2="860"  y2="536"/>
+        <line class="atl-life" x1="1050" y1="64" x2="1050" y2="536"/>
+
+        <g class="atl-node client"><rect class="atl-nbox" x="25"  y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="100" y="37" text-anchor="middle">Client</text><text class="atl-nsub" x="100" y="54" text-anchor="middle">checkout UI</text></g>
+        <g class="atl-node edge"><rect class="atl-nbox" x="215" y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="290" y="37" text-anchor="middle">API gateway</text><text class="atl-nsub" x="290" y="54" text-anchor="middle">Envoy</text></g>
+        <g class="atl-node svc"><rect class="atl-nbox" x="405" y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="480" y="37" text-anchor="middle">wallet-service</text><text class="atl-nsub" x="480" y="54" text-anchor="middle">Kotlin</text></g>
+        <g class="atl-node store"><rect class="atl-nbox" x="595" y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="670" y="37" text-anchor="middle">wallets</text><text class="atl-nsub" x="670" y="54" text-anchor="middle">Postgres</text></g>
+        <g class="atl-node ext"><rect class="atl-nbox" x="785" y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="860" y="37" text-anchor="middle">Card PSP</text><text class="atl-nsub" x="860" y="54" text-anchor="middle">external</text></g>
+        <g class="atl-node queue"><rect class="atl-nbox" x="975" y="16" width="150" height="48"/>
+          <text class="atl-nlabel" x="1050" y="37" text-anchor="middle">funding.events</text><text class="atl-nsub" x="1050" y="54" text-anchor="middle">Kafka</text></g>
+
+        <g class="atl-node edge"><rect class="atl-act" x="284" y="92"  width="12" height="320"/></g>
+        <g class="atl-node svc"><rect class="atl-act" x="474" y="128" width="12" height="384"/></g>
+        <g class="atl-node store"><rect class="atl-act" x="664" y="164" width="12" height="42"/></g>
+        <g class="atl-node ext"><rect class="atl-act" x="854" y="228" width="12" height="52"/></g>
+        <g class="atl-node ext"><rect class="atl-act" x="854" y="298" width="12" height="46"/></g>
+
+        <path class="atl-edge sync atl-flow" d="M100,100 H282" marker-end="url(#s-sync)"/>
+        <text class="atl-elabel" x="191" y="92" text-anchor="middle">POST /v1/topups</text>
+        <path class="atl-edge sync atl-flow" d="M296,136 H472" marker-end="url(#s-sync)"/>
+        <text class="atl-elabel" x="384" y="128" text-anchor="middle">forward · JWT claims</text>
+        <path class="atl-edge data" d="M486,172 H662" marker-end="url(#s-data)"/>
+        <text class="atl-elabel" x="574" y="164" text-anchor="middle">INSERT · idem key</text>
+        <path class="atl-edge ret" d="M664,200 H488" marker-end="url(#s-ret)"/>
+        <text class="atl-elabel" x="576" y="192" text-anchor="middle">1 row</text>
+        <path class="atl-edge ext" d="M486,236 H852" marker-end="url(#s-ext)"/>
+        <text class="atl-elabel" x="669" y="228" text-anchor="middle">create PaymentIntent</text>
+        <path class="atl-edge fail" d="M854,270 H488" marker-end="url(#s-fail)"/>
+        <text class="atl-elabel fail" x="671" y="262" text-anchor="middle">503 · retry after 200 ms</text>
+        <path class="atl-edge ext" d="M486,306 H852" marker-end="url(#s-ext)"/>
+        <text class="atl-elabel" x="669" y="298" text-anchor="middle">retry #1 · same idem key</text>
+        <path class="atl-edge ret" d="M854,338 H488" marker-end="url(#s-ret)"/>
+        <text class="atl-elabel" x="671" y="330" text-anchor="middle">201 requires_action</text>
+        <path class="atl-edge ret" d="M474,372 H298" marker-end="url(#s-ret)"/>
+        <text class="atl-elabel" x="386" y="364" text-anchor="middle">202 Accepted</text>
+        <path class="atl-edge ret" d="M284,404 H102" marker-end="url(#s-ret)"/>
+        <text class="atl-elabel" x="193" y="396" text-anchor="middle">202 · topup_id</text>
+
+        <rect class="atl-note" x="500" y="424" width="400" height="44"/>
+        <text class="atl-note-t" x="516" y="451">Credit happens on the webhook — never on the 202.</text>
+
+        <path class="atl-edge async atl-flow" d="M486,500 H1048" marker-end="url(#s-async)"/>
+        <text class="atl-elabel" x="767" y="492" text-anchor="middle">wallet.funded · after webhook</text>
+
+        <circle class="atl-pkt sync" r="4"><animateMotion dur="2s" repeatCount="indefinite" path="M100,100 H282"/></circle>
+        <circle class="atl-pkt async" r="4"><animateMotion dur="3s" repeatCount="indefinite" path="M486,500 H1048"/></circle>
+      </svg>
+      </div>
+      <div class="atl-legend">
+        <span><i class="sync"></i><b>sync</b> call</span>
+        <span><i class="ret"></i><b>return</b></span>
+        <span><i class="data"></i><b>data</b> write</span>
+        <span><i class="ext"></i><b>ext</b> PSP call</span>
+        <span><i class="fail"></i><b>fail</b> retryable error</span>
+        <span><i class="async"></i><b>async</b> event</span>
+      </div>
+      <figcaption class="atl-figcap">Fig. № 2 — Top-up with one PSP retry. Source: wallet-service traces, trace_id 7f3a…c21, 2026-10-02.</figcaption>
+    </figure>
+
+    <figure class="atl-state">
+      <div class="atl-plate">
+      <svg viewBox="0 0 1180 300" role="img" aria-label="Top-up state machine. created moves to pending_psp on submit, pending_psp retries itself on 503 up to three times, moves to authorised on webhook or to failed when declined. authorised moves to captured, or to failed when it expires after seven days. captured moves to credited when the ledger is posted; credited may move to refunded by an ops refund, otherwise it is final.">
+        <defs>
+          <marker id="t-sync"  class="atl-m sync"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="t-async" class="atl-m async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="t-data"  class="atl-m data"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="t-ctrl"  class="atl-m ctrl"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="t-fail"  class="atl-m fail"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <circle class="atl-init" cx="40" cy="110" r="7"/>
+        <path class="atl-edge sync" d="M47,110 H76" marker-end="url(#t-sync)"/>
+        <path class="atl-edge sync atl-flow" d="M220,110 H286" marker-end="url(#t-sync)"/>
+        <text class="atl-elabel" x="253" y="101" text-anchor="middle">submit</text>
+        <path class="atl-edge async atl-flow" d="M430,110 H496" marker-end="url(#t-async)"/>
+        <text class="atl-elabel" x="463" y="101" text-anchor="middle">webhook</text>
+        <path class="atl-edge sync atl-flow" d="M640,110 H706" marker-end="url(#t-sync)"/>
+        <text class="atl-elabel" x="673" y="101" text-anchor="middle">capture</text>
+        <path class="atl-edge data atl-flow" d="M850,110 H916" marker-end="url(#t-data)"/>
+        <text class="atl-elabel" x="883" y="101" text-anchor="middle">credit</text>
+        <path class="atl-edge sync" d="M1060,110 H1115" marker-end="url(#t-sync)"/>
+        <circle class="atl-final" cx="1130" cy="110" r="11"/>
+        <circle class="atl-init" cx="1130" cy="110" r="6"/>
+
+        <path class="atl-edge fail" d="M330,84 C330,36 390,36 390,82" marker-end="url(#t-fail)"/>
+        <text class="atl-elabel fail" x="360" y="30" text-anchor="middle">503 · retry ×3</text>
+        <path class="atl-edge fail" d="M360,136 C360,186 450,180 450,216" marker-end="url(#t-fail)"/>
+        <text class="atl-elabel fail" x="380" y="196" text-anchor="end">declined</text>
+        <path class="atl-edge fail" d="M570,136 C570,186 500,180 500,216" marker-end="url(#t-fail)"/>
+        <text class="atl-elabel fail" x="568" y="196">expired · 7 d</text>
+        <path class="atl-edge ctrl" d="M990,136 V216" marker-end="url(#t-ctrl)"/>
+        <text class="atl-elabel" x="1000" y="182">ops refund</text>
+
+        <g class="atl-node neutral"><rect class="atl-nbox" x="80"  y="84" width="140" height="52"/><text class="atl-stname" x="150" y="115">created</text></g>
+        <g class="atl-node warn"><rect class="atl-nbox" x="290" y="84" width="140" height="52"/><text class="atl-stname" x="360" y="115">pending_psp</text></g>
+        <g class="atl-node info"><rect class="atl-nbox" x="500" y="84" width="140" height="52"/><text class="atl-stname" x="570" y="115">authorised</text></g>
+        <g class="atl-node info"><rect class="atl-nbox" x="710" y="84" width="140" height="52"/><text class="atl-stname" x="780" y="115">captured</text></g>
+        <g class="atl-node ok is-hot"><rect class="atl-nbox" x="920" y="84" width="140" height="52"/><text class="atl-stname" x="990" y="115">credited</text></g>
+        <g class="atl-node crit"><rect class="atl-nbox" x="395" y="220" width="140" height="52"/><text class="atl-stname" x="465" y="251">failed</text></g>
+        <g class="atl-node neutral"><rect class="atl-nbox" x="920" y="220" width="140" height="52"/><text class="atl-stname" x="990" y="251">refunded</text></g>
+      </svg>
+      </div>
+      <div class="atl-legend">
+        <span><i class="sync"></i><b>sync</b> caller-driven</span>
+        <span><i class="async"></i><b>async</b> webhook-driven</span>
+        <span><i class="data"></i><b>data</b> ledger posting</span>
+        <span><i class="ctrl"></i><b>ctrl</b> operator action</span>
+        <span><i class="fail"></i><b>fail</b> error path</span>
+        <span><i class="n warn"></i>waiting on partner</span>
+        <span><i class="n info"></i>in flight</span>
+        <span><i class="n ok"></i>money moved</span>
+        <span><i class="n crit"></i>terminal failure</span>
+      </div>
+      <figcaption class="atl-figcap">Fig. № 3 — Top-up lifecycle. Source: TopupState.kt, rev 2026-09-30.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ № 05 ENGINEERING COMPONENTS ============ -->
+  <section class="atl-section" id="components">
+    <div class="atl-sec-h"><span class="atl-folio">№ 05</span><h2>Engineering components</h2></div>
+    <p>The architecture review's furniture, set in the house idiom: entries opened by rules rather than cards, stamps rather than pills, and every colour borrowed from the diagram pigments so a service reads the same in the plate and in the directory.</p>
+
+    <p class="demo-note">Service directory — .atl-svc-grid / .atl-svc</p>
+    <div class="atl-svc-grid">
+      <article class="atl-svc svc">
+        <div class="atl-svc-h"><span class="atl-sq ok"></span><span class="atl-svc-kind">service</span><span class="atl-svc-owner">team-payments</span></div>
+        <h4 class="atl-svc-name">wallet-service</h4>
+        <p class="atl-svc-desc">Sole writer of wallet balances; owns top-up orchestration.</p>
+        <div class="atl-kv"><span>SLO</span><b>99.95% · p95 180 ms</b></div>
+        <div class="atl-kv"><span>Depends on</span><b>wallets · PSP</b></div>
+        <div class="atl-kv"><span>Deploy</span><b>v4.2.1 · 2026-10-01</b></div>
+        <div class="atl-tags"><span>Kotlin</span><span>Spring Boot</span><span>ECS</span></div>
+      </article>
+      <article class="atl-svc edge">
+        <div class="atl-svc-h"><span class="atl-sq ok"></span><span class="atl-svc-kind">edge</span><span class="atl-svc-owner">team-platform</span></div>
+        <h4 class="atl-svc-name">api-gateway</h4>
+        <p class="atl-svc-desc">TLS termination, rate limits, token introspection.</p>
+        <div class="atl-kv"><span>SLO</span><b>99.99% · p95 18 ms</b></div>
+        <div class="atl-kv"><span>Depends on</span><b>auth-service</b></div>
+        <div class="atl-kv"><span>Deploy</span><b>v1.31 · 2026-09-24</b></div>
+        <div class="atl-tags"><span>Envoy</span><span>EKS</span></div>
+      </article>
+      <article class="atl-svc svc">
+        <div class="atl-svc-h"><span class="atl-sq warn"></span><span class="atl-svc-kind">service</span><span class="atl-svc-owner">team-payments</span></div>
+        <h4 class="atl-svc-name">webhook-handler</h4>
+        <p class="atl-svc-desc">Verifies PSP signatures and posts the journal pair.</p>
+        <div class="atl-kv"><span>SLO</span><b>99.9% · p95 60 ms</b></div>
+        <div class="atl-kv"><span>Depends on</span><b>journal</b></div>
+        <div class="atl-kv"><span>Deploy</span><b>v2.0.3 · 2026-09-29</b></div>
+        <div class="atl-tags"><span>Go</span><span>Lambda URL</span></div>
+      </article>
+      <article class="atl-svc fn is-new">
+        <div class="atl-svc-h"><span class="atl-sq neutral"></span><span class="atl-svc-kind">function · proposed</span><span class="atl-svc-owner">team-ledger</span></div>
+        <h4 class="atl-svc-name">recon-worker</h4>
+        <p class="atl-svc-desc">Nightly three-way reconciliation of float, wallets and journal.</p>
+        <div class="atl-kv"><span>SLO</span><b>finish by 03:00 UTC</b></div>
+        <div class="atl-kv"><span>Depends on</span><b>wallets · journal</b></div>
+        <div class="atl-kv"><span>Deploy</span><b>not yet</b></div>
+        <div class="atl-tags"><span>Python 3.12</span><span>Lambda</span><span>EventBridge</span></div>
+      </article>
+    </div>
+
+    <p class="demo-note">API surface — .atl-api with .atl-method stamps</p>
+    <div class="atl-table-wrap">
+      <table class="atl-table atl-api">
+        <thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Auth</th><th>Idempotent</th><th class="atl-num">p95</th></tr></thead>
+        <tbody>
+          <tr><td><span class="atl-method get">get</span></td><td class="atl-path">/v1/wallets/<i>{wallet_id}</i></td><td>Read balance and limits</td><td>user JWT</td><td>yes</td><td class="atl-num">42 ms</td></tr>
+          <tr><td><span class="atl-method post">post</span></td><td class="atl-path">/v1/topups</td><td>Start a top-up</td><td>user JWT</td><td><code>Idempotency-Key</code></td><td class="atl-num">346 ms</td></tr>
+          <tr><td><span class="atl-method put">put</span></td><td class="atl-path">/v1/wallets/<i>{wallet_id}</i>/limits</td><td>Replace spending limits</td><td>ops role</td><td>yes</td><td class="atl-num">71 ms</td></tr>
+          <tr><td><span class="atl-method patch">patch</span></td><td class="atl-path">/v1/topups/<i>{topup_id}</i></td><td>Cancel while pending</td><td>user JWT</td><td>yes</td><td class="atl-num">88 ms</td></tr>
+          <tr><td><span class="atl-method delete">delete</span></td><td class="atl-path">/v1/cards/<i>{card_id}</i></td><td>Detach a saved card</td><td>user JWT</td><td>yes</td><td class="atl-num">64 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="demo-note">Decision record — .atl-adr</p>
+    <article class="atl-adr">
+      <header class="atl-adr-h">
+        <span class="atl-folio">ADR-014 · 2026-09-14</span>
+        <span class="atl-adr-status accepted">accepted</span>
+        <h3>Reconcile wallets nightly with a dedicated worker</h3>
+      </header>
+      <div class="atl-adr-body">
+        <section><h4>Context</h4><p>Wallet balances and the journal drift on roughly 2% of wallets per month. Reconciliation is a manual month-end spreadsheet, so a divergence can stay hidden for thirty days.</p></section>
+        <section><h4>Decision</h4><p>Run <code>recon-worker</code> nightly at 02:00 UTC as a Lambda reading replicas of <code>wallets</code> and <code>journal</code>, alerting on any per-wallet gap over €1 and dead-lettering unparseable events.</p></section>
+        <section><h4>Consequences</h4>
+          <ul class="atl-conseq">
+            <li class="pro">Detection window falls from 30 days to 1.</li>
+            <li class="pro">Read replicas only — no write path into money.</li>
+            <li class="con">A new on-call duty for the DLQ.</li>
+            <li class="con">Replica lag can flag false gaps near midnight.</li>
+          </ul>
+        </section>
+      </div>
+    </article>
+
+    <p class="demo-note">Trade-off matrix — .atl-tradeoff (symbol and ink, never colour alone)</p>
+    <div class="atl-table-wrap">
+      <table class="atl-table atl-tradeoff">
+        <thead><tr><th>Option</th><th>Detection window</th><th>Run cost</th><th>Complexity</th><th>Blast radius</th></tr></thead>
+        <tbody>
+          <tr class="is-chosen"><td>Nightly worker</td><td class="good">1 day</td><td class="good">~€40 / month</td><td class="mid">new on-call</td><td class="good">read-only</td></tr>
+          <tr><td>Streaming reconciliation</td><td class="good">minutes</td><td class="bad">~€1,900 / month</td><td class="bad">stateful stream</td><td class="mid">shares Kafka</td></tr>
+          <tr><td>Month-end spreadsheet</td><td class="bad">30 days</td><td class="good">none</td><td class="good">none</td><td class="mid">manual errors</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="demo-note">Latency budget — .atl-budget</p>
+    <div class="atl-budget">
+      <div class="atl-budget-h"><span>POST /v1/topups · p95 by hop</span><b>346 / 400 ms</b></div>
+      <div class="atl-budget-bar" style="--scale:500" role="img" aria-label="Latency budget: gateway 18 ms, auth 22 ms, cache 6 ms, wallet-service 40 ms, wallets database 30 ms, card PSP 230 ms; total 346 ms against a 400 ms target.">
+        <span class="atl-budget-seg edge"  style="--ms:18"></span>
+        <span class="atl-budget-seg svc"   style="--ms:22"></span>
+        <span class="atl-budget-seg cache" style="--ms:6"></span>
+        <span class="atl-budget-seg svc"   style="--ms:40"></span>
+        <span class="atl-budget-seg store" style="--ms:30"></span>
+        <span class="atl-budget-seg ext"   style="--ms:230"></span>
+        <span class="atl-budget-target" style="--at:400" data-label="p95 target 400 ms"></span>
+      </div>
+      <div class="atl-budget-axis"><span>0</span><span>250 ms</span><span>500 ms</span></div>
+      <ul class="atl-budget-key">
+        <li class="edge"><i></i>gateway <b>18 ms</b></li>
+        <li class="svc"><i></i>auth-service <b>22 ms</b></li>
+        <li class="cache"><i></i>balance-cache <b>6 ms</b></li>
+        <li class="svc"><i></i>wallet-service <b>40 ms</b></li>
+        <li class="store"><i></i>wallets <b>30 ms</b></li>
+        <li class="ext"><i></i>card PSP <b>230 ms</b></li>
+      </ul>
+    </div>
+    <p>Two-thirds of the budget is spent outside the estate: the slate segment is the PSP, and no amount of tuning inside the VPC moves it.</p>
+
+    <p class="demo-note">Rollout timeline — .atl-timeline</p>
+    <ol class="atl-timeline">
+      <li class="ok"><time>2026-09-14</time><div><b>ADR-014 accepted</b><p>Architecture review signs off the nightly worker.</p></div></li>
+      <li class="info"><time>2026-09-21</time><div><b>Shadow mode</b><p>Worker runs, alerts suppressed; output diffed against the month-end sheet.</p></div></li>
+      <li class="warn"><time>2026-09-28</time><div><b>Canary · 10% of wallets</b><p>Three false gaps from replica lag; window moved to 02:00 UTC.</p></div></li>
+      <li class="ok"><time>2026-10-03</time><div><b>Full rollout</b><p>All wallets reconciled nightly; month-end sheet retired.</p></div></li>
+      <li class="crit"><time>2026-10-06 02:14</time><div><b>DLQ alarm</b><p>Malformed <code>wallet.funded</code> from a legacy producer; redriven after fix.</p></div></li>
+    </ol>
+
+    <p class="demo-note">Callouts — .atl-callout note / warn / risk / decision</p>
+    <div class="atl-callout note" data-label="Note"><p>Replica lag is bounded at 5 s in normal operation; the worker reads with a 10-minute safety margin.</p></div>
+    <div class="atl-callout warn" data-label="Watch"><p>The PSP's sandbox does not emit <code>requires_action</code>; test 3-D Secure paths in staging only.</p></div>
+    <div class="atl-callout risk" data-label="Risk"><p>A second writer of wallet balances would make reconciliation unsound. Any new writer needs its own ADR.</p></div>
+    <div class="atl-callout decision" data-label="Decision"><p>Alert threshold is €1 per wallet, not a percentage — small wallets matter as much as large ones.</p></div>
+
+    <p class="demo-note">Code with a filename strip — .atl-code</p>
+    <div class="atl-code">
+      <div class="atl-code-h"><span>recon/compare.sql</span><span>SQL</span></div>
+      <pre><code><span class="c">-- gaps above one euro, in cents</span>
+<span class="k">SELECT</span> w.wallet_id, w.balance - j.total <span class="k">AS</span> gap
+<span class="k">FROM</span>   wallets w <span class="k">JOIN</span> journal_rollup j <span class="k">USING</span> (wallet_id)
+<span class="k">WHERE</span>  ABS(w.balance - j.total) &gt; 100
+<span class="k">AND</span>    w.updated_at &lt; now() - <span class="s">'10 minutes'</span>::interval;</code></pre>
+    </div>
+  </section>
+
+  <!-- ============ № 06 PANEL MODE ============ -->
+  <section class="atl-section" id="panels">
+    <div class="atl-sec-h"><span class="atl-folio">№ 06</span><h2>Panel mode</h2></div>
+    <p>The Economist/FT print-data idiom: the same warm paper, hairline horizontal rules, no cards and no boxes. Numbers are very large and very light; statuses are solid squares in the semantic ink; chips are small-caps text with a thin coloured underline. Panels flow into as many columns as the width allows.</p>
 
     <p class="demo-note">Live demo — board header, metric strip, panels, register rows, chips</p>
     <div class="atl-panels panel-demo">
-      <div class="atl-board-h"><h1>Payments operations</h1><span class="atl-board-meta">eu-west-1 · 2026-07-30 08:00</span></div>
+      <div class="atl-board-h"><h1>Payments operations</h1><span class="atl-board-meta">eu-west-1 · 2026-10-07 08:00</span></div>
 
       <div class="atl-metric-strip">
         <div><div class="atl-metric-l">Transfers today</div><div class="atl-metric-v">1,284</div></div>
         <div><div class="atl-metric-l">Failed</div><div class="atl-metric-v">3</div></div>
-        <div><div class="atl-metric-l">P95 latency</div><div class="atl-metric-v">412<span class="atl-unit">ms</span></div></div>
+        <div><div class="atl-metric-l">P95 latency</div><div class="atl-metric-v">346<span class="atl-unit">ms</span></div></div>
         <div><div class="atl-metric-l">Queue depth</div><div class="atl-metric-v">0</div></div>
+        <div><div class="atl-metric-l">DLQ</div><div class="atl-metric-v">2</div></div>
       </div>
 
       <div class="two-col">
@@ -176,16 +622,24 @@ WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
           <div class="atl-panel-b">
             <div class="atl-kv"><span>Version</span><b>v4.2.1</b></div>
             <div class="atl-kv"><span>Idempotency</span><b>order-scoped</b></div>
-            <div class="atl-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+            <div class="atl-kv"><span>Last deploy</span><b>2026-10-01 18:40</b></div>
           </div>
         </div>
         <div class="atl-panel">
           <div class="atl-panel-h"><h3>Risk register</h3><span class="atl-panel-meta">4 open</span></div>
           <div class="atl-panel-b">
-            <div class="atl-reg-row"><span class="atl-sq crit"></span><b>Auth rule in placeholder state</b><span class="atl-reg-meta">RISK-101</span></div>
-            <div class="atl-reg-row"><span class="atl-sq warn"></span><b>Ledger drift on 2% of wallets</b><span class="atl-reg-meta">RISK-097</span></div>
+            <div class="atl-reg-row"><span class="atl-sq crit"></span><b>Legacy producer emits malformed events</b><span class="atl-reg-meta">RISK-112</span></div>
+            <div class="atl-reg-row"><span class="atl-sq warn"></span><b>Replica lag near midnight</b><span class="atl-reg-meta">RISK-109</span></div>
             <div class="atl-reg-row"><span class="atl-sq neutral"></span><b>SEPA instant rollout draft</b><span class="atl-reg-meta">RISK-104</span></div>
             <div class="atl-reg-row"><span class="atl-sq ok"></span><b>One-way valve verified</b><span class="atl-reg-meta">closed</span></div>
+          </div>
+        </div>
+        <div class="atl-panel">
+          <div class="atl-panel-h"><h3>funding.events</h3><span class="atl-panel-meta">Kafka</span></div>
+          <div class="atl-panel-b">
+            <div class="atl-kv"><span>Partitions</span><b>12</b></div>
+            <div class="atl-kv"><span>Consumer lag</span><b>0</b></div>
+            <div class="atl-kv"><span>DLQ depth</span><b>2</b></div>
           </div>
         </div>
       </div>
@@ -200,10 +654,10 @@ WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
     </div>
   </section>
 
-  <!-- ============ № 05 FIGURES ============ -->
-  <section class="atl-section">
-    <div class="atl-sec-h"><span class="atl-folio">№ 05</span><h2>Figures</h2></div>
-    <p>Charts and diagrams sit between hairlines like a plate in a book, captioned in small caps and numbered ("Fig. № 1"). Charts are inline SVG using the viz palette in order; sequence, state, and ER diagrams are Mermaid pre-rendered to static SVG with <a href="mermaid-config.json"><code>mermaid-config.json</code></a>.</p>
+  <!-- ============ № 07 CHARTS & FALLBACKS ============ -->
+  <section class="atl-section" id="figures">
+    <div class="atl-sec-h"><span class="atl-folio">№ 07</span><h2>Charts &amp; fallbacks</h2></div>
+    <p>Charts are inline SVG using the viz palette in order, between hairlines like a plate in a book, captioned in small caps and numbered. For diagram shapes the native grammar does not cover — entity-relationship, gantt — pre-render Mermaid to static SVG with <a href="mermaid-config.json"><code>mermaid-config.json</code></a> and keep the DSL in a <code>&lt;details&gt;</code>.</p>
 
     <figure class="atl-figure" style="margin-top:24px;">
       <svg viewBox="0 0 640 180" role="img" aria-label="Bar chart of June funding volume by rail">
@@ -218,23 +672,24 @@ WHERE  ABS(float_total - journal_total) &gt; 100; -- cents</code></pre>
         <text x="430" y="86"  font-family="SF Mono, ui-monospace, Menlo, monospace" font-size="11" fill="var(--atl-muted)">€0.86M</text>
         <text x="163" y="128" font-family="SF Mono, ui-monospace, Menlo, monospace" font-size="11" fill="var(--atl-muted)">€0.10M</text>
       </svg>
-      <figcaption class="atl-figcap">Fig. № 1 — June funding volume by rail. Source: nightly_recon, 2026-07-01.</figcaption>
+      <figcaption class="atl-figcap">Fig. № 4 — June funding volume by rail. Source: nightly_recon, 2026-07-01.</figcaption>
     </figure>
-
-    <p>Atelier has no native diagram grammar; anything that needs the money/mirror/blocked edge semantics is a DDS job — use the Dexter Design System for it.</p>
   </section>
 
-  <!-- ============ № 06 FOR AI AGENTS ============ -->
-  <section class="atl-section">
-    <div class="atl-sec-h"><span class="atl-folio">№ 06</span><h2>Using this system with AI agents</h2></div>
-    <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-atelier</code> skill loads it automatically.</p>
-    <pre>Generate the report as HTML using the Atelier design system:
+  <!-- ============ № 08 FOR AI AGENTS ============ -->
+  <section class="atl-section" id="agents">
+    <div class="atl-sec-h"><span class="atl-folio">№ 08</span><h2>Using this system with AI agents</h2></div>
+    <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory, including a copy-pasteable diagram snippet. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-atelier</code> skill loads it automatically.</p>
+    <pre>Generate the architecture review as HTML using the Atelier design system:
 https://dexteryo.github.io/design-systems/atelier/ (spec: README.md, tokens: atelier.css)
 Inline the stylesheet if the output must be self-contained.</pre>
   </section>
 
+  </main>
+  </div>
+
   <footer class="atl-colophon">
-    <div>Atelier · v1.0.0 · rev 2026-07-30</div>
+    <div>Atelier · v2.0.0 · rev 2026-10-07</div>
     <div>Stripe Press · FT Weekend · Economist charts · Tschichold</div>
   </footer>
 
@@ -263,6 +718,18 @@ Inline the stylesheet if the output must be self-contained.</pre>
     try { localStorage.setItem('atl-theme', next); } catch (e) {}
     label();
   });
+})();
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var links = {};
+  document.querySelectorAll('.atl-toc a[href^="#"]').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting || !links[e.target.id]) return;
+      Object.keys(links).forEach(function (k) { links[k].classList.toggle('is-active', k === e.target.id); });
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('main section[id]').forEach(function (s) { io.observe(s); });
 })();
 </script>
 </body>

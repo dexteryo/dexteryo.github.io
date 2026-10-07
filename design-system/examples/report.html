@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Example report · Dexter Design System</title>
 <link rel="stylesheet" href="../dexter.css">
-<style>body { margin: 0; }</style>
+<style>body { margin: 0; background: var(--dds-doc-bg); }  .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10; font-family: var(--dds-mono);
+                  font-size: 11px; color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+                  border: 1px solid var(--dds-doc-ink); padding: 6px 12px; cursor: pointer; }
+</style>
 </head>
 <body class="dds-doc">
+<button class="theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="dds-page">
 
   <header>
@@ -22,6 +26,17 @@
     </dl>
   </header>
 
+  <div class="dds-layout">
+    <nav class="dds-toc" aria-label="Contents">
+      <div class="dds-toc-h">Contents</div>
+      <ol>
+        <li><a href="#what-was-compared">01 What was compared</a></li>
+        <li><a href="#where-the-books-disagree">02 Where the books disagree</a></li>
+        <li><a href="#why-no-customer-saw-wrong-money">03 Why no customer saw wrong money</a></li>
+      </ol>
+    </nav>
+    <main class="dds-main">
+
   <div class="dds-stats">
     <div><div class="dds-stat-label">Wallets checked</div><div class="dds-stat-value">12,408</div></div>
     <div><div class="dds-stat-label">Divergent</div><div class="dds-stat-value">248</div></div>
@@ -29,8 +44,8 @@
     <div><div class="dds-stat-label">Real-money gap</div><div class="dds-stat-value">€0.00</div></div>
   </div>
 
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>What was compared</h2></div>
+  <section class="dds-section" id="what-was-compared">
+    <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 01</span><h2>What was compared</h2></div>
     <div class="dds-row">
       <div>
         <p>The platform keeps three books. The float is real money at the payment provider; the wallet ledger is the balance the product shows; the journal is the double-entry record the accountants close against. Only the float can move money — the other two are mirrors of it.<span class="dds-snref">1</span></p>
@@ -40,7 +55,7 @@
     </div>
   </section>
 
-  <section class="dds-section">
+  <section class="dds-section" id="where-the-books-disagree">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Where the books disagree</h2></div>
     <div class="dds-row">
       <div>
@@ -95,9 +110,53 @@
         <span><i class="dds-leg-line mirror"></i>mirror / async</span>
       </figcaption>
     </figure>
+    <p>The replay, drawn as a sequence (DWG R-02): the offset commit is the only step between "applied" and "done", and the restart lands exactly there.</p>
+    <figure class="dds-seq">
+<svg viewBox="0 0 990 470" role="img" aria-label="Sequence of the replay: the consumer reads a batch from funding-events, applies 248 credits to the wallet ledger and the journal, then restarts before committing the offset. On restart it reads the same batch again; the wallet ledger applies the credits a second time while the journal deduplicates on the transfer ID; only then is the offset committed.">
+<defs>
+<marker id="mkr-async" class="dds-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkr-data" class="dds-mk data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkr-fail" class="dds-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkr-sync" class="dds-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<line class="dds-life" x1="120" y1="64" x2="120" y2="455"/>
+<line class="dds-life" x1="370" y1="64" x2="370" y2="455"/>
+<line class="dds-life" x1="620" y1="64" x2="620" y2="455"/>
+<line class="dds-life" x1="870" y1="64" x2="870" y2="455"/>
+<g class="dds-node queue"><rect class="dds-shape" x="35" y="12" width="170" height="52" rx="0"/><text class="dds-nkind" x="120" y="32" text-anchor="middle">QUEUE</text><text class="dds-nlabel" x="120" y="53" text-anchor="middle">funding-events</text></g>
+<g class="dds-node fn"><rect class="dds-shape" x="285" y="12" width="170" height="52" rx="10"/><text class="dds-nkind" x="370" y="32" text-anchor="middle">FN</text><text class="dds-nlabel" x="370" y="53" text-anchor="middle">FundingConsumer</text></g>
+<g class="dds-node store"><rect class="dds-shape" x="535" y="12" width="170" height="52" rx="12"/><text class="dds-nkind" x="620" y="32" text-anchor="middle">STORE</text><text class="dds-nlabel" x="620" y="53" text-anchor="middle">wallet ledger</text></g>
+<g class="dds-node store"><rect class="dds-shape" x="785" y="12" width="170" height="52" rx="12"/><text class="dds-nkind" x="870" y="32" text-anchor="middle">STORE</text><text class="dds-nlabel" x="870" y="53" text-anchor="middle">journal</text></g>
+<rect class="dds-act fn" x="364" y="94" width="12" height="136"/>
+<rect class="dds-act fn" x="364" y="294" width="12" height="146"/>
+<path class="dds-msg async dds-flow" d="M120,100 L364,100" marker-end="url(#mkr-async)"/>
+<text class="dds-mlabel" x="245" y="92" text-anchor="middle">batch 4410–4658</text>
+<path class="dds-msg data" d="M376,140 L620,140" marker-end="url(#mkr-data)"/>
+<text class="dds-mlabel" x="495" y="132" text-anchor="middle">apply 248 credits</text>
+<path class="dds-msg data" d="M376,180 L870,180" marker-end="url(#mkr-data)"/>
+<text class="dds-mlabel" x="620" y="172" text-anchor="middle">apply · key = transfer ID</text>
+<path class="dds-msg fail" d="M364,220 L146,220" marker-end="url(#mkr-fail)"/>
+<text class="dds-mlabel fail" x="258" y="212" text-anchor="middle">commit offset</text>
+<path class="dds-edge fail" d="M134,213 l14,14 m0,-14 l-14,14" style="stroke-width:2.5"/>
+<g class="dds-note"><rect x="236" y="244" width="268" height="32" rx="2"/><text x="248" y="265">02:12 UTC restart — commit never sent</text></g>
+<path class="dds-msg async dds-flow" d="M120,300 L364,300" marker-end="url(#mkr-async)"/>
+<text class="dds-mlabel" x="245" y="292" text-anchor="middle">same batch again</text>
+<path class="dds-msg fail" d="M376,340 L620,340" marker-end="url(#mkr-fail)"/>
+<text class="dds-mlabel fail" x="495" y="332" text-anchor="middle">apply again — duplicate</text>
+<path class="dds-msg data" d="M376,380 L870,380" marker-end="url(#mkr-data)"/>
+<text class="dds-mlabel" x="620" y="372" text-anchor="middle">0 rows (deduplicated)</text>
+<path class="dds-msg sync" d="M364,420 L120,420" marker-end="url(#mkr-sync)"/>
+<text class="dds-mlabel" x="245" y="412" text-anchor="middle">commit offset 4658</text>
+</svg>
+<div class="dds-legend">
+  <span><i class="node queue"></i>topic</span><span><i class="node fn"></i>consumer</span><span><i class="node store"></i>book</span>
+  <span><i class="async"></i>delivery</span><span><i class="data"></i>write</span><span><i class="sync"></i>commit</span><span><i class="fail"></i>lost commit / duplicate write</span>
+</div>
+<div class="dds-titleblock"><div><b>FundingConsumer — replay sequence</b>FundingConsumer.java:88</div><div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div><div><b>DWG R-02</b>sheet 1/1</div></div>
+    </figure>
   </section>
 
-  <section class="dds-section">
+  <section class="dds-section" id="why-no-customer-saw-wrong-money">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Why no customer saw wrong money</h2></div>
     <p>Spending authorises against the float, not the wallet ledger, so the doubled mirror could over-display but never over-spend. The blast radius is cosmetic — 248 customers briefly saw a balance up to €41.20 too high — plus the reconciliation alarm itself.</p>
     <blockquote class="dds-pull"><strong>The invariant held:</strong> mirrors may drift; only the book that moves money must be right by construction.</blockquote>
@@ -113,11 +172,45 @@
     </ol>
   </div>
 
+    </main>
+  </div>
+
   <footer class="dds-colophon">
     <div>Reconciliation drift investigation · 2026-07-03 · fictional example for the <a href="../index.html">Dexter Design System</a></div>
     <div>Dexter</div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.dds-toc a[href^="#"]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    var byId = {}, visible = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var ids = Object.keys(byId);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = ids.filter(function (id) { return visible[id]; })[0];
+      if (!current) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[current]); });
+    }, { rootMargin: '0px 0px -60% 0px' });
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'light', 'dark'], current = 'auto';
+  try { current = localStorage.getItem('dds-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('dds-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
 </body>
 </html>

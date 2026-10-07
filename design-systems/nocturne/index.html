@@ -8,20 +8,25 @@
 <style>
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
   body { margin: 0; }
-  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
-  .sw { width: 108px; font-family: var(--noct-mono); font-size: 10.5px; }
+  .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; margin: 0 0 24px; }
+  .sw { font-family: var(--noct-mono); font-size: 10.5px; }
   .sw i { display: block; height: 36px; border: 1px solid var(--noct-border); border-radius: var(--noct-r-sm); font-style: normal; }
   .sw span { display: block; margin-top: 4px; color: var(--noct-muted); }
   .demo-note { font-family: var(--noct-mono); font-size: 10.5px; letter-spacing: .1em;
-               text-transform: uppercase; color: var(--noct-faint); margin: 24px 0 10px; }
+               text-transform: uppercase; color: var(--noct-faint); margin: 32px 0 12px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
   .panel-demo { background: var(--noct-ground); border: 1px dashed var(--noct-border);
                 border-radius: var(--noct-r-panel); padding: 24px; }
   .type-specimen { border-bottom: 1px solid var(--noct-border-subtle); padding: 10px 0;
                    display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
   .type-specimen .lbl { font-family: var(--noct-mono); font-size: 10.5px;
                         color: var(--noct-muted); width: 200px; flex: none; }
+  .layout-demo { display: grid; grid-template-columns: 90px 1fr; gap: 8px; margin: 0 0 24px;
+                 font-family: var(--noct-mono); font-size: 11px; color: var(--noct-muted); }
+  .layout-demo div { border: 1px dashed var(--noct-border); border-radius: var(--noct-r-sm); padding: 10px; }
+  .layout-demo .measure { width: min(100%, 72ch); background: var(--noct-accent-bg); border-style: solid; border-color: var(--noct-accent); color: var(--noct-ink); }
+  .layout-demo .wide { grid-column: 2; background: var(--noct-ground); }
   .noct-theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10;
                        font-family: var(--noct-mono); font-size: 11px;
                        color: var(--noct-muted); background: var(--noct-raised);
@@ -34,33 +39,52 @@
 <body class="noct-doc">
 <button class="noct-theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="noct-page">
-  <div class="noct-col">
 
-    <header class="noct-dotgrid" style="margin: calc(-1 * var(--noct-s7)) calc(-1 * var(--noct-s7)) var(--noct-s6); padding: var(--noct-s7); border-bottom: 1px solid var(--noct-border-subtle); border-radius: var(--noct-r-panel) var(--noct-r-panel) 0 0;">
-      <div class="noct-eyebrow">Nocturne · v1.0.0 · Living style guide</div>
-      <h1 class="noct-title">Dark-first product UI, <em>done with discipline</em></h1>
-      <p class="noct-subtitle">Near-black surfaces, hairline borders instead of shadows, one restrained indigo accent — the Linear/Vercel lineage without the generic AI theatre. Contrast and hierarchy do all the work.</p>
-      <dl class="noct-meta" style="margin-bottom: 0;">
-        <div><dt>Owner</dt><dd>Dexter</dd></div>
-        <div><dt>Revision</dt><dd>2026-07-30</dd></div>
-        <div><dt>Status</dt><dd>v1.0.0</dd></div>
-        <div><dt>Stylesheet</dt><dd><a href="nocturne.css">nocturne.css</a></dd></div>
-        <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
-      </dl>
-    </header>
+  <header class="noct-hero noct-dotgrid">
+    <div class="noct-eyebrow">Nocturne · v2.0.0 · Living style guide · Engineering edition</div>
+    <h1 class="noct-title">Dark-first product UI for <em>systems people</em></h1>
+    <p class="noct-subtitle">Near-black surfaces, hairline borders instead of shadows, one restrained indigo accent — the Linear/Vercel lineage without the generic AI theatre. Version 2 goes full width and makes architecture first-class: native SVG diagrams with node kinds, colour-coded routes, and flows that move in the direction data travels.</p>
+    <dl class="noct-meta">
+      <div><dt>Owner</dt><dd>Dexter</dd></div>
+      <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+      <div><dt>Status</dt><dd>v2.0.0</dd></div>
+      <div><dt>Stylesheet</dt><dd><a href="nocturne.css">nocturne.css</a></dd></div>
+      <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
+    </dl>
+  </header>
+
+  <div class="noct-layout">
+    <nav class="noct-toc" aria-label="Contents">
+      <div class="noct-toc-h">Contents</div>
+      <ol>
+        <li><a href="#principles"><span class="noct-toc-n">01</span>Principles</a></li>
+        <li><a href="#tokens"><span class="noct-toc-n">02</span>Tokens</a></li>
+        <li><a href="#layout"><span class="noct-toc-n">03</span>Layout</a></li>
+        <li><a href="#document"><span class="noct-toc-n">04</span>Document mode</a></li>
+        <li><a href="#panel"><span class="noct-toc-n">05</span>Panel mode</a></li>
+        <li><a href="#diagrams"><span class="noct-toc-n">06</span>Architecture diagrams</a></li>
+        <li><a href="#components"><span class="noct-toc-n">07</span>Engineering components</a></li>
+        <li><a href="#signature"><span class="noct-toc-n">08</span>Signature details</a></li>
+        <li><a href="#anti"><span class="noct-toc-n">09</span>Anti-patterns</a></li>
+        <li><a href="#agents"><span class="noct-toc-n">10</span>For AI agents</a></li>
+      </ol>
+    </nav>
+
+    <main class="noct-col">
 
     <!-- ============ 01 PRINCIPLES ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h" style="border-top: 0; margin-top: 0;"><span class="noct-sec-num">01 —</span><h2>Principles</h2></div>
-      <p><strong>Borders carry elevation.</strong> Hierarchy comes from the surface scale — ground, surface, raised — separated by 1px hairlines. The only shadow in the whole system is the card's one-pixel top inner highlight: machined edge light, not elevation theatre. If a surface needs to feel higher, it steps up the scale; it never floats.</p>
-      <p><strong>One accent, spent carefully.</strong> A restrained indigo marks what is actionable or singular: links, section numbers, the verdict bar, focus rings, at most one emphasis per page. When everything glows, nothing does — so nothing glows.</p>
-      <p><strong>Machine truth wears the machine face.</strong> Every metric, timestamp, ID, and piece of evidence is monospace with tabular numerals. Evidence is a visual element: claims cite their source in a bordered ref pill <span class="noct-ref">FundsRouter.java:214</span> inline with the claim.</p>
-      <p><strong>Dark is the default, not a skin.</strong> The default token block is dark; light is the counterpart. That ordering forces the discipline dark UI needs — no thin display type, muted text that still clears 4.5:1, semantic colours tuned for a near-black ground.</p>
+    <section class="noct-section" id="principles">
+      <div class="noct-sec-h"><span class="noct-sec-num">01 —</span><h2>Principles</h2></div>
+      <p><strong>Borders carry elevation.</strong> Hierarchy comes from the surface scale — ground, surface, raised — separated by 1px hairlines. The only shadow in the whole system is the card's one-pixel top inner highlight: machined edge light, not elevation theatre.</p>
+      <p><strong>One accent outside the figure, a full palette inside it.</strong> Restrained indigo marks what is actionable or singular: links, section numbers, the verdict bar, focus rings. Inside a diagram, hue is an encoding — six route colours and eight node kinds, every one declared in the legend. Colour that does not mean something is a defect in both places.</p>
+      <p><strong>Wide for systems, narrow for sentences.</strong> The page spans the screen so architecture, tables, and dashboards get room to breathe; prose stays at a 72-character measure so it is still comfortable to read. A sticky contents rail keeps long design docs navigable.</p>
+      <p><strong>Motion shows direction, never mood.</strong> Dashed edges march the way data flows and packets travel the hot path. Nothing pulses, glows, or bounces, and all of it stops under reduced motion.</p>
+      <p><strong>Machine truth wears the machine face.</strong> Every metric, timestamp, ID, and piece of evidence is monospace with tabular numerals. Claims cite their source in a ref pill <span class="noct-ref">FundsRouter.java:214</span> inline with the claim.</p>
       <p><strong>Portability is a hard constraint.</strong> System font stacks only, no webfonts, no external requests. Output must survive a sandboxed artifact viewer, a ticket attachment, and a printer.</p>
     </section>
 
     <!-- ============ 02 TOKENS ============ -->
-    <section class="noct-section">
+    <section class="noct-section" id="tokens">
       <div class="noct-sec-h"><span class="noct-sec-num">02 —</span><h2>Tokens</h2></div>
       <p>All values live as CSS custom properties in <a href="nocturne.css"><code>nocturne.css</code></a> — dark defaults, a light counterpart, and explicit <code>data-theme</code> overrides. Components never hard-code colour. Swatches show the current theme's resolved values.</p>
 
@@ -84,6 +108,28 @@
         <div class="sw"><i style="background:var(--noct-info)"></i><span>--noct-info</span></div>
       </div>
 
+      <p class="demo-note">Architecture routes (edge hue = meaning)</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--noct-route-sync)"></i><span>route-sync · hot path</span></div>
+        <div class="sw"><i style="background:var(--noct-route-async)"></i><span>route-async · events</span></div>
+        <div class="sw"><i style="background:var(--noct-route-data)"></i><span>route-data · store I/O</span></div>
+        <div class="sw"><i style="background:var(--noct-route-ctrl)"></i><span>route-ctrl · control plane</span></div>
+        <div class="sw"><i style="background:var(--noct-route-ext)"></i><span>route-ext · third party</span></div>
+        <div class="sw"><i style="background:var(--noct-route-fail)"></i><span>route-fail · error / DLQ</span></div>
+      </div>
+
+      <p class="demo-note">Node kinds (stroke + tinted fill; hue borrowed from the route that serves it)</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--noct-node-client-bg); border-color:var(--noct-node-client)"></i><span>node-client</span></div>
+        <div class="sw"><i style="background:var(--noct-node-edge-bg); border-color:var(--noct-node-edge)"></i><span>node-edge</span></div>
+        <div class="sw"><i style="background:var(--noct-node-svc-bg); border-color:var(--noct-node-svc)"></i><span>node-svc</span></div>
+        <div class="sw"><i style="background:var(--noct-node-fn-bg); border-color:var(--noct-node-fn)"></i><span>node-fn</span></div>
+        <div class="sw"><i style="background:var(--noct-node-store-bg); border-color:var(--noct-node-store)"></i><span>node-store</span></div>
+        <div class="sw"><i style="background:var(--noct-node-queue-bg); border-color:var(--noct-node-queue)"></i><span>node-queue</span></div>
+        <div class="sw"><i style="background:var(--noct-node-cache-bg); border-color:var(--noct-node-cache)"></i><span>node-cache</span></div>
+        <div class="sw"><i style="background:var(--noct-node-ext-bg); border:1px dashed var(--noct-node-ext)"></i><span>node-ext</span></div>
+      </div>
+
       <p class="demo-note">Data-viz categorical (use in order)</p>
       <div class="sw-grid">
         <div class="sw"><i style="background:var(--noct-v1)"></i><span>--noct-v1</span></div>
@@ -96,19 +142,43 @@
 
       <p class="demo-note">Type roles (system stacks, no webfonts)</p>
       <div style="margin-bottom:24px;">
-        <div class="type-specimen"><span class="lbl">--noct-sans · body &amp; display</span><span style="font-size:17px; font-weight:650; letter-spacing:-0.02em;">Settlement closes at 17:00 CET, drift or no drift.</span></div>
+        <div class="type-specimen"><span class="lbl">--noct-sans · body 16px</span><span style="font-size:16px;">Settlement closes at 17:00 CET, drift or no drift.</span></div>
+        <div class="type-specimen"><span class="lbl">--noct-sans · display 650</span><span style="font-size:22px; font-weight:650; letter-spacing:-0.02em;">The outbox makes the event as durable as the row.</span></div>
         <div class="type-specimen"><span class="lbl">--noct-sans · overline label</span><span class="noct-overline">Reconciliation · EU-West-1 · Nightly</span></div>
-        <div class="type-specimen"><span class="lbl">--noct-mono · machine truth</span><span class="noct-mono noct-num" style="font-size:13px;">transfer_9f41 · idem=order-1204 · 2026-07-30T14:02:11Z</span></div>
+        <div class="type-specimen"><span class="lbl">--noct-mono · machine truth</span><span class="noct-mono noct-num" style="font-size:13px;">transfer_9f41 · idem=order-1204 · 2026-10-07T14:02:11Z</span></div>
       </div>
 
-      <p class="demo-note">Spacing · radii</p>
-      <p style="font-family:var(--noct-mono); font-size:12.5px;">--noct-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Radii: 8px panels · 6px small elements · 999px pills. Off-scale spacing is a defect.</p>
+      <p class="demo-note">Spacing · radii · layout</p>
+      <p style="font-family:var(--noct-mono); font-size:12.5px;">--noct-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Radii: 8px panels · 6px small · 999px pills. Layout: --noct-gutter clamp(16px, 4vw, 64px) · --noct-measure 72ch · --noct-toc-w 232px · --noct-shell-max 1920px.</p>
     </section>
 
-    <!-- ============ 03 DOCUMENT MODE ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h"><span class="noct-sec-num">03 —</span><h2>Document mode</h2></div>
-      <p>For investigations, design docs, post-mortems, and RFCs. The content column is a slightly raised card on the dark ground — the document itself is the surface. Sans body at 15px, prose capped at 68ch, section numbers as accent mono overlines. Everything below is live; the demo content is a fictional payments platform.</p>
+    <!-- ============ 03 LAYOUT ============ -->
+    <section class="noct-section" id="layout">
+      <div class="noct-sec-h"><span class="noct-sec-num">03 —</span><h2>Layout: full width, readable measure</h2></div>
+      <p>The shell (<code>.noct-page</code>) spans the viewport with a fluid gutter. At 1200px and above, <code>.noct-layout</code> places a sticky <code>.noct-toc</code> rail beside the content column; below that the contents collapse into a wrapping row above the content. Paragraphs, lists, and pull quotes stop at <code>--noct-measure</code>; diagrams, tables, grids, and code take the full column.</p>
+      <div class="layout-demo" aria-hidden="true">
+        <div style="grid-row: span 3;">toc rail<br>sticky</div>
+        <div class="measure">prose · 72ch measure</div>
+        <div class="wide">diagram · table · grid · code — full column width</div>
+        <div class="measure">prose · 72ch measure</div>
+      </div>
+      <div class="noct-code">
+        <div class="noct-code-h"><span>skeleton.html</span><span>html</span></div>
+        <pre><code>&lt;body class="noct-doc"&gt;
+&lt;div class="noct-page"&gt;
+  &lt;header class="noct-hero noct-dotgrid"&gt;…eyebrow · title · subtitle · meta…&lt;/header&gt;
+  &lt;div class="noct-layout"&gt;
+    &lt;nav class="noct-toc"&gt;&lt;div class="noct-toc-h"&gt;Contents&lt;/div&gt;&lt;ol&gt;…&lt;/ol&gt;&lt;/nav&gt;
+    &lt;main class="noct-col"&gt;&lt;section class="noct-section" id="…"&gt;…&lt;/section&gt;&lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- ============ 04 DOCUMENT MODE ============ -->
+    <section class="noct-section" id="document">
+      <div class="noct-sec-h"><span class="noct-sec-num">04 —</span><h2>Document mode</h2></div>
+      <p>For investigations, design docs, post-mortems, and RFCs. Sans body at 16px, accent mono section numbers as overlines. Everything below is live; the demo content is a fictional payments platform used throughout this page.</p>
 
       <p class="demo-note">Live demo — stat strip, ref pills, kbd, pull quote, table, code, verdict</p>
 
@@ -117,28 +187,33 @@
         <div><div class="noct-stat-label">Float balance</div><div class="noct-stat-value">2.4<span class="noct-unit">€M</span></div></div>
         <div><div class="noct-stat-label">Drifted wallets</div><div class="noct-stat-value">241</div></div>
         <div><div class="noct-stat-label">Recon gap</div><div class="noct-stat-value">0.02<span class="noct-unit">%</span></div></div>
+        <div><div class="noct-stat-label">Top-up p95</div><div class="noct-stat-value">412<span class="noct-unit">ms</span></div></div>
+        <div><div class="noct-stat-label">DLQ depth</div><div class="noct-stat-value">17</div></div>
       </div>
 
-      <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate <span class="noct-ref">WalletService.java:214</span> — a single transfer from the platform float to the customer wallet. Every other record is a mirror, and mirrors drift: the nightly comparison job found 241 wallets with a non-zero gap on its first run <span class="noct-ref">RECON-1188</span>. On-call can replay a single wallet with <kbd class="noct-kbd">⌘K</kbd> <kbd class="noct-kbd">R</kbd> from the console.</p>
+      <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate <span class="noct-ref">WalletService.ex:214</span> — a single transfer from the platform float to the customer wallet. Every other record is a mirror, and mirrors drift: the nightly comparison job found 241 wallets with a non-zero gap on its first run <span class="noct-ref">RECON-1188</span>. On-call can replay a single wallet with <kbd class="noct-kbd">⌘K</kbd> <kbd class="noct-kbd">R</kbd> from the console.</p>
 
       <blockquote class="noct-pull"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
 
       <div class="noct-table-wrap">
         <table class="noct-table">
-          <thead><tr><th>Rail</th><th>Mechanism</th><th class="noct-num">Volume (Jun)</th></tr></thead>
+          <thead><tr><th>Rail</th><th>Mechanism</th><th>Owner</th><th>Status</th><th class="noct-num">Volume (Sep)</th></tr></thead>
           <tbody>
-            <tr><td>Card checkout</td><td>PSP hosted page</td><td class="noct-num">€1,204,880</td></tr>
-            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="noct-num">€863,110</td></tr>
-            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="noct-num">€98,400</td></tr>
-            <tr class="noct-total"><td>Total in</td><td></td><td class="noct-num">€2,166,390</td></tr>
+            <tr><td>Card checkout</td><td>PSP hosted page</td><td>payments</td><td><span class="noct-chip ok">healthy</span></td><td class="noct-num">€1,204,880</td></tr>
+            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td>treasury</td><td><span class="noct-chip ok">healthy</span></td><td class="noct-num">€863,110</td></tr>
+            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td>ops</td><td><span class="noct-chip warn">degraded</span></td><td class="noct-num">€98,400</td></tr>
+            <tr class="noct-total"><td>Total in</td><td></td><td></td><td></td><td class="noct-num">€2,166,390</td></tr>
           </tbody>
         </table>
       </div>
 
       <p>The comparison job keys on wallet ID and tolerates nothing above a euro:</p>
-      <pre><code>SELECT w.wallet_id, w.balance - j.mirrored_balance AS gap
-FROM   wallets w JOIN journal_rollup j USING (wallet_id)
-WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
+      <div class="noct-code">
+        <div class="noct-code-h"><span>recon/drift.sql</span><span>sql</span></div>
+        <pre><code><span class="tk-k">SELECT</span> w.wallet_id, w.balance - j.mirrored_balance <span class="tk-k">AS</span> gap
+<span class="tk-k">FROM</span>   wallets w <span class="tk-k">JOIN</span> journal_rollup j <span class="tk-k">USING</span> (wallet_id)
+<span class="tk-k">WHERE</span>  <span class="tk-f">ABS</span>(w.balance - j.mirrored_balance) &gt;= <span class="tk-n">1.00</span>;  <span class="tk-c">-- euro tolerance, not cents</span></code></pre>
+      </div>
 
       <div class="noct-verdict" data-label="Recommendation">
         <h3>Reconcile the mirrors nightly, not monthly.</h3>
@@ -150,16 +225,16 @@ WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
       </div>
     </section>
 
-    <!-- ============ 04 PANEL MODE ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h"><span class="noct-sec-num">04 —</span><h2>Panel mode</h2></div>
-      <p>The flagship. Dashboards, risk registers, and status boards: metric cards with mono values, panels with raised header strips, key–value rows, register rows with 6px status dots, and chips as tinted pills. Borders separate; surfaces order; nothing floats.</p>
+    <!-- ============ 05 PANEL MODE ============ -->
+    <section class="noct-section" id="panel">
+      <div class="noct-sec-h"><span class="noct-sec-num">05 —</span><h2>Panel mode</h2></div>
+      <p>The flagship for scannable state. Dashboards, risk registers, and status boards: metric cards with mono values, panels with raised header strips, key–value rows, register rows with 6px status dots, and chips as tinted pills. Full width means more instruments per row, not bigger ones.</p>
 
       <p class="demo-note">Live demo — board header, metric grid, panels, register, chips</p>
       <div class="noct-panels panel-demo">
         <div class="noct-board-h">
           <h1>Payments · production</h1>
-          <span class="noct-board-meta">eu-west-1 · 2026-07-30 14:00 UTC</span>
+          <span class="noct-board-meta">eu-west-1 · 2026-10-07 14:00 UTC</span>
         </div>
 
         <div class="noct-metric-grid" style="margin-bottom:12px;">
@@ -167,6 +242,8 @@ WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
           <div class="noct-metric"><div class="noct-metric-l">Failed</div><div class="noct-metric-v">3</div></div>
           <div class="noct-metric"><div class="noct-metric-l">P95 latency</div><div class="noct-metric-v">412<span class="noct-unit">ms</span></div></div>
           <div class="noct-metric"><div class="noct-metric-l">Queue depth</div><div class="noct-metric-v">0</div></div>
+          <div class="noct-metric"><div class="noct-metric-l">DLQ depth</div><div class="noct-metric-v">17</div></div>
+          <div class="noct-metric"><div class="noct-metric-l">Error budget</div><div class="noct-metric-v">72<span class="noct-unit">%</span></div></div>
         </div>
 
         <div class="two-col">
@@ -175,14 +252,14 @@ WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
             <div class="noct-panel-b">
               <div class="noct-kv"><span>Version</span><b>v4.2.1</b></div>
               <div class="noct-kv"><span>Idempotency</span><b>order-scoped</b></div>
-              <div class="noct-kv"><span>Last deploy</span><b>2026-07-29 18:40</b></div>
+              <div class="noct-kv"><span>Last deploy</span><b>2026-10-06 18:40</b></div>
               <div class="noct-kv"><span>Error budget left</span><b>72%</b></div>
             </div>
           </div>
           <div class="noct-panel">
             <div class="noct-panel-h"><h3>Incident register</h3><span class="noct-panel-meta">4 open</span></div>
             <div class="noct-panel-b">
-              <div class="noct-reg-row"><span class="noct-dot crit"></span><b>Auth rule in placeholder state</b><span class="noct-reg-meta">INC-101</span></div>
+              <div class="noct-reg-row"><span class="noct-dot crit"></span><b>notify.dlq growing after PSP timeout burst</b><span class="noct-reg-meta">INC-101</span></div>
               <div class="noct-reg-row"><span class="noct-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="noct-reg-meta">INC-097</span></div>
               <div class="noct-reg-row"><span class="noct-dot info"></span><b>PSP maintenance window Sat</b><span class="noct-reg-meta">INC-095</span></div>
               <div class="noct-reg-row"><span class="noct-dot neutral"></span><b>Chargeback flow redesign</b><span class="noct-reg-meta">draft</span></div>
@@ -203,19 +280,435 @@ WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
       <p style="margin-top:16px;">Status vocabulary: <code>ok</code> healthy/verified · <code>warn</code> degraded/in-review · <code>crit</code> failing/stale · <code>info</code> informational · <code>neutral</code> draft/unknown (hollow-ring dot). Dots for rows, chips for inline labels — one per context, never both.</p>
     </section>
 
-    <!-- ============ 05 SIGNATURE DETAILS ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h"><span class="noct-sec-num">05 —</span><h2>Signature details</h2></div>
+    <!-- ============ 06 ARCHITECTURE DIAGRAMS ============ -->
+    <section class="noct-section" id="diagrams">
+      <div class="noct-sec-h"><span class="noct-sec-num">06 —</span><h2>Architecture diagrams</h2></div>
+      <p>Hand-authored SVG inside <code>.noct-arch</code>: a dot-grid canvas, nodes tinted by kind, edges coloured by route, zones for VPCs and trust boundaries, numbered steps that key the picture to the prose. Dashes march in the direction of flow; packets ride the one to three routes that matter. Hover a legend entry to isolate a route.</p>
+
+      <h3 id="d-container">Container view — wallet top-up</h3>
+      <figure class="noct-arch">
+        <div class="noct-arch-canvas">
+          <svg viewBox="0 0 1000 552" role="img" aria-label="Container architecture for wallet top-up. Web and mobile clients call the API gateway, which verifies tokens with auth-service and routes to wallet-service. wallet-service checks an idempotency cache, writes to ledger-db, calls payments-adapter inside the PCI scope which charges the card PSP, and publishes wallet.events. notify-worker consumes events and sends failures to a dead-letter queue. recon-worker reads the ledger and the partner bank statement nightly.">
+<defs><marker id="am-sync" class="noct-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-async" class="noct-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-data" class="noct-mk data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-ctrl" class="noct-mk ctrl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-ext" class="noct-mk ext" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="am-fail" class="noct-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<text class="noct-stage" x="16" y="34">Clients</text>
+<text class="noct-stage" x="176" y="34">Edge</text>
+<text class="noct-stage" x="344" y="34">Services</text>
+<text class="noct-stage" x="528" y="34">Data &amp; events</text>
+<text class="noct-stage" x="720" y="34">Workers</text>
+<text class="noct-stage" x="878" y="34">External</text>
+<rect class="noct-zone" x="6" y="52" width="146" height="290" rx="10"/>
+<text class="noct-zlabel" x="14" y="72">public internet</text>
+<rect class="noct-zone" x="164" y="52" width="698" height="486" rx="10"/>
+<text class="noct-zlabel" x="176" y="72">aws · eu-west-1 · prod vpc</text>
+<rect class="noct-zone trust" x="334" y="330" width="170" height="118" rx="8"/>
+<text class="noct-zlabel trust" x="344" y="349">pci-dss scope</text>
+<rect class="noct-zone" x="870" y="160" width="124" height="300" rx="10"/>
+<text class="noct-zlabel" x="878" y="180">third parties</text>
+<g class="noct-node client">
+  <rect x="16" y="110" width="124" height="70" rx="8"/>
+  <text class="noct-nkind" x="130" y="127">CLIENT</text>
+  <text class="noct-nlabel" x="26" y="143">Checkout web</text>
+  <text class="noct-nsub" x="26" y="161">browser · SPA</text>
+</g>
+<g class="noct-node client">
+  <rect x="16" y="236" width="124" height="70" rx="8"/>
+  <text class="noct-nkind" x="130" y="253">CLIENT</text>
+  <text class="noct-nlabel" x="26" y="269">Mobile app</text>
+  <text class="noct-nsub" x="26" y="287">iOS · Android</text>
+</g>
+<g class="noct-node edge">
+  <rect x="176" y="166" width="132" height="86" rx="8"/>
+  <text class="noct-nkind" x="298" y="183">EDGE</text>
+  <text class="noct-nlabel" x="186" y="199">API gateway</text>
+  <text class="noct-nsub" x="186" y="217">Kong · :443 · WAF</text>
+  <text class="noct-ntag" x="186" y="235">600 rps limit</text>
+</g>
+<g class="noct-node svc">
+  <rect x="344" y="78" width="150" height="70" rx="8"/>
+  <text class="noct-nkind" x="484" y="95">SVC</text>
+  <text class="noct-nlabel" x="354" y="111">auth-service</text>
+  <text class="noct-nsub" x="354" y="129">Go · JWT · OIDC</text>
+</g>
+<g class="noct-node svc is-hot">
+  <rect x="344" y="192" width="150" height="86" rx="8"/>
+  <text class="noct-nkind" x="484" y="209">SVC</text>
+  <text class="noct-nlabel" x="354" y="225">wallet-service</text>
+  <text class="noct-nsub" x="354" y="243">Elixir · p95 120ms</text>
+  <text class="noct-ntag" x="354" y="261">hot path</text>
+</g>
+<g class="noct-node svc">
+  <rect x="344" y="362" width="150" height="70" rx="8"/>
+  <text class="noct-nkind" x="484" y="379">SVC</text>
+  <text class="noct-nlabel" x="354" y="395">payments-adapter</text>
+  <text class="noct-nsub" x="354" y="413">Java · PSP SDK</text>
+</g>
+<g class="noct-node cache">
+  <rect x="528" y="78" width="158" height="70" rx="8"/>
+  <text class="noct-nkind" x="676" y="95">CACHE</text>
+  <text class="noct-nlabel" x="538" y="111">idempotency-cache</text>
+  <text class="noct-nsub" x="538" y="129">Redis · TTL 24 h</text>
+</g>
+<g class="noct-node store">
+  <path class="noct-shape" d="M528,200 a79,10 0 0 1 158,0 v76 a79,10 0 0 1 -158,0 z"/>
+  <path class="noct-lid" d="M528,200 a79,10 0 0 0 158,0"/>
+  <text class="noct-nkind" x="676" y="226">DB</text>
+  <text class="noct-nlabel" x="538" y="234">ledger-db</text>
+  <text class="noct-nsub" x="538" y="253">Postgres 16 · RDS</text>
+  <text class="noct-ntag" x="538" y="271">double-entry</text>
+</g>
+<g class="noct-node queue">
+  <rect x="528" y="322" width="158" height="70" rx="8"/>
+  <text class="noct-nkind" x="676" y="339">QUEUE</text>
+  <text class="noct-nlabel" x="538" y="355">wallet.events</text>
+  <text class="noct-nsub" x="538" y="373">SNS → SQS</text>
+  <path class="noct-glyph" d="M652,366 v14 M661,366 v14 M670,366 v14"/>
+</g>
+<g class="noct-node queue is-fail">
+  <rect x="528" y="446" width="158" height="70" rx="8"/>
+  <text class="noct-nkind" x="676" y="463">DLQ</text>
+  <text class="noct-nlabel" x="538" y="479">notify.dlq</text>
+  <text class="noct-nsub" x="538" y="497">3 tries · 14 d</text>
+  <path class="noct-glyph" d="M652,490 v14 M661,490 v14 M670,490 v14"/>
+</g>
+<g class="noct-node fn">
+  <rect x="720" y="196" width="130" height="70" rx="14"/>
+  <text class="noct-nkind" x="840" y="213">FN</text>
+  <text class="noct-nlabel" x="730" y="229">recon-worker</text>
+  <text class="noct-nsub" x="730" y="247">Lambda · nightly</text>
+</g>
+<g class="noct-node fn">
+  <rect x="720" y="322" width="130" height="70" rx="14"/>
+  <text class="noct-nkind" x="840" y="339">FN</text>
+  <text class="noct-nlabel" x="730" y="355">notify-worker</text>
+  <text class="noct-nsub" x="730" y="373">Lambda · SQS</text>
+</g>
+<g class="noct-node ext">
+  <rect x="878" y="196" width="108" height="70" rx="8"/>
+  <text class="noct-nkind" x="976" y="213">EXT</text>
+  <text class="noct-nlabel" x="888" y="229">Partner bank</text>
+  <text class="noct-nsub" x="888" y="247">camt.053</text>
+</g>
+<g class="noct-node ext">
+  <rect x="878" y="362" width="108" height="70" rx="8"/>
+  <text class="noct-nkind" x="976" y="379">EXT</text>
+  <text class="noct-nlabel" x="888" y="395">Card PSP</text>
+  <text class="noct-nsub" x="888" y="413">timeout 3 s</text>
+</g>
+<path class="noct-edge sync" d="M140,145 C158,145 158,196 176,196" marker-end="url(#am-sync)"/>
+<path class="noct-edge sync" d="M140,271 C158,271 158,226 176,226" marker-end="url(#am-sync)"/>
+<path class="noct-edge ctrl" d="M308,184 C326,184 326,113 344,113" marker-end="url(#am-ctrl)"/>
+<path class="noct-edge sync noct-flow" d="M308,232 L344,232" marker-end="url(#am-sync)"/>
+<path class="noct-edge data" d="M494,212 C511,212 511,113 528,113" marker-end="url(#am-data)"/>
+<path class="noct-edge data noct-flow" d="M494,240 L528,240" marker-end="url(#am-data)"/>
+<path class="noct-edge sync" d="M470,278 L470,362" marker-end="url(#am-sync)"/>
+<path class="noct-edge ext noct-flow" d="M494,410 L878,410" marker-end="url(#am-ext)"/>
+<path class="noct-edge async noct-flow" d="M494,264 C511,264 511,357 528,357" marker-end="url(#am-async)"/>
+<path class="noct-edge async noct-flow" d="M686,357 L720,357" marker-end="url(#am-async)"/>
+<path class="noct-edge data" d="M686,231 L720,231" marker-end="url(#am-data)"/>
+<path class="noct-edge ext" d="M878,231 L850,231" marker-end="url(#am-ext)"/>
+<path class="noct-edge fail noct-flow" d="M785,392 C785,481 720,481 686,481" marker-end="url(#am-fail)"/>
+<circle class="noct-pkt sync" r="4"><animateMotion dur="1.2s" repeatCount="indefinite" path="M308,232 L344,232"/></circle>
+<circle class="noct-pkt data" r="4"><animateMotion dur="1.2s" begin="0.4s" repeatCount="indefinite" path="M494,240 L528,240"/></circle>
+<circle class="noct-pkt ext" r="4"><animateMotion dur="2.6s" begin="0.8s" repeatCount="indefinite" path="M494,410 L878,410"/></circle>
+<g class="noct-step" transform="translate(158,170)"><circle r="11"/><text>1</text></g>
+<g class="noct-step" transform="translate(326,149)"><circle r="11"/><text>2</text></g>
+<g class="noct-step" transform="translate(326,256)"><circle r="11"/><text>3</text></g>
+<g class="noct-step" transform="translate(511,240)"><circle r="11"/><text>4</text></g>
+<g class="noct-step" transform="translate(452,316)"><circle r="11"/><text>5</text></g>
+<g class="noct-step" transform="translate(511,310)"><circle r="11"/><text>6</text></g>
+<g class="noct-step" transform="translate(785,440)"><circle r="11"/><text>7</text></g>
+</svg>
+        </div>
+        <div class="noct-legend">
+          <span data-route="sync"><i class="sync"></i>sync request</span>
+          <span data-route="ctrl"><i class="ctrl"></i>control plane</span>
+          <span data-route="data"><i class="data"></i>store read / write</span>
+          <span data-route="async"><i class="async"></i>async event</span>
+          <span data-route="ext"><i class="ext"></i>third-party call</span>
+          <span data-route="fail"><i class="fail"></i>failure → DLQ</span>
+          <span class="noct-legend-sep"></span>
+          <span><i class="node client"></i>client</span>
+          <span><i class="node edge"></i>edge</span>
+          <span><i class="node svc"></i>service</span>
+          <span><i class="node fn"></i>function</span>
+          <span><i class="node store"></i>store</span>
+          <span><i class="node queue"></i>queue</span>
+          <span><i class="node cache"></i>cache</span>
+          <span><i class="node ext"></i>external</span>
+          <span><i class="zone trust"></i>trust boundary</span>
+        </div>
+        <figcaption class="noct-figcap"><b>Fig 1 · Wallet top-up, container view</b> <span class="noct-ref">platform/arch/top-up.md</span> <span>rev 2026-10-07</span> <span class="noct-chip ok">verified</span></figcaption>
+      </figure>
+
+      <ol class="noct-steps">
+        <li>Client posts a top-up through the gateway — TLS termination, WAF, and a per-key rate limit.</li>
+        <li>The gateway verifies the JWT with <code>auth-service</code> before routing anything (control plane).</li>
+        <li><code>wallet-service</code> takes the request on the hot path and checks the idempotency key in Redis.</li>
+        <li>A pending double-entry row lands in <code>ledger-db</code> inside the same transaction as the outbox row.</li>
+        <li><code>payments-adapter</code> charges the PSP from inside the PCI scope; card data never leaves it.</li>
+        <li>On success, <code>wallet.funded</code> is published from the outbox; consumers fan out asynchronously.</li>
+        <li><code>notify-worker</code> retries three times, then the message lands in <code>notify.dlq</code> for replay.</li>
+      </ol>
+
+      <h3 id="d-sequence">Sequence — top-up with a PSP timeout and safe retry</h3>
+      <figure class="noct-arch">
+        <div class="noct-arch-canvas">
+          <svg viewBox="0 0 1000 536" role="img" aria-label="Sequence: client posts a top-up to the gateway, which calls wallet-service. wallet-service writes a pending ledger entry, charges the PSP, receives a 504 timeout, retries with the same idempotency key, receives success, publishes wallet.funded asynchronously, and returns 201 to the client in 412 ms.">
+<defs><marker id="sm-sync" class="noct-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="sm-async" class="noct-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="sm-data" class="noct-mk data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="sm-ext" class="noct-mk ext" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="sm-fail" class="noct-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="sm-ret" class="noct-mk ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<g class="noct-actor client"><rect x="13" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="83" y="36" text-anchor="middle">Client</text><text class="noct-nsub" x="83" y="54" text-anchor="middle">checkout web</text></g>
+<g class="noct-actor edge"><rect x="179" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="249" y="36" text-anchor="middle">API gateway</text><text class="noct-nsub" x="249" y="54" text-anchor="middle">kong</text></g>
+<g class="noct-actor svc"><rect x="345" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="415" y="36" text-anchor="middle">wallet-service</text><text class="noct-nsub" x="415" y="54" text-anchor="middle">elixir</text></g>
+<g class="noct-actor store"><rect x="511" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="581" y="36" text-anchor="middle">ledger-db</text><text class="noct-nsub" x="581" y="54" text-anchor="middle">postgres</text></g>
+<g class="noct-actor ext"><rect x="677" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="747" y="36" text-anchor="middle">Card PSP</text><text class="noct-nsub" x="747" y="54" text-anchor="middle">third party</text></g>
+<g class="noct-actor queue"><rect x="843" y="14" width="140" height="48" rx="8"/><text class="noct-nlabel" x="913" y="36" text-anchor="middle">wallet.events</text><text class="noct-nsub" x="913" y="54" text-anchor="middle">sns topic</text></g>
+<line class="noct-life" x1="83" y1="62" x2="83" y2="526"/>
+<line class="noct-life" x1="249" y1="62" x2="249" y2="526"/>
+<line class="noct-life" x1="415" y1="62" x2="415" y2="526"/>
+<line class="noct-life" x1="581" y1="62" x2="581" y2="526"/>
+<line class="noct-life" x1="747" y1="62" x2="747" y2="526"/>
+<line class="noct-life" x1="913" y1="62" x2="913" y2="526"/>
+<rect class="noct-actbar" x="244" y="92" width="10" height="412" rx="2"/>
+<rect class="noct-actbar" x="410" y="136" width="10" height="326" rx="2"/>
+<rect class="noct-actbar" x="576" y="180" width="10" height="46" rx="2"/>
+<rect class="noct-actbar" x="742" y="258" width="10" height="46" rx="2"/>
+<rect class="noct-actbar" x="742" y="326" width="10" height="46" rx="2"/>
+<g class="noct-note"><rect x="755" y="276" width="154" height="52" rx="6"/><text x="764" y="298">Same idempotency key</text><text x="764" y="316">PSP dedupes the retry.</text></g>
+<path class="noct-edge sync" d="M83,100 L244,100" marker-end="url(#sm-sync)"/>
+<text class="noct-mlabel" x="164" y="92">POST /wallets/{id}/top-ups</text>
+<path class="noct-edge sync" d="M254,144 L410,144" marker-end="url(#sm-sync)"/>
+<text class="noct-mlabel" x="332" y="136">TopUp(idem=order-1204)</text>
+<path class="noct-edge data" d="M420,188 L576,188" marker-end="url(#sm-data)"/>
+<text class="noct-mlabel" x="498" y="180">INSERT entry · pending</text>
+<path class="noct-edge ret" d="M576,220 L420,220" marker-end="url(#sm-ret)"/>
+<text class="noct-mlabel muted" x="498" y="212">ok · 4 ms</text>
+<path class="noct-edge ext" d="M420,266 L742,266" marker-end="url(#sm-ext)"/>
+<text class="noct-mlabel" x="581" y="258">charge €50.00</text>
+<path class="noct-edge fail" d="M742,298 L420,298" marker-end="url(#sm-fail)"/>
+<text class="noct-mlabel crit" x="581" y="290">504 · timeout after 3 s</text>
+<path class="noct-edge ext" d="M420,334 L742,334" marker-end="url(#sm-ext)"/>
+<text class="noct-mlabel" x="581" y="326">retry · same idem key</text>
+<path class="noct-edge ret" d="M742,366 L420,366" marker-end="url(#sm-ret)"/>
+<text class="noct-mlabel muted" x="581" y="358">succeeded · ch_9f41</text>
+<path class="noct-edge async noct-flow" d="M420,412 L908,412" marker-end="url(#sm-async)"/>
+<text class="noct-mlabel" x="664" y="404">publish wallet.funded (outbox relay)</text>
+<path class="noct-edge ret" d="M410,456 L254,456" marker-end="url(#sm-ret)"/>
+<text class="noct-mlabel muted" x="332" y="448">201 Created</text>
+<path class="noct-edge ret" d="M244,496 L83,496" marker-end="url(#sm-ret)"/>
+<text class="noct-mlabel muted" x="164" y="488">201 · 412 ms</text>
+</svg>
+        </div>
+        <div class="noct-legend">
+          <span data-route="sync"><i class="sync"></i>sync call</span>
+          <span data-route="data"><i class="data"></i>store write</span>
+          <span data-route="ext"><i class="ext"></i>third-party call</span>
+          <span data-route="fail"><i class="fail"></i>failure response</span>
+          <span data-route="async"><i class="async"></i>async publish</span>
+          <span data-route="ret"><i class="ret"></i>return</span>
+        </div>
+        <figcaption class="noct-figcap"><b>Fig 2 · Top-up with PSP retry</b> <span class="noct-ref">trace 7f3a…c21 · 2026-10-06 14:02Z</span> <span class="noct-chip warn">in review</span></figcaption>
+      </figure>
+
+      <h3 id="d-state">State machine — top-up lifecycle</h3>
+      <figure class="noct-arch">
+        <div class="noct-arch-canvas">
+          <svg viewBox="0 0 1000 290" role="img" aria-label="State machine: a top-up is created, submitted to pending, authorised, then settled. Pending can fail on decline or timeout; failed retries with backoff back to pending, or is abandoned after three attempts. Settled can be reversed by a chargeback; settled and reversed both close.">
+<defs><marker id="tm-ok" class="noct-mk st-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="tm-warn" class="noct-mk st-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="tm-crit" class="noct-mk st-crit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker><marker id="tm-info" class="noct-mk st-info" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<circle class="noct-pseudo" cx="24" cy="115" r="7"/>
+<g class="noct-state"><rect x="50" y="90" width="124" height="50" rx="25"/><text x="112" y="107">Created</text><text class="noct-ssub" x="112" y="125">idem key minted</text></g>
+<g class="noct-state info"><rect x="250" y="90" width="124" height="50" rx="25"/><text x="312" y="107">Pending</text><text class="noct-ssub" x="312" y="125">awaiting PSP</text></g>
+<g class="noct-state info"><rect x="450" y="90" width="124" height="50" rx="25"/><text x="512" y="107">Authorised</text><text class="noct-ssub" x="512" y="125">funds reserved</text></g>
+<g class="noct-state ok"><rect x="650" y="90" width="124" height="50" rx="25"/><text x="712" y="107">Settled</text><text class="noct-ssub" x="712" y="125">ledger posted</text></g>
+<g class="noct-state"><rect x="850" y="90" width="124" height="50" rx="25"/><text x="912" y="107">Reversed</text><text class="noct-ssub" x="912" y="125">chargeback</text></g>
+<g class="noct-state crit"><rect x="250" y="215" width="124" height="50" rx="25"/><text x="312" y="232">Failed</text><text class="noct-ssub" x="312" y="250">declined · 504</text></g>
+<g class="noct-state warn"><rect x="450" y="215" width="124" height="50" rx="25"/><text x="512" y="232">Retrying</text><text class="noct-ssub" x="512" y="250">attempt n of 3</text></g>
+<circle class="noct-pseudo-ring" cx="150" cy="240" r="10"/><circle class="noct-pseudo" cx="150" cy="240" r="5"/>
+<circle class="noct-pseudo-ring" cx="712" cy="240" r="10"/><circle class="noct-pseudo" cx="712" cy="240" r="5"/>
+<circle class="noct-pseudo-ring" cx="912" cy="240" r="10"/><circle class="noct-pseudo" cx="912" cy="240" r="5"/>
+<path class="noct-edge st-info" d="M31,115 L50,115" marker-end="url(#tm-info)"/>
+<path class="noct-edge st-ok noct-flow" d="M174,115 L250,115" marker-end="url(#tm-ok)"/>
+<text class="noct-elabel" x="212" y="105" text-anchor="middle">submit</text>
+<path class="noct-edge st-ok noct-flow" d="M374,115 L450,115" marker-end="url(#tm-ok)"/>
+<text class="noct-elabel" x="412" y="105" text-anchor="middle">authorised</text>
+<path class="noct-edge st-ok noct-flow" d="M574,115 L650,115" marker-end="url(#tm-ok)"/>
+<text class="noct-elabel" x="612" y="105" text-anchor="middle">settle file</text>
+<path class="noct-edge st-crit" d="M774,115 L850,115" marker-end="url(#tm-crit)"/>
+<text class="noct-elabel" x="812" y="105" text-anchor="middle">chargeback</text>
+<path class="noct-edge st-crit" d="M312,140 L312,215" marker-end="url(#tm-crit)"/>
+<text class="noct-elabel" x="302" y="182" text-anchor="end">decline / timeout</text>
+<path class="noct-edge st-warn" d="M374,240 L450,240" marker-end="url(#tm-warn)"/>
+<text class="noct-elabel" x="412" y="231" text-anchor="middle">backoff 2ⁿ s</text>
+<path class="noct-edge st-warn noct-flow" d="M512,215 C512,175 370,180 364,142" marker-end="url(#tm-warn)"/>
+<text class="noct-elabel" x="492" y="166" text-anchor="middle">retry ≤ 3</text>
+<path class="noct-edge st-crit" d="M250,240 L162,240" marker-end="url(#tm-crit)"/>
+<text class="noct-elabel" x="206" y="231" text-anchor="middle">exhausted</text>
+<path class="noct-edge st-ok" d="M712,140 L712,228" marker-end="url(#tm-ok)"/>
+<text class="noct-elabel" x="722" y="190">T+120 d</text>
+<path class="noct-edge st-info" d="M912,140 L912,228" marker-end="url(#tm-info)"/>
+<text class="noct-elabel" x="922" y="190">closed</text>
+</svg>
+        </div>
+        <div class="noct-legend">
+          <span><i class="st-ok"></i>happy path</span>
+          <span><i class="st-warn"></i>retry</span>
+          <span><i class="st-crit"></i>failure / reversal</span>
+          <span><i class="st-info"></i>administrative</span>
+        </div>
+        <figcaption class="noct-figcap"><b>Fig 3 · TopUp state machine</b> <span class="noct-ref">lib/wallet/top_up/fsm.ex</span> <span>rev 2026-10-07</span> <span class="noct-chip ok">matches code</span></figcaption>
+      </figure>
+
+      <div class="noct-callout">
+        <div class="noct-callout-t">Fallback</div>
+        <p>Native SVG is the default for architecture, sequence, and state. For ER, gantt, or anything else exotic, pre-render Mermaid with <a href="mermaid-config.json"><code>mermaid-config.json</code></a> and keep the DSL in a <code>&lt;details&gt;</code> beside it.</p>
+      </div>
+    </section>
+
+    <!-- ============ 07 ENGINEERING COMPONENTS ============ -->
+    <section class="noct-section" id="components">
+      <div class="noct-sec-h"><span class="noct-sec-num">07 —</span><h2>Engineering components</h2></div>
+      <p>The building blocks of a design doc or service review. Each one keeps Nocturne's surface discipline and borrows hue only where hue encodes something: node kind on a service card, HTTP method on an endpoint, outcome on a trade-off.</p>
+
+      <p class="demo-note">Service cards — .noct-svc-grid / .noct-svc</p>
+      <div class="noct-svc-grid">
+        <article class="noct-svc">
+          <div class="noct-svc-h"><span class="noct-dot ok"></span><h4>wallet-service</h4><span class="noct-svc-kind">svc</span></div>
+          <p class="noct-svc-desc">Owns wallet balances and the top-up saga. The only writer to <code>ledger-db</code>.</p>
+          <div class="noct-tags"><span class="noct-tag">elixir 1.17</span><span class="noct-tag">phoenix</span><span class="noct-tag">ecs fargate</span></div>
+          <div><div class="noct-kv"><span>Owner</span><b>team-wallet</b></div><div class="noct-kv"><span>SLO</span><b>99.95% · p95 400 ms</b></div><div class="noct-kv"><span>On-call</span><b>#wallet-oncall</b></div></div>
+          <div class="noct-deps">Depends on <span class="noct-ref">ledger-db</span><span class="noct-ref">idempotency-cache</span><span class="noct-ref">payments-adapter</span></div>
+        </article>
+        <article class="noct-svc">
+          <div class="noct-svc-h"><span class="noct-dot warn"></span><h4>payments-adapter</h4><span class="noct-svc-kind">svc</span></div>
+          <p class="noct-svc-desc">Thin anti-corruption layer over the PSP SDK. Lives inside the PCI scope.</p>
+          <div class="noct-tags"><span class="noct-tag">java 21</span><span class="noct-tag">spring boot</span><span class="noct-tag">pci</span></div>
+          <div><div class="noct-kv"><span>Owner</span><b>team-payments</b></div><div class="noct-kv"><span>SLO</span><b>99.9% · p95 300 ms</b></div><div class="noct-kv"><span>Timeouts</span><b>3 s · 3 retries</b></div></div>
+          <div class="noct-deps">Depends on <span class="noct-ref">Card PSP</span></div>
+        </article>
+        <article class="noct-svc store">
+          <div class="noct-svc-h"><span class="noct-dot ok"></span><h4>ledger-db</h4><span class="noct-svc-kind">store</span></div>
+          <p class="noct-svc-desc">Double-entry journal plus the transactional outbox table.</p>
+          <div class="noct-tags"><span class="noct-tag">postgres 16</span><span class="noct-tag">rds multi-az</span><span class="noct-tag">pitr 7 d</span></div>
+          <div><div class="noct-kv"><span>Owner</span><b>team-wallet</b></div><div class="noct-kv"><span>Size</span><b>412 GB</b></div><div class="noct-kv"><span>Replica lag</span><b>42 ms</b></div></div>
+          <div class="noct-deps">Read by <span class="noct-ref">recon-worker</span></div>
+        </article>
+        <article class="noct-svc fn">
+          <div class="noct-svc-h"><span class="noct-dot crit"></span><h4>notify-worker</h4><span class="noct-svc-kind">fn</span></div>
+          <p class="noct-svc-desc">Sends receipts on <code>wallet.funded</code>. Currently draining the DLQ.</p>
+          <div class="noct-tags"><span class="noct-tag">node 22</span><span class="noct-tag">lambda</span><span class="noct-tag">sqs trigger</span></div>
+          <div><div class="noct-kv"><span>Owner</span><b>team-growth</b></div><div class="noct-kv"><span>Concurrency</span><b>reserved 20</b></div><div class="noct-kv"><span>DLQ depth</span><b>17</b></div></div>
+          <div class="noct-deps">Consumes <span class="noct-ref">wallet.events</span></div>
+        </article>
+      </div>
+
+      <p class="demo-note">API endpoint table — .noct-api + .noct-method</p>
+      <div class="noct-table-wrap">
+        <table class="noct-table noct-api">
+          <thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Auth</th><th>Idempotent</th><th class="noct-num">p95</th></tr></thead>
+          <tbody>
+            <tr><td><span class="noct-method get">GET</span></td><td>/v1/wallets/<span class="noct-path-param">{id}</span></td><td>Balance and status</td><td>user JWT</td><td>yes</td><td class="noct-num">38 ms</td></tr>
+            <tr><td><span class="noct-method post">POST</span></td><td>/v1/wallets/<span class="noct-path-param">{id}</span>/top-ups</td><td>Start a top-up</td><td>user JWT</td><td><code>Idempotency-Key</code></td><td class="noct-num">412 ms</td></tr>
+            <tr><td><span class="noct-method put">PUT</span></td><td>/v1/wallets/<span class="noct-path-param">{id}</span>/limits</td><td>Replace spend limits</td><td>ops scope</td><td>yes</td><td class="noct-num">54 ms</td></tr>
+            <tr><td><span class="noct-method patch">PATCH</span></td><td>/v1/top-ups/<span class="noct-path-param">{id}</span></td><td>Annotate or cancel</td><td>ops scope</td><td>If-Match</td><td class="noct-num">61 ms</td></tr>
+            <tr><td><span class="noct-method delete">DELETE</span></td><td>/v1/wallets/<span class="noct-path-param">{id}</span>/cards/<span class="noct-path-param">{card}</span></td><td>Detach a card</td><td>user JWT</td><td>yes</td><td class="noct-num">47 ms</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="demo-note">Architecture decision record — .noct-adr</p>
+      <article class="noct-adr">
+        <header class="noct-adr-h">
+          <span class="noct-adr-id">ADR-014</span>
+          <h4>Publish wallet.funded through a transactional outbox</h4>
+          <span class="noct-chip ok">accepted</span>
+          <span class="noct-adr-meta">2026-09-18 · team-wallet</span>
+        </header>
+        <div class="noct-adr-b">
+          <div><h5>Context</h5><p>wallet-service writes the ledger row and then publishes to SNS. When the publish fails after commit, the wallet is funded but nobody hears about it — 0.3% of top-ups in August <span class="noct-ref">INC-088</span>.</p></div>
+          <div><h5>Decision</h5><p>Write the event to an <code>outbox</code> table in the same transaction as the ledger entry. A relay process publishes and marks rows sent; consumers dedupe on event ID.</p></div>
+          <div><h5>Consequences</h5>
+            <ul class="noct-pros"><li>Event is exactly as durable as the money movement.</li><li>Replay is a SQL query, not a script.</li></ul>
+            <ul class="noct-cons"><li>Adds ~40 ms median publish lag.</li><li>One more process to run and alarm on.</li></ul>
+          </div>
+        </div>
+      </article>
+
+      <p class="demo-note">Trade-off matrix — .noct-tradeoff (colour plus glyph)</p>
+      <div class="noct-table-wrap">
+        <table class="noct-table noct-tradeoff">
+          <thead><tr><th>Option</th><th>Delivery guarantee</th><th>Publish latency</th><th>Ops cost</th><th>Team familiarity</th></tr></thead>
+          <tbody>
+            <tr><td>Dual write (status quo)</td><td class="bad">lost on crash</td><td class="good">~5 ms</td><td class="good">none</td><td class="good">high</td></tr>
+            <tr class="is-chosen"><td>Transactional outbox</td><td class="good">at-least-once</td><td class="mid">~40 ms</td><td class="mid">one relay</td><td class="good">high</td></tr>
+            <tr><td>CDC via Debezium</td><td class="good">at-least-once</td><td class="mid">~150 ms</td><td class="bad">Kafka Connect</td><td class="bad">low</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="demo-note">Latency budget — .noct-budget (scale 0–500 ms, target 400 ms)</p>
+      <div class="noct-budget">
+        <div class="noct-budget-h"><b>POST /top-ups · p95 by hop</b><span>412 ms of 400 ms budget</span></div>
+        <div class="noct-budget-bar" role="img" aria-label="Latency budget: gateway 18, auth 22, wallet 64, ledger 31, PSP 248, serialisation 29 milliseconds; total 412 against a 400 ms target.">
+          <span class="noct-seg" style="--w:3.6%"></span>
+          <span class="noct-seg v2" style="--w:4.4%"></span>
+          <span class="noct-seg v3" style="--w:12.8%">wallet 64</span>
+          <span class="noct-seg v4" style="--w:6.2%">31</span>
+          <span class="noct-seg v5" style="--w:49.6%">PSP charge 248 ms</span>
+          <span class="noct-seg over" style="--w:5.8%">29</span>
+          <span class="noct-budget-target" style="--at:80%" data-label="SLO 400 ms"></span>
+        </div>
+        <div class="noct-budget-legend">
+          <span><i></i>gateway <b>18</b></span>
+          <span><i class="v2"></i>auth <b>22</b></span>
+          <span><i class="v3"></i>wallet <b>64</b></span>
+          <span><i class="v4"></i>ledger <b>31</b></span>
+          <span><i class="v5"></i>PSP <b>248</b></span>
+          <span><i class="over"></i>serialise (over budget) <b>29</b></span>
+        </div>
+      </div>
+
+      <p class="demo-note">Timeline — .noct-timeline</p>
+      <ol class="noct-timeline">
+        <li><time>2026-09-18 10:00</time><span class="noct-dot neutral"></span><div><b>ADR-014 accepted</b><p>Outbox chosen over CDC; relay owned by team-wallet.</p></div></li>
+        <li><time>2026-09-25 14:30</time><span class="noct-dot info"></span><div><b>Relay shipped dark</b><p>Writes outbox rows; SNS publish still on the old path.</p></div></li>
+        <li><time>2026-10-02 09:15</time><span class="noct-dot warn"></span><div><b>Canary at 10%</b><p>Publish lag p95 61 ms — above the 50 ms target, accepted for now.</p></div></li>
+        <li><time>2026-10-06 16:00</time><span class="noct-dot ok"></span><div><b>100% on outbox</b><p>Zero lost events across 48,210 top-ups.</p></div></li>
+      </ol>
+
+      <p class="demo-note">Callouts — .noct-callout (note · warn · risk · decision)</p>
+      <div class="two-col">
+        <div class="noct-callout"><div class="noct-callout-t">Note</div><p>The relay is single-writer by design; scale it by partitioning on wallet ID, not by adding replicas.</p></div>
+        <div class="noct-callout warn"><div class="noct-callout-t">Warning</div><p>Outbox rows are retained 7 days. Replays older than that need the ledger export.</p></div>
+        <div class="noct-callout risk"><div class="noct-callout-t">Risk</div><p>If the relay stalls, consumers see nothing and no alarm fires today. Owner: team-wallet.</p></div>
+        <div class="noct-callout decision"><div class="noct-callout-t">Decision</div><p>Alert when the oldest unsent outbox row is older than 60 s.</p></div>
+      </div>
+
+      <p class="demo-note">Titled code — .noct-code</p>
+      <div class="noct-code">
+        <div class="noct-code-h"><span>lib/wallet/outbox/relay.ex</span><span>elixir</span></div>
+        <pre><code><span class="tk-k">def</span> <span class="tk-f">handle_info</span>(:tick, state) <span class="tk-k">do</span>
+  <span class="tk-c"># FOR UPDATE SKIP LOCKED lets two relays drain without double-publishing</span>
+  rows = Outbox.<span class="tk-f">claim</span>(limit: <span class="tk-n">500</span>)
+  :ok = Publisher.<span class="tk-f">publish_batch</span>(rows, topic: <span class="tk-s">"wallet.events"</span>)
+  Outbox.<span class="tk-f">mark_sent</span>(rows)
+  {:noreply, <span class="tk-f">schedule</span>(state)}
+<span class="tk-k">end</span></code></pre>
+      </div>
+    </section>
+
+    <!-- ============ 08 SIGNATURE DETAILS ============ -->
+    <section class="noct-section" id="signature">
+      <div class="noct-sec-h"><span class="noct-sec-num">08 —</span><h2>Signature details</h2></div>
       <p>The moves that make a page unmistakably Nocturne — each one earns its place.</p>
       <div class="noct-table-wrap">
         <table class="noct-table">
           <thead><tr><th>Move</th><th>Class</th><th>Rule</th></tr></thead>
           <tbody>
             <tr><td>Edge-lit card</td><td><code>.noct-card</code></td><td>1px border + <code>inset 0 1px 0</code> highlight — the only shadow in the system</td></tr>
-            <tr><td>Dot-grid hero</td><td><code>.noct-dotgrid</code></td><td>Header/hero bands only, never behind body text</td></tr>
+            <tr><td>Dot-grid hero &amp; canvas</td><td><code>.noct-dotgrid</code> · <code>.noct-arch-canvas</code></td><td>Hero bands and diagram canvases only, never behind body text</td></tr>
+            <tr><td>Contents rail</td><td><code>.noct-toc</code></td><td>Sticky at ≥1200px, accent bar on the current section</td></tr>
+            <tr><td>Kind-tinted nodes</td><td><code>.noct-node.&lt;kind&gt;</code></td><td>Stroke + 12% tint + mono kind tag; hue borrowed from the route that serves it</td></tr>
+            <tr><td>Marching routes</td><td><code>.noct-edge.&lt;route&gt; .noct-flow</code></td><td>Direction of travel only; packets on at most three routes</td></tr>
             <tr><td>Keyboard key</td><td><code>.noct-kbd</code></td><td>Thicker bottom border for depth — <kbd class="noct-kbd">⌘</kbd><kbd class="noct-kbd">⏎</kbd></td></tr>
             <tr><td>Ref pill</td><td><code>.noct-ref</code></td><td>Evidence inline with the claim — <span class="noct-ref">FundsRouter.java:214</span></td></tr>
-            <tr><td>Overline label</td><td><code>.noct-overline</code></td><td>Letterspaced uppercase above titles and on the verdict</td></tr>
             <tr><td>Mono metrics</td><td><code>.noct-metric-v</code></td><td>Tabular numerals, muted small unit</td></tr>
             <tr><td>Verdict card</td><td><code>.noct-verdict</code></td><td>Raised, accent left bar, <code>data-label</code> overline</td></tr>
           </tbody>
@@ -223,60 +716,79 @@ WHERE  ABS(w.balance - j.mirrored_balance) &gt;= 1.00;</code></pre>
       </div>
     </section>
 
-    <!-- ============ 06 ANTI-PATTERNS ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h"><span class="noct-sec-num">06 —</span><h2>Anti-patterns</h2></div>
+    <!-- ============ 09 ANTI-PATTERNS ============ -->
+    <section class="noct-section" id="anti">
+      <div class="noct-sec-h"><span class="noct-sec-num">09 —</span><h2>Anti-patterns</h2></div>
       <p>The generic AI dark mode this system exists to prevent:</p>
       <ul>
         <li><strong>Gradient text, gradient heroes.</strong> The hero is type, space, and at most the dot grid.</li>
         <li><strong>Glassmorphism / backdrop blur.</strong> Surfaces are opaque; hairlines separate them.</li>
-        <li><strong>Drop shadows for elevation.</strong> Borders carry elevation. The inset top highlight is the whole shadow budget.</li>
-        <li><strong>Thin display type on dark.</strong> Light strokes shimmer on near-black — 550–650 or nothing.</li>
-        <li><strong>A second accent.</strong> Semantic colours are state, not decoration.</li>
-        <li><strong>Decorative glow.</strong> No halos, no neon, no pulsing dots.</li>
+        <li><strong>Drop shadows or glow on nodes.</strong> A hot node gets a thicker stroke and a deeper tint, never a halo.</li>
+        <li><strong>Rainbow diagrams.</strong> A hue without a legend entry is decoration. If two routes mean the same thing, they share a colour.</li>
+        <li><strong>Decorative motion.</strong> Packets on every edge, pulsing nodes, bouncing arrows. Motion shows direction on the routes that matter.</li>
+        <li><strong>Full-width prose.</strong> 200-character lines are unreadable; the measure stays at 72ch even on a 2560px screen.</li>
+        <li><strong>Thin display type on dark.</strong> 550–650 or nothing.</li>
       </ul>
     </section>
 
-    <!-- ============ 07 FOR AI AGENTS ============ -->
-    <section class="noct-section">
-      <div class="noct-sec-h"><span class="noct-sec-num">07 —</span><h2>Using this system with AI agents</h2></div>
-      <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-nocturne</code> skill loads it automatically.</p>
-      <pre>Generate the dashboard as HTML using the Nocturne design system:
+    <!-- ============ 10 FOR AI AGENTS ============ -->
+    <section class="noct-section" id="agents">
+      <div class="noct-sec-h"><span class="noct-sec-num">10 —</span><h2>Using this system with AI agents</h2></div>
+      <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory, including a copy-pasteable SVG snippet for the diagram grammar. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-nocturne</code> skill loads it automatically.</p>
+      <pre>Generate the design doc as HTML using the Nocturne design system:
 https://dexteryo.github.io/design-systems/nocturne/
 (spec: README.md, tokens: nocturne.css)
-Inline the stylesheet if the output must be self-contained.</pre>
+Native SVG architecture diagrams with a legend. Inline the stylesheet if the output must be self-contained.</pre>
     </section>
 
     <footer class="noct-colophon">
-      <div>Nocturne · v1.0.0 · rev 2026-07-30</div>
+      <div>Nocturne · v2.0.0 · rev 2026-10-07</div>
       <div>Linear restraint · Geist economy · Stripe density · Radix dark scales</div>
     </footer>
 
+    </main>
   </div>
 </div>
 
 <script>
 (function () {
   var btn = document.getElementById('themeToggle');
-  if (!btn) return;
-  var order = ['auto', 'dark', 'light'];
-  var current = 'auto';
-  try { current = localStorage.getItem('noct-theme') || 'auto'; } catch (e) {}
-  function apply(mode) {
-    current = mode;
-    if (mode === 'auto') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', mode);
-    }
-    btn.textContent = 'theme: ' + mode;
-    try { localStorage.setItem('noct-theme', mode); } catch (e) {}
+  if (btn) {
+    var order = ['auto', 'dark', 'light'];
+    var current = 'auto';
+    try { current = localStorage.getItem('noct-theme') || 'auto'; } catch (e) {}
+    var apply = function (mode) {
+      current = mode;
+      if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', mode);
+      btn.textContent = 'theme: ' + mode;
+      try { localStorage.setItem('noct-theme', mode); } catch (e) {}
+    };
+    btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+    apply(current);
+    btn.hidden = false;
   }
-  btn.addEventListener('click', function () {
-    apply(order[(order.indexOf(current) + 1) % order.length]);
+
+  var links = document.querySelectorAll('.noct-toc a[href^="#"]');
+  if ('IntersectionObserver' in window && links.length) {
+    var byId = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var visible = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var first = Array.prototype.find.call(document.querySelectorAll('.noct-section[id]'), function (s) { return visible[s.id]; });
+      if (!first) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[first.id]); });
+    }, { rootMargin: '-10% 0px -70% 0px' });
+    document.querySelectorAll('.noct-section[id]').forEach(function (s) { io.observe(s); });
+  }
+
+  document.querySelectorAll('.noct-arch').forEach(function (fig) {
+    fig.querySelectorAll('.noct-legend [data-route]').forEach(function (item) {
+      item.addEventListener('mouseenter', function () { fig.setAttribute('data-focus', item.dataset.route); });
+      item.addEventListener('mouseleave', function () { fig.removeAttribute('data-focus'); });
+    });
   });
-  apply(current);
-  btn.hidden = false;
 })();
 </script>
 </body>

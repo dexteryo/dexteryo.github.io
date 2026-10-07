@@ -8,17 +8,18 @@
 <style>
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
   body { margin: 0; }
-  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
-  .sw { width: 108px; font-size: 10.5px; }
+  .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 0 0 24px; }
+  .sw { font-size: 11px; }
   .sw i { display: block; height: 34px; border: 1px solid var(--phos-border); font-style: normal; }
   .sw span { display: block; margin-top: 4px; color: var(--phos-muted); }
-  .demo-note { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
-               color: var(--phos-muted); margin: 24px 0 10px; }
+  .sw span b { color: var(--phos-ink); font-weight: 600; }
+  .demo-note { font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+               color: var(--phos-muted); margin: 32px 0 12px; }
   .panel-demo { border: 1px dashed var(--phos-border); padding: 24px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
   .chip-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-  #phos-toggle { position: fixed; top: 12px; right: 12px; cursor: pointer;
+  #phos-toggle { position: fixed; top: 12px; right: 12px; z-index: 5; cursor: pointer;
                  font: 700 11px var(--phos-mono); letter-spacing: .08em;
                  color: var(--phos-muted); background: var(--phos-surface);
                  border: 1px solid var(--phos-strong); padding: 5px 10px; }
@@ -29,32 +30,51 @@
 <div class="phos-page">
 
   <header>
-    <div class="phos-eyebrow">Phosphor · v1.0.0 · Living style guide</div>
+    <div class="phos-eyebrow">Phosphor · v2.0.0 · engineering edition · living style guide</div>
     <h1 class="phos-title">If it's on screen, it means something</h1>
-    <p class="phos-subtitle">An engineering-console design system: phosphor green on near-black, one monospace family, zero decoration. Dark-first; the light theme is a paper terminal. No scanlines, no flicker — the aesthetic is carried by type, colour, and furniture.</p>
+    <p class="phos-subtitle">An engineering-console design system: phosphor green on near-black, one monospace family, zero decoration. Dark-first; the light theme is a paper terminal. v2 goes full width and adds the architect's kit — animated SVG architecture, sequence and state diagrams in the ANSI palette, plus service cards, API tables, decision records, trade-off matrices, latency budgets and timelines.</p>
     <dl class="phos-meta">
       <div><dt>Owner</dt><dd>Dexter</dd></div>
-      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
-      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+      <div><dt>Status</dt><dd>v2.0.0</dd></div>
       <div><dt>Stylesheet</dt><dd><a href="phosphor.css">phosphor.css</a></dd></div>
       <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
     </dl>
   </header>
 
+  <div class="phos-layout">
+    <nav class="phos-toc" aria-label="Contents">
+      <div class="phos-toc-h">Index</div>
+      <ol>
+        <li><a href="#principles"><span>01</span>Principles</a></li>
+        <li><a href="#tokens"><span>02</span>Tokens</a></li>
+        <li><a href="#layout"><span>03</span>Layout</a></li>
+        <li><a href="#document"><span>04</span>Document mode</a></li>
+        <li><a href="#panel"><span>05</span>Panel mode</a></li>
+        <li><a href="#diagrams"><span>06</span>Architecture diagrams</a></li>
+        <li><a href="#components"><span>07</span>Engineering kit</a></li>
+        <li><a href="#mermaid"><span>08</span>Mermaid fallback</a></li>
+        <li><a href="#agents"><span>09</span>For AI agents</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
   <!-- ============ 01 PRINCIPLES ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 01</span><h2>Principles</h2></div>
-    <p><strong>Signal density over decoration.</strong> A console shows state, not styling. Every rule-line, chip, and colour on this page encodes something true about the content; anything that encodes nothing is deleted. <span class="phos-ref">src: README.md §2 · 2026-07-30</span></p>
-    <p><strong>Green is a claim.</strong> The phosphor accent is the same colour as <span class="phos-chip ok">[ OK ]</span> — it marks what is healthy, verified, or the one emphasis. When you see green, something is real. It is never a border for taste.</p>
-    <p><strong>One family, everywhere.</strong> Body, headings, tables, labels — all monospace. Hierarchy comes from size, weight, and colour, never from a second typeface. A serif sneaking into a heading is a defect.</p>
-    <p><strong>Restraint over cosplay.</strong> No scanlines, no screen curvature, no flicker, no boot sequences. The motion budget is one blinking cursor (the h1, disabled under reduced motion) and the glow budget is one text-shadow (the h1, dark theme only).</p>
-    <p><strong>Dark-first, but the printout is first-class.</strong> The default screen is the dark terminal; the light theme is a DEC paper terminal — warm paper, deep green ink, no glow. Tokens flip; components never restyle per theme.</p>
+    <div class="phos-sec-h" id="principles" style="margin-top:0"><span class="phos-sec-num">§ 01</span><h2>Principles</h2></div>
+    <p><strong>Signal density over decoration.</strong> A console shows state, not styling. Every rule-line, chip, and colour on this page encodes something true about the content; anything that encodes nothing is deleted. <span class="phos-ref">src: README.md §2 · 2026-10-07</span></p>
+    <p><strong>Green is a claim.</strong> The phosphor accent is the same colour as <span class="phos-chip ok">[ OK ]</span> — it marks what is healthy, verified, or added. When you see green, something is real. It is never a route colour and never a border for taste.</p>
+    <p><strong>Colour in diagrams is a declared meaning.</strong> The ANSI palette paints routes (sync, async, data, control, external, failure) and node kinds (client, edge, service, worker, store, stream, cache, third party). Every hue a figure uses appears in its legend; a hue the legend can't name is a defect.</p>
+    <p><strong>One family, everywhere.</strong> Body, headings, tables, labels, diagram text — all monospace. Hierarchy comes from size, weight, and colour, never from a second typeface.</p>
+    <p><strong>Wide for evidence, narrow for prose.</strong> The shell spans the screen so diagrams, tables and grids get room; paragraphs keep a 76-character measure so they stay readable.</p>
+    <p><strong>Motion shows direction, nothing else.</strong> Edges march the way data travels and square packets ride the hot path. That, the h1 cursor, and nothing more — all of it off under reduced motion.</p>
   </section>
 
   <!-- ============ 02 TOKENS ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 02</span><h2>Tokens</h2></div>
-    <p>All values live as CSS custom properties in <a href="phosphor.css"><code>phosphor.css</code></a> — dark defaults, a light counterpart, and explicit <code>data-theme</code> overrides. Components never hard-code colour. Swatches show the current theme's resolved values.</p>
+    <div class="phos-sec-h" id="tokens"><span class="phos-sec-num">§ 02</span><h2>Tokens</h2></div>
+    <p>All values live as CSS custom properties in <a href="phosphor.css"><code>phosphor.css</code></a> — dark defaults, a light counterpart, and explicit <code>data-theme</code> overrides. Only the base palette flips per theme; route and node tokens alias the ANSI slots, so they follow automatically. Swatches show the current theme's resolved values.</p>
 
     <p class="demo-note">Grounds &amp; ink</p>
     <div class="sw-grid">
@@ -74,6 +94,28 @@
       <div class="sw"><i style="background:var(--phos-info)"></i><span>--phos-info · informational</span></div>
     </div>
 
+    <p class="demo-note">Routes — edges in diagrams</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--phos-route-sync)"></i><span><b>sync</b> · request / response</span></div>
+      <div class="sw"><i style="background:var(--phos-route-async)"></i><span><b>async</b> · events, queues</span></div>
+      <div class="sw"><i style="background:var(--phos-route-data)"></i><span><b>data</b> · store reads / writes</span></div>
+      <div class="sw"><i style="background:var(--phos-route-ctrl)"></i><span><b>ctrl</b> · auth, config, deploy</span></div>
+      <div class="sw"><i style="background:var(--phos-route-ext)"></i><span><b>ext</b> · third-party calls</span></div>
+      <div class="sw"><i style="background:var(--phos-route-fail)"></i><span><b>fail</b> · error, retry, DLQ</span></div>
+    </div>
+
+    <p class="demo-note">Node kinds — shapes in diagrams</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--phos-node-client)"></i><span><b>client</b> · ansi-white</span></div>
+      <div class="sw"><i style="background:var(--phos-node-edge)"></i><span><b>edge</b> · ansi-yellow</span></div>
+      <div class="sw"><i style="background:var(--phos-node-svc)"></i><span><b>svc</b> · ansi-cyan</span></div>
+      <div class="sw"><i style="background:var(--phos-node-fn)"></i><span><b>fn</b> · ansi-bmagenta</span></div>
+      <div class="sw"><i style="background:var(--phos-node-store)"></i><span><b>store</b> · ansi-blue</span></div>
+      <div class="sw"><i style="background:var(--phos-node-queue)"></i><span><b>queue</b> · ansi-magenta</span></div>
+      <div class="sw"><i style="background:var(--phos-node-cache)"></i><span><b>cache</b> · ansi-bblue</span></div>
+      <div class="sw"><i style="background:var(--phos-node-ext)"></i><span><b>ext</b> · ansi-bblack</span></div>
+    </div>
+
     <p class="demo-note">Data-viz categorical (use in order)</p>
     <div class="sw-grid">
       <div class="sw"><i style="background:var(--phos-v1)"></i><span>--phos-v1</span></div>
@@ -85,35 +127,53 @@
     </div>
 
     <p class="demo-note">Type · one role, one family</p>
-    <p style="font-size:12.5px;">--phos-mono = <code>"SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace</code>. Body 14px/1.6 · tables 13px · labels 10–11px uppercase letterspaced (<code>.phos-label</code>) · digits tabular (<code>.phos-num</code>, right-aligned with <code>.phos-right</code>).</p>
+    <p style="font-size:13px;">--phos-mono = <code>"SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace</code>. Body 15px/1.7 · tables 13.5px · diagram labels 15px, everything else in SVG ≥ 12.5px · labels 10–11px uppercase letterspaced (<code>.phos-label</code>) · digits tabular (<code>.phos-num</code>).</p>
 
     <p class="demo-note">Spacing · 4px scale</p>
-    <p style="font-size:12.5px;">--phos-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale. No radii anywhere — everything is square.</p>
+    <p style="font-size:13px;">--phos-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale. No radii anywhere — everything is square, including diagram nodes (the store cylinder is the one curve, because that is what a database looks like).</p>
   </section>
 
-  <!-- ============ 03 DOCUMENT MODE ============ -->
+  <!-- ============ 03 LAYOUT ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 03</span><h2>Document mode</h2></div>
-    <p>For investigations, post-mortems, and run-books: <code>&lt;body class="phos-doc"&gt;</code>. Prose capped at 70ch; section headers are rule-lines built with flex and borders (never typed <code>─</code> glyphs) so the tail stretches; claims carry inline bracketed evidence refs. Everything below is live demo content from a fictional payments platform.</p>
+    <div class="phos-sec-h" id="layout"><span class="phos-sec-num">§ 03</span><h2>Layout</h2></div>
+    <p>The shell (<code>.phos-page</code>) is fluid: full viewport width with a <code>clamp(16px, 4vw, 64px)</code> gutter, capped at 1920px only to stop ultra-wide stretching. Inside it, <code>.phos-layout</code> pairs a sticky index rail (<code>.phos-toc</code>, 220px) with the content from 1680px up (narrower, it would squeeze the diagrams); below that the index folds into a bordered block above the content. The index is plain anchor links — a few lines of inline script add the <code>▸</code> active marker as you scroll.</p>
+    <div class="phos-table-wrap">
+      <table class="phos-table">
+        <thead><tr><th>Element</th><th>Width rule</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Paragraphs, lists, pull lines</td><td><code>--phos-measure</code> = 76ch</td><td>Long mono lines are hard to track back</td></tr>
+          <tr><td>Diagrams, tables, stat strips, grids, code</td><td>Full content width</td><td>Evidence needs room; nothing scrolls the page sideways</td></tr>
+          <tr><td>Diagram SVG</td><td><code>min-width: var(--phos-svg-min)</code> (1000px; set 0.8 × viewBox width per figure) inside its own scroller</td><td>Diagram text never renders under ~11px; the figure scrolls, the page does not</td></tr>
+          <tr><td>Section headers</td><td><code>scroll-margin-top</code> set</td><td>Index jumps land with breathing room</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 04 DOCUMENT MODE ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h" id="document"><span class="phos-sec-num">§ 04</span><h2>Document mode</h2></div>
+    <p>For investigations, design docs, post-mortems, and run-books: <code>&lt;body class="phos-doc"&gt;</code>. Section headers are rule-lines built with flex and borders (never typed <code>─</code> glyphs) so the tail stretches; sub-headings take <code>.phos-h3</code> and a dim <code>##</code> prefix; claims carry inline bracketed evidence refs. Everything below is live demo content from a fictional payments platform.</p>
 
     <p class="demo-note">Headline-stats strip</p>
     <div class="phos-stats">
-      <div><div class="phos-stat-label">Transfers settled</div><div class="phos-stat-value">12,408</div></div>
+      <div><div class="phos-stat-label">Top-ups settled</div><div class="phos-stat-value">12,408</div></div>
       <div><div class="phos-stat-label">Float balance</div><div class="phos-stat-value">€2.4<span class="phos-unit">M</span></div></div>
+      <div><div class="phos-stat-label">p95 end-to-end</div><div class="phos-stat-value">412<span class="phos-unit">ms</span></div></div>
       <div><div class="phos-stat-label">Recon gap</div><div class="phos-stat-value">0.02<span class="phos-unit">%</span></div></div>
-      <div><div class="phos-stat-label">Unmatched rows</div><div class="phos-stat-value">17</div></div>
+      <div><div class="phos-stat-label">DLQ depth</div><div class="phos-stat-value">17</div></div>
     </div>
 
-    <p class="demo-note">Prose with evidence refs + pull line</p>
-    <p>The <code>FundsRouter</code> retries a failed SEPA submission exactly once, then parks the transfer in <code>HELD</code> — there is no third attempt anywhere in the estate. <span class="phos-ref">src: FundsRouter.java:214 · 2026-07-30</span> The nightly reconciliation job compares the float, the wallet ledger, and the journal; a per-wallet gap over €1 pages the on-call. <span class="phos-ref">src: ReconJob.kt:88 · PAY-2113</span></p>
+    <h3 class="phos-h3">Prose with evidence refs + pull line</h3>
+    <p>The <code>topup-api</code> retries a timed-out PSP authorisation exactly once, re-using the idempotency key so the PSP deduplicates — there is no third attempt anywhere in the estate. <span class="phos-ref">src: TopUp.Authorise.ex:88 · 2026-10-07</span> The nightly reconciliation job compares the float, the wallet ledger, and the journal; a per-wallet gap over €1 pages the on-call. <span class="phos-ref">src: ReconJob.kt:88 · PAY-2113</span></p>
     <blockquote class="phos-pull"><strong>Money moves once; ledgers remember it twice.</strong> The drift window between the mirrors is the exposure — the transfer itself cannot drift.</blockquote>
 
-    <p class="demo-note">Table with total rule</p>
+    <h3 class="phos-h3">Table with total rule</h3>
     <div class="phos-table-wrap">
       <table class="phos-table">
-        <thead><tr><th>Rail</th><th>Mechanism</th><th>Status</th><th class="phos-num">Volume (Jun)</th></tr></thead>
+        <thead><tr><th>Rail</th><th>Mechanism</th><th>Status</th><th class="phos-num">Volume (Sep)</th></tr></thead>
         <tbody>
-          <tr><td>Card checkout</td><td>PSP hosted page</td><td><span class="phos-chip ok">[ OK ]</span></td><td class="phos-num">€1,204,880</td></tr>
+          <tr><td>Card top-up</td><td>PSP 3DS2 authorisation</td><td><span class="phos-chip ok">[ OK ]</span></td><td class="phos-num">€1,204,880</td></tr>
           <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td><span class="phos-chip ok">[ OK ]</span></td><td class="phos-num">€863,110</td></tr>
           <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td><span class="phos-chip warn">[WARN]</span></td><td class="phos-num">€98,400</td></tr>
           <tr class="phos-total"><td>Total in</td><td></td><td></td><td class="phos-num">€2,166,390</td></tr>
@@ -121,14 +181,13 @@
       </table>
     </div>
 
-    <p class="demo-note">Code — $ prompt + thin left border · inline code</p>
-    <pre><span class="phos-ps">$</span> kubectl -n payments rollout status deploy/funds-router
-deployment "funds-router" successfully rolled out
-<span class="phos-ps">$</span> psql -c "select count(*) from transfers where state = 'HELD'"
- 17</pre>
-    <p>Config lives in <code>recon.yaml</code>; the threshold key is <code>alert.gap_eur</code>.</p>
+    <h3 class="phos-h3">Shell block — $ prompt + thin left border</h3>
+    <pre><span class="phos-ps">$</span> kubectl -n payments rollout status deploy/topup-api
+deployment "topup-api" successfully rolled out
+<span class="phos-ps">$</span> aws sqs get-queue-attributes --queue-url $DLQ --attribute-names ApproximateNumberOfMessages
+{ "ApproximateNumberOfMessages": "17" }</pre>
 
-    <p class="demo-note">Verdict box — double frame, bracketed label</p>
+    <h3 class="phos-h3">Verdict box — double frame, bracketed label</h3>
     <div class="phos-verdict" data-label="Verdict">
       <h3>Reconcile the mirrors nightly, not monthly.</h3>
       <p>The drift window is the exposure. A nightly three-way check (float, wallet ledger, journal) shrinks the maximum undetected divergence from thirty days to one.</p>
@@ -139,39 +198,40 @@ deployment "funds-router" successfully rolled out
     </div>
   </section>
 
-  <!-- ============ 04 PANEL MODE ============ -->
+  <!-- ============ 05 PANEL MODE ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 04</span><h2>Panel mode</h2></div>
-    <p>For dashboards and registers: <code>&lt;body class="phos-panels"&gt;</code>. TUI cells with 1px borders (htop/k9s energy), reversed-video panel headers, metric cards with green values, dot-leader key–value rows, dense 13px tables. No shadows — borders carry all elevation.</p>
+    <div class="phos-sec-h" id="panel"><span class="phos-sec-num">§ 05</span><h2>Panel mode</h2></div>
+    <p>For dashboards and registers: <code>&lt;body class="phos-panels"&gt;</code>. TUI cells with 1px borders (htop/k9s energy), reversed-video panel headers, metric cards with green values, dot-leader key–value rows, dense tables. No shadows — borders carry all elevation.</p>
 
-    <p class="demo-note">Live demo — board header, metric grid, panels, chips</p>
     <div class="phos-panels panel-demo">
-      <div class="phos-board-h"><h1>Payments fleet</h1><span class="phos-board-meta">eu-west-1 · updated 2026-07-30 14:02Z</span></div>
+      <div class="phos-board-h"><h1>Payments fleet</h1><span class="phos-board-meta">eu-west-1 · updated 2026-10-07 14:02Z</span></div>
 
       <div class="phos-metric-grid">
-        <div class="phos-metric"><div class="phos-metric-l">Transfers today</div><div class="phos-metric-v">1,284</div></div>
+        <div class="phos-metric"><div class="phos-metric-l">Top-ups today</div><div class="phos-metric-v">1,284</div></div>
         <div class="phos-metric"><div class="phos-metric-l">Failed</div><div class="phos-metric-v">3</div></div>
         <div class="phos-metric"><div class="phos-metric-l">P95 latency</div><div class="phos-metric-v">412<span class="phos-unit">ms</span></div></div>
-        <div class="phos-metric"><div class="phos-metric-l">Queue depth</div><div class="phos-metric-v">0</div></div>
+        <div class="phos-metric"><div class="phos-metric-l">Kafka lag</div><div class="phos-metric-v">0.4<span class="phos-unit">s</span></div></div>
+        <div class="phos-metric"><div class="phos-metric-l">DLQ depth</div><div class="phos-metric-v">17</div></div>
+        <div class="phos-metric"><div class="phos-metric-l">Error budget left</div><div class="phos-metric-v">72<span class="phos-unit">%</span></div></div>
       </div>
 
       <div class="two-col">
         <div class="phos-panel">
-          <div class="phos-panel-h"><h3>funds-router</h3><span class="phos-panel-meta">eu-west-1</span></div>
+          <div class="phos-panel-h"><h3>topup-api</h3><span class="phos-panel-meta">eu-west-1</span></div>
           <div class="phos-panel-b">
             <div class="phos-kv"><span>Version</span><i class="phos-leader"></i><b>v4.2.1</b></div>
-            <div class="phos-kv"><span>Idempotency</span><i class="phos-leader"></i><b>order-scoped</b></div>
-            <div class="phos-kv"><span>Last deploy</span><i class="phos-leader"></i><b>2026-07-29 18:40Z</b></div>
-            <div class="phos-kv"><span>Held transfers</span><i class="phos-leader"></i><b>17</b></div>
+            <div class="phos-kv"><span>Idempotency</span><i class="phos-leader"></i><b>order-scoped · 24h</b></div>
+            <div class="phos-kv"><span>Last deploy</span><i class="phos-leader"></i><b>2026-10-06 18:40Z</b></div>
+            <div class="phos-kv"><span>Pods ready</span><i class="phos-leader"></i><b>6 / 6</b></div>
           </div>
         </div>
         <div class="phos-panel">
           <div class="phos-panel-h"><h3>Risk register</h3><span class="phos-panel-meta">4 open</span></div>
           <div class="phos-panel-b">
-            <div class="phos-reg-row"><span class="phos-dot crit"></span><b>Auth rule in placeholder state</b><span class="phos-reg-meta">RISK-101</span></div>
+            <div class="phos-reg-row"><span class="phos-dot crit"></span><b>settle.dlq not draining</b><span class="phos-reg-meta">RISK-101</span></div>
             <div class="phos-reg-row"><span class="phos-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="phos-reg-meta">RISK-097</span></div>
             <div class="phos-reg-row"><span class="phos-dot info"></span><b>SEPA cut-off moved to 16:00</b><span class="phos-reg-meta">notice</span></div>
-            <div class="phos-reg-row"><span class="phos-dot ok"></span><b>One-way valve verified</b><span class="phos-reg-meta">closed</span></div>
+            <div class="phos-reg-row"><span class="phos-dot ok"></span><b>Idempotency verified under replay</b><span class="phos-reg-meta">closed</span></div>
           </div>
         </div>
       </div>
@@ -193,30 +253,539 @@ deployment "funds-router" successfully rolled out
     </div>
   </section>
 
-  <!-- ============ 05 DIAGRAMS ============ -->
+  <!-- ============ 06 DIAGRAMS ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 05</span><h2>Diagrams</h2></div>
-    <p>Diagrams stay vector — inline SVG or Mermaid — <strong>never ASCII art</strong>, however tempting the terminal aesthetic makes it. Architecture and funds-flow drawings reuse the DDS Tier-1 grammar recoloured with <code>--phos-*</code> tokens (money = ok green, manual = warn, mirror = info, blocked = crit); recolour the grammar, never reinterpret it. The Mermaid catalogue pre-renders to static SVG with this directory's dark-themed config:</p>
-    <pre><span class="phos-ps">$</span> npx -y @mermaid-js/mermaid-cli -i d.mmd -o d.svg --configFile mermaid-config.json</pre>
-    <p>Pre-rendered SVG is dark-baked: pin its figure to the dark ground (<code>background:#0A0F0C</code>, the one sanctioned literal hex) so it survives the paper-terminal theme. Every diagram carries a caption with revision date and status.</p>
+    <div class="phos-sec-h" id="diagrams"><span class="phos-sec-num">§ 06</span><h2>Architecture diagrams</h2></div>
+    <p>Native SVG, hand-authored, one grammar for three figure types. Nodes are <code>&lt;g class="phos-node &lt;kind&gt;"&gt;</code> groups whose shape says what they are — a cylinder is a store, a chamfered box is a worker, bars mark a stream, a double rule marks a cache, a dashed frame is a third party. Edges are <code>.phos-edge &lt;route&gt;</code> paths with a matching marker; <code>.phos-flow</code> makes the dashes march in the direction of travel, and square packets ride the one or two routes that matter. Crossings take a hop arc. Hover a node to lift it.</p>
+
+    <h3 class="phos-h3">1 · Container architecture — top-up flow</h3>
+    <figure class="phos-arch">
+      <svg viewBox="0 0 1240 552" role="img" aria-label="Top-up architecture. Mobile and merchant clients call the API gateway inside the trust boundary; the gateway verifies the JWT with auth-svc and forwards to topup-api. topup-api claims an idempotency key in Redis, authorises with the external card PSP, and emits TopUpRequested to Kafka. settle-worker consumes in batches, writes the ledger database, and pays out through the SEPA bank; failed batches land in the dead-letter queue, which currently holds 17 messages. risk-engine is a proposed new service.">
+        <defs>
+          <marker id="a-sync" class="phos-mk sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-async" class="phos-mk async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-data" class="phos-mk data" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-ctrl" class="phos-mk ctrl" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-ext" class="phos-mk ext" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a-fail" class="phos-mk fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <rect class="phos-zone trust" x="186" y="62" width="876" height="474"/>
+        <text class="phos-zlabel trust" x="200" y="84">TRUST BOUNDARY · MTLS INSIDE</text>
+        <rect class="phos-zone" x="398" y="98" width="654" height="428"/>
+        <text class="phos-zlabel" x="412" y="518">VPC PAYMENTS · EU-WEST-1</text>
+        <text class="phos-stage" x="16" y="30">CLIENTS</text>
+        <text class="phos-stage" x="200" y="30">EDGE</text>
+        <text class="phos-stage" x="412" y="30">SERVICES</text>
+        <text class="phos-stage" x="640" y="30">ASYNC</text>
+        <text class="phos-stage" x="868" y="30">DATA</text>
+        <text class="phos-stage" x="1080" y="30">THIRD PARTY</text>
+        <path class="phos-edge sync phos-flow" d="M172,172 L200,172" marker-end="url(#a-sync)"/>
+        <path class="phos-edge sync phos-flow" d="M376,172 L412,172" marker-end="url(#a-sync)"/>
+        <path class="phos-edge sync" d="M172,460 L250,460 L250,220" marker-end="url(#a-sync)"/>
+        <path class="phos-edge ctrl" d="M330,220 L330,320 L412,320" marker-end="url(#a-ctrl)"/>
+        <path class="phos-edge ext phos-flow" d="M506,140 L506,46 L1155,46 L1155,140" marker-end="url(#a-ext)"/>
+        <path class="phos-edge async phos-flow" d="M600,172 L640,172" marker-end="url(#a-async)"/>
+        <path class="phos-edge data" d="M600,196 L620,196 L620,252 L726,252 A8,8 0 0 1 742,252 L840,252 A8,8 0 0 1 856,252 L956,252 L956,280" marker-end="url(#a-data)"/>
+        <path class="phos-edge sync" d="M600,208 L610,208 L610,460 L600,460" marker-end="url(#a-sync)"/>
+        <path class="phos-edge async phos-flow" d="M734,220 L734,280" marker-end="url(#a-async)"/>
+        <path class="phos-edge data phos-flow" d="M828,300 L848,300 L848,181 L868,181" marker-end="url(#a-data)"/>
+        <path class="phos-edge ext phos-flow" d="M828,340 L858,340 L858,380 L1155,380 L1155,360" marker-end="url(#a-ext)"/>
+        <path class="phos-edge fail phos-flow" d="M734,360 L734,420" marker-end="url(#a-fail)"/>
+        <g class="phos-node client">
+          <rect class="phos-shape" x="16" y="140" width="156" height="80"/>
+          <text class="phos-nkind" x="162" y="156">CLIENT</text>
+          <text class="phos-nlabel" x="30" y="176">mobile-app</text>
+          <text class="phos-nsub" x="30" y="194">iOS · Android 6.2</text>
+          <text class="phos-ntag" x="30" y="210">1.2k rps peak</text>
+        </g>
+        <g class="phos-node client">
+          <rect class="phos-shape" x="16" y="420" width="156" height="80"/>
+          <text class="phos-nkind" x="162" y="436">CLIENT</text>
+          <text class="phos-nlabel" x="30" y="456">merchant-api</text>
+          <text class="phos-nsub" x="30" y="474">REST · OAuth2 cc</text>
+          <text class="phos-ntag" x="30" y="490">partner SDK</text>
+        </g>
+        <g class="phos-node edge is-hot">
+          <rect class="phos-shape" x="200" y="140" width="176" height="80"/>
+          <text class="phos-nkind" x="366" y="156">EDGE</text>
+          <text class="phos-nlabel" x="214" y="176">api-gateway</text>
+          <text class="phos-nsub" x="214" y="194">Envoy · WAF</text>
+          <text class="phos-ntag" x="214" y="210">p95 18ms</text>
+        </g>
+        <g class="phos-node svc is-hot">
+          <rect class="phos-shape" x="412" y="140" width="188" height="80"/>
+          <text class="phos-nkind" x="590" y="156">SERVICE</text>
+          <text class="phos-nlabel" x="426" y="176">topup-api</text>
+          <text class="phos-nsub" x="426" y="194">Elixir · :4000</text>
+          <text class="phos-ntag" x="426" y="210">SLO 99.95%</text>
+        </g>
+        <g class="phos-node svc">
+          <rect class="phos-shape" x="412" y="280" width="188" height="80"/>
+          <text class="phos-nkind" x="590" y="296">SERVICE</text>
+          <text class="phos-nlabel" x="426" y="316">auth-svc</text>
+          <text class="phos-nsub" x="426" y="334">OIDC · JWKS cache</text>
+          <text class="phos-ntag" x="426" y="350">p95 6ms</text>
+        </g>
+        <g class="phos-node svc is-new">
+          <rect class="phos-shape" x="412" y="420" width="188" height="80"/>
+          <text class="phos-nkind" x="590" y="436">SERVICE</text>
+          <text class="phos-nlabel" x="426" y="456">risk-engine</text>
+          <text class="phos-nsub" x="426" y="474">Go · gRPC :9090</text>
+          <text class="phos-ntag" x="426" y="490">+NEW · ADR-014</text>
+        </g>
+        <g class="phos-node queue">
+          <rect class="phos-shape" x="640" y="140" width="188" height="80"/>
+          <rect class="phos-qbar" x="792" y="170" width="6" height="38"/>
+          <rect class="phos-qbar" x="802" y="170" width="6" height="38"/>
+          <rect class="phos-qbar" x="812" y="170" width="6" height="38"/>
+          <text class="phos-nkind" x="818" y="156">STREAM</text>
+          <text class="phos-nlabel" x="654" y="176">ledger.events</text>
+          <text class="phos-nsub" x="654" y="194">Kafka · 12 parts</text>
+          <text class="phos-ntag" x="654" y="210">lag 0.4s</text>
+        </g>
+        <g class="phos-node fn">
+          <path class="phos-shape" d="M650,280 H818 L828,290 V350 L818,360 H650 L640,350 V290 Z"/>
+          <text class="phos-nkind" x="818" y="296">WORKER</text>
+          <text class="phos-nlabel" x="654" y="316">settle-worker</text>
+          <text class="phos-nsub" x="654" y="334">Lambda · batch 50</text>
+          <text class="phos-ntag" x="654" y="350">conc 40</text>
+        </g>
+        <g class="phos-node queue is-fail">
+          <rect class="phos-shape" x="640" y="420" width="188" height="80"/>
+          <rect class="phos-qbar" x="792" y="450" width="6" height="38"/>
+          <rect class="phos-qbar" x="802" y="450" width="6" height="38"/>
+          <rect class="phos-qbar" x="812" y="450" width="6" height="38"/>
+          <text class="phos-nkind" x="818" y="436">STREAM</text>
+          <text class="phos-nlabel" x="654" y="456">settle.dlq</text>
+          <text class="phos-nsub" x="654" y="474">SQS · redrive 3</text>
+          <text class="phos-ntag" x="654" y="490">depth 17</text>
+        </g>
+        <g class="phos-node store">
+          <path class="phos-shape" d="M868,141 A88,9 0 0 1 1044,141 V221 A88,9 0 0 1 868,221 Z"/>
+          <path class="phos-rim" d="M868,141 A88,9 0 0 0 1044,141"/>
+          <text class="phos-nkind" x="1034" y="166">DATABASE</text>
+          <text class="phos-nlabel" x="882" y="186">ledger-db</text>
+          <text class="phos-nsub" x="882" y="204">Postgres 16 · RDS</text>
+          <text class="phos-ntag" x="882" y="220">primary + 2 RR</text>
+        </g>
+        <g class="phos-node cache">
+          <rect class="phos-shape" x="868" y="280" width="176" height="80"/>
+          <line class="phos-cbar" x1="874" y1="286" x2="874" y2="354"/>
+          <text class="phos-nkind" x="1034" y="296">CACHE</text>
+          <text class="phos-nlabel" x="886" y="316">idem-cache</text>
+          <text class="phos-nsub" x="886" y="334">Redis 7 · TTL 24h</text>
+          <text class="phos-ntag" x="886" y="350">hit 97%</text>
+        </g>
+        <g class="phos-node ext">
+          <rect class="phos-shape" x="1080" y="140" width="150" height="80"/>
+          <text class="phos-nkind" x="1220" y="156">THIRD PARTY</text>
+          <text class="phos-nlabel" x="1094" y="176">card-psp</text>
+          <text class="phos-nsub" x="1094" y="194">3DS2 · ISO 8583</text>
+          <text class="phos-ntag" x="1094" y="210">p95 310ms</text>
+        </g>
+        <g class="phos-node ext">
+          <rect class="phos-shape" x="1080" y="280" width="150" height="80"/>
+          <text class="phos-nkind" x="1220" y="296">THIRD PARTY</text>
+          <text class="phos-nlabel" x="1094" y="316">sepa-bank</text>
+          <text class="phos-nsub" x="1094" y="334">pain.001 · SFTP</text>
+          <text class="phos-ntag" x="1094" y="350">cut-off 16:00</text>
+        </g>
+        <text class="phos-elabel ext is-key" x="700" y="38">authorise · 3DS2</text>
+        <text class="phos-elabel ctrl is-key" x="338" y="274">verify JWT</text>
+        <text class="phos-elabel async" x="742" y="272">consume ×50</text>
+        <text class="phos-elabel ext" x="960" y="374" text-anchor="middle">pain.001 batch · 16:00</text>
+        <text class="phos-elabel fail is-key" x="742" y="398">3 retries exhausted</text>
+        <text class="phos-elabel data" x="760" y="244">SETNX idem-key</text>
+        <g class="phos-step" transform="translate(394,150)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">1</text></g>
+        <g class="phos-step" transform="translate(680,252)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">2</text></g>
+        <g class="phos-step" transform="translate(960,46)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">3</text></g>
+        <g class="phos-step" transform="translate(620,160)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">4</text></g>
+        <g class="phos-step" transform="translate(848,214)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">5</text></g>
+        <g class="phos-step" transform="translate(1100,380)"><rect x="-10" y="-10" width="20" height="20"/><text y="4">6</text></g>
+        <rect class="phos-pkt sync" x="-4" y="-4" width="8" height="8"><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite" path="M172,172 L412,172"/></rect>
+        <rect class="phos-pkt data" x="-4" y="-4" width="8" height="8"><animateMotion dur="2.2s" begin="0.4s" repeatCount="indefinite" path="M828,300 L848,300 L848,181 L868,181"/></rect>
+        <rect class="phos-pkt ext" x="-4" y="-4" width="8" height="8"><animateMotion dur="3s" begin="0.8s" repeatCount="indefinite" path="M828,340 L858,340 L858,380 L1155,380 L1155,360"/></rect>
+      </svg>
+      <div class="phos-legend">
+        <span><i class="sync"></i>sync · request / response</span>
+        <span><i class="async"></i>async · event / consume</span>
+        <span><i class="data"></i>data · store read / write</span>
+        <span><i class="ctrl"></i>ctrl · auth / trust boundary</span>
+        <span><i class="ext"></i>ext · third-party call</span>
+        <span><i class="fail"></i>fail · retries exhausted → DLQ</span>
+        <span><i class="pkt"></i>packet · one request in flight</span>
+      </div>
+      <div class="phos-legend">
+        <span><i class="n client"></i>client</span>
+        <span><i class="n edge"></i>edge / gateway</span>
+        <span><i class="n svc"></i>service</span>
+        <span><i class="n fn"></i>worker</span>
+        <span><i class="n store"></i>database</span>
+        <span><i class="n queue"></i>stream / queue</span>
+        <span><i class="n cache"></i>cache</span>
+        <span><i class="n ext"></i>third party</span>
+        <span><i class="n is-new"></i>proposed (+NEW)</span>
+        <span><i class="n crit"></i>failing</span>
+      </div>
+      <figcaption class="phos-figcap">[src: platform/topology.yaml · ADR-014 · rev 2026-10-07 · status: current + one proposed]</figcaption>
+    </figure>
+    <ol class="phos-steps">
+      <li>Gateway terminates TLS, verifies the JWT against <code>auth-svc</code>, forwards to <code>topup-api</code>.</li>
+      <li><code>topup-api</code> claims the idempotency key in <code>idem-cache</code> (SETNX, 24h); a replay returns the stored response.</li>
+      <li>The card PSP authorises the amount (3DS2); one retry on 504 with the same key.</li>
+      <li><code>topup-api</code> emits <code>TopUpRequested</code> to <code>ledger.events</code> and returns 201.</li>
+      <li><code>settle-worker</code> consumes in batches of 50 and writes double-entry rows to <code>ledger-db</code>.</li>
+      <li>Settlement leaves as a SEPA <code>pain.001</code> batch before 16:00; three failures park it in <code>settle.dlq</code>.</li>
+    </ol>
+
+    <h3 class="phos-h3">2 · Sequence — idempotent top-up with one PSP retry</h3>
+    <figure class="phos-seq">
+      <svg viewBox="0 0 1260 616" role="img" aria-label="Sequence: the mobile app posts a top-up through the gateway to topup-api, which claims the idempotency key in Redis, calls the card PSP, receives a 504 timeout, retries once with the same key, is authorised, emits TopUpRequested to Kafka and returns 201 Created to the app.">
+        <defs>
+          <marker id="s-sync" class="phos-mk sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-async" class="phos-mk async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-data" class="phos-mk data" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-ext" class="phos-mk ext" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-fail" class="phos-mk fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="s-ret" class="phos-mk ret" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <line class="phos-lifeline" x1="106" y1="80" x2="106" y2="600"/>
+        <line class="phos-lifeline" x1="318" y1="80" x2="318" y2="600"/>
+        <line class="phos-lifeline" x1="530" y1="80" x2="530" y2="600"/>
+        <line class="phos-lifeline" x1="742" y1="80" x2="742" y2="600"/>
+        <line class="phos-lifeline" x1="954" y1="80" x2="954" y2="600"/>
+        <line class="phos-lifeline" x1="1166" y1="80" x2="1166" y2="600"/>
+        <rect class="phos-act edge" x="312" y="100" width="12" height="470"/>
+        <rect class="phos-act svc" x="524" y="140" width="12" height="390"/>
+        <rect class="phos-act cache" x="736" y="180" width="12" height="52"/>
+        <rect class="phos-act ext" x="948" y="260" width="12" height="52"/>
+        <rect class="phos-act ext" x="948" y="390" width="12" height="52"/>
+        <rect class="phos-act queue" x="1160" y="470" width="12" height="22"/>
+        <g class="phos-node client">
+          <rect class="phos-shape" x="22" y="16" width="168" height="64"/>
+          <text class="phos-nlabel" x="36" y="42">mobile-app</text>
+          <text class="phos-nsub" x="36" y="60">iOS 6.2</text>
+        </g>
+        <g class="phos-node edge">
+          <rect class="phos-shape" x="234" y="16" width="168" height="64"/>
+          <text class="phos-nlabel" x="248" y="42">api-gateway</text>
+          <text class="phos-nsub" x="248" y="60">Envoy</text>
+        </g>
+        <g class="phos-node svc">
+          <rect class="phos-shape" x="446" y="16" width="168" height="64"/>
+          <text class="phos-nlabel" x="460" y="42">topup-api</text>
+          <text class="phos-nsub" x="460" y="60">Elixir</text>
+        </g>
+        <g class="phos-node cache">
+          <rect class="phos-shape" x="658" y="16" width="168" height="64"/>
+          <line class="phos-cbar" x1="664" y1="22" x2="664" y2="74"/>
+          <text class="phos-nlabel" x="676" y="42">idem-cache</text>
+          <text class="phos-nsub" x="676" y="60">Redis 7</text>
+        </g>
+        <g class="phos-node ext">
+          <rect class="phos-shape" x="870" y="16" width="168" height="64"/>
+          <text class="phos-nlabel" x="884" y="42">card-psp</text>
+          <text class="phos-nsub" x="884" y="60">3DS2</text>
+        </g>
+        <g class="phos-node queue">
+          <rect class="phos-shape" x="1082" y="16" width="168" height="64"/>
+          <rect class="phos-qbar" x="1214" y="46" width="6" height="22"/>
+          <rect class="phos-qbar" x="1224" y="46" width="6" height="22"/>
+          <rect class="phos-qbar" x="1234" y="46" width="6" height="22"/>
+          <text class="phos-nlabel" x="1096" y="42">ledger.events</text>
+          <text class="phos-nsub" x="1096" y="60">Kafka</text>
+        </g>
+        <path class="phos-edge sync phos-flow" d="M106,110 L312,110" marker-end="url(#s-sync)"/>
+        <text class="phos-elabel sync is-key" x="209.0" y="102" text-anchor="middle">POST /v1/topups</text>
+        <path class="phos-edge sync phos-flow" d="M324,150 L524,150" marker-end="url(#s-sync)"/>
+        <text class="phos-elabel sync is-key" x="424.0" y="142" text-anchor="middle">forward · sub=u_81f</text>
+        <path class="phos-edge data" d="M536,190 L736,190" marker-end="url(#s-data)"/>
+        <text class="phos-elabel data is-key" x="636.0" y="182" text-anchor="middle">SETNX idem:ord-1204</text>
+        <path class="phos-edge ret" d="M736,230 L536,230" marker-end="url(#s-ret)"/>
+        <text class="phos-elabel ret" x="636.0" y="222" text-anchor="middle">OK (claimed)</text>
+        <path class="phos-edge ext phos-flow" d="M536,270 L948,270" marker-end="url(#s-ext)"/>
+        <text class="phos-elabel ext is-key" x="742.0" y="262" text-anchor="middle">authorise €50.00</text>
+        <path class="phos-edge fail phos-flow" d="M948,310 L536,310" marker-end="url(#s-fail)"/>
+        <text class="phos-elabel fail is-key" x="742.0" y="302" text-anchor="middle">504 gateway timeout</text>
+        <path class="phos-edge ext phos-flow" d="M536,400 L948,400" marker-end="url(#s-ext)"/>
+        <text class="phos-elabel ext is-key" x="742.0" y="392" text-anchor="middle">authorise €50.00 (retry)</text>
+        <path class="phos-edge ret" d="M948,440 L536,440" marker-end="url(#s-ret)"/>
+        <text class="phos-elabel ret" x="742.0" y="432" text-anchor="middle">200 AUTHORISED</text>
+        <path class="phos-edge async phos-flow" d="M536,480 L1160,480" marker-end="url(#s-async)"/>
+        <text class="phos-elabel async is-key" x="848.0" y="472" text-anchor="middle">TopUpRequested</text>
+        <path class="phos-edge ret" d="M524,520 L324,520" marker-end="url(#s-ret)"/>
+        <text class="phos-elabel ret" x="424.0" y="512" text-anchor="middle">201 Created</text>
+        <path class="phos-edge ret" d="M312,560 L106,560" marker-end="url(#s-ret)"/>
+        <text class="phos-elabel ret" x="209.0" y="552" text-anchor="middle">201 Created</text>
+        <g class="phos-note"><rect x="544" y="326" width="396" height="40"/><text x="556" y="350">retry once · same idem-key · backoff 200ms</text></g>
+        <rect class="phos-pkt sync" x="-4" y="-4" width="8" height="8"><animateMotion dur="1.4s" begin="0s" repeatCount="indefinite" path="M106,110 L312,110"/></rect>
+        <rect class="phos-pkt async" x="-4" y="-4" width="8" height="8"><animateMotion dur="1.8s" begin="0.6s" repeatCount="indefinite" path="M536,480 L1160,480"/></rect>
+      </svg>
+      <div class="phos-legend">
+        <span><i class="sync"></i>sync call</span>
+        <span><i class="data"></i>data command</span>
+        <span><i class="ext"></i>third-party call</span>
+        <span><i class="async"></i>async publish</span>
+        <span><i class="fail"></i>failure response</span>
+        <span><i class="ret"></i>return</span>
+        <span><i class="note"></i>note</span>
+      </div>
+      <figcaption class="phos-figcap">[src: trace 7f3a…c21 · Tempo · 2026-10-07 13:58Z · p95 412ms]</figcaption>
+    </figure>
+
+    <h3 class="phos-h3">3 · State machine — transfer lifecycle</h3>
+    <figure class="phos-state">
+      <svg viewBox="0 0 1320 340" role="img" aria-label="Transfer state machine: CREATED to AUTHORISING to AUTHORISED to SETTLING to SETTLED. AUTHORISING retries once on timeout and can end in DECLINED. SETTLING moves to HELD after three failed attempts; ops replay returns it to SETTLING.">
+        <defs>
+          <marker id="m-sync" class="phos-mk sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="m-async" class="phos-mk async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="m-ext" class="phos-mk ext" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="m-fail" class="phos-mk fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="m-ctrl" class="phos-mk ctrl" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="m-ret" class="phos-mk ret" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <text class="phos-zlabel" x="60" y="58">HAPPY PATH</text>
+        <text class="phos-zlabel" x="60" y="288">EXCEPTIONS</text>
+        <rect class="phos-initial" x="22" y="105" width="14" height="14"/>
+        <path class="phos-edge ret" d="M36,112 L60,112" marker-end="url(#m-ret)"/>
+        <path class="phos-edge sync phos-flow" d="M220,112 L330,112" marker-end="url(#m-sync)"/>
+        <text class="phos-elabel sync is-key" x="275.0" y="102" text-anchor="middle">submit</text>
+        <path class="phos-edge sync phos-flow" d="M490,112 L600,112" marker-end="url(#m-sync)"/>
+        <text class="phos-elabel sync is-key" x="545.0" y="102" text-anchor="middle">200 OK</text>
+        <path class="phos-edge async phos-flow" d="M760,112 L870,112" marker-end="url(#m-async)"/>
+        <text class="phos-elabel async is-key" x="815.0" y="102" text-anchor="middle">batch picked</text>
+        <path class="phos-edge ext phos-flow" d="M1030,112 L1140,112" marker-end="url(#m-ext)"/>
+        <text class="phos-elabel ext is-key" x="1085.0" y="102" text-anchor="middle">pacs.002 ACSC</text>
+        <path class="phos-edge fail" d="M390,80 C390,36 440,36 440,80" marker-end="url(#m-fail)"/>
+        <text class="phos-elabel fail is-key" x="415" y="40" text-anchor="middle">504 · retry ≤1</text>
+        <path class="phos-edge fail phos-flow" d="M415,144 L415,250" marker-end="url(#m-fail)"/>
+        <text class="phos-elabel fail is-key" x="423" y="201.0">decline 05 / 51</text>
+        <path class="phos-edge fail phos-flow" d="M925,144 L925,250" marker-end="url(#m-fail)"/>
+        <text class="phos-elabel fail is-key" x="917" y="201.0" text-anchor="end">3 attempts failed</text>
+        <path class="phos-edge ctrl phos-flow" d="M985,250 L985,144" marker-end="url(#m-ctrl)"/>
+        <text class="phos-elabel ctrl is-key" x="993" y="201.0">ops replay</text>
+        <g class="phos-node neutral">
+          <rect class="phos-shape" x="60" y="80" width="160" height="64"/>
+          <text class="phos-nlabel" x="74" y="106">CREATED</text>
+          <text class="phos-nsub" x="74" y="124">idem-key held</text>
+        </g>
+        <g class="phos-node info">
+          <rect class="phos-shape" x="330" y="80" width="160" height="64"/>
+          <text class="phos-nlabel" x="344" y="106">AUTHORISING</text>
+          <text class="phos-nsub" x="344" y="124">PSP in flight</text>
+        </g>
+        <g class="phos-node ok">
+          <rect class="phos-shape" x="600" y="80" width="160" height="64"/>
+          <text class="phos-nlabel" x="614" y="106">AUTHORISED</text>
+          <text class="phos-nsub" x="614" y="124">funds reserved</text>
+        </g>
+        <g class="phos-node info">
+          <rect class="phos-shape" x="870" y="80" width="160" height="64"/>
+          <text class="phos-nlabel" x="884" y="106">SETTLING</text>
+          <text class="phos-nsub" x="884" y="124">in SEPA batch</text>
+        </g>
+        <g class="phos-node ok is-terminal">
+          <rect class="phos-shape" x="1140" y="80" width="160" height="64"/>
+          <text class="phos-nkind" x="1290" y="96">FINAL</text>
+          <text class="phos-nlabel" x="1154" y="116">SETTLED</text>
+          <text class="phos-nsub" x="1154" y="134">ledger closed</text>
+        </g>
+        <g class="phos-node ok"><rect class="phos-inner" x="1144" y="84" width="152" height="56"/></g>
+        <g class="phos-node crit is-terminal">
+          <rect class="phos-shape" x="330" y="250" width="160" height="64"/>
+          <text class="phos-nkind" x="480" y="266">FINAL</text>
+          <text class="phos-nlabel" x="344" y="286">DECLINED</text>
+          <text class="phos-nsub" x="344" y="304">card refused</text>
+        </g>
+        <g class="phos-node crit"><rect class="phos-inner" x="334" y="254" width="152" height="56"/></g>
+        <g class="phos-node warn">
+          <rect class="phos-shape" x="870" y="250" width="160" height="64"/>
+          <text class="phos-nlabel" x="884" y="276">HELD</text>
+          <text class="phos-nsub" x="884" y="294">parked in dlq</text>
+        </g>
+      </svg>
+      <div class="phos-legend">
+        <span><i class="n neutral"></i>created</span>
+        <span><i class="n info"></i>in flight</span>
+        <span><i class="n ok"></i>committed</span>
+        <span><i class="n warn"></i>parked — needs ops</span>
+        <span><i class="n crit"></i>refused</span>
+        <span><i class="sync"></i>sync transition</span>
+        <span><i class="async"></i>async transition</span>
+        <span><i class="ext"></i>bank callback</span>
+        <span><i class="fail"></i>failure transition</span>
+        <span><i class="ctrl"></i>manual / ops action</span>
+      </div>
+      <figcaption class="phos-figcap">[src: lib/topup/transfer_fsm.ex · rev 2026-10-07 · double frame = terminal state]</figcaption>
+    </figure>
   </section>
 
-  <!-- ============ 06 FOR AI AGENTS ============ -->
+  <!-- ============ 07 ENGINEERING KIT ============ -->
   <section class="phos-section">
-    <div class="phos-sec-h"><span class="phos-sec-num">§ 06</span><h2>Using this system with AI agents</h2></div>
+    <div class="phos-sec-h" id="components"><span class="phos-sec-num">§ 07</span><h2>Engineering kit</h2></div>
+    <p>The components a design doc or architecture review reaches for. Every one shares the diagram vocabulary — a service card's top rule is its node-kind colour, a budget segment is coloured by the hop it measures — so prose, figures and tables read as one system.</p>
+
+    <h3 class="phos-h3">Service cards</h3>
+    <div class="phos-svc-grid">
+      <div class="phos-svc svc">
+        <div class="phos-svc-h"><span class="phos-dot ok"></span><b>topup-api</b><span class="phos-svc-kind">service</span></div>
+        <div class="phos-svc-owner">owner: team-wallet · on-call #pay-oncall</div>
+        <div class="phos-kv"><span>SLO</span><i class="phos-leader"></i><b>99.95% · p95 &lt; 500ms</b></div>
+        <div class="phos-kv"><span>Budget left</span><i class="phos-leader"></i><b>72%</b></div>
+        <div class="phos-tags"><span class="phos-tag">elixir 1.17</span><span class="phos-tag">phoenix</span><span class="phos-tag">k8s · 6 pods</span></div>
+        <div class="phos-svc-deps">→ <b>idem-cache</b>, <b>card-psp</b>, <b>ledger.events</b></div>
+      </div>
+      <div class="phos-svc fn">
+        <div class="phos-svc-h"><span class="phos-dot crit"></span><b>settle-worker</b><span class="phos-svc-kind">worker</span></div>
+        <div class="phos-svc-owner">owner: team-ledger · on-call #ledger-oncall</div>
+        <div class="phos-kv"><span>SLO</span><i class="phos-leader"></i><b>settle &lt; 16:00 CET</b></div>
+        <div class="phos-kv"><span>DLQ depth</span><i class="phos-leader"></i><b>17</b></div>
+        <div class="phos-tags"><span class="phos-tag">lambda</span><span class="phos-tag">java 21</span><span class="phos-tag">batch 50</span></div>
+        <div class="phos-svc-deps">→ <b>ledger-db</b>, <b>sepa-bank</b></div>
+      </div>
+      <div class="phos-svc store">
+        <div class="phos-svc-h"><span class="phos-dot ok"></span><b>ledger-db</b><span class="phos-svc-kind">database</span></div>
+        <div class="phos-svc-owner">owner: team-ledger · DBA rota</div>
+        <div class="phos-kv"><span>Engine</span><i class="phos-leader"></i><b>Postgres 16 · RDS</b></div>
+        <div class="phos-kv"><span>Replicas</span><i class="phos-leader"></i><b>primary + 2</b></div>
+        <div class="phos-tags"><span class="phos-tag">PITR 7d</span><span class="phos-tag">multi-AZ</span></div>
+        <div class="phos-svc-deps">← <b>settle-worker</b></div>
+      </div>
+      <div class="phos-svc queue">
+        <div class="phos-svc-h"><span class="phos-dot ok"></span><b>ledger.events</b><span class="phos-svc-kind">stream</span></div>
+        <div class="phos-svc-owner">owner: platform · MSK</div>
+        <div class="phos-kv"><span>Partitions</span><i class="phos-leader"></i><b>12</b></div>
+        <div class="phos-kv"><span>Consumer lag</span><i class="phos-leader"></i><b>0.4s</b></div>
+        <div class="phos-tags"><span class="phos-tag">kafka 3.7</span><span class="phos-tag">retention 7d</span></div>
+        <div class="phos-svc-deps">← <b>topup-api</b> · → <b>settle-worker</b></div>
+      </div>
+    </div>
+
+    <h3 class="phos-h3">API endpoint table</h3>
+    <div class="phos-table-wrap">
+      <table class="phos-table phos-api">
+        <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Idempotency</th><th class="phos-num">p95</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="phos-method post">POST</span></td><td>/v1/topups</td><td>JWT · wallet:write</td><td><code>Idempotency-Key</code> required</td><td class="phos-num">412ms</td><td><span class="phos-chip ok">[ OK ]</span></td></tr>
+          <tr><td><span class="phos-method get">GET</span></td><td>/v1/topups/<span class="phos-param">{id}</span></td><td>JWT · wallet:read</td><td>safe</td><td class="phos-num">38ms</td><td><span class="phos-chip ok">[ OK ]</span></td></tr>
+          <tr><td><span class="phos-method put">PUT</span></td><td>/v1/wallets/<span class="phos-param">{id}</span>/limits</td><td>mTLS · ops</td><td>natural (full replace)</td><td class="phos-num">55ms</td><td><span class="phos-chip ok">[ OK ]</span></td></tr>
+          <tr><td><span class="phos-method patch">PATCH</span></td><td>/v1/topups/<span class="phos-param">{id}</span></td><td>JWT · ops</td><td><code>If-Match</code> etag</td><td class="phos-num">61ms</td><td><span class="phos-chip warn">[WARN]</span></td></tr>
+          <tr><td><span class="phos-method delete">DELETE</span></td><td>/v1/topups/<span class="phos-param">{id}</span>/hold</td><td>mTLS · ops</td><td>natural</td><td class="phos-num">44ms</td><td><span class="phos-chip neutral">[ -- ]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="phos-h3">Decision record with trade-off matrix</h3>
+    <article class="phos-adr">
+      <header class="phos-adr-h">
+        <span class="phos-adr-id">ADR-014</span>
+        <h4>Score top-ups with a dedicated risk-engine, in shadow mode first</h4>
+        <span class="phos-chip warn">[PROPOSED]</span>
+      </header>
+      <div class="phos-adr-b">
+        <div class="phos-adr-sec"><span class="phos-label">Context</span>
+          <p>Fraud rules live inside <code>topup-api</code> and ship with every deploy. Rule changes wait for a release train; two incidents this quarter were rule regressions. <span class="phos-ref">src: INC-097 · INC-101</span></p></div>
+        <div class="phos-adr-sec"><span class="phos-label">Decision</span>
+          <p>Extract scoring into <code>risk-engine</code> (Go, gRPC). <code>topup-api</code> calls it synchronously with a 40ms timeout and fails open in shadow mode for four weeks before enforcing.</p></div>
+        <div class="phos-adr-sec"><span class="phos-label">Consequences</span>
+          <ul class="phos-diff">
+            <li class="plus">Rules deploy independently, minutes not days.</li>
+            <li class="plus">Shadow mode measures false positives before they cost revenue.</li>
+            <li class="minus">One more hop on the hot path: +12ms p95.</li>
+            <li class="tilde">Fail-open must flip to fail-closed at enforcement — tracked in RISK-104.</li>
+          </ul></div>
+      </div>
+    </article>
+    <div class="phos-table-wrap">
+      <table class="phos-table phos-tradeoff">
+        <thead><tr><th>Option</th><th>Rule-change lead time</th><th>Hot-path latency</th><th>Ops burden</th><th>Blast radius</th></tr></thead>
+        <tbody>
+          <tr><td>Keep rules in topup-api</td><td class="bad">days · release train</td><td class="good">+0ms</td><td class="good">none new</td><td class="bad">whole API</td></tr>
+          <tr class="is-chosen"><td>risk-engine, sync gRPC</td><td class="good">minutes</td><td class="mid">+12ms p95</td><td class="mid">one service</td><td class="good">scoring only</td></tr>
+          <tr><td>Async score after accept</td><td class="good">minutes</td><td class="good">+0ms</td><td class="mid">one service + queue</td><td class="bad">funds already moved</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="phos-h3">Latency budget</h3>
+    <div class="phos-budget">
+      <div class="phos-budget-h"><span class="phos-label">POST /v1/topups · p95 by hop</span><b>412 / 500 ms</b></div>
+      <div class="phos-budget-bar">
+        <span class="edge"  style="--w:3.6%" title="api-gateway 18ms">gw</span>
+        <span class="svc"   style="--w:1.2%" title="auth-svc 6ms"></span>
+        <span class="cache" style="--w:0.8%" title="idem-cache 4ms"></span>
+        <span class="svc"   style="--w:6%"   title="topup-api own 30ms">api 30</span>
+        <span class="ext"   style="--w:62%"  title="card-psp 310ms">card-psp 310</span>
+        <span class="queue" style="--w:4.4%" title="kafka produce 22ms">kafka</span>
+        <span class="svc"   style="--w:4.4%" title="serialise + respond 22ms">resp</span>
+        <i class="phos-budget-target" style="--at:82.4%" data-label="p95 412"></i>
+      </div>
+      <div class="phos-legend">
+        <span><i class="n edge"></i>gateway 18ms</span>
+        <span><i class="n svc"></i>services 58ms</span>
+        <span><i class="n cache"></i>cache 4ms</span>
+        <span><i class="n ext"></i>card-psp 310ms · 75% of spend</span>
+        <span><i class="n queue"></i>kafka produce 22ms</span>
+        <span>SLO 500ms = right edge</span>
+      </div>
+    </div>
+
+    <h3 class="phos-h3">Timeline — rollout of risk-engine</h3>
+    <ol class="phos-timeline">
+      <li class="phos-tl-item ok"><time>2026-10-01 09:00</time><span class="phos-tl-mark"></span><div><b>ADR-014 drafted</b><p>Options compared; shadow-mode plan agreed with fraud ops.</p></div></li>
+      <li class="phos-tl-item ok"><time>2026-10-06 14:10</time><span class="phos-tl-mark"></span><div><b>risk-engine v0.3 deployed (shadow)</b><p>Called with 40ms timeout, result logged only. p95 +11ms.</p></div></li>
+      <li class="phos-tl-item warn"><time>2026-10-07 08:42</time><span class="phos-tl-mark"></span><div><b>Timeout rate 0.8% at peak</b><p>Above the 0.5% gate; connection pool raised from 8 to 32.</p></div></li>
+      <li class="phos-tl-item info"><time>2026-11-03 —</time><span class="phos-tl-mark"></span><div><b>Enforcement go / no-go</b><p>Requires four clean weeks and RISK-104 closed.</p></div></li>
+    </ol>
+
+    <h3 class="phos-h3">Callouts</h3>
+    <div class="phos-callout"><p>The idempotency key is scoped to the order, not the request — a client retry with a fresh request ID is still deduplicated.</p></div>
+    <div class="phos-callout warn"><p>The SEPA cut-off moves to 16:00 CET from 2026-11-01; batches after it settle next business day.</p></div>
+    <div class="phos-callout risk"><p><code>settle.dlq</code> has no automatic redrive. Seventeen batches are waiting on a human.</p></div>
+    <div class="phos-callout decision"><p>Ship risk-engine in shadow mode first; enforce only after four clean weeks.</p></div>
+
+    <h3 class="phos-h3">Code with file header</h3>
+    <div class="phos-code">
+      <div class="phos-code-h"><b>lib/topup/authorise.ex</b><span>elixir</span></div>
+      <pre><span class="k">def</span> authorise(topup, attempt \\ <span class="n">1</span>) <span class="k">do</span>
+  <span class="k">case</span> Psp.authorise(topup, idempotency_key: topup.order_id) <span class="k">do</span>
+    {:ok, auth} -&gt; {:ok, auth}
+    {:error, :timeout} <span class="k">when</span> attempt &lt; <span class="n">2</span> -&gt;
+      Process.sleep(<span class="n">200</span>)
+      authorise(topup, attempt + <span class="n">1</span>)
+    {:error, reason} -&gt; {:error, reason}
+  <span class="k">end</span>
+<span class="k">end</span></pre>
+    </div>
+  </section>
+
+  <!-- ============ 08 MERMAID ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h" id="mermaid"><span class="phos-sec-num">§ 08</span><h2>Mermaid fallback</h2></div>
+    <p>Native SVG is the default for architecture, sequence and state. Mermaid stays for shapes the grammar doesn't cover — ER, gantt, class, journey — pre-rendered to static SVG with this directory's dark-themed config:</p>
+    <pre><span class="phos-ps">$</span> npx -y @mermaid-js/mermaid-cli -i d.mmd -o d.svg --configFile mermaid-config.json</pre>
+    <p>Pre-rendered SVG is dark-baked: pin its figure to the dark ground (<code>background:#0A0F0C</code>, the one sanctioned literal hex) so it survives the paper-terminal theme, and keep the DSL in a <code>&lt;details&gt;</code> beside it. Never ASCII art, however terminal the page looks.</p>
+  </section>
+
+  <!-- ============ 09 FOR AI AGENTS ============ -->
+  <section class="phos-section">
+    <div class="phos-sec-h" id="agents"><span class="phos-sec-num">§ 09</span><h2>Using this system with AI agents</h2></div>
     <p>The agent-facing contract is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-phosphor</code> skill loads it automatically.</p>
-    <pre>Generate the report as HTML using the Phosphor design system:
+    <pre>Generate the design doc as HTML using the Phosphor design system:
 https://dexteryo.github.io/design-systems/phosphor/
 (spec: README.md, tokens: phosphor.css)
 Inline the stylesheet if the output must be self-contained.</pre>
   </section>
 
+    </main>
+  </div>
+
   <footer class="phos-statusline">
     <span class="phos-sl-mode">Guide</span>
     <span class="phos-sl-item">phosphor · living style guide</span>
     <span class="phos-sl-fill"></span>
-    <span class="phos-sl-item">2026-07-30</span>
-    <span class="phos-sl-item">v1.0.0</span>
+    <span class="phos-sl-item">2026-10-07</span>
+    <span class="phos-sl-item">v2.0.0</span>
   </footer>
 
 </div>
@@ -246,6 +815,24 @@ Inline the stylesheet if the output must be self-contained.</pre>
   });
   label();
   document.body.appendChild(btn);
+})();
+(function () {
+  if (!("IntersectionObserver" in window)) return;
+  var links = document.querySelectorAll(".phos-toc a[href^='#']");
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.remove("is-active"); });
+      var a = byId[e.target.id];
+      if (a) a.classList.add("is-active");
+    });
+  }, { rootMargin: "0px 0px -70% 0px" });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
 })();
 </script>
 </body>

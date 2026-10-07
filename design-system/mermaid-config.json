@@ -2,6 +2,7 @@
   "$comment": "DDS pre-render config for mermaid-cli (mmdc). Produces light-theme static SVG matching dexter.css tokens. Usage: npx -y @mermaid-js/mermaid-cli -i diagram.mmd -o diagram.svg --configFile mermaid-config.json --backgroundColor transparent. Pre-rendered SVG is single-theme by nature — use for final/emailed/self-contained documents; use dds-mermaid.js for hosted, theme-adaptive pages. Keep in sync with dds-mermaid.js LIGHT block.",
   "theme": "base",
   "fontFamily": "-apple-system, BlinkMacSystemFont, Segoe UI, system-ui, Helvetica, Arial, sans-serif",
+  "themeCSS": ".tick text { font-size: 13px; }",
   "themeVariables": {
     "background": "#FBFAF3",
     "primaryColor": "#FFFFFB",

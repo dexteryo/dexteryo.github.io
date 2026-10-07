@@ -1,6 +1,6 @@
 /* ==========================================================================
    ATELIER — canonical stylesheet
-   v1.0.0 · 2026-07-30
+   v2.0.0 · 2026-10-07 — engineering edition
    Canonical home:  https://dexteryo.github.io/design-systems/atelier/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/atelier/atelier.css
    Spec for agents: README.md in the same directory
@@ -21,6 +21,13 @@
                                    very large light serif numerals, small
                                    square (■) status markers, underlined
                                    small-caps chips.
+
+     Engineering layer (v2) — full-width shell with a sticky contents rail,
+                                   native SVG architecture / sequence /
+                                   state diagrams drawn in pigment inks, and
+                                   engineering components (service entries,
+                                   API tables, ADRs, trade-offs, latency
+                                   budgets, timelines).
 
    Radius: none. Everything in this system is square — a curve is a
    decoration the page has not earned.
@@ -68,6 +75,32 @@
   --atl-muted:   #6E6259;
   --atl-rule:    #E7DFD2;
   --atl-code:    #F1EBE1;
+
+  /* Diagram route inks (v2). Printed pigments, one per route meaning:
+     indigo request path · plum events · verdigris data · ochre control
+     plane · slate third party · red failure. */
+  --atl-route-sync:  #2F4B8A;
+  --atl-route-async: #7B3F8C;
+  --atl-route-data:  #1F7268;
+  --atl-route-ctrl:  #966A0A;
+  --atl-route-ext:   #5E6672;
+  --atl-route-fail:  #A8302C;
+
+  /* Diagram node kinds (v2): stroke ink + pale plate of the same pigment. */
+  --atl-node-client: #4E5D7E; --atl-node-client-bg: #E8EBF2;
+  --atl-node-edge:   #966A0A; --atl-node-edge-bg:   #F4EBD3;
+  --atl-node-svc:    #2F4B8A; --atl-node-svc-bg:    #E3E8F3;
+  --atl-node-fn:     #7B3F8C; --atl-node-fn-bg:     #F1E6F3;
+  --atl-node-store:  #1F7268; --atl-node-store-bg:  #DDEEEB;
+  --atl-node-queue:  #A0522D; --atl-node-queue-bg:  #F6E7DD;
+  --atl-node-cache:  #4F7A2E; --atl-node-cache-bg:  #E7EFDD;
+  --atl-node-ext:    #6E6259; --atl-node-ext-bg:    #F3EFE8;
+
+  /* Layout (v2): fluid full-width shell; prose keeps a book measure. */
+  --atl-gutter: clamp(16px, 4vw, 64px);
+  --atl-measure: 70ch;
+  --atl-shell-max: 1920px;
+  --atl-rail: 220px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,6 +124,22 @@
     --atl-muted:   #A89A8A;
     --atl-rule:    #3A332A;
     --atl-code:    #241F18;
+
+    --atl-route-sync:  #93A9E2;
+    --atl-route-async: #CC9EDB;
+    --atl-route-data:  #6FC3B7;
+    --atl-route-ctrl:  #DDB05A;
+    --atl-route-ext:   #A9B0BB;
+    --atl-route-fail:  #EC8C7E;
+
+    --atl-node-client: #A4B4D2; --atl-node-client-bg: #1F2531;
+    --atl-node-edge:   #DDB05A; --atl-node-edge-bg:   #2E2511;
+    --atl-node-svc:    #93A9E2; --atl-node-svc-bg:    #1B2236;
+    --atl-node-fn:     #CC9EDB; --atl-node-fn-bg:     #2B1E31;
+    --atl-node-store:  #6FC3B7; --atl-node-store-bg:  #132D29;
+    --atl-node-queue:  #E3A17C; --atl-node-queue-bg:  #34211A;
+    --atl-node-cache:  #A6CC83; --atl-node-cache-bg:  #1D2A16;
+    --atl-node-ext:    #A89A8A; --atl-node-ext-bg:    #241F18;
   }
 }
 
@@ -106,6 +155,16 @@
   --atl-v4: #9C6A14; --atl-v5: #7B4B94; --atl-v6: #2E7E8C;
   --atl-paper: #FAF7F2; --atl-surface: #FFFFFF; --atl-ink: #1F1B16;
   --atl-muted: #6E6259; --atl-rule: #E7DFD2; --atl-code: #F1EBE1;
+  --atl-route-sync: #2F4B8A; --atl-route-async: #7B3F8C; --atl-route-data: #1F7268;
+  --atl-route-ctrl: #966A0A; --atl-route-ext: #5E6672; --atl-route-fail: #A8302C;
+  --atl-node-client: #4E5D7E; --atl-node-client-bg: #E8EBF2;
+  --atl-node-edge: #966A0A; --atl-node-edge-bg: #F4EBD3;
+  --atl-node-svc: #2F4B8A; --atl-node-svc-bg: #E3E8F3;
+  --atl-node-fn: #7B3F8C; --atl-node-fn-bg: #F1E6F3;
+  --atl-node-store: #1F7268; --atl-node-store-bg: #DDEEEB;
+  --atl-node-queue: #A0522D; --atl-node-queue-bg: #F6E7DD;
+  --atl-node-cache: #4F7A2E; --atl-node-cache-bg: #E7EFDD;
+  --atl-node-ext: #6E6259; --atl-node-ext-bg: #F3EFE8;
 }
 :root[data-theme="dark"] {
   --atl-accent: #DE9B82; --atl-accent-ink: #2A130B;
@@ -117,6 +176,16 @@
   --atl-v4: #D9A94F; --atl-v5: #C39BD3; --atl-v6: #7FBCC9;
   --atl-paper: #191510; --atl-surface: #201B14; --atl-ink: #EDE5D8;
   --atl-muted: #A89A8A; --atl-rule: #3A332A; --atl-code: #241F18;
+  --atl-route-sync: #93A9E2; --atl-route-async: #CC9EDB; --atl-route-data: #6FC3B7;
+  --atl-route-ctrl: #DDB05A; --atl-route-ext: #A9B0BB; --atl-route-fail: #EC8C7E;
+  --atl-node-client: #A4B4D2; --atl-node-client-bg: #1F2531;
+  --atl-node-edge: #DDB05A; --atl-node-edge-bg: #2E2511;
+  --atl-node-svc: #93A9E2; --atl-node-svc-bg: #1B2236;
+  --atl-node-fn: #CC9EDB; --atl-node-fn-bg: #2B1E31;
+  --atl-node-store: #6FC3B7; --atl-node-store-bg: #132D29;
+  --atl-node-queue: #E3A17C; --atl-node-queue-bg: #34211A;
+  --atl-node-cache: #A6CC83; --atl-node-cache-bg: #1D2A16;
+  --atl-node-ext: #A89A8A; --atl-node-ext-bg: #241F18;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
@@ -160,7 +229,48 @@
   font-size: 17px;
   line-height: 1.65;
 }
-.atl-page { max-width: 760px; margin: 0 auto; padding: var(--atl-s8) var(--atl-s5) 96px; }
+.atl-page {
+  max-width: var(--atl-shell-max); margin: 0 auto;
+  padding: var(--atl-s8) var(--atl-gutter) 96px;
+}
+
+/* Wide-screen reading layout: sticky contents rail + content column. The
+   rail collapses into an in-flow contents list below 1200px. */
+.atl-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--atl-s6); }
+@media (min-width: 1200px) {
+  .atl-layout { grid-template-columns: var(--atl-rail) minmax(0, 1fr); gap: var(--atl-s8); }
+  .atl-toc {
+    position: sticky; top: var(--atl-s6); align-self: start;
+    max-height: calc(100vh - 2 * var(--atl-s6)); overflow-y: auto;
+  }
+}
+.atl-toc { font-family: var(--atl-sans); font-size: 13px; line-height: 1.4; }
+.atl-toc-t {
+  font-size: 10.5px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--atl-muted);
+  padding-bottom: var(--atl-s2); margin-bottom: var(--atl-s2);
+  border-bottom: 1px solid var(--atl-ink);
+}
+.atl-toc ol, .atl-doc .atl-toc ol { list-style: none; margin: 0; padding: 0; max-width: none; }
+.atl-doc .atl-toc li { margin: 0; }
+.atl-doc .atl-toc a, .atl-panels .atl-toc a {
+  display: flex; gap: var(--atl-s3); align-items: baseline;
+  padding: 6px 0 6px var(--atl-s3);
+  border-left: 2px solid transparent;
+  color: var(--atl-muted); text-decoration: none;
+}
+.atl-toc a span { font-family: var(--atl-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.atl-doc .atl-toc a:hover, .atl-panels .atl-toc a:hover { color: var(--atl-ink); }
+.atl-doc .atl-toc a.is-active, .atl-panels .atl-toc a.is-active {
+  color: var(--atl-accent); border-left-color: var(--atl-accent);
+}
+@media (max-width: 1199px) {
+  .atl-toc ol { columns: 2 220px; column-gap: var(--atl-s5); }
+  .atl-toc li { break-inside: avoid; }
+}
+.atl-doc :is(h1, h2, h3, h4, section[id]), .atl-panels :is(h1, h2, h3, h4, section[id]) {
+  scroll-margin-top: var(--atl-s5);
+}
 
 /* Masthead: eyebrow, light display title, italic stand-first — closed by
    the double hairline rule, the magazine's signature under its own name. */
@@ -178,14 +288,15 @@
 }
 .atl-title {
   font-family: var(--atl-display); font-weight: 300;
-  font-size: clamp(34px, 6.4vw, 56px); line-height: 1.06;
+  font-size: clamp(34px, 5.2vw, 72px); line-height: 1.04;
   letter-spacing: -0.012em; margin: 0 0 var(--atl-s4);
   text-wrap: balance;
 }
 .atl-title em { font-style: italic; color: var(--atl-accent); }
 .atl-standfirst {
   font-style: italic; font-size: 20px; line-height: 1.5;
-  color: var(--atl-muted); max-width: 58ch; margin: 0;
+  color: var(--atl-muted); max-width: 60ch; margin: 0;
+  text-wrap: pretty;
 }
 
 /* Meta bar: facts under the masthead — author, date, status. */
@@ -214,11 +325,12 @@
 }
 .atl-sec-h h2 {
   font-family: var(--atl-display); font-weight: 300;
-  font-size: 30px; line-height: 1.12; letter-spacing: -0.008em; margin: 0;
+  font-size: clamp(28px, 2.6vw, 36px); line-height: 1.12; letter-spacing: -0.008em; margin: 0;
+  text-wrap: balance;
 }
 
-.atl-doc p { max-width: 66ch; margin: 0 0 var(--atl-s4); }
-.atl-doc ul, .atl-doc ol { max-width: 66ch; margin: 0 0 var(--atl-s4); padding-left: 22px; }
+.atl-doc p { max-width: var(--atl-measure); margin: 0 0 var(--atl-s4); text-wrap: pretty; }
+.atl-doc ul, .atl-doc ol { max-width: var(--atl-measure); margin: 0 0 var(--atl-s4); padding-left: 22px; }
 .atl-doc li { margin-bottom: var(--atl-s1); }
 
 /* Drop cap: the opening paragraph of the piece (and only that paragraph)
@@ -238,7 +350,7 @@
   vertical-align: super; font-size: 11px; font-weight: 700;
   font-family: var(--atl-sans);
 }
-.atl-footnotes { margin: var(--atl-s5) 0 0; max-width: 66ch; }
+.atl-footnotes { margin: var(--atl-s5) 0 0; max-width: var(--atl-measure); }
 .atl-footnotes::before {
   content: ""; display: block; width: 96px;
   border-top: 1px solid var(--atl-ink);
@@ -382,7 +494,7 @@
   font-size: 14px;
   line-height: 1.6;
 }
-.atl-panels .atl-page { max-width: 960px; padding-top: var(--atl-s7); }
+.atl-panels .atl-page { padding-top: var(--atl-s7); }
 
 /* Board header: the masthead's double rule, at dashboard scale. */
 .atl-board-h {
@@ -509,16 +621,16 @@
 
 /* ── 5. FIGURES ────────────────────────────────────────────────────────── */
 /* Charts and diagrams sit between hairlines like a plate in a book, with
-   a small-caps caption ("Fig. № 1 — …"). Diagrams are pre-rendered Mermaid
-   SVG themed via mermaid-config.json, or hand-drawn inline SVG using the
-   viz palette; either way the figure frame is rules, not a box. */
+   a small-caps caption ("Fig. № 1 — …"). Charts are inline SVG in the viz
+   palette; architecture, sequence and state diagrams use the native grammar
+   in §6; Mermaid pre-renders remain for exotic shapes (ER, gantt). */
 .atl-figure {
   border-top: 1px solid var(--atl-rule);
   border-bottom: 1px solid var(--atl-rule);
   padding: var(--atl-s5) 0; margin: var(--atl-s5) 0;
   overflow-x: auto;
 }
-.atl-figure svg { display: block; max-width: 100%; height: auto; }
+.atl-figure svg { display: block; width: 100%; min-width: 560px; height: auto; }
 .atl-figcap {
   font-family: var(--atl-sans); font-size: 12px; font-weight: 500;
   font-variant: small-caps; text-transform: lowercase;
@@ -529,7 +641,344 @@
    light paper so it stays readable in dark mode. The literal hex on that
    style attribute is the one sanctioned exception to tokens-only. */
 
-/* ── 6. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 6. ARCHITECTURE DIAGRAMS (v2) ─────────────────────────────────────── */
+/* Native SVG plates in pigment inks. Architecture (.atl-arch), sequence
+   (.atl-seq) and state (.atl-state) figures share one grammar: node kinds
+   carry a pigment, route kinds carry a pigment, and the legend under the
+   plate says what each ink means. Nodes are square — radius 0 holds even
+   inside a diagram. Every colour comes from a class, never inline. */
+.atl-arch, .atl-seq, .atl-state {
+  border-top: 1px solid var(--atl-ink);
+  border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s5) 0 var(--atl-s4); margin: var(--atl-s6) 0;
+}
+.atl-plate { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.atl-plate svg { display: block; width: 100%; height: auto; }
+.atl-arch .atl-plate svg, .atl-seq .atl-plate svg { min-width: 940px; }
+.atl-state .atl-plate svg { min-width: 860px; }
+
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).sync  { --r: var(--atl-route-sync); }
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).async { --r: var(--atl-route-async); }
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).data  { --r: var(--atl-route-data); }
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).ctrl  { --r: var(--atl-route-ctrl); }
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).ext   { --r: var(--atl-route-ext); }
+:is(.atl-edge, .atl-pkt, .atl-m, .atl-legend i).fail  { --r: var(--atl-route-fail); }
+:is(.atl-edge, .atl-m, .atl-legend i).ret             { --r: var(--atl-muted); }
+
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li) {
+  --k: var(--atl-ink); --kb: var(--atl-surface);
+}
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).client { --k: var(--atl-node-client); --kb: var(--atl-node-client-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).edge   { --k: var(--atl-node-edge);   --kb: var(--atl-node-edge-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).svc    { --k: var(--atl-node-svc);    --kb: var(--atl-node-svc-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).fn     { --k: var(--atl-node-fn);     --kb: var(--atl-node-fn-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).store  { --k: var(--atl-node-store);  --kb: var(--atl-node-store-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).queue  { --k: var(--atl-node-queue);  --kb: var(--atl-node-queue-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).cache  { --k: var(--atl-node-cache);  --kb: var(--atl-node-cache-bg); }
+:is(.atl-node, .atl-legend i, .atl-svc, .atl-budget-seg, .atl-budget-key li).ext    { --k: var(--atl-node-ext);    --kb: var(--atl-node-ext-bg); }
+:is(.atl-node, .atl-legend i).ok      { --k: var(--atl-ok);    --kb: var(--atl-ok-bg); }
+:is(.atl-node, .atl-legend i).warn    { --k: var(--atl-warn);  --kb: var(--atl-warn-bg); }
+:is(.atl-node, .atl-legend i).crit    { --k: var(--atl-crit);  --kb: var(--atl-crit-bg); }
+:is(.atl-node, .atl-legend i).info    { --k: var(--atl-info);  --kb: var(--atl-info-bg); }
+:is(.atl-node, .atl-legend i).neutral { --k: var(--atl-muted); --kb: var(--atl-surface); }
+
+/* Nodes. Type sizes are viewBox units sized for a ~1200-wide plate: they
+   render ≥ 11px at desktop widths, and the plate's min-width keeps them
+   ≥ 9.5px on phones, where the plate scrolls instead of shrinking. */
+.atl-plate .atl-nbox { fill: var(--kb); stroke: var(--k); stroke-width: 1.25; transition: stroke-width .15s; }
+.atl-plate .atl-nline { fill: none; stroke: var(--k); stroke-width: 1.25; }
+.atl-plate .atl-node:hover .atl-nbox { stroke-width: 2.5; }
+.atl-plate .atl-node.ext .atl-nbox { stroke-dasharray: 5 4; }
+.atl-plate .atl-node.is-hot .atl-nbox { stroke-width: 2.25; }
+.atl-plate .atl-node.is-fail { --k: var(--atl-route-fail); --kb: var(--atl-crit-bg); }
+.atl-plate .atl-node.is-fail .atl-nlabel { fill: var(--atl-crit); }
+.atl-plate .atl-node.is-new .atl-nbox { stroke: var(--atl-accent); stroke-dasharray: 6 4; stroke-width: 1.75; }
+.atl-plate .atl-nlabel {
+  font-family: var(--atl-sans); font-size: 14px; font-weight: 600; fill: var(--atl-ink);
+}
+.atl-plate .atl-nsub { font-family: var(--atl-mono); font-size: 13px; fill: var(--atl-muted); }
+.atl-plate .atl-ntag { font-family: var(--atl-mono); font-size: 13px; font-weight: 600; fill: var(--k); }
+.atl-plate .atl-node.is-new .atl-ntag { fill: var(--atl-accent); }
+.atl-plate .atl-stname {
+  font-family: var(--atl-mono); font-size: 14px; font-weight: 600;
+  fill: var(--k); text-anchor: middle;
+}
+
+/* Zones, stages, steps */
+.atl-plate .atl-zone {
+  fill: color-mix(in srgb, var(--atl-ink) 2.5%, transparent);
+  stroke: var(--atl-muted); stroke-width: 1; stroke-dasharray: 2 5;
+}
+.atl-plate .atl-zone.trust { fill: none; stroke: var(--atl-ink); stroke-width: 1.25; stroke-dasharray: 9 4; }
+.atl-plate .atl-zlabel, .atl-plate .atl-stage {
+  font-family: var(--atl-sans); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; fill: var(--atl-muted);
+}
+.atl-plate .atl-zlabel.trust { fill: var(--atl-ink); }
+.atl-plate .atl-stage { fill: var(--atl-ink); font-size: 12.5px; }
+.atl-plate .atl-step circle { fill: var(--atl-paper); stroke: var(--atl-ink); stroke-width: 1.25; }
+.atl-plate .atl-step text {
+  font-family: var(--atl-sans); font-size: 12.5px; font-weight: 700;
+  fill: var(--atl-ink); text-anchor: middle; dominant-baseline: central;
+}
+
+/* Edges, markers, packets */
+.atl-plate .atl-edge {
+  fill: none; stroke: var(--r); stroke-width: 1.75;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.atl-plate .atl-m path { fill: var(--r); }
+.atl-plate .atl-edge.ret { stroke-width: 1.25; stroke-dasharray: 4 4; }
+.atl-plate .atl-flow { stroke-dasharray: 10 3; animation: atl-dash 1.3s linear infinite; }
+.atl-plate .atl-edge.async { stroke-dasharray: 5 8; }
+.atl-plate .atl-edge.fail { stroke-dasharray: 2 4.5; }
+@keyframes atl-dash { to { stroke-dashoffset: -26; } }
+.atl-plate .atl-pkt { fill: var(--r); stroke: var(--atl-paper); stroke-width: 1.5; }
+.atl-plate .atl-elabel {
+  font-family: var(--atl-mono); font-size: 13px; fill: var(--atl-muted);
+  paint-order: stroke; stroke: var(--atl-paper); stroke-width: 5px; stroke-linejoin: round;
+}
+.atl-plate .atl-elabel.fail { fill: var(--atl-crit); }
+
+/* Sequence parts */
+.atl-plate .atl-life { stroke: var(--atl-muted); stroke-width: 1; stroke-dasharray: 3 5; }
+.atl-plate .atl-act { fill: var(--kb); stroke: var(--k); stroke-width: 1.25; }
+.atl-plate .atl-note { fill: var(--atl-warn-bg); stroke: var(--atl-warn); stroke-width: 1; }
+.atl-plate .atl-note-t { font-family: var(--atl-serif); font-style: italic; font-size: 14px; fill: var(--atl-ink); }
+.atl-plate .atl-init { fill: var(--atl-ink); }
+.atl-plate .atl-final { fill: none; stroke: var(--atl-ink); stroke-width: 1.5; }
+
+/* Legend and caption under the plate */
+.atl-legend {
+  display: flex; flex-wrap: wrap; gap: var(--atl-s2) var(--atl-s5);
+  font-family: var(--atl-sans); font-size: 12.5px; color: var(--atl-muted);
+  margin: var(--atl-s4) 0 0; padding: var(--atl-s3) 0 0;
+  border-top: 1px solid var(--atl-rule);
+}
+.atl-legend span { display: inline-flex; align-items: center; gap: var(--atl-s2); }
+.atl-legend i { display: inline-block; width: 24px; height: 0; border-top: 2px solid var(--r); }
+.atl-legend i.async { border-top-style: dashed; }
+.atl-legend i.fail, .atl-legend i.ret { border-top-style: dotted; }
+.atl-legend i.n { width: 14px; height: 14px; border: 1.25px solid var(--k); background: var(--kb); }
+.atl-legend i.n.ext { border-style: dashed; }
+.atl-legend i.n.is-new { border: 1.5px dashed var(--atl-accent); background: transparent; }
+.atl-legend i.n.is-hot { border-width: 2.5px; }
+.atl-legend b { color: var(--atl-ink); font-weight: 600; }
+.atl-arch .atl-figcap, .atl-seq .atl-figcap, .atl-state .atl-figcap { margin-top: var(--atl-s2); }
+
+/* Numbered walkthrough keyed to .atl-step markers */
+.atl-doc ol.atl-steps {
+  list-style: none; padding: 0; counter-reset: atl-step;
+  max-width: none; columns: 2 380px; column-gap: var(--atl-s6);
+}
+.atl-steps li {
+  counter-increment: atl-step; break-inside: avoid;
+  position: relative; padding-left: 34px; margin-bottom: var(--atl-s3);
+}
+.atl-steps li::before {
+  content: counter(atl-step);
+  position: absolute; left: 0; top: 2px;
+  width: 22px; height: 22px; border: 1.25px solid var(--atl-ink); border-radius: 50%;
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 700;
+  display: grid; place-items: center;
+}
+
+/* ── 7. ENGINEERING COMPONENTS (v2) ────────────────────────────────────── */
+/* Service entries: a directory page, not cards. Each entry opens with a
+   2px rule in its node-kind pigment; the rest is type and hairlines. */
+.atl-svc-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--atl-s6) var(--atl-s5); margin: var(--atl-s5) 0;
+}
+.atl-svc { border-top: 2px solid var(--k); padding-top: var(--atl-s3); }
+.atl-svc-h { display: flex; align-items: center; gap: var(--atl-s2); }
+.atl-svc-kind {
+  font-family: var(--atl-sans); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--k);
+}
+.atl-svc-owner { margin-left: auto; font-family: var(--atl-mono); font-size: 11px; color: var(--atl-muted); }
+.atl-svc-name {
+  font-family: var(--atl-display); font-weight: 300; font-size: 26px;
+  line-height: 1.15; margin: var(--atl-s2) 0 var(--atl-s1);
+}
+.atl-doc .atl-svc-desc { font-size: 15px; color: var(--atl-muted); margin: 0 0 var(--atl-s3); }
+.atl-svc .atl-kv { font-family: var(--atl-sans); }
+.atl-svc.is-new { border-top-style: dashed; }
+.atl-tags { margin-top: var(--atl-s3); font-family: var(--atl-mono); font-size: 11.5px; color: var(--atl-muted); }
+.atl-tags span + span::before { content: " · "; }
+
+/* API endpoint table: method set as a square-cornered ink stamp. */
+.atl-method {
+  display: inline-block; min-width: 58px; text-align: center;
+  font-family: var(--atl-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--m); border: 1px solid var(--m);
+  background: color-mix(in srgb, var(--m) 9%, transparent);
+  padding: 1px 6px;
+}
+.atl-method.get    { --m: var(--atl-route-data); }
+.atl-method.post   { --m: var(--atl-route-sync); }
+.atl-method.put    { --m: var(--atl-route-ctrl); }
+.atl-method.patch  { --m: var(--atl-route-async); }
+.atl-method.delete { --m: var(--atl-route-fail); }
+.atl-api td { vertical-align: middle; }
+.atl-path { font-family: var(--atl-mono); font-size: 13px; white-space: nowrap; }
+.atl-path i { font-style: normal; color: var(--atl-route-ctrl); }
+
+/* Decision record: folio header, three columns of argument on wide screens. */
+.atl-adr {
+  border-top: 1px solid var(--atl-ink); border-bottom: 1px solid var(--atl-rule);
+  padding: var(--atl-s4) 0 var(--atl-s5); margin: var(--atl-s6) 0;
+}
+.atl-adr-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--atl-s2) var(--atl-s4); margin-bottom: var(--atl-s4); }
+.atl-adr-h .atl-folio { margin: 0; }
+.atl-adr-h h3 {
+  flex-basis: 100%; order: 3;
+  font-family: var(--atl-display); font-weight: 300; font-size: 28px; line-height: 1.15; margin: 0;
+}
+.atl-adr-status {
+  font-family: var(--atl-sans); font-size: 12px; font-weight: 600;
+  font-variant: small-caps; text-transform: lowercase; letter-spacing: 0.16em;
+  border-bottom: 1px solid; color: var(--atl-muted);
+}
+.atl-adr-status.proposed   { color: var(--atl-warn); }
+.atl-adr-status.accepted   { color: var(--atl-ok); }
+.atl-adr-status.rejected   { color: var(--atl-crit); }
+.atl-adr-status.superseded { color: var(--atl-muted); text-decoration: line-through; }
+.atl-adr-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--atl-s5) var(--atl-s6); }
+.atl-adr h4, .atl-callout::before, .atl-code-h {
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--atl-muted);
+}
+.atl-adr h4 { margin: 0 0 var(--atl-s2); }
+.atl-doc .atl-adr p { font-size: 15.5px; }
+.atl-doc ul.atl-conseq { list-style: none; padding: 0; font-size: 15.5px; }
+.atl-conseq li { padding-left: 22px; position: relative; }
+.atl-conseq li::before { position: absolute; left: 0; font-family: var(--atl-mono); font-weight: 700; }
+.atl-conseq li.pro::before { content: "+"; color: var(--atl-ok); }
+.atl-conseq li.con::before { content: "\2212"; color: var(--atl-crit); }
+
+/* Trade-off matrix: symbol AND ink, never colour alone. */
+.atl-tradeoff td.good, .atl-tradeoff td.mid, .atl-tradeoff td.bad { white-space: nowrap; }
+.atl-tradeoff td.good::before, .atl-tradeoff td.mid::before, .atl-tradeoff td.bad::before {
+  font-size: 13px; margin-right: 8px;
+}
+.atl-tradeoff td.good::before { content: "\25CF"; color: var(--atl-ok); }
+.atl-tradeoff td.mid::before  { content: "\25D0"; color: var(--atl-warn); }
+.atl-tradeoff td.bad::before  { content: "\25CB"; color: var(--atl-crit); }
+.atl-tradeoff tr.is-chosen td:first-child { font-weight: 600; }
+.atl-tradeoff tr.is-chosen td:first-child::after {
+  content: "chosen"; margin-left: 10px;
+  font-family: var(--atl-sans); font-size: 11px; font-weight: 600;
+  font-variant: small-caps; text-transform: lowercase; letter-spacing: 0.16em;
+  color: var(--atl-accent);
+}
+
+/* Latency budget: one ruled bar, segments in node-kind pigments, the
+   target as an ink tick. Widths come from --ms over the bar's --scale. */
+.atl-budget { margin: var(--atl-s5) 0; font-family: var(--atl-sans); }
+.atl-budget-h {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--atl-s4);
+  font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--atl-muted); margin-bottom: var(--atl-s3);
+}
+.atl-budget-h b { font-family: var(--atl-mono); font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--atl-ink); }
+.atl-budget-bar {
+  position: relative; display: flex; height: 22px;
+  background: color-mix(in srgb, var(--atl-ink) 5%, transparent);
+  border-bottom: 1px solid var(--atl-ink);
+}
+.atl-budget-seg {
+  width: calc(var(--ms) / var(--scale) * 100%);
+  background: var(--k); box-shadow: inset -2px 0 0 var(--atl-paper);
+}
+.atl-budget-target {
+  position: absolute; top: -8px; bottom: -8px;
+  left: calc(var(--at) / var(--scale) * 100%);
+  border-left: 2px solid var(--atl-ink);
+}
+.atl-budget-target::after {
+  content: attr(data-label); position: absolute; top: -18px; right: 6px;
+  font-family: var(--atl-mono); font-size: 11px; white-space: nowrap; color: var(--atl-ink);
+}
+.atl-budget-axis {
+  display: flex; justify-content: space-between; margin-top: var(--atl-s1);
+  font-family: var(--atl-mono); font-size: 11px; color: var(--atl-muted);
+}
+.atl-doc ul.atl-budget-key, .atl-budget-key {
+  list-style: none; padding: 0; margin: var(--atl-s3) 0 0; max-width: none;
+  display: flex; flex-wrap: wrap; gap: var(--atl-s2) var(--atl-s5); font-size: 13px;
+}
+.atl-budget-key li { display: inline-flex; align-items: center; gap: var(--atl-s2); margin: 0; }
+.atl-budget-key i { width: 12px; height: 12px; background: var(--k); }
+.atl-budget-key b { font-family: var(--atl-mono); font-size: 12px; font-weight: 500; }
+
+/* Timeline: dates in the gutter, events on a hairline spine. */
+.atl-doc ol.atl-timeline, .atl-timeline { list-style: none; padding: 0; margin: var(--atl-s5) 0; max-width: none; }
+.atl-timeline li {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: var(--atl-s5); margin: 0;
+  --s: var(--atl-muted);
+}
+.atl-timeline li.ok   { --s: var(--atl-ok); }
+.atl-timeline li.warn { --s: var(--atl-warn); }
+.atl-timeline li.crit { --s: var(--atl-crit); }
+.atl-timeline li.info { --s: var(--atl-info); }
+.atl-timeline time {
+  font-family: var(--atl-mono); font-size: 12px; color: var(--atl-muted);
+  text-align: right; padding-top: 3px; font-variant-numeric: tabular-nums;
+}
+.atl-timeline li > div {
+  position: relative; border-left: 1px solid var(--atl-rule);
+  padding: 0 0 var(--atl-s5) var(--atl-s5);
+}
+.atl-timeline li:last-child > div { padding-bottom: 0; }
+.atl-timeline li > div::before {
+  content: ""; position: absolute; left: -5px; top: 7px;
+  width: 9px; height: 9px; background: var(--s);
+}
+.atl-timeline b { font-family: var(--atl-sans); font-weight: 600; font-size: 15px; }
+.atl-doc .atl-timeline p { font-size: 15px; color: var(--atl-muted); margin: 2px 0 0; }
+@media (max-width: 640px) {
+  .atl-timeline li { grid-template-columns: 1fr; gap: 0; }
+  .atl-timeline time { text-align: left; padding-left: var(--atl-s5); border-left: 1px solid var(--atl-rule); }
+}
+
+/* Callouts: a 2px pigment rule on the left and a small-caps label — the
+   page's margin note, never a tinted box. */
+.atl-callout {
+  border-left: 2px solid var(--c, var(--atl-info));
+  padding: var(--atl-s1) 0 var(--atl-s1) var(--atl-s4);
+  margin: var(--atl-s5) 0; max-width: var(--atl-measure);
+}
+.atl-callout::before { content: attr(data-label); display: block; color: var(--c); margin-bottom: var(--atl-s1); }
+.atl-callout.note     { --c: var(--atl-info); }
+.atl-callout.warn     { --c: var(--atl-warn); }
+.atl-callout.risk     { --c: var(--atl-crit); }
+.atl-callout.decision { --c: var(--atl-accent); }
+.atl-doc .atl-callout p:last-child { margin-bottom: 0; }
+
+/* Code with a filename strip. */
+.atl-code { margin: 0 0 var(--atl-s4); }
+.atl-code-h {
+  display: flex; justify-content: space-between; gap: var(--atl-s4);
+  background: var(--atl-code); border-top: 1px solid var(--atl-rule);
+  border-bottom: 1px dashed var(--atl-rule);
+  padding: 6px var(--atl-s4); font-size: 10.5px;
+}
+.atl-code-h span:first-child { font-family: var(--atl-mono); letter-spacing: 0; text-transform: none; color: var(--atl-ink); }
+.atl-doc .atl-code pre, .atl-panels .atl-code pre { border-top: 0; margin: 0; }
+.atl-code .c { color: var(--atl-muted); font-style: italic; }
+.atl-code .k { color: var(--atl-route-sync); font-weight: 600; }
+.atl-code .s { color: var(--atl-route-data); }
+
+/* Motion is directional and optional. */
+@media (prefers-reduced-motion: reduce) {
+  .atl-plate .atl-flow { animation: none; }
+  .atl-plate .atl-pkt { display: none; }
+  .atl-plate .atl-nbox { transition: none; }
+}
+
+/* ── 8. PRINT ──────────────────────────────────────────────────────────── */
 @media print {
   :root {
     --atl-paper: #FFFFFF; --atl-surface: #FFFFFF;
@@ -539,4 +988,8 @@
   .atl-doc, .atl-panels { background: #FFFFFF; color: #000000; }
   .atl-theme-toggle { display: none; }
   .atl-page { padding-top: 0; }
+  .atl-toc { display: none; }
+  .atl-layout { display: block; }
+  .atl-plate .atl-flow { animation: none; }
+  .atl-plate .atl-pkt { display: none; }
 }

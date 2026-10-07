@@ -9,11 +9,11 @@
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
   body { margin: 0; }
   .sw-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 24px; }
-  .sw { width: 108px; font-family: var(--brut-mono); font-size: 10.5px; }
+  .sw { width: 116px; font-family: var(--brut-mono); font-size: 10.5px; }
   .sw i { display: block; height: 40px; border: 2px solid var(--brut-border); font-style: normal; }
   .sw span { display: block; margin-top: 4px; color: var(--brut-muted); }
-  .demo-note { font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
-               text-transform: uppercase; color: var(--brut-muted); margin: 24px 0 12px; }
+  .brut-doc .demo-note { font-family: var(--brut-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+               text-transform: uppercase; color: var(--brut-muted); margin: 32px 0 12px; max-width: none; }
   .panel-demo { border: 1.5px dashed var(--brut-muted); padding: 24px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
@@ -22,6 +22,7 @@
   .type-specimen .lbl { font-family: var(--brut-mono); font-size: 10.5px; color: var(--brut-muted);
                         width: 200px; flex: none; }
   .chip-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .callout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0 24px; }
 </style>
 </head>
 <body class="brut-doc">
@@ -29,33 +30,51 @@
 <div class="brut-page">
 
   <header class="brut-masthead">
-    <div class="brut-eyebrow">Brut Design System · v1.0.0 · Living Style Guide</div>
+    <div class="brut-eyebrow">Brut Design System · v2.0.0 · Engineering edition · Living style guide</div>
     <div class="brut-masthead-b">
-      <h1 class="brut-title">Concrete for <mark>documents</mark></h1>
-      <p class="brut-subtitle">A neo-brutalist system for AI-generated engineering HTML: thick borders, hard shadows, flat acid fills — and underneath it all, a grid that never flinches. The furniture shouts so the prose does not have to.</p>
+      <h1 class="brut-title">Concrete for <mark>systems</mark></h1>
+      <p class="brut-subtitle">A neo-brutalist system for AI-generated engineering HTML: thick borders, hard shadows, flat acid fills — and underneath it all, a grid that never flinches. Version 2 pours it full width and adds a native architecture grammar: sticker nodes, route-coloured edges, and square packets that travel the hot path.</p>
     </div>
     <dl class="brut-meta">
       <div><dt>Owner</dt><dd>Dexter</dd></div>
-      <div><dt>Revision</dt><dd>2026-07-30</dd></div>
-      <div><dt>Status</dt><dd>v1.0.0</dd></div>
+      <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+      <div><dt>Status</dt><dd>v2.0.0</dd></div>
       <div><dt>Stylesheet</dt><dd><a href="brut.css">brut.css</a></dd></div>
       <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
     </dl>
   </header>
 
-  <div class="brut-frame">
+  <div class="brut-layout">
+
+    <nav class="brut-toc" aria-label="Contents">
+      <div class="brut-toc-h">Contents</div>
+      <ol>
+        <li><a href="#principles"><span>01</span>Principles</a></li>
+        <li><a href="#tokens"><span>02</span>Tokens</a></li>
+        <li><a href="#layout"><span>03</span>Layout &amp; reading</a></li>
+        <li><a href="#document"><span>04</span>Document mode</a></li>
+        <li><a href="#panel"><span>05</span>Panel mode</a></li>
+        <li><a href="#diagrams"><span>06</span>Architecture diagrams</a></li>
+        <li><a href="#components"><span>07</span>Engineering components</a></li>
+        <li><a href="#anti"><span>08</span>Anti-patterns</a></li>
+        <li><a href="#agents"><span>09</span>For AI agents</a></li>
+      </ol>
+    </nav>
+
+    <main class="brut-frame">
 
     <!-- ============ 01 PRINCIPLES ============ -->
-    <section class="brut-section">
+    <section class="brut-section" id="principles">
       <div class="brut-sec-h"><span class="brut-sec-num">01</span><h2>Principles</h2></div>
       <p><strong>Honest structure.</strong> Every container shows its edges: 3px borders, hard offset shadows with zero blur, radius 0. Nothing floats, nothing fades, nothing pretends. A box is a box, and the shadow is a solid slab of ink — béton brut, raw concrete, for documents.</p>
-      <p><strong>Yellow is a fill, never a voice.</strong> The single accent — acid yellow — marks the one thing that matters in each context: the hero metric, the total row, the verdict strip. It always carries black text and black borders; it never colours type, because it has no contrast to give.</p>
-      <p><strong>Loudness lives in furniture.</strong> Headings run 800–900 weight, uppercase, tight. Body prose stays at weight 400, 16px, capped at 70ch. A report you cannot read is not brutalist; it is broken.</p>
-      <p><strong>Energy without chaos.</strong> One spacing scale, one accent, one display face, at most one tilt per page. The noise is rationed — that is what separates a system from a poster.</p>
+      <p><strong>Yellow is a fill, never a voice.</strong> The single accent — acid yellow — marks the one thing that matters in each context: the hero metric, the total row, the verdict strip, the hot path through a diagram. It always carries black text and black borders; it never colours type.</p>
+      <p><strong>Loudness lives in furniture.</strong> Headings run 800–900 weight, uppercase, tight. Body prose stays at weight 400, 17px, capped at 72 characters. A report you cannot read is not brutalist; it is broken.</p>
+      <p><strong>Systems are drawn, not narrated.</strong> If prose walks through a request hop by hop, the hops are drawn as a native SVG diagram: paper-sticker nodes coloured by kind, 3px edges coloured by route, numbered steps keyed to a list. Every hue in a figure is declared in its legend.</p>
+      <p><strong>Energy without chaos.</strong> One spacing scale, one accent, one display face, at most one tilt per page. The colour in diagrams is rationed by meaning — that is what separates a system from a poster.</p>
     </section>
 
     <!-- ============ 02 TOKENS ============ -->
-    <section class="brut-section">
+    <section class="brut-section" id="tokens">
       <div class="brut-sec-h"><span class="brut-sec-num">02</span><h2>Tokens</h2></div>
       <p>All values live as CSS custom properties in <a href="brut.css"><code>brut.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches below show the current theme's resolved values.</p>
 
@@ -68,14 +87,26 @@
         <div class="sw"><i style="background:var(--brut-info)"></i><span>--brut-info · informational</span></div>
       </div>
 
-      <p class="demo-note">Data-viz categorical (use in order, outline in ink)</p>
+      <p class="demo-note">Routes — diagram edges, one meaning per hue (flip per theme)</p>
       <div class="sw-grid">
-        <div class="sw"><i style="background:var(--brut-v1)"></i><span>--brut-v1</span></div>
-        <div class="sw"><i style="background:var(--brut-v2)"></i><span>--brut-v2</span></div>
-        <div class="sw"><i style="background:var(--brut-v3)"></i><span>--brut-v3</span></div>
-        <div class="sw"><i style="background:var(--brut-v4)"></i><span>--brut-v4</span></div>
-        <div class="sw"><i style="background:var(--brut-v5)"></i><span>--brut-v5</span></div>
-        <div class="sw"><i style="background:var(--brut-v6)"></i><span>--brut-v6</span></div>
+        <div class="sw"><i style="background:var(--brut-route-sync)"></i><span>--brut-route-sync · request / response</span></div>
+        <div class="sw"><i style="background:var(--brut-route-async)"></i><span>--brut-route-async · events, queues</span></div>
+        <div class="sw"><i style="background:var(--brut-route-data)"></i><span>--brut-route-data · store reads / writes</span></div>
+        <div class="sw"><i style="background:var(--brut-route-ctrl)"></i><span>--brut-route-ctrl · auth, config, deploy</span></div>
+        <div class="sw"><i style="background:var(--brut-route-ext)"></i><span>--brut-route-ext · third-party calls</span></div>
+        <div class="sw"><i style="background:var(--brut-route-fail)"></i><span>--brut-route-fail · error, DLQ, lost</span></div>
+      </div>
+
+      <p class="demo-note">Node kinds — acid stickers, theme-invariant, black type</p>
+      <div class="sw-grid">
+        <div class="sw"><i style="background:var(--brut-node-client)"></i><span>--brut-node-client</span></div>
+        <div class="sw"><i style="background:var(--brut-node-edge)"></i><span>--brut-node-edge · gateway, CDN</span></div>
+        <div class="sw"><i style="background:var(--brut-node-svc)"></i><span>--brut-node-svc · service</span></div>
+        <div class="sw"><i style="background:var(--brut-node-fn)"></i><span>--brut-node-fn · worker, job</span></div>
+        <div class="sw"><i style="background:var(--brut-node-store)"></i><span>--brut-node-store · database</span></div>
+        <div class="sw"><i style="background:var(--brut-node-queue)"></i><span>--brut-node-queue · topic, stream</span></div>
+        <div class="sw"><i style="background:var(--brut-node-cache)"></i><span>--brut-node-cache</span></div>
+        <div class="sw"><i style="background:var(--brut-node-ext); border-style:dashed"></i><span>--brut-node-ext · third party</span></div>
       </div>
 
       <p class="demo-note">Grounds &amp; ink</p>
@@ -89,18 +120,38 @@
       <p class="demo-note">Type roles (system stacks, no webfonts)</p>
       <div style="margin-bottom:24px;">
         <div class="type-specimen"><span class="lbl">--brut-sans · display 900</span><span style="font-family:var(--brut-sans); font-weight:900; text-transform:uppercase; letter-spacing:-0.02em; font-size:22px;">Money moves once</span></div>
-        <div class="type-specimen"><span class="lbl">--brut-sans · body 400</span><span style="font-family:var(--brut-sans); font-size:16px;">Ledgers remember it twice, and the mirrors can drift.</span></div>
-        <div class="type-specimen"><span class="lbl">--brut-mono · machine truth</span><span class="brut-mono brut-num" style="font-size:13px;">transfer_9f41 · idempotency=order-1204 · 2026-07-29T14:02:11Z</span></div>
+        <div class="type-specimen"><span class="lbl">--brut-sans · body 400 / 17px</span><span style="font-family:var(--brut-sans); font-size:17px;">Ledgers remember it twice, and the mirrors can drift.</span></div>
+        <div class="type-specimen"><span class="lbl">--brut-mono · machine truth</span><span class="brut-mono brut-num" style="font-size:13px;">topup_7f3a · Idempotency-Key=order-1204 · 2026-10-07T14:02:11Z</span></div>
       </div>
 
       <p class="demo-note">Structure tokens</p>
-      <p style="font-family:var(--brut-mono); font-size:12.5px; max-width:none;">--brut-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Borders --brut-bw = 3px, hairlines --brut-hair = 1.5px. Shadows --brut-shadow = 5px 5px 0, --brut-shadow-sm = 3px 3px 0 — hard, never blurred. Radius 0 everywhere except --brut-r-chip.</p>
+      <p style="font-family:var(--brut-mono); font-size:12.5px;">--brut-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Borders --brut-bw = 3px, hairlines --brut-hair = 1.5px. Shadows --brut-shadow = 5px 5px 0, --brut-shadow-sm = 3px 3px 0 — hard, never blurred. Radius 0 everywhere except --brut-r-chip. Shell: --brut-gutter = clamp(16px, 4vw, 64px), --brut-measure = 72ch, --brut-toc-w = 240px.</p>
     </section>
 
-    <!-- ============ 03 DOCUMENT MODE ============ -->
-    <section class="brut-section">
-      <div class="brut-sec-h"><span class="brut-sec-num">03</span><h2>Document mode</h2></div>
-      <p>For investigations, design docs, post-mortems, and wiki exports. The report is a zine: masthead with an acid eyebrow strip, numbered black tabs for sections, a bordered content frame with chunky rules — and quiet, readable prose inside it. This whole page is Document mode; everything below is live.</p>
+    <!-- ============ 03 LAYOUT ============ -->
+    <section class="brut-section" id="layout">
+      <div class="brut-sec-h"><span class="brut-sec-num">03</span><h2>Layout &amp; reading</h2></div>
+      <p>The page is poured full width. <code>.brut-page</code> spans the viewport with a fluid gutter; inside it, <code>.brut-layout</code> puts a sticky contents rail beside the frame from 1200px and stacks them below that. Prose keeps its 72-character measure; diagrams, tables, service grids and stat strips take the whole width. This page is the layout.</p>
+      <div class="brut-code">
+        <div class="brut-code-h"><span>skeleton.html</span><span>html</span></div>
+        <pre><code>&lt;body class="brut-doc"&gt;&lt;div class="brut-page"&gt;
+  &lt;header class="brut-masthead"&gt;…&lt;/header&gt;
+  &lt;div class="brut-layout"&gt;
+    &lt;nav class="brut-toc" aria-label="Contents"&gt;
+      &lt;div class="brut-toc-h"&gt;Contents&lt;/div&gt;
+      &lt;ol&gt;&lt;li&gt;&lt;a href="#context"&gt;&lt;span&gt;01&lt;/span&gt;Context&lt;/a&gt;&lt;/li&gt;…&lt;/ol&gt;
+    &lt;/nav&gt;
+    &lt;main class="brut-frame"&gt;&lt;section class="brut-section" id="context"&gt;…&lt;/section&gt;&lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/body&gt;</code></pre>
+      </div>
+      <p>The rail's active highlight comes from a twelve-line IntersectionObserver at the foot of the page; without script, the rail is a list of plain anchor links and every section is still reachable.</p>
+    </section>
+
+    <!-- ============ 04 DOCUMENT MODE ============ -->
+    <section class="brut-section" id="document">
+      <div class="brut-sec-h"><span class="brut-sec-num">04</span><h2>Document mode</h2></div>
+      <p>For investigations, design docs, post-mortems, and wiki exports. The report is a zine: masthead with an acid eyebrow strip, numbered black tabs for sections, a bordered content frame with chunky rules — and quiet, readable prose inside it.</p>
 
       <p class="demo-note">Stat strip — headline numbers in a divided slab</p>
       <div class="brut-stats">
@@ -119,24 +170,18 @@
       <p class="demo-note">Table — 3px header rule, hairline rows, acid total row</p>
       <div class="brut-table-wrap">
         <table class="brut-table">
-          <thead><tr><th>Rail</th><th>Mechanism</th><th class="brut-num">Volume (Jun)</th></tr></thead>
+          <thead><tr><th>Rail</th><th>Mechanism</th><th>Settlement</th><th class="brut-num">Volume (Jun)</th></tr></thead>
           <tbody>
-            <tr><td>Card checkout</td><td>PSP hosted page</td><td class="brut-num">€1,204,880</td></tr>
-            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="brut-num">€863,110</td></tr>
-            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="brut-num">€98,400</td></tr>
-            <tr class="brut-total"><td>Total in</td><td></td><td class="brut-num">€2,166,390</td></tr>
+            <tr><td>Card checkout</td><td>PSP hosted page</td><td>T+1 batch</td><td class="brut-num">€1,204,880</td></tr>
+            <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td>Same day</td><td class="brut-num">€863,110</td></tr>
+            <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td>Manual</td><td class="brut-num">€98,400</td></tr>
+            <tr class="brut-total"><td>Total in</td><td></td><td></td><td class="brut-num">€2,166,390</td></tr>
           </tbody>
         </table>
       </div>
 
-      <p class="demo-note">Code — warm slab, hard small shadow; inline code takes the hairline</p>
-      <pre><code>SELECT wallet_id, float_total - ledger_total AS gap
-FROM   nightly_recon
-WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
-      <p>Run it nightly and alert on any per-wallet <code>gap</code> over €1.</p>
-
       <p class="demo-note">Buttons — press into the shadow on hover (cosmetic only)</p>
-      <p class="chip-row" style="max-width:none;">
+      <p class="chip-row">
         <a class="brut-btn brut-accent" href="README.md">Read the spec</a>
         <a class="brut-btn" href="brut.css">View the tokens</a>
       </p>
@@ -154,20 +199,19 @@ WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
       </div>
     </section>
 
-    <!-- ============ 04 PANEL MODE ============ -->
-    <section class="brut-section">
-      <div class="brut-sec-h"><span class="brut-sec-num">04</span><h2>Panel mode</h2></div>
+    <!-- ============ 05 PANEL MODE ============ -->
+    <section class="brut-section" id="panel">
+      <div class="brut-sec-h"><span class="brut-sec-num">05</span><h2>Panel mode</h2></div>
       <p>For dashboards, risk registers, and status pages: a sticker sheet. Each metric and panel is its own thick-bordered slab on the cream ground; the hero metric — at most one per board — takes the acid fill. Status is a bordered square dot in rows and a sticker-pill chip inline.</p>
 
-      <p class="demo-note">Live demo — board header, metric cards, panels, register rows, chips</p>
       <div class="brut-panels panel-demo">
-        <div class="brut-board-h"><h1>Payments Ops</h1><span class="brut-board-meta">refreshed 2026-07-30 08:15</span></div>
+        <div class="brut-board-h"><h1>Payments Ops</h1><span class="brut-board-meta">refreshed 2026-10-07 08:15</span></div>
 
         <div class="brut-metric-grid">
-          <div class="brut-metric brut-hero"><div class="brut-metric-l">Transfers today</div><div class="brut-metric-v">1,284</div></div>
+          <div class="brut-metric brut-hero"><div class="brut-metric-l">Top-ups today</div><div class="brut-metric-v">1,284</div></div>
           <div class="brut-metric"><div class="brut-metric-l">Failed</div><div class="brut-metric-v">3</div></div>
-          <div class="brut-metric"><div class="brut-metric-l">P95 latency</div><div class="brut-metric-v">412<span class="brut-unit">ms</span></div></div>
-          <div class="brut-metric"><div class="brut-metric-l">Queue depth</div><div class="brut-metric-v">0</div></div>
+          <div class="brut-metric"><div class="brut-metric-l">P95 latency</div><div class="brut-metric-v">286<span class="brut-unit">ms</span></div></div>
+          <div class="brut-metric"><div class="brut-metric-l">Consumer lag</div><div class="brut-metric-v">0</div></div>
         </div>
 
         <div class="two-col">
@@ -176,17 +220,17 @@ WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
             <div class="brut-panel-b">
               <div class="brut-kv"><span>Version</span><b>v4.2.1</b></div>
               <div class="brut-kv"><span>Idempotency</span><b>order-scoped</b></div>
-              <div class="brut-kv"><span>Last deploy</span><b>2026-07-28 18:40</b></div>
+              <div class="brut-kv"><span>Last deploy</span><b>2026-10-06 18:40</b></div>
               <div class="brut-kv"><span>Error budget</span><b>92% remaining</b></div>
             </div>
           </div>
           <div class="brut-panel">
             <div class="brut-panel-h"><h3>Risk register</h3><span class="brut-panel-meta">4 open</span></div>
             <div class="brut-panel-b">
-              <div class="brut-reg-row"><span class="brut-dot crit"></span><b>Auth rule in placeholder state</b><span class="brut-reg-meta">RISK-101</span></div>
+              <div class="brut-reg-row"><span class="brut-dot crit"></span><b>Ledger posting on request path</b><span class="brut-reg-meta">ADR-014</span></div>
               <div class="brut-reg-row"><span class="brut-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="brut-reg-meta">RISK-097</span></div>
               <div class="brut-reg-row"><span class="brut-dot warn"></span><b>Float funded manually</b><span class="brut-reg-meta">RISK-088</span></div>
-              <div class="brut-reg-row"><span class="brut-dot ok"></span><b>One-way valve verified</b><span class="brut-reg-meta">closed</span></div>
+              <div class="brut-reg-row"><span class="brut-dot ok"></span><b>PSP retries idempotent</b><span class="brut-reg-meta">closed</span></div>
               <div class="brut-reg-row"><span class="brut-dot info"></span><b>SEPA cut-off moved to 16:30</b><span class="brut-reg-meta">notice</span></div>
             </div>
           </div>
@@ -203,43 +247,488 @@ WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
       </div>
     </section>
 
-    <!-- ============ 05 DIAGRAMS ============ -->
-    <section class="brut-section">
-      <div class="brut-sec-h"><span class="brut-sec-num">05</span><h2>Diagrams</h2></div>
-      <p>Brut reuses the DDS two-tier diagram discipline and reskins it: the semantic edge and node grammar is unchanged (a restyle may recolour it, never reinterpret it), and every diagram carries a legend plus a title block. Mermaid diagrams pre-render with this directory's <a href="mermaid-config.json"><code>mermaid-config.json</code></a>. The frame is a <code>.brut-diagram</code> slab.</p>
-      <figure class="brut-diagram" style="margin-bottom:16px;">
-        <svg viewBox="0 0 720 120" role="img" aria-label="Example funds-flow diagram: finance team funds the platform float manually; the float funds the customer wallet; the wallet journal mirrors the movement">
-          <rect x="8" y="38" width="120" height="44" rx="22" fill="none" stroke="var(--brut-border)" stroke-width="2.5"/>
-          <text x="68" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Finance team</text>
-          <text x="68" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">human</text>
-          <line x1="128" y1="60" x2="186" y2="60" stroke="var(--brut-warn)" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>
-          <path d="M194 60 l-9 -5 v10 z" fill="var(--brut-warn)"/>
-          <rect x="196" y="38" width="130" height="44" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
-          <text x="261" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Platform float</text>
-          <text x="261" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">service</text>
-          <line x1="326" y1="60" x2="384" y2="60" stroke="var(--brut-ok)" stroke-width="3"/>
-          <path d="M392 60 l-9 -5 v10 z" fill="var(--brut-ok)"/>
-          <rect x="394" y="38" width="130" height="44" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
-          <text x="459" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Customer wallet</text>
-          <text x="459" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">service</text>
-          <line x1="524" y1="60" x2="582" y2="60" stroke="var(--brut-info)" stroke-width="2" stroke-dasharray="8 5"/>
-          <path d="M590 60 l-9 -5 v10 z" fill="var(--brut-info)"/>
-          <rect x="592" y="38" width="120" height="44" rx="10" fill="var(--brut-surface)" stroke="var(--brut-border)" stroke-width="2.5"/>
-          <text x="652" y="57" text-anchor="middle" style="font:700 11px var(--brut-sans); fill:var(--brut-ink); text-transform:uppercase;">Journal</text>
-          <text x="652" y="71" text-anchor="middle" style="font:400 9.5px var(--brut-mono); fill:var(--brut-muted);">mirror · datastore</text>
+    <!-- ============ 06 ARCHITECTURE DIAGRAMS ============ -->
+    <section class="brut-section" id="diagrams">
+      <div class="brut-sec-h"><span class="brut-sec-num">06</span><h2>Architecture diagrams</h2></div>
+      <p>Native SVG, hand-authored, one grammar for three figure types. <strong>Nodes</strong> are paper stickers — acid fill by kind, black 3px outline, hard slab shadow; stores are cylinders and queues carry three bars. <strong>Edges</strong> are 3px strokes coloured by route; marching dashes point in the direction of travel and square packets ride the paths that matter. <strong>State</strong> is on the slab: the hot path's slab turns acid, a failing node's turns red, a proposed node has no slab at all because it has not been poured yet.</p>
+
+      <h3>System context — wallet top-up</h3>
+      <figure class="brut-arch">
+        <svg viewBox="0 0 990 440" role="img" aria-label="Wallet top-up architecture. Mobile and web clients call the API gateway, which checks auth and forwards to payments-api. payments-api checks the idempotency cache, authorises with the card PSP, credits wallet-svc which writes wallet-db, and publishes to the topups queue. A PSP webhook worker receives callbacks and publishes to the same queue; failures go to the dead-letter queue. A proposed ledger-svc inside a PCI trust boundary consumes the queue, writes ledger-db and pays out over the SEPA rail.">
+          <defs>
+            <marker id="a-sync" class="brut-m sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="a-async" class="brut-m async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="a-data" class="brut-m data" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="a-ctrl" class="brut-m ctrl" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="a-ext" class="brut-m ext" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="a-fail" class="brut-m fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+
+          <text class="brut-stage" x="10" y="24">Clients</text>
+          <text class="brut-stage" x="178" y="24">Edge</text>
+          <text class="brut-stage" x="346" y="24">Services</text>
+          <text class="brut-stage" x="514" y="24">Async</text>
+          <text class="brut-stage" x="682" y="24">Consumers</text>
+          <text class="brut-stage" x="850" y="24">External</text>
+
+          <rect class="brut-zone" x="160" y="36" width="670" height="388"/>
+          <text class="brut-zlabel" x="172" y="55">eu-west-1 · prod VPC</text>
+          <rect class="brut-zone trust" x="674" y="188" width="148" height="226"/>
+          <text class="brut-zlabel" x="682" y="203">PCI-DSS</text>
+          <rect class="brut-zone" x="838" y="36" width="146" height="388"/>
+          <text class="brut-zlabel" x="848" y="55">Third parties</text>
+
+          <path class="brut-edge sync" d="M138,116 H175" marker-end="url(#a-sync)"/>
+          <path class="brut-edge sync" d="M138,240 H158 V132 H175" marker-end="url(#a-sync)"/>
+          <path class="brut-edge ctrl" d="M242,148 V205" marker-end="url(#a-ctrl)"/>
+          <path class="brut-edge sync brut-flow" d="M306,116 H343" marker-end="url(#a-sync)"/>
+          <path class="brut-edge data" d="M346,136 H326 V364 H309" marker-end="url(#a-data)"/>
+          <path class="brut-edge sync brut-flow" d="M410,148 V205" marker-end="url(#a-sync)"/>
+          <path class="brut-edge data" d="M410,272 V329" marker-end="url(#a-data)"/>
+          <path class="brut-edge async brut-flow" d="M474,124 H494 V240 H511" marker-end="url(#a-async)"/>
+          <path class="brut-edge ext" d="M410,84 V62 H914 V81" marker-end="url(#a-ext)"/>
+          <path class="brut-edge ext brut-flow" d="M850,116 H645" marker-end="url(#a-ext)"/>
+          <path class="brut-edge async" d="M578,148 V205" marker-end="url(#a-async)"/>
+          <path class="brut-edge fail" d="M578,272 V329" marker-end="url(#a-fail)"/>
+          <path class="brut-edge async brut-flow" d="M642,240 H679" marker-end="url(#a-async)"/>
+          <path class="brut-edge data" d="M746,272 V329" marker-end="url(#a-data)"/>
+          <path class="brut-edge ext" d="M810,240 H847" marker-end="url(#a-ext)"/>
+
+          <rect class="brut-pkt sync" x="-5" y="-5" width="10" height="10"><animateMotion dur="3.2s" repeatCount="indefinite" path="M138,116 H410 V329"/></rect>
+          <rect class="brut-pkt async" x="-5" y="-5" width="10" height="10"><animateMotion dur="3.6s" begin="1.2s" repeatCount="indefinite" path="M474,124 H494 V240 H746 V329"/></rect>
+          <rect class="brut-pkt ext" x="-5" y="-5" width="10" height="10"><animateMotion dur="3s" begin="0.6s" repeatCount="indefinite" path="M850,116 H578 V205"/></rect>
+
+          <g class="brut-node client"><rect class="brut-nshape" x="10" y="84" width="128" height="64"/>
+            <text class="brut-nlabel" x="22" y="111">Mobile app</text><text class="brut-nsub" x="22" y="130">iOS · Android</text></g>
+          <g class="brut-node client"><rect class="brut-nshape" x="10" y="208" width="128" height="64"/>
+            <text class="brut-nlabel" x="22" y="235">Web app</text><text class="brut-nsub" x="22" y="254">Next.js SPA</text></g>
+          <g class="brut-node edge"><rect class="brut-nshape" x="178" y="84" width="128" height="64"/>
+            <text class="brut-nlabel" x="190" y="111">API gateway</text><text class="brut-nsub" x="190" y="130">Envoy · mTLS</text></g>
+          <g class="brut-node svc"><rect class="brut-nshape" x="178" y="208" width="128" height="64"/>
+            <text class="brut-nlabel" x="190" y="235">auth-svc</text><text class="brut-nsub" x="190" y="254">OIDC · JWT 5m</text></g>
+          <g class="brut-node cache"><rect class="brut-nshape" x="178" y="332" width="128" height="64"/>
+            <text class="brut-nlabel" x="190" y="359">idem-cache</text><text class="brut-nsub" x="190" y="378">Redis · 24h</text></g>
+          <g class="brut-node svc is-hot"><rect class="brut-nshape" x="346" y="84" width="128" height="64"/>
+            <text class="brut-nlabel" x="358" y="111">payments-api</text><text class="brut-nsub" x="358" y="130">Kotlin · 180ms</text></g>
+          <g class="brut-node svc is-hot"><rect class="brut-nshape" x="346" y="208" width="128" height="64"/>
+            <text class="brut-nlabel" x="358" y="235">wallet-svc</text><text class="brut-nsub" x="358" y="254">Go · gRPC</text></g>
+          <g class="brut-node store">
+            <path class="brut-nshape" d="M346,340 A64,8 0 0 1 474,340 V388 A64,8 0 0 1 346,388 Z"/>
+            <path class="brut-ncap" d="M346,340 A64,8 0 0 0 474,340"/>
+            <text class="brut-nlabel" x="358" y="368">wallet-db</text><text class="brut-nsub" x="358" y="386">Postgres 16</text></g>
+          <g class="brut-node fn"><rect class="brut-nshape" x="514" y="84" width="128" height="64"/>
+            <text class="brut-nlabel" x="526" y="111">psp-webhooks</text><text class="brut-nsub" x="526" y="130">Lambda · 64</text></g>
+          <g class="brut-node queue"><rect class="brut-nshape" x="514" y="208" width="128" height="64"/>
+            <path class="brut-nbars" d="M620,222 V258 M627,222 V258 M634,222 V258"/>
+            <text class="brut-nlabel" x="526" y="235">topups</text><text class="brut-nsub" x="526" y="254">Kafka · 12p</text></g>
+          <g class="brut-node queue is-fail"><rect class="brut-nshape" x="514" y="332" width="128" height="64"/>
+            <path class="brut-nbars" d="M620,346 V382 M627,346 V382 M634,346 V382"/>
+            <text class="brut-nlabel" x="526" y="359">topups.dlq</text><text class="brut-nsub" x="526" y="378">retain 14d</text></g>
+          <g class="brut-node svc is-new"><rect class="brut-nshape" x="682" y="208" width="128" height="64"/>
+            <text class="brut-nlabel" x="694" y="230">ledger-svc</text><text class="brut-nsub" x="694" y="247">outbox</text><text class="brut-ntag" x="694" y="263">PROPOSED</text></g>
+          <g class="brut-node store">
+            <path class="brut-nshape" d="M682,340 A64,8 0 0 1 810,340 V388 A64,8 0 0 1 682,388 Z"/>
+            <path class="brut-ncap" d="M682,340 A64,8 0 0 0 810,340"/>
+            <text class="brut-nlabel" x="694" y="368">ledger-db</text><text class="brut-nsub" x="694" y="386">append-only</text></g>
+          <g class="brut-node ext"><rect class="brut-nshape" x="850" y="84" width="128" height="64"/>
+            <text class="brut-nlabel" x="862" y="111">Card PSP</text><text class="brut-nsub" x="862" y="130">auth · capture</text></g>
+          <g class="brut-node ext"><rect class="brut-nshape" x="850" y="208" width="128" height="64"/>
+            <text class="brut-nlabel" x="862" y="235">SEPA rail</text><text class="brut-nsub" x="862" y="254">payouts T+1</text></g>
+
+          <g class="brut-step"><rect x="147" y="87" width="22" height="22"/><text x="158" y="98">1</text></g>
+          <g class="brut-step"><rect x="315" y="87" width="22" height="22"/><text x="326" y="98">2</text></g>
+          <g class="brut-step"><rect x="315" y="289" width="22" height="22"/><text x="326" y="300">3</text></g>
+          <g class="brut-step"><rect x="619" y="51" width="22" height="22"/><text x="630" y="62">4</text></g>
+          <g class="brut-step"><rect x="399" y="165" width="22" height="22"/><text x="410" y="176">5</text></g>
+          <g class="brut-step"><rect x="483" y="171" width="22" height="22"/><text x="494" y="182">6</text></g>
+          <g class="brut-step"><rect x="735" y="105" width="22" height="22"/><text x="746" y="116">7</text></g>
+          <g class="brut-step"><rect x="649" y="211" width="22" height="22"/><text x="660" y="222">8</text></g>
+          <g class="brut-step"><rect x="819" y="251" width="22" height="22"/><text x="830" y="262">9</text></g>
         </svg>
-        <figcaption style="display:flex; flex-wrap:wrap; gap:8px 32px; font-family:var(--brut-mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--brut-muted); margin-top:12px;">
-          <span><i style="display:inline-block; width:28px; border-top:3px solid var(--brut-ok);"></i> real money / sync</span>
-          <span><i style="display:inline-block; width:28px; border-top:2.5px dotted var(--brut-warn);"></i> manual step</span>
-          <span><i style="display:inline-block; width:28px; border-top:2.5px dashed var(--brut-info);"></i> mirror / async</span>
-        </figcaption>
+        <div class="brut-legend">
+          <span><i class="sync"></i>request / response</span>
+          <span><i class="async"></i>event, queue</span>
+          <span><i class="data"></i>store read / write</span>
+          <span><i class="ctrl"></i>auth check</span>
+          <span><i class="ext"></i>third-party call</span>
+          <span><i class="fail"></i>dead-letter</span>
+          <span><i class="node client"></i>client</span>
+          <span><i class="node edge"></i>edge</span>
+          <span><i class="node"></i>service</span>
+          <span><i class="node fn"></i>worker</span>
+          <span><i class="node store"></i>store</span>
+          <span><i class="node queue"></i>queue</span>
+          <span><i class="node cache"></i>cache</span>
+          <span><i class="node ext"></i>third party</span>
+          <span><i class="hot"></i>hot path</span>
+          <span><i class="node new"></i>proposed</span>
+          <span><i class="zone"></i>network zone</span>
+          <span><i class="zone trust"></i>trust boundary</span>
+        </div>
+        <figcaption class="brut-figcap"><span>Fig. 1 · Wallet top-up, container view · fictional estate</span><span>Source: payments-platform/docs/arch.md · rev 2026-10-07 · verified against deploy #482</span></figcaption>
       </figure>
-      <p>Title block, revision date, and verification status are mandatory on real drawings — see the DDS README §6 for the full grammar and the coverage table. Prose that narrates a flow step by step must also draw it.</p>
+
+      <ol class="brut-steps">
+        <li>A client posts a top-up with an <code>Idempotency-Key</code> header to the API gateway.</li>
+        <li>The gateway terminates mTLS, checks the JWT against auth-svc, and routes to payments-api.</li>
+        <li>payments-api claims the key in idem-cache; a repeat key returns the stored response.</li>
+        <li>payments-api authorises the amount with the card PSP, passing the same key downstream.</li>
+        <li>On authorisation it credits wallet-svc, which commits to wallet-db.</li>
+        <li>payments-api publishes <code>TopupAuthorised</code> to the topups topic.</li>
+        <li>The PSP's capture webhook lands on psp-webhooks, which publishes to the same topic; poison messages go to topups.dlq.</li>
+        <li>The proposed ledger-svc consumes the topic inside the PCI boundary and appends to ledger-db.</li>
+        <li>ledger-svc schedules the T+1 payout over the SEPA rail.</li>
+      </ol>
+
+      <h3>Sequence — idempotent retry</h3>
+      <figure class="brut-seq">
+        <svg viewBox="0 0 990 600" role="img" aria-label="Sequence: the mobile app posts a top-up to the gateway, which forwards to payments-api. payments-api claims the idempotency key in the cache, calls the PSP, receives a 504 timeout, retries with the same key, gets the authorisation, publishes TopupAuthorised to the topic, and returns 201 Created back through the gateway to the app.">
+          <defs>
+            <marker id="s-sync" class="brut-m sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="s-async" class="brut-m async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="s-data" class="brut-m data" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="s-ext" class="brut-m ext" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="s-fail" class="brut-m fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="s-ret" class="brut-m ret" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+
+          <line class="brut-life" x1="85" y1="64" x2="85" y2="584"/>
+          <line class="brut-life" x1="249" y1="64" x2="249" y2="584"/>
+          <line class="brut-life" x1="413" y1="64" x2="413" y2="584"/>
+          <line class="brut-life" x1="577" y1="64" x2="577" y2="584"/>
+          <line class="brut-life" x1="741" y1="64" x2="741" y2="584"/>
+          <line class="brut-life" x1="905" y1="64" x2="905" y2="584"/>
+
+          <rect class="brut-actbar" x="243" y="100" width="12" height="452"/>
+          <rect class="brut-actbar" x="407" y="140" width="12" height="372"/>
+          <rect class="brut-actbar" x="571" y="180" width="12" height="42"/>
+          <rect class="brut-actbar" x="735" y="260" width="12" height="44"/>
+          <rect class="brut-actbar" x="735" y="372" width="12" height="44"/>
+
+          <g class="brut-node client"><rect class="brut-nshape" x="15" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="85" y="37" text-anchor="middle">Mobile app</text><text class="brut-nsub" x="85" y="55" text-anchor="middle">client</text></g>
+          <g class="brut-node edge"><rect class="brut-nshape" x="179" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="249" y="37" text-anchor="middle">API gateway</text><text class="brut-nsub" x="249" y="55" text-anchor="middle">edge</text></g>
+          <g class="brut-node svc is-hot"><rect class="brut-nshape" x="343" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="413" y="37" text-anchor="middle">payments-api</text><text class="brut-nsub" x="413" y="55" text-anchor="middle">service</text></g>
+          <g class="brut-node cache"><rect class="brut-nshape" x="507" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="577" y="37" text-anchor="middle">idem-cache</text><text class="brut-nsub" x="577" y="55" text-anchor="middle">Redis</text></g>
+          <g class="brut-node ext"><rect class="brut-nshape" x="671" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="741" y="37" text-anchor="middle">Card PSP</text><text class="brut-nsub" x="741" y="55" text-anchor="middle">third party</text></g>
+          <g class="brut-node queue"><rect class="brut-nshape" x="835" y="16" width="140" height="48"/>
+            <text class="brut-nlabel" x="905" y="37" text-anchor="middle">topups</text><text class="brut-nsub" x="905" y="55" text-anchor="middle">Kafka</text></g>
+
+          <path class="brut-edge sync brut-flow" d="M85,110 H240" marker-end="url(#s-sync)"/>
+          <text class="brut-elabel" x="162" y="101" text-anchor="middle">POST /v1/topups</text>
+          <path class="brut-edge sync" d="M255,150 H404" marker-end="url(#s-sync)"/>
+          <text class="brut-elabel" x="331" y="141" text-anchor="middle">forward · JWT ok</text>
+          <path class="brut-edge data" d="M419,190 H568" marker-end="url(#s-data)"/>
+          <text class="brut-elabel" x="495" y="181" text-anchor="middle">SET NX idem:7f3a</text>
+          <path class="brut-edge ret" d="M571,216 H422" marker-end="url(#s-ret)"/>
+          <text class="brut-elabel" x="495" y="209" text-anchor="middle">OK · first seen</text>
+          <path class="brut-edge ext" d="M419,270 H732" marker-end="url(#s-ext)"/>
+          <text class="brut-elabel" x="577" y="261" text-anchor="middle">authorise €50.00 · key 7f3a</text>
+          <path class="brut-edge fail" d="M735,300 H422" marker-end="url(#s-fail)"/>
+          <text class="brut-elabel" x="577" y="293" text-anchor="middle">504 · timeout after 3s</text>
+
+          <rect class="brut-note" x="430" y="318" width="290" height="38"/>
+          <text class="brut-notetext" x="444" y="342">RETRY IS SAFE — PSP DEDUPES ON KEY</text>
+
+          <path class="brut-edge ext" d="M419,382 H732" marker-end="url(#s-ext)"/>
+          <text class="brut-elabel" x="577" y="373" text-anchor="middle">retry · same key 7f3a</text>
+          <path class="brut-edge ret" d="M735,412 H422" marker-end="url(#s-ret)"/>
+          <text class="brut-elabel" x="577" y="405" text-anchor="middle">authorised · auth_91c</text>
+          <path class="brut-edge async brut-flow" d="M419,452 H902" marker-end="url(#s-async)"/>
+          <text class="brut-elabel" x="660" y="443" text-anchor="middle">TopupAuthorised</text>
+          <path class="brut-edge ret" d="M407,492 H258" marker-end="url(#s-ret)"/>
+          <text class="brut-elabel" x="331" y="485" text-anchor="middle">201 Created</text>
+          <path class="brut-edge ret" d="M243,532 H88" marker-end="url(#s-ret)"/>
+          <text class="brut-elabel" x="162" y="525" text-anchor="middle">201 · topup_7f3a</text>
+
+          <rect class="brut-pkt sync" x="-5" y="-5" width="10" height="10"><animateMotion dur="2.4s" repeatCount="indefinite" path="M85,110 H240"/></rect>
+        </svg>
+        <div class="brut-legend">
+          <span><i class="sync"></i>synchronous call</span>
+          <span><i class="data"></i>cache write</span>
+          <span><i class="ext"></i>third-party call</span>
+          <span><i class="fail"></i>failed response</span>
+          <span><i class="async"></i>event publish</span>
+          <span><i class="ret"></i>return</span>
+        </div>
+        <figcaption class="brut-figcap"><span>Fig. 2 · POST /v1/topups with a PSP timeout</span><span>Source: payments-api/TopupController.kt · rev 2026-10-07</span></figcaption>
+      </figure>
+
+      <h3>State machine — top-up lifecycle</h3>
+      <figure class="brut-state">
+        <svg viewBox="0 92 960 248" role="img" aria-label="Top-up lifecycle: created, auth pending, authorised, captured, settled. Auth pending can be declined, or time out and retry up to three times. Captured top-ups can be refunded by operations.">
+          <defs>
+            <marker id="t-sync" class="brut-m sync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="t-async" class="brut-m async" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="t-ctrl" class="brut-m ctrl" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="t-fail" class="brut-m fail" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+
+          <rect class="brut-st-start" x="12" y="140" width="16" height="16"/>
+          <path class="brut-edge sync" d="M28,148 H55" marker-end="url(#t-sync)"/>
+          <path class="brut-edge sync brut-flow" d="M188,148 H245" marker-end="url(#t-sync)"/>
+          <path class="brut-edge sync brut-flow" d="M378,148 H435" marker-end="url(#t-sync)"/>
+          <path class="brut-edge sync brut-flow" d="M568,148 H625" marker-end="url(#t-sync)"/>
+          <path class="brut-edge sync brut-flow" d="M758,148 H815" marker-end="url(#t-sync)"/>
+          <path class="brut-edge fail" d="M280,176 V298 H191" marker-end="url(#t-fail)"/>
+          <path class="brut-edge fail" d="M346,176 V298 H435" marker-end="url(#t-fail)"/>
+          <path class="brut-edge async" d="M503,270 V214 H408 V160 H381" marker-end="url(#t-async)"/>
+          <path class="brut-edge ctrl" d="M693,176 V267" marker-end="url(#t-ctrl)"/>
+
+          <text class="brut-elabel" x="217" y="137" text-anchor="middle">submit</text>
+          <text class="brut-elabel" x="407" y="137" text-anchor="middle">psp ok</text>
+          <text class="brut-elabel" x="597" y="137" text-anchor="middle">capture</text>
+          <text class="brut-elabel" x="787" y="137" text-anchor="middle">T+1</text>
+          <text class="brut-elabel" x="236" y="290" text-anchor="middle">declined</text>
+          <text class="brut-elabel" x="390" y="290" text-anchor="middle">timeout 3s</text>
+          <text class="brut-elabel" x="456" y="206" text-anchor="middle">retry ≤ 3</text>
+          <text class="brut-elabel" x="704" y="226">refund · ops</text>
+
+          <g class="brut-st"><rect class="brut-nshape" x="58" y="120" width="130" height="56"/>
+            <text class="brut-nlabel" x="123" y="145" text-anchor="middle">Created</text><text class="brut-nsub" x="123" y="164" text-anchor="middle">key claimed</text></g>
+          <g class="brut-st"><rect class="brut-nshape" x="248" y="120" width="130" height="56"/>
+            <text class="brut-nlabel" x="313" y="145" text-anchor="middle">Auth_pending</text><text class="brut-nsub" x="313" y="164" text-anchor="middle">await PSP</text></g>
+          <g class="brut-st"><rect class="brut-nshape" x="438" y="120" width="130" height="56"/>
+            <text class="brut-nlabel" x="503" y="145" text-anchor="middle">Authorised</text><text class="brut-nsub" x="503" y="164" text-anchor="middle">funds held</text></g>
+          <g class="brut-st ok"><rect class="brut-nshape" x="628" y="120" width="130" height="56"/>
+            <text class="brut-nlabel" x="693" y="145" text-anchor="middle">Captured</text><text class="brut-nsub" x="693" y="164" text-anchor="middle">wallet credited</text></g>
+          <g class="brut-st ok final"><rect class="brut-nshape" x="818" y="120" width="130" height="56"/>
+            <text class="brut-nlabel" x="883" y="145" text-anchor="middle">Settled</text><text class="brut-nsub" x="883" y="164" text-anchor="middle">ledger posted</text></g>
+          <g class="brut-st crit final"><rect class="brut-nshape" x="58" y="270" width="130" height="56"/>
+            <text class="brut-nlabel" x="123" y="295" text-anchor="middle">Declined</text><text class="brut-nsub" x="123" y="314" text-anchor="middle">rc 05 / 51</text></g>
+          <g class="brut-st warn"><rect class="brut-nshape" x="438" y="270" width="130" height="56"/>
+            <text class="brut-nlabel" x="503" y="295" text-anchor="middle">Timed_out</text><text class="brut-nsub" x="503" y="314" text-anchor="middle">backoff 2ⁿ s</text></g>
+          <g class="brut-st info final"><rect class="brut-nshape" x="628" y="270" width="130" height="56"/>
+            <text class="brut-nlabel" x="693" y="295" text-anchor="middle">Refunded</text><text class="brut-nsub" x="693" y="314" text-anchor="middle">reversal sent</text></g>
+        </svg>
+        <div class="brut-legend">
+          <span><i class="sync"></i>happy path</span>
+          <span><i class="fail"></i>failure</span>
+          <span><i class="async"></i>timer retry</span>
+          <span><i class="ctrl"></i>operator action</span>
+          <span><i class="state ok"></i>money moved</span>
+          <span><i class="state warn"></i>transient</span>
+          <span><i class="state crit"></i>rejected</span>
+          <span><i class="state info"></i>reversed</span>
+          <span><i class="state" style="border-width:4px"></i>terminal (6px outline)</span>
+        </div>
+        <figcaption class="brut-figcap"><span>Fig. 3 · TopupState enum and its transitions</span><span>Source: payments-api/domain/TopupState.kt · rev 2026-10-07</span></figcaption>
+      </figure>
+
+      <h3>Grammar</h3>
+      <p>Build every node, edge and packet from these pieces. Keep the viewBox no wider than about 990 units so a figure renders near 1:1 beside the contents rail and no text drops below 11px; SVG text is never smaller than 12 units. Marker IDs must be unique per page, so prefix them per figure (<code>a-sync</code>, <code>s-sync</code>). Draw in this order: zones, edges, packets, nodes, step markers — packets slide under the nodes they pass through. For diagram shapes the grammar does not cover (Gantt, ER, mind map), pre-render Mermaid with <a href="mermaid-config.json"><code>mermaid-config.json</code></a> into a legacy <code>.brut-diagram</code> slab.</p>
+      <div class="brut-code">
+        <div class="brut-code-h"><span>grammar.svg</span><span>svg</span></div>
+        <pre><code>&lt;figure class="brut-arch"&gt;
+&lt;svg viewBox="0 0 990 440" role="img" aria-label="What flows where, and where it breaks"&gt;
+  &lt;defs&gt;&lt;marker id="a-sync" class="brut-m sync" viewBox="0 0 10 10" refX="10" refY="5"
+    markerWidth="4" markerHeight="4" orient="auto-start-reverse"&gt;&lt;path d="M0,0 L10,5 L0,10 z"/&gt;&lt;/marker&gt;&lt;/defs&gt;
+  &lt;rect class="brut-zone" x="160" y="36" width="670" height="388"/&gt;
+  &lt;text class="brut-zlabel" x="172" y="55"&gt;eu-west-1 · prod VPC&lt;/text&gt;
+  &lt;path class="brut-edge sync brut-flow" d="M306,116 H343" marker-end="url(#a-sync)"/&gt;
+  &lt;rect class="brut-pkt sync" x="-5" y="-5" width="10" height="10"&gt;
+    &lt;animateMotion dur="3s" repeatCount="indefinite" path="M306,116 H410 V329"/&gt;&lt;/rect&gt;
+  &lt;g class="brut-node svc is-hot"&gt;&lt;rect class="brut-nshape" x="346" y="84" width="128" height="64"/&gt;
+    &lt;text class="brut-nlabel" x="358" y="111"&gt;payments-api&lt;/text&gt;
+    &lt;text class="brut-nsub" x="358" y="130"&gt;Kotlin · 180ms&lt;/text&gt;&lt;/g&gt;
+  &lt;g class="brut-node store"&gt;
+    &lt;path class="brut-nshape" d="M346,340 A64,8 0 0 1 474,340 V388 A64,8 0 0 1 346,388 Z"/&gt;
+    &lt;path class="brut-ncap" d="M346,340 A64,8 0 0 0 474,340"/&gt;
+    &lt;text class="brut-nlabel" x="358" y="368"&gt;wallet-db&lt;/text&gt;&lt;/g&gt;
+  &lt;g class="brut-step"&gt;&lt;rect x="315" y="87" width="22" height="22"/&gt;&lt;text x="326" y="98"&gt;2&lt;/text&gt;&lt;/g&gt;
+&lt;/svg&gt;
+&lt;div class="brut-legend"&gt;&lt;span&gt;&lt;i class="sync"&gt;&lt;/i&gt;request / response&lt;/span&gt;…&lt;/div&gt;
+&lt;figcaption class="brut-figcap"&gt;&lt;span&gt;Fig. 1 · title&lt;/span&gt;&lt;span&gt;Source · rev date&lt;/span&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+      </div>
+      <div class="brut-table-wrap">
+        <table class="brut-table">
+          <thead><tr><th>Piece</th><th>Class</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td>Node kinds</td><td><code>.brut-node client|edge|svc|fn|store|queue|cache|ext</code></td><td>Kind sets the sticker fill; stores are cylinders, queues carry <code>.brut-nbars</code>, externals are dashed</td></tr>
+            <tr><td>Node state</td><td><code>is-hot · is-fail · is-new</code></td><td>Acid slab · red slab · dotted outline with no slab</td></tr>
+            <tr><td>Routes</td><td><code>.brut-edge sync|async|data|ctrl|ext|fail|ret</code></td><td>One hue per meaning; async dashed, fail dotted, ret thin grey</td></tr>
+            <tr><td>Motion</td><td><code>.brut-flow</code> · <code>.brut-pkt</code></td><td>Dashes march with the flow; square packets on 1–3 key routes only</td></tr>
+            <tr><td>Zones</td><td><code>.brut-zone</code> · <code>.trust</code> · <code>.brut-zlabel</code></td><td>Dashed boundary for VPC/region/context; red for a trust boundary</td></tr>
+            <tr><td>Steps</td><td><code>.brut-step</code> + <code>ol.brut-steps</code></td><td>Black squares on the edges keyed to the walkthrough list</td></tr>
+            <tr><td>Sequence</td><td><code>.brut-life · .brut-actbar · .brut-note</code></td><td>Actors reuse nodes; messages reuse edges; the note is an acid post-it</td></tr>
+            <tr><td>State</td><td><code>.brut-st ok|warn|crit|info final</code></td><td>Pale sticker per outcome; terminal states wear a 6px outline</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    <!-- ============ 06 ANTI-PATTERNS ============ -->
-    <section class="brut-section">
-      <div class="brut-sec-h"><span class="brut-sec-num">06</span><h2>Anti-patterns</h2></div>
+    <!-- ============ 07 ENGINEERING COMPONENTS ============ -->
+    <section class="brut-section" id="components">
+      <div class="brut-sec-h"><span class="brut-sec-num">07</span><h2>Engineering components</h2></div>
+      <p>The furniture of a design doc: who owns what, what the API promises, what was decided and why, where the milliseconds go, and what happened when.</p>
+
+      <p class="demo-note">Service cards — header strip wears the node-kind fill</p>
+      <div class="brut-svc-grid">
+        <article class="brut-svc">
+          <div class="brut-svc-h"><span class="brut-dot ok"></span><h3>payments-api</h3><span class="brut-svc-kind">service</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Kotlin</span><span class="brut-tag">Ktor</span><span class="brut-tag">ECS Fargate</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-payments</b></div>
+            <div class="brut-kv"><span>SLO</span><b>99.95% · p95 300ms</b></div>
+            <div class="brut-kv"><span>On-call</span><b>#pay-oncall</b></div>
+          </div>
+          <div class="brut-svc-f">→ idem-cache · Card PSP · wallet-service · topup.events</div>
+        </article>
+        <article class="brut-svc">
+          <div class="brut-svc-h"><span class="brut-dot ok"></span><h3>wallet-service</h3><span class="brut-svc-kind">service</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Go 1.23</span><span class="brut-tag">gRPC</span><span class="brut-tag">EKS</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-wallets</b></div>
+            <div class="brut-kv"><span>SLO</span><b>99.99% · p95 60ms</b></div>
+            <div class="brut-kv"><span>On-call</span><b>#wallet-oncall</b></div>
+          </div>
+          <div class="brut-svc-f">→ wallet-db</div>
+        </article>
+        <article class="brut-svc queue">
+          <div class="brut-svc-h"><span class="brut-dot warn"></span><h3>topup.events</h3><span class="brut-svc-kind">queue</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Kafka</span><span class="brut-tag">12 partitions</span><span class="brut-tag">RF 3</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-platform</b></div>
+            <div class="brut-kv"><span>Retention</span><b>7d · DLQ 14d</b></div>
+            <div class="brut-kv"><span>Consumer lag</span><b>1,204 msgs</b></div>
+          </div>
+          <div class="brut-svc-f">← payments-api · webhook-worker</div>
+        </article>
+        <article class="brut-svc cache">
+          <div class="brut-svc-h"><span class="brut-dot ok"></span><h3>idem-cache</h3><span class="brut-svc-kind">cache</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Redis 7</span><span class="brut-tag">ElastiCache</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-payments</b></div>
+            <div class="brut-kv"><span>Key TTL</span><b>24h</b></div>
+            <div class="brut-kv"><span>Hit ratio</span><b>3.1% (retries)</b></div>
+          </div>
+          <div class="brut-svc-f">← payments-api</div>
+        </article>
+        <article class="brut-svc fn">
+          <div class="brut-svc-h"><span class="brut-dot ok"></span><h3>webhook-worker</h3><span class="brut-svc-kind">worker</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Python 3.12</span><span class="brut-tag">Lambda</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-payments</b></div>
+            <div class="brut-kv"><span>Concurrency</span><b>64 reserved</b></div>
+            <div class="brut-kv"><span>DLQ rate</span><b>0.02%</b></div>
+          </div>
+          <div class="brut-svc-f">← Card PSP · → topup.events · topup.dlq</div>
+        </article>
+        <article class="brut-svc store">
+          <div class="brut-svc-h"><span class="brut-dot crit"></span><h3>wallet-db</h3><span class="brut-svc-kind">store</span></div>
+          <div class="brut-svc-b">
+            <div class="brut-tags"><span class="brut-tag">Postgres 16</span><span class="brut-tag">RDS Multi-AZ</span></div>
+            <div class="brut-kv"><span>Owner</span><b>team-wallets</b></div>
+            <div class="brut-kv"><span>Replica lag</span><b>4.8 s</b></div>
+            <div class="brut-kv"><span>Storage</span><b>71% of 2 TB</b></div>
+          </div>
+          <div class="brut-svc-f">← wallet-service</div>
+        </article>
+      </div>
+
+      <p class="demo-note">API table — method stickers, mono paths</p>
+      <div class="brut-table-wrap">
+        <table class="brut-table brut-api">
+          <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Idempotency</th><th class="brut-num">p95</th></tr></thead>
+          <tbody>
+            <tr><td><span class="brut-method post">post</span></td><td><span class="brut-path">/v1/topups</span></td><td>JWT · user</td><td><code>Idempotency-Key</code> required</td><td class="brut-num">180 ms</td></tr>
+            <tr><td><span class="brut-method get">get</span></td><td><span class="brut-path">/v1/topups/<i>{id}</i></span></td><td>JWT · user</td><td>safe</td><td class="brut-num">42 ms</td></tr>
+            <tr><td><span class="brut-method patch">patch</span></td><td><span class="brut-path">/v1/topups/<i>{id}</i></span></td><td>JWT · ops</td><td><code>If-Match</code> ETag</td><td class="brut-num">95 ms</td></tr>
+            <tr><td><span class="brut-method put">put</span></td><td><span class="brut-path">/v1/wallets/<i>{id}</i>/limits</span></td><td>mTLS · service</td><td>full replace</td><td class="brut-num">60 ms</td></tr>
+            <tr><td><span class="brut-method delete">delete</span></td><td><span class="brut-path">/v1/topups/<i>{id}</i>/hold</span></td><td>JWT · ops</td><td><code>Idempotency-Key</code> required</td><td class="brut-num">70 ms</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="demo-note">Decision record + trade-off matrix</p>
+      <article class="brut-adr">
+        <div class="brut-adr-h"><span class="brut-adr-id">ADR-014</span><h3>Post to the ledger from an outbox, not the request path</h3><span class="brut-chip proposed">proposed</span></div>
+        <div class="brut-adr-b">
+          <div>
+            <div class="brut-adr-k">Context</div>
+            <p>payments-api writes the ledger synchronously after the PSP authorises. When the ledger is slow, top-ups time out after money has moved, and clients retry.</p>
+          </div>
+          <div>
+            <div class="brut-adr-k">Decision</div>
+            <p>Publish <code>TopupAuthorised</code> through a transactional outbox; a new ledger-service consumes it inside the PCI boundary and appends to ledger-db.</p>
+          </div>
+          <div>
+            <div class="brut-adr-k">Consequences</div>
+            <ul class="brut-cons">
+              <li>p95 drops by the ledger write, about 90ms.</li>
+              <li>Ledger failures no longer fail a paid top-up.</li>
+              <li class="meh">Ledger is eventually consistent, seconds behind.</li>
+              <li class="con">One more service to run and page for.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+      <div class="brut-table-wrap">
+        <table class="brut-table brut-tradeoff">
+          <thead><tr><th>Criterion</th><th>Sync write</th><th class="is-chosen">Outbox + consumer</th><th>CDC from wallet-db</th></tr></thead>
+          <tbody>
+            <tr><td>Request latency</td><td class="bad">+90 ms</td><td class="good">no change</td><td class="good">no change</td></tr>
+            <tr><td>Consistency</td><td class="good">immediate</td><td class="meh">seconds</td><td class="meh">seconds</td></tr>
+            <tr><td>Failure isolation</td><td class="bad">ledger fails top-up</td><td class="good">isolated</td><td class="good">isolated</td></tr>
+            <tr><td>Operational load</td><td class="good">none new</td><td class="meh">one service</td><td class="bad">Debezium + schema coupling</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="demo-note">Latency budget — POST /v1/topups, p95, scale 0–400 ms</p>
+      <div class="brut-budget">
+        <div class="brut-budget-bar">
+          <div class="brut-seg edge" style="--w:8%"><b>gateway</b><span>32ms</span></div>
+          <div class="brut-seg" style="--w:11.5%"><b>payments-api</b><span>46ms</span></div>
+          <div class="brut-seg cache" style="--w:5%"><b>idem</b><span>20ms</span></div>
+          <div class="brut-seg ext" style="--w:37.5%"><b>PSP authorise</b><span>150ms</span></div>
+          <div class="brut-seg" style="--w:9.5%"><b>wallet</b><span>38ms</span></div>
+          <div class="brut-seg slack" style="--w:28.5%"><b>headroom</b><span>114ms</span></div>
+        </div>
+        <div class="brut-budget-target" style="--at:75%" data-label="SLO 300ms"></div>
+        <div class="brut-budget-scale"><span>0</span><span>100</span><span>200</span><span>300</span><span>400 ms</span></div>
+      </div>
+
+      <p class="demo-note">Timeline — rollout of ADR-014</p>
+      <ol class="brut-timeline">
+        <li class="brut-tl-item info"><span class="brut-tl-time">2026-10-01 09:00</span><span class="brut-tl-title">ADR-014 proposed</span><p>Outbox design reviewed by payments and platform.</p></li>
+        <li class="brut-tl-item accent"><span class="brut-tl-time">2026-10-03 10:30</span><span class="brut-tl-title">Canary at 5%</span><p>ledger-service consumes in shadow mode; writes compared, not committed.</p></li>
+        <li class="brut-tl-item crit"><span class="brut-tl-time">2026-10-04 14:12</span><span class="brut-tl-title">Consumer lag alert</span><p>Hot partition: the key was the merchant, not the wallet. <span class="brut-evidence">INC-2207</span></p></li>
+        <li class="brut-tl-item ok"><span class="brut-tl-time">2026-10-04 15:40</span><span class="brut-tl-title">Re-keyed on wallet ID</span><p>Lag drained in eleven minutes.</p></li>
+        <li class="brut-tl-item"><span class="brut-tl-time">2026-10-09 (planned)</span><span class="brut-tl-title">100% and sync path removed</span></li>
+      </ol>
+
+      <p class="demo-note">Callouts — note · warn · risk · decision</p>
+      <div class="callout-grid">
+        <div class="brut-callout"><div class="brut-callout-b"><div class="brut-callout-t">Note</div><p>The PSP retains idempotency keys for 24 hours; ours match.</p></div></div>
+        <div class="brut-callout warn"><div class="brut-callout-b"><div class="brut-callout-t">Warning</div><p>Do not reuse a key across amounts — the PSP returns the first response.</p></div></div>
+        <div class="brut-callout risk"><div class="brut-callout-b"><div class="brut-callout-t">Risk</div><p>During the canary, a ledger outage hides drift for up to an hour.</p></div></div>
+        <div class="brut-callout decision"><div class="brut-callout-b"><div class="brut-callout-t">Decision</div><p>Partition topup.events by wallet ID, never by merchant.</p></div></div>
+      </div>
+
+      <p class="demo-note">Captioned code — filename strip, language tag</p>
+      <div class="brut-code">
+        <div class="brut-code-h"><span>migrations/V42__topup_outbox.sql</span><span>sql</span></div>
+        <pre><code>CREATE TABLE topup_outbox (
+  id           uuid PRIMARY KEY,
+  wallet_id    uuid        NOT NULL,
+  event_type   text        NOT NULL,
+  payload      jsonb       NOT NULL,
+  created_at   timestamptz NOT NULL DEFAULT now(),
+  published_at timestamptz
+);
+CREATE INDEX topup_outbox_unpublished ON topup_outbox (created_at) WHERE published_at IS NULL;</code></pre>
+      </div>
+    </section>
+
+    <!-- ============ 08 ANTI-PATTERNS ============ -->
+    <section class="brut-section" id="anti">
+      <div class="brut-sec-h"><span class="brut-sec-num">08</span><h2>Anti-patterns</h2></div>
       <div class="brut-table-wrap">
         <table class="brut-table">
           <thead><tr><th>Never</th><th>Because</th></tr></thead>
@@ -249,27 +738,30 @@ WHERE  ABS(float_total - ledger_total) &gt; 100; -- cents</code></pre>
             <tr><td>Grey-on-grey</td><td>Ink on ground or nothing — low contrast is low honesty</td></tr>
             <tr><td>Yellow text</td><td>The accent has no contrast to give; it carries black type as a fill</td></tr>
             <tr><td>Rounded cards</td><td>Radius 0; only the sticker chips round</td></tr>
-            <tr><td>A second display face</td><td>Helvetica shouts and talks; mono attests; nobody else speaks</td></tr>
-            <tr><td>Borders under 1.5px</td><td>A 1px hairline belongs to another system</td></tr>
+            <tr><td>A centred 900px column</td><td>v2 pours full width; only prose keeps a measure</td></tr>
+            <tr><td>A hue without a legend entry</td><td>Every route and node colour in a figure is a declared meaning</td></tr>
+            <tr><td>Packets on every edge</td><td>Motion marks the one to three routes that matter; the rest stand still</td></tr>
+            <tr><td>ASCII art, screenshots, Mermaid for topology</td><td>Architecture, sequence, and state are drawn in the native grammar</td></tr>
             <tr><td>Decoration as hierarchy</td><td>A fill or a tilt never substitutes for a real heading or a real verdict</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- ============ 07 FOR AI AGENTS ============ -->
-    <section class="brut-section">
-      <div class="brut-sec-h"><span class="brut-sec-num">07</span><h2>Using this system with AI agents</h2></div>
+    <!-- ============ 09 FOR AI AGENTS ============ -->
+    <section class="brut-section" id="agents">
+      <div class="brut-sec-h"><span class="brut-sec-num">09</span><h2>Using this system with AI agents</h2></div>
       <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-ds-brut</code> skill loads it automatically.</p>
-      <pre>Generate the report as HTML using the Brut design system:
+      <pre>Generate the design doc as HTML using the Brut design system:
 https://dexteryo.github.io/design-systems/brut/ (spec: README.md, tokens: brut.css)
-Inline the stylesheet if the output must be self-contained.</pre>
+Draw the architecture in the native SVG grammar. Inline the stylesheet.</pre>
     </section>
 
+    </main>
   </div>
 
   <footer class="brut-colophon">
-    <div>Brut Design System · v1.0.0 · rev 2026-07-30</div>
+    <div>Brut Design System · v2.0.0 · rev 2026-10-07</div>
     <div>Brutalist web · riso zine · Memphis restraint</div>
   </footer>
 
@@ -290,6 +782,19 @@ Inline the stylesheet if the output must be self-contained.</pre>
       label();
     });
     label();
+  })();
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    var links = {};
+    document.querySelectorAll('.brut-toc a[href^="#"]').forEach(function (a) { links[a.hash.slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || !links[e.target.id]) return;
+        Object.keys(links).forEach(function (k) { links[k].classList.remove('is-active'); });
+        links[e.target.id].classList.add('is-active');
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   })();
 </script>
 </body>

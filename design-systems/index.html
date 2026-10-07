@@ -31,7 +31,7 @@
     font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 48px 24px 64px; }
+  .wrap { max-width: 1920px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 64px) 64px; }
   header.masthead { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
   .kicker { font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 11px;
             letter-spacing: .14em; text-transform: uppercase; color: var(--g-muted); margin: 0 0 10px; }
@@ -121,10 +121,11 @@
 <div class="wrap">
   <header class="masthead">
     <div>
-      <p class="kicker">Dexter · design systems · 2026-07-30</p>
+      <p class="kicker">Dexter · design systems · 2026-10-07</p>
       <h1>Seven systems, one contract</h1>
       <p class="lede">Every system below covers the same ground — long-form reports, dashboards,
-      evidence citations, status vocabulary, both themes, no external assets — in a different
+      evidence citations, status vocabulary, animated SVG architecture diagrams, both themes,
+      no external assets — in a different
       visual language. Pick by taste; the deliverable types are interchangeable. Each card shows
       the system in its own default theme.</p>
     </div>
@@ -141,7 +142,7 @@
         <span class="chip">verified 2026-07-04</span>
       </div>
       <div class="body">
-        <div class="name">Dexter Design System <small>the original · v1.1.0</small></div>
+        <div class="name">Dexter Design System <small>the original · v2.0.0</small></div>
         <p class="desc">Tufte documents, instrument-panel dashboards, Swiss-schematic diagram
         grammar. Warm paper, one viridian accent that means verified/real.</p>
         <div class="links">
@@ -159,7 +160,7 @@
         <p>Light-weight display serif, footnote strips, whitespace as structure.</p>
       </div>
       <div class="body">
-        <div class="name">Atelier <small>editorial serif · v1.0.0</small></div>
+        <div class="name">Atelier <small>editorial serif · v2.0.0</small></div>
         <p class="desc">The Stripe Press / literary-magazine lineage: Didot display at light
         weights, drop caps, hairline rules, an oxblood accent. Reports that read like essays;
         dashboards set like Economist print charts.</p>
@@ -179,7 +180,7 @@
         <p>Helvetica only. Hierarchy through size and weight. One red, never decoration.</p>
       </div>
       <div class="body">
-        <div class="name">Basel <small>Swiss International · v1.0.0</small></div>
+        <div class="name">Basel <small>Swiss International · v2.0.0</small></div>
         <p class="desc">Müller-Brockmann rationalism: visible grid, huge ghost numerals,
         flush-left everything, no italics, Pantone-186 red as both signal and alarm.</p>
         <div class="links">
@@ -198,7 +199,7 @@
         <div class="st"><b>[ OK ]</b> ledger mirror <i>[WARN] webhook lag 4m</i></div>
       </div>
       <div class="body">
-        <div class="name">Phosphor <small>terminal console · v1.0.0 · dark-first</small></div>
+        <div class="name">Phosphor <small>terminal console · v2.0.0 · dark-first</small></div>
         <p class="desc">Phosphor green on near-black, monospace throughout, bracket status
         chips, tmux-style statusline. Restraint over cosplay — no scanlines, no flicker.</p>
         <div class="links">
@@ -219,7 +220,7 @@
         </div>
       </div>
       <div class="body">
-        <div class="name">Nocturne <small>dark product UI · v1.0.0 · dark-first</small></div>
+        <div class="name">Nocturne <small>dark product UI · v2.0.0 · dark-first</small></div>
         <p class="desc">The Linear/Vercel lineage with discipline: near-black surfaces,
         1px borders instead of shadows, mono metrics, dot-grid heroes. No gradients,
         no glassmorphism.</p>
@@ -263,7 +264,7 @@
         <div class="box">MTTR 34m · SEV-2 · closed</div>
       </div>
       <div class="body">
-        <div class="name">Brut <small>neo-brutalist · v1.0.0</small></div>
+        <div class="name">Brut <small>neo-brutalist · v2.0.0</small></div>
         <p class="desc">Béton brut for engineering documents: 3px black borders, hard offset
         shadows, acid-yellow fills, 900-weight uppercase headings. Loud furniture, readable
         prose.</p>

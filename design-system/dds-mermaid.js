@@ -1,6 +1,6 @@
 /* ==========================================================================
    DDS ↔ Mermaid theme bridge
-   v1.1.0 · 2026-07-04 · pairs with dexter.css and vendor/mermaid.min.js
+   v2.0.0 · 2026-10-07 · pairs with dexter.css and vendor/mermaid.min.js
 
    Usage (hosted pages):
      <pre class="mermaid">sequenceDiagram …</pre>
@@ -117,6 +117,7 @@
       theme: 'base',
       themeVariables: mode() === 'dark' ? DARK : LIGHT,
       fontFamily: FONTS,
+      themeCSS: '.tick text { font-size: 13px; }',
       securityLevel: 'strict'
     });
     mermaid.run({ nodes: els });

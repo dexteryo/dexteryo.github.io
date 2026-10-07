@@ -1,6 +1,6 @@
 /* ==========================================================================
    BASEL — canonical stylesheet
-   v1.0.0 · 2026-07-30
+   v2.0.0 · 2026-10-07 (engineering edition)
    Canonical home:  https://dexteryo.github.io/design-systems/basel/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-systems/basel/basel.css
    Spec for agents: README.md in the same directory
@@ -18,6 +18,13 @@
      Panel mode    (.bsl-panels) — dashboards set like a printed table:
                                    cells share 1px black rules, values are
                                    huge and tight, status is a hard square.
+
+   v2 adds the engineering layer: a full-width shell with a sticky contents
+   rail, native SVG architecture / sequence / state diagrams drawn on a
+   constructivist primary palette, and engineering components (service
+   cards, API tables, decision records, trade-off matrices, latency budgets,
+   timelines). The one red still governs type and signals; the diagram
+   palette is sanctioned for routes and node kinds only.
 
    Portability rule: system font stacks only — no webfont requests. The
    stylesheet must work inlined in a sandboxed artifact, attached to a
@@ -64,6 +71,42 @@
      monochrome with one signal. Use in order. */
   --bsl-v1: #C8102E; --bsl-v2: #0A0A0A; --bsl-v3: #3A5BA0;
   --bsl-v4: #1E7A46; --bsl-v5: #9E6300; --bsl-v6: #6B6B6B;
+
+  /* Constructivist diagram palette (v2). Sanctioned for diagram routes, node
+     kinds, HTTP methods and budget segments ONLY — never for type or
+     decoration. Red stays the alarm: it appears here only as `fail`. */
+  --bsl-c-blue:   #0047BB; --bsl-c-blue-bg:   #E5ECF8;
+  --bsl-c-yellow: #A87A00; --bsl-c-yellow-bg: #FFF2B8; --bsl-c-yellow-solid: #FFD100;
+  --bsl-c-green:  #1E7A46; --bsl-c-green-bg:  #E2F1E7;
+  --bsl-c-violet: #6A3FA0; --bsl-c-violet-bg: #EEE7F7;
+  --bsl-c-orange: #B54D00; --bsl-c-orange-bg: #FBEADB;
+  --bsl-c-grey-bg: #F2F2F2; --bsl-c-red-bg: #FBE6E9;
+  --bsl-ok-bg: #E2F1E7; --bsl-warn-bg: #FBF0D9; --bsl-crit-bg: #FBE6E9; --bsl-info-bg: #E8EDF6;
+
+  /* Layout (v2): fluid full width; prose keeps a reading measure. */
+  --bsl-gutter: clamp(16px, 4vw, 64px);
+  --bsl-shell-max: 1920px;
+  --bsl-measure: 72ch;
+  --bsl-rail: 220px;
+
+  /* Diagram routes — one hue per meaning, fixed across every Basel page. */
+  --bsl-route-sync:  var(--bsl-c-blue);
+  --bsl-route-async: var(--bsl-c-yellow);
+  --bsl-route-data:  var(--bsl-c-green);
+  --bsl-route-ctrl:  var(--bsl-ink);
+  --bsl-route-ext:   var(--bsl-muted);
+  --bsl-route-fail:  var(--bsl-crit);
+
+  /* Node kinds — stroke + flat tinted fill. Shape also carries the kind
+     (store = double top rule, queue = three bars, ext = dashed). */
+  --bsl-node-client: var(--bsl-muted);    --bsl-node-client-bg: var(--bsl-c-grey-bg);
+  --bsl-node-edge:   var(--bsl-ink);      --bsl-node-edge-bg:   var(--bsl-ground);
+  --bsl-node-svc:    var(--bsl-c-blue);   --bsl-node-svc-bg:    var(--bsl-c-blue-bg);
+  --bsl-node-fn:     var(--bsl-c-violet); --bsl-node-fn-bg:     var(--bsl-c-violet-bg);
+  --bsl-node-store:  var(--bsl-c-green);  --bsl-node-store-bg:  var(--bsl-c-green-bg);
+  --bsl-node-queue:  var(--bsl-c-yellow); --bsl-node-queue-bg:  var(--bsl-c-yellow-bg);
+  --bsl-node-cache:  var(--bsl-c-orange); --bsl-node-cache-bg:  var(--bsl-c-orange-bg);
+  --bsl-node-ext:    var(--bsl-muted);    --bsl-node-ext-bg:    var(--bsl-ground);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -86,6 +129,14 @@
 
     --bsl-v1: #FF5C4D; --bsl-v2: #F4F4F4; --bsl-v3: #7D9BD6;
     --bsl-v4: #4DBF82; --bsl-v5: #D9A03C; --bsl-v6: #9A9A9A;
+
+    --bsl-c-blue:   #6E9BFF; --bsl-c-blue-bg:   #142140;
+    --bsl-c-yellow: #FFD100; --bsl-c-yellow-bg: #2B2400; --bsl-c-yellow-solid: #FFD100;
+    --bsl-c-green:  #4DBF82; --bsl-c-green-bg:  #0F2A1C;
+    --bsl-c-violet: #B697EE; --bsl-c-violet-bg: #24193A;
+    --bsl-c-orange: #FF9A3D; --bsl-c-orange-bg: #301C0A;
+    --bsl-c-grey-bg: #1D1D1D; --bsl-c-red-bg: #3A1512;
+    --bsl-ok-bg: #0F2A1C; --bsl-warn-bg: #2E2210; --bsl-crit-bg: #3A1512; --bsl-info-bg: #17213A;
   }
 }
 
@@ -99,6 +150,14 @@
   --bsl-ok: #1E7A46; --bsl-warn: #9E6300; --bsl-crit: #C8102E; --bsl-info: #3A5BA0;
   --bsl-v1: #C8102E; --bsl-v2: #0A0A0A; --bsl-v3: #3A5BA0;
   --bsl-v4: #1E7A46; --bsl-v5: #9E6300; --bsl-v6: #6B6B6B;
+
+  --bsl-c-blue:   #0047BB; --bsl-c-blue-bg:   #E5ECF8;
+  --bsl-c-yellow: #A87A00; --bsl-c-yellow-bg: #FFF2B8; --bsl-c-yellow-solid: #FFD100;
+  --bsl-c-green:  #1E7A46; --bsl-c-green-bg:  #E2F1E7;
+  --bsl-c-violet: #6A3FA0; --bsl-c-violet-bg: #EEE7F7;
+  --bsl-c-orange: #B54D00; --bsl-c-orange-bg: #FBEADB;
+  --bsl-c-grey-bg: #F2F2F2; --bsl-c-red-bg: #FBE6E9;
+  --bsl-ok-bg: #E2F1E7; --bsl-warn-bg: #FBF0D9; --bsl-crit-bg: #FBE6E9; --bsl-info-bg: #E8EDF6;
 }
 :root[data-theme="dark"] {
   --bsl-ground: #111111; --bsl-surface: #111111; --bsl-ink: #F4F4F4;
@@ -108,6 +167,14 @@
   --bsl-ok: #4DBF82; --bsl-warn: #D9A03C; --bsl-crit: #FF5C4D; --bsl-info: #7D9BD6;
   --bsl-v1: #FF5C4D; --bsl-v2: #F4F4F4; --bsl-v3: #7D9BD6;
   --bsl-v4: #4DBF82; --bsl-v5: #D9A03C; --bsl-v6: #9A9A9A;
+
+  --bsl-c-blue:   #6E9BFF; --bsl-c-blue-bg:   #142140;
+  --bsl-c-yellow: #FFD100; --bsl-c-yellow-bg: #2B2400; --bsl-c-yellow-solid: #FFD100;
+  --bsl-c-green:  #4DBF82; --bsl-c-green-bg:  #0F2A1C;
+  --bsl-c-violet: #B697EE; --bsl-c-violet-bg: #24193A;
+  --bsl-c-orange: #FF9A3D; --bsl-c-orange-bg: #301C0A;
+  --bsl-c-grey-bg: #1D1D1D; --bsl-c-red-bg: #3A1512;
+  --bsl-ok-bg: #0F2A1C; --bsl-warn-bg: #2E2210; --bsl-crit-bg: #3A1512; --bsl-info-bg: #17213A;
 }
 
 /* ── 2. BASE + UTILITIES ───────────────────────────────────────────────── */
@@ -162,10 +229,53 @@
   background: var(--bsl-ground);
   color: var(--bsl-ink);
   font-family: var(--bsl-sans);
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.6;
 }
-.bsl-page { max-width: 960px; margin: 0 auto; padding: var(--bsl-s8) var(--bsl-s5) 96px; }
+/* Full-width shell (v2). The page spans the viewport; only prose keeps a
+   measure. `.bsl-shell` is the v2 name, `.bsl-page` stays as an alias. */
+.bsl-page, .bsl-shell {
+  max-width: var(--bsl-shell-max); margin: 0 auto;
+  padding: var(--bsl-s8) var(--bsl-gutter) 96px;
+}
+
+/* Contents rail + content. Two columns from 1200px; below, the rail
+   becomes a ruled list above the content. */
+.bsl-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--bsl-s6); }
+.bsl-layout > main { min-width: 0; }
+@media (min-width: 1200px) {
+  .bsl-layout { grid-template-columns: var(--bsl-rail) minmax(0, 1fr); gap: var(--bsl-s7); }
+}
+.bsl-toc {
+  border-top: 2px solid var(--bsl-structural);
+  padding-top: var(--bsl-s3);
+  font-size: 13px; line-height: 1.4;
+}
+@media (min-width: 1200px) {
+  .bsl-toc {
+    position: sticky; top: var(--bsl-s5); align-self: start;
+    max-height: calc(100vh - 48px); overflow-y: auto;
+  }
+}
+.bsl-toc-h {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--bsl-muted); margin: 0 0 var(--bsl-s3);
+}
+.bsl-toc ol, .bsl-doc .bsl-toc ol { list-style: none; margin: 0; padding: 0; max-width: none; }
+@media (max-width: 1199px) {
+  .bsl-toc ol { display: flex; flex-wrap: wrap; gap: var(--bsl-s1) var(--bsl-s5); }
+}
+.bsl-toc a {
+  display: flex; gap: var(--bsl-s2); padding: 5px 0 5px var(--bsl-s3);
+  border-left: 2px solid transparent;
+  color: var(--bsl-muted); text-decoration: none;
+}
+.bsl-toc a b { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 2ch; }
+.bsl-toc a:hover { color: var(--bsl-ink); }
+.bsl-toc a.is-active { color: var(--bsl-ink); font-weight: 700; border-left-color: var(--bsl-structural); }
+
+.bsl-doc h2, .bsl-doc h3, .bsl-panels h2, .bsl-panels h3 { text-wrap: balance; }
+.bsl-doc [id], .bsl-panels [id] { scroll-margin-top: var(--bsl-s5); }
 
 /* Eyebrow: the first mark on the page — uppercase, letterspaced, quiet. */
 .bsl-eyebrow {
@@ -199,9 +309,9 @@
 }
 .bsl-title em { color: var(--bsl-accent); font-style: normal; font-weight: 700; }
 .bsl-subtitle {
-  font-size: 18px; font-weight: 400; line-height: 1.5;
+  font-size: 19px; font-weight: 400; line-height: 1.5;
   color: var(--bsl-muted);
-  max-width: 56ch; margin: 0;
+  max-width: 60ch; margin: 0;
 }
 
 /* Meta stack: facts in the right column, one per row, hairline-ruled. */
@@ -230,19 +340,25 @@
   display: flex; align-items: baseline; gap: var(--bsl-s4);
 }
 .bsl-sec-num {
-  font-size: 56px; font-weight: 700; line-height: 0.9;
+  font-size: 64px; font-weight: 700; line-height: 0.9;
   letter-spacing: -0.02em;
   color: var(--bsl-muted);
   font-variant-numeric: tabular-nums;
   flex: none;
 }
 .bsl-sec-h h2 {
-  font-size: 16px; font-weight: 700;
-  letter-spacing: -0.005em; margin: 0;
+  font-size: 24px; font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.015em; margin: 0;
+}
+/* Sub-section heading: bold, mid-size, a hairline above. */
+.bsl-doc h3.bsl-h3, .bsl-doc .bsl-section > h3 {
+  font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+  border-top: 1px solid var(--bsl-hairline);
+  padding-top: var(--bsl-s3); margin: var(--bsl-s6) 0 var(--bsl-s3);
 }
 
-.bsl-doc p { max-width: 68ch; margin: 0 0 var(--bsl-s4); }
-.bsl-doc ul, .bsl-doc ol { max-width: 68ch; margin: 0 0 var(--bsl-s4); padding-left: 22px; }
+.bsl-doc p { max-width: var(--bsl-measure); margin: 0 0 var(--bsl-s4); text-wrap: pretty; }
+.bsl-doc ul, .bsl-doc ol { max-width: var(--bsl-measure); margin: 0 0 var(--bsl-s4); padding-left: 22px; }
 .bsl-doc li { margin-bottom: var(--bsl-s1); }
 
 /* Evidence: flush-right monospace source lines directly under the claim
@@ -250,7 +366,7 @@
    measure; the negative top margin closes the paragraph gap to 8px. One
    line per source; stack several for several sources. */
 .bsl-evidence {
-  max-width: 68ch;
+  max-width: var(--bsl-measure);
   text-align: right;
   font-family: var(--bsl-mono);
   font-size: 12px; line-height: 1.6;
@@ -293,7 +409,7 @@
    black rule closing the total row. Digit columns get .bsl-num and right
    alignment. */
 .bsl-table-wrap { overflow-x: auto; margin: 0 0 var(--bsl-s4); }
-.bsl-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.bsl-table { border-collapse: collapse; width: 100%; font-size: 15px; }
 .bsl-table th {
   font-size: 10px; font-weight: 700;
   letter-spacing: 0.12em; text-transform: uppercase;
@@ -363,6 +479,7 @@
 .bsl-verdict p { margin-bottom: var(--bsl-s3); }
 .bsl-verdict ol, .bsl-verdict ul { margin-bottom: 0; }
 .bsl-verdict a { color: inherit; }
+.bsl-doc .bsl-verdict code { background: color-mix(in srgb, var(--bsl-ground) 18%, transparent); color: inherit; }
 
 /* Footer / colophon */
 .bsl-colophon {
@@ -377,7 +494,7 @@
   background: var(--bsl-ground);
   color: var(--bsl-ink);
   font-family: var(--bsl-sans);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
 }
 .bsl-panels .bsl-page { padding-top: var(--bsl-s7); }
@@ -514,7 +631,411 @@
 .bsl-panels code { font-family: var(--bsl-mono); font-size: 0.92em; }
 .bsl-cmd .bsl-ps { color: var(--bsl-muted); user-select: none; }
 
-/* ── 5. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 5. DIAGRAMS (v2) ──────────────────────────────────────────────────── */
+/* Native SVG figures: architecture (.bsl-arch), sequence (.bsl-seq), state
+   (.bsl-state). SVG text is never under 13 user units and the SVG never
+   renders narrower than 880px (it scrolls in its frame instead), so type
+   stays ≥ 11px on a 1440 screen and legible on a phone. All three share the figure frame and the SVG vocabulary
+   below. Geometry is Swiss: rectangles with radius 0, orthogonal edges
+   (H/V segments only), square packets and step markers. */
+.bsl-arch, .bsl-seq, .bsl-state {
+  margin: var(--bsl-s5) 0 var(--bsl-s6);
+  border-top: 2px solid var(--bsl-structural);
+  padding-top: var(--bsl-s4);
+  overflow-x: auto;
+}
+.bsl-arch > svg, .bsl-seq > svg, .bsl-state > svg {
+  display: block; width: 100%; height: auto; min-width: 880px;
+  font-family: var(--bsl-sans);
+}
+
+.bsl-stage {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; fill: var(--bsl-muted);
+}
+.bsl-zone {
+  fill: none; stroke: var(--bsl-muted); stroke-width: 1;
+  stroke-dasharray: 6 4;
+}
+.bsl-zone.trust { stroke: var(--bsl-ink); stroke-width: 2; stroke-dasharray: 10 4; }
+.bsl-zlabel {
+  font-family: var(--bsl-mono); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; fill: var(--bsl-muted);
+}
+.bsl-zone.trust + .bsl-zlabel, .bsl-zlabel.trust { fill: var(--bsl-ink); }
+
+/* Nodes: <g class="bsl-node svc"> wraps a .bsl-nbox rect and its text.
+   The kind sets --k (stroke) and --kb (fill); state modifiers override. */
+.bsl-node { --k: var(--bsl-ink); --kb: var(--bsl-surface); }
+.bsl-node.client { --k: var(--bsl-node-client); --kb: var(--bsl-node-client-bg); }
+.bsl-node.edge   { --k: var(--bsl-node-edge);   --kb: var(--bsl-node-edge-bg); }
+.bsl-node.svc    { --k: var(--bsl-node-svc);    --kb: var(--bsl-node-svc-bg); }
+.bsl-node.fn     { --k: var(--bsl-node-fn);     --kb: var(--bsl-node-fn-bg); }
+.bsl-node.store  { --k: var(--bsl-node-store);  --kb: var(--bsl-node-store-bg); }
+.bsl-node.queue  { --k: var(--bsl-node-queue);  --kb: var(--bsl-node-queue-bg); }
+.bsl-node.cache  { --k: var(--bsl-node-cache);  --kb: var(--bsl-node-cache-bg); }
+.bsl-node.ext    { --k: var(--bsl-node-ext);    --kb: var(--bsl-node-ext-bg); }
+.bsl-node.ok      { --k: var(--bsl-ok);    --kb: var(--bsl-ok-bg); }
+.bsl-node.warn    { --k: var(--bsl-warn);  --kb: var(--bsl-warn-bg); }
+.bsl-node.crit    { --k: var(--bsl-crit);  --kb: var(--bsl-crit-bg); }
+.bsl-node.info    { --k: var(--bsl-c-blue); --kb: var(--bsl-c-blue-bg); }
+.bsl-node.neutral { --k: var(--bsl-muted); --kb: var(--bsl-c-grey-bg); }
+.bsl-node.is-fail { --k: var(--bsl-crit);  --kb: var(--bsl-crit-bg); }
+
+.bsl-nbox {
+  fill: var(--kb); stroke: var(--k); stroke-width: 2;
+  transition: stroke-width .15s linear;
+}
+.bsl-node.edge .bsl-nbox { stroke-width: 3; }
+.bsl-node.ext .bsl-nbox { stroke-dasharray: 6 4; }
+.bsl-node.is-hot .bsl-nbox { stroke-width: 4; }
+.bsl-node.is-new .bsl-nbox { stroke: var(--bsl-accent); stroke-dasharray: 6 4; }
+.bsl-node:hover .bsl-nbox { stroke-width: 4; }
+/* Kind glyphs drawn inside the box: store = rule under the top edge,
+   queue = three vertical bars, terminal state = inset frame. */
+.bsl-nline, .bsl-nbar { stroke: var(--k); stroke-width: 2; fill: none; }
+.bsl-nterm { fill: none; stroke: var(--k); stroke-width: 1.5; }
+.bsl-start { fill: var(--bsl-ink); }
+
+.bsl-nlabel { font-size: 15px; font-weight: 700; fill: var(--bsl-ink); letter-spacing: -0.005em; }
+.bsl-nsub   { font-family: var(--bsl-mono); font-size: 13px; fill: var(--bsl-muted); }
+.bsl-ntag   { font-family: var(--bsl-mono); font-size: 13px; font-weight: 700; fill: var(--k); }
+
+/* Edges: <path class="bsl-edge sync"> + marker-end="url(#…-sync)". One
+   <marker class="bsl-m-sync"> per route used. Routes are fixed meanings. */
+.bsl-edge { fill: none; stroke-width: 2; stroke: var(--bsl-ink); }
+.bsl-edge.sync  { stroke: var(--bsl-route-sync); }
+.bsl-edge.async { stroke: var(--bsl-route-async); stroke-dasharray: 9 9; }
+.bsl-edge.data  { stroke: var(--bsl-route-data); }
+.bsl-edge.ctrl  { stroke: var(--bsl-route-ctrl); }
+.bsl-edge.ext   { stroke: var(--bsl-route-ext); }
+.bsl-edge.fail  { stroke: var(--bsl-route-fail); stroke-dasharray: 4 5; }
+.bsl-edge.warn  { stroke: var(--bsl-warn); stroke-dasharray: 4 5; }
+.bsl-edge.ret   { stroke: var(--bsl-muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.bsl-edge.hot   { stroke-width: 3; }
+.bsl-m-sync  path { fill: var(--bsl-route-sync); }
+.bsl-m-async path { fill: var(--bsl-route-async); }
+.bsl-m-data  path { fill: var(--bsl-route-data); }
+.bsl-m-ctrl  path { fill: var(--bsl-route-ctrl); }
+.bsl-m-ext   path { fill: var(--bsl-route-ext); }
+.bsl-m-fail  path { fill: var(--bsl-route-fail); }
+.bsl-m-warn  path { fill: var(--bsl-warn); }
+.bsl-m-ret   path { fill: var(--bsl-muted); }
+
+/* Motion is directional only: dashes march the way data travels; square
+   packets ride the one to three routes that matter. */
+.bsl-flow { animation: bsl-march 1.2s linear infinite; }
+.bsl-flow:not(.async):not(.fail):not(.warn):not(.ret) { stroke-dasharray: 12 6; }
+@keyframes bsl-march { to { stroke-dashoffset: -36; } }
+.bsl-pkt { stroke: none; }
+.bsl-pkt.sync  { fill: var(--bsl-route-sync); }
+.bsl-pkt.async { fill: var(--bsl-route-async); }
+.bsl-pkt.data  { fill: var(--bsl-route-data); }
+.bsl-pkt.ctrl  { fill: var(--bsl-route-ctrl); }
+.bsl-pkt.ext   { fill: var(--bsl-route-ext); }
+.bsl-pkt.fail  { fill: var(--bsl-route-fail); }
+
+/* Step markers tie the figure to a numbered walkthrough. */
+.bsl-step rect { fill: var(--bsl-ground); stroke: var(--bsl-structural); stroke-width: 2; }
+.bsl-step text {
+  font-size: 13px; font-weight: 700; fill: var(--bsl-ink);
+  text-anchor: middle; font-variant-numeric: tabular-nums;
+}
+
+/* Labels on edges and messages. */
+.bsl-mlabel { font-family: var(--bsl-mono); font-size: 13px; fill: var(--bsl-ink); }
+.bsl-mlabel.muted, .bsl-elabel { font-family: var(--bsl-mono); font-size: 13px; fill: var(--bsl-muted); }
+.bsl-mlabel.fail { fill: var(--bsl-crit); font-weight: 700; }
+
+/* Sequence parts: dashed lifelines, activation bars, a yellow note. */
+.bsl-life { stroke: var(--bsl-muted); stroke-width: 1; stroke-dasharray: 3 4; }
+.bsl-act  { fill: var(--bsl-surface); stroke: var(--bsl-ink); stroke-width: 1.5; }
+.bsl-note { fill: var(--bsl-c-yellow-bg); stroke: var(--bsl-c-yellow); stroke-width: 1.5; }
+.bsl-ntext { font-size: 13px; font-weight: 700; fill: var(--bsl-ink); }
+
+/* Legend + caption close every figure. Every route and node kind drawn
+   must be declared here. */
+.bsl-legend {
+  display: flex; flex-wrap: wrap; gap: var(--bsl-s2) var(--bsl-s5);
+  margin: var(--bsl-s4) 0 0; padding: var(--bsl-s3) 0 0;
+  border-top: 1px solid var(--bsl-hairline);
+  font-family: var(--bsl-mono); font-size: 11px; color: var(--bsl-muted);
+}
+.bsl-legend span { display: inline-flex; align-items: center; gap: var(--bsl-s2); }
+.bsl-legend i { display: inline-block; width: 24px; height: 3px; flex: none; background: var(--bsl-ink); }
+.bsl-legend i.sync  { background: var(--bsl-route-sync); }
+.bsl-legend i.async { background: repeating-linear-gradient(90deg, var(--bsl-route-async) 0 6px, transparent 6px 10px); }
+.bsl-legend i.data  { background: var(--bsl-route-data); }
+.bsl-legend i.ctrl  { background: var(--bsl-route-ctrl); }
+.bsl-legend i.ext   { background: var(--bsl-route-ext); }
+.bsl-legend i.fail  { background: repeating-linear-gradient(90deg, var(--bsl-route-fail) 0 3px, transparent 3px 7px); }
+.bsl-legend i.warn  { background: repeating-linear-gradient(90deg, var(--bsl-warn) 0 3px, transparent 3px 7px); }
+.bsl-legend i.ret   { background: repeating-linear-gradient(90deg, var(--bsl-muted) 0 3px, transparent 3px 6px); }
+.bsl-legend i[class^="n-"], .bsl-legend i[class*=" n-"] { width: 12px; height: 12px; border: 2px solid; }
+.bsl-legend i.n-client { background: var(--bsl-node-client-bg); border-color: var(--bsl-node-client); }
+.bsl-legend i.n-edge   { background: var(--bsl-node-edge-bg);   border-color: var(--bsl-node-edge); }
+.bsl-legend i.n-svc    { background: var(--bsl-node-svc-bg);    border-color: var(--bsl-node-svc); }
+.bsl-legend i.n-fn     { background: var(--bsl-node-fn-bg);     border-color: var(--bsl-node-fn); }
+.bsl-legend i.n-store  { background: var(--bsl-node-store-bg);  border-color: var(--bsl-node-store); }
+.bsl-legend i.n-queue  { background: var(--bsl-node-queue-bg);  border-color: var(--bsl-node-queue); }
+.bsl-legend i.n-cache  { background: var(--bsl-node-cache-bg);  border-color: var(--bsl-node-cache); }
+.bsl-legend i.n-ext    { background: var(--bsl-node-ext-bg);    border-color: var(--bsl-node-ext); border-style: dashed; }
+.bsl-legend i.n-new    { background: transparent; border-color: var(--bsl-accent); border-style: dashed; }
+.bsl-legend i.n-ok     { background: var(--bsl-ok-bg);   border-color: var(--bsl-ok); }
+.bsl-legend i.n-warn   { background: var(--bsl-warn-bg); border-color: var(--bsl-warn); }
+.bsl-legend i.n-crit   { background: var(--bsl-crit-bg); border-color: var(--bsl-crit); }
+.bsl-legend i.n-info   { background: var(--bsl-c-blue-bg); border-color: var(--bsl-c-blue); }
+.bsl-legend i.n-neutral { background: var(--bsl-c-grey-bg); border-color: var(--bsl-muted); }
+.bsl-figcap {
+  margin: var(--bsl-s2) 0 0;
+  font-family: var(--bsl-mono); font-size: 11px; color: var(--bsl-muted);
+  font-variant-numeric: tabular-nums;
+}
+.bsl-figcap b { color: var(--bsl-ink); font-weight: 700; }
+
+/* Walkthrough keyed to step markers. */
+.bsl-steps { list-style: none; padding: 0; counter-reset: bsl-step; }
+.bsl-doc .bsl-steps { padding-left: 0; }
+.bsl-steps li {
+  counter-increment: bsl-step;
+  display: grid; grid-template-columns: 28px 1fr; gap: var(--bsl-s3);
+  padding: var(--bsl-s2) 0; border-bottom: 1px solid var(--bsl-hairline);
+  margin: 0;
+}
+.bsl-steps li::before {
+  content: counter(bsl-step);
+  width: 22px; height: 22px; border: 2px solid var(--bsl-structural);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+
+/* ── 6. ENGINEERING COMPONENTS (v2) ────────────────────────────────────── */
+/* Service cards: shared-rule grid, a 6px kind bar on top of each cell. */
+.bsl-svc-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px; background: var(--bsl-structural);
+  border: 1px solid var(--bsl-structural);
+  margin: 0 0 var(--bsl-s5);
+}
+.bsl-svc {
+  --k: var(--bsl-node-svc);
+  background: var(--bsl-surface);
+  border-top: 6px solid var(--k);
+  padding: var(--bsl-s3) var(--bsl-s4) var(--bsl-s4);
+  font-size: 14px;
+}
+.bsl-svc.fn    { --k: var(--bsl-node-fn); }
+.bsl-svc.store { --k: var(--bsl-node-store); }
+.bsl-svc.queue { --k: var(--bsl-node-queue); }
+.bsl-svc.cache { --k: var(--bsl-node-cache); }
+.bsl-svc.edge  { --k: var(--bsl-node-edge); }
+.bsl-svc.ext   { --k: var(--bsl-node-ext); }
+.bsl-svc-h { display: flex; align-items: center; gap: var(--bsl-s2); margin: 0 0 var(--bsl-s1); }
+.bsl-svc-h h4 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; font-family: var(--bsl-mono); }
+.bsl-svc-h .bsl-dot { margin-left: auto; }
+.bsl-svc-kind {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--k); margin: 0 0 var(--bsl-s3);
+}
+.bsl-svc .bsl-kv { font-size: 12.5px; padding: 5px 0; }
+.bsl-tech, .bsl-doc .bsl-tech { display: flex; flex-wrap: wrap; gap: var(--bsl-s1); margin: var(--bsl-s3) 0 0; padding: 0; list-style: none; }
+.bsl-tech li, .bsl-tech span {
+  font-family: var(--bsl-mono); font-size: 11px;
+  border: 1px solid var(--bsl-hairline); padding: 1px 6px; margin: 0;
+}
+
+/* HTTP method tags: hard flat blocks, one hue per verb. */
+.bsl-method {
+  display: inline-block; min-width: 56px; text-align: center;
+  font-family: var(--bsl-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; padding: 2px 6px;
+  color: var(--bsl-ground); background: var(--bsl-ink);
+}
+.bsl-method.get    { background: var(--bsl-c-green); }
+.bsl-method.post   { background: var(--bsl-c-blue); }
+.bsl-method.put    { background: var(--bsl-c-orange); }
+.bsl-method.patch  { background: var(--bsl-c-violet); }
+.bsl-method.delete { background: var(--bsl-crit); }
+.bsl-api td { vertical-align: middle; }
+.bsl-api .bsl-path { font-family: var(--bsl-mono); font-size: 13px; font-weight: 700; }
+.bsl-api .bsl-path i { color: var(--bsl-muted); font-weight: 400; }
+.bsl-api td.bsl-mono { font-size: 12.5px; }
+
+/* Decision record: number + title + status, then context / decision /
+   consequences in three ruled columns. */
+.bsl-adr { border-top: 2px solid var(--bsl-structural); margin: var(--bsl-s5) 0 var(--bsl-s6); }
+.bsl-adr-h {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--bsl-s2) var(--bsl-s4);
+  padding: var(--bsl-s3) 0; border-bottom: 1px solid var(--bsl-hairline);
+}
+.bsl-adr-h .bsl-adr-id { font-family: var(--bsl-mono); font-size: 12px; font-weight: 700; color: var(--bsl-muted); }
+.bsl-adr-h h4 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
+.bsl-adr-h .bsl-chip { margin-left: auto; }
+.bsl-chip.proposed   { color: var(--bsl-c-blue); border-color: var(--bsl-c-blue); }
+.bsl-chip.accepted   { color: var(--bsl-ok); border-color: var(--bsl-ok); }
+.bsl-chip.superseded { color: var(--bsl-muted); border-color: var(--bsl-muted); text-decoration: line-through; }
+.bsl-adr-body {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--bsl-s5); padding: var(--bsl-s4) 0 0;
+}
+@media (max-width: 900px) { .bsl-adr-body { grid-template-columns: 1fr; } }
+.bsl-adr-body h5 {
+  margin: 0 0 var(--bsl-s2); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--bsl-muted);
+}
+.bsl-adr-body p, .bsl-adr-body ul { font-size: 15px; }
+.bsl-doc .bsl-adr-body ul.bsl-cons { list-style: none; padding-left: 0; }
+.bsl-cons li { padding-left: 20px; position: relative; }
+.bsl-cons li::before { position: absolute; left: 0; font-family: var(--bsl-mono); font-weight: 700; }
+.bsl-cons li.pro::before { content: "+"; color: var(--bsl-ok); }
+.bsl-cons li.con::before { content: "\2212"; color: var(--bsl-crit); }
+
+/* Trade-off matrix: symbol + colour, never colour alone. */
+.bsl-tradeoff td.good, .bsl-tradeoff td.mid, .bsl-tradeoff td.bad { font-weight: 500; white-space: nowrap; }
+.bsl-tradeoff td.good::before, .bsl-tradeoff td.mid::before, .bsl-tradeoff td.bad::before {
+  display: inline-block; width: 1.4em; font-weight: 700;
+}
+.bsl-tradeoff td.good { color: var(--bsl-ok); }
+.bsl-tradeoff td.mid  { color: var(--bsl-warn); }
+.bsl-tradeoff td.bad  { color: var(--bsl-crit); }
+.bsl-tradeoff td.good::before { content: "\25A0"; }
+.bsl-tradeoff td.mid::before  { content: "\25E7"; }
+.bsl-tradeoff td.bad::before  { content: "\25A1"; }
+.bsl-tradeoff tr.bsl-chosen td:first-child { font-weight: 700; box-shadow: inset 4px 0 0 var(--bsl-structural); padding-left: var(--bsl-s4); }
+
+/* Latency budget: one segment per hop, width = share of the total
+   (set --w on each segment), a target rule at --at. */
+.bsl-budget { margin: var(--bsl-s4) 0 var(--bsl-s6); }
+.bsl-budget-bar {
+  position: relative; display: flex; height: 36px;
+  border: 1px solid var(--bsl-structural); margin: var(--bsl-s6) 0 var(--bsl-s2);
+}
+.bsl-budget-seg {
+  flex: 0 0 var(--w); min-width: 0; position: relative;
+  background: var(--k, var(--bsl-ink)); border-right: 1px solid var(--bsl-ground);
+}
+.bsl-budget-seg:last-child { border-right: 0; }
+.bsl-budget-seg.edge  { --k: var(--bsl-node-edge); }
+.bsl-budget-seg.svc   { --k: var(--bsl-node-svc); }
+.bsl-budget-seg.fn    { --k: var(--bsl-node-fn); }
+.bsl-budget-seg.store { --k: var(--bsl-node-store); }
+.bsl-budget-seg.queue { --k: var(--bsl-node-queue); }
+.bsl-budget-seg.cache { --k: var(--bsl-node-cache); }
+.bsl-budget-seg.ext   { --k: var(--bsl-node-ext); }
+.bsl-budget-seg span {
+  position: absolute; left: 0; bottom: calc(100% + 4px);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  white-space: nowrap; color: var(--bsl-ink);
+}
+.bsl-budget-seg b {
+  position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+  font-family: var(--bsl-mono); font-size: 11px; font-weight: 700;
+  color: var(--bsl-ground);
+}
+.bsl-budget-seg.below span { bottom: auto; top: calc(100% + 4px); }
+.bsl-budget-target {
+  position: absolute; left: var(--at); top: -10px; bottom: -10px;
+  border-left: 2px solid var(--bsl-accent);
+}
+.bsl-budget-target::after {
+  content: attr(data-label); position: absolute; right: 6px; top: -16px;
+  font-family: var(--bsl-mono); font-size: 10.5px; font-weight: 700;
+  color: var(--bsl-accent); white-space: nowrap;
+}
+.bsl-budget-key {
+  display: flex; flex-wrap: wrap; gap: var(--bsl-s1) var(--bsl-s4);
+  list-style: none; margin: var(--bsl-s3) 0 0; padding: 0;
+  font-family: var(--bsl-mono); font-size: 12px; font-variant-numeric: tabular-nums;
+}
+.bsl-doc ul.bsl-budget-key { padding-left: 0; max-width: none; }
+.bsl-budget-key li { display: inline-flex; align-items: center; gap: var(--bsl-s2); margin: 0; }
+.bsl-budget-key li::before { content: ""; width: 10px; height: 10px; background: var(--k, var(--bsl-ink)); }
+.bsl-budget-key li.edge  { --k: var(--bsl-node-edge); }
+.bsl-budget-key li.svc   { --k: var(--bsl-node-svc); }
+.bsl-budget-key li.fn    { --k: var(--bsl-node-fn); }
+.bsl-budget-key li.store { --k: var(--bsl-node-store); }
+.bsl-budget-key li.queue { --k: var(--bsl-node-queue); }
+.bsl-budget-key li.cache { --k: var(--bsl-node-cache); }
+.bsl-budget-key li.ext   { --k: var(--bsl-node-ext); }
+/* Narrow screens: segment labels would collide, so the key carries them. */
+@media (max-width: 720px) {
+  .bsl-budget-seg span, .bsl-budget-seg b { display: none; }
+  .bsl-budget-bar { margin-top: var(--bsl-s6); }
+}
+.bsl-budget-scale {
+  display: flex; justify-content: space-between; margin-top: var(--bsl-s6);
+  font-family: var(--bsl-mono); font-size: 11px; color: var(--bsl-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timeline: a 2px structural line, square markers, mono timestamps.
+   Horizontal on wide screens, vertical below 720px. */
+.bsl-timeline {
+  list-style: none; margin: var(--bsl-s5) 0 var(--bsl-s6); padding: 0;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+  border-top: 2px solid var(--bsl-structural);
+}
+.bsl-doc ol.bsl-timeline { padding-left: 0; max-width: none; }
+.bsl-timeline li { position: relative; padding: var(--bsl-s4) var(--bsl-s4) 0 0; margin: 0; }
+.bsl-timeline li::before {
+  content: ""; position: absolute; top: -7px; left: 0;
+  width: 12px; height: 12px; background: var(--bsl-ground);
+  border: 2px solid var(--bsl-structural);
+}
+.bsl-timeline li.ok::before   { background: var(--bsl-ok);   border-color: var(--bsl-ok); }
+.bsl-timeline li.warn::before { background: var(--bsl-warn); border-color: var(--bsl-warn); }
+.bsl-timeline li.crit::before { background: var(--bsl-crit); border-color: var(--bsl-crit); }
+.bsl-timeline li.info::before { background: var(--bsl-c-blue); border-color: var(--bsl-c-blue); }
+.bsl-timeline time {
+  display: block; font-family: var(--bsl-mono); font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; margin-bottom: var(--bsl-s1);
+}
+.bsl-timeline b { display: block; font-size: 15px; margin-bottom: 2px; }
+.bsl-timeline span { display: block; font-size: 13px; color: var(--bsl-muted); line-height: 1.45; }
+@media (max-width: 720px) {
+  .bsl-timeline { grid-auto-flow: row; border-top: 0; border-left: 2px solid var(--bsl-structural); }
+  .bsl-timeline li { padding: 0 0 var(--bsl-s4) var(--bsl-s5); }
+  .bsl-timeline li::before { top: 4px; left: -7px; }
+}
+
+/* Callouts: a 6px bar in the variant hue, a caps label from data-label.
+   No fill — Basel is flat. */
+.bsl-callout {
+  --k: var(--bsl-c-blue);
+  border-left: 6px solid var(--k);
+  padding: var(--bsl-s1) 0 var(--bsl-s1) var(--bsl-s4);
+  margin: var(--bsl-s5) 0; max-width: var(--bsl-measure);
+}
+.bsl-callout::before {
+  content: attr(data-label); display: block;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--k); margin: 0 0 var(--bsl-s1);
+}
+.bsl-callout.warn     { --k: var(--bsl-warn); }
+.bsl-callout.risk     { --k: var(--bsl-crit); }
+.bsl-callout.decision { --k: var(--bsl-structural); }
+.bsl-callout p:last-child { margin-bottom: 0; }
+
+/* Code with a filename strip. */
+.bsl-code { margin: 0 0 var(--bsl-s4); background: var(--bsl-code); border-top: 2px solid var(--bsl-structural); }
+.bsl-code-h {
+  display: flex; justify-content: space-between; gap: var(--bsl-s4);
+  padding: var(--bsl-s2) var(--bsl-s4); border-bottom: 1px solid var(--bsl-hairline);
+  font-family: var(--bsl-mono); font-size: 11.5px; font-weight: 700;
+}
+.bsl-code-h span:last-child {
+  font-family: var(--bsl-sans); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--bsl-muted);
+}
+.bsl-doc .bsl-code pre, .bsl-panels .bsl-code pre { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bsl-flow { animation: none; }
+  .bsl-pkt { display: none; }
+  .bsl-nbox { transition: none; }
+}
+
+/* ── 7. PRINT ──────────────────────────────────────────────────────────── */
 @media print {
   .bsl-doc, .bsl-panels { background: #FFFFFF; color: #000000; }
   .bsl-theme-toggle { display: none; }
@@ -524,4 +1045,8 @@
     border: 2px solid #000000;
   }
   .bsl-verdict::before { background: #000000; color: #FFFFFF; }
+  .bsl-toc { display: none; }
+  .bsl-layout { display: block; }
+  .bsl-pkt { display: none; }
+  .bsl-flow { animation: none; }
 }

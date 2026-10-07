@@ -6,7 +6,7 @@
 <title>Colour · Dexter Design System</title>
 <link rel="stylesheet" href="dexter.css">
 <style>
-  body { margin: 0; }
+  body { margin: 0; background: var(--dds-doc-bg); }
   .sw-line { display: flex; align-items: center; gap: 14px; padding: 8px 0;
              border-bottom: 1px solid var(--dds-doc-rule); }
   .sw-line:last-child { border-bottom: 0; }
@@ -15,19 +15,39 @@
   .sw-line .use { font-size: 14px; color: var(--dds-doc-muted); }
   .viz-demo { display: flex; gap: 4px; align-items: flex-end; height: 90px; margin: 16px 0 8px; max-width: 420px; }
   .viz-demo i { flex: 1; font-style: normal; }
+  .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10; font-family: var(--dds-mono);
+                  font-size: 11px; color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+                  border: 1px solid var(--dds-doc-ink); padding: 6px 12px; cursor: pointer; }
+  .sw-line { display: inline-block; width: 22px; border-top: 3px solid; vertical-align: middle; }
+  .sw-node { display: inline-block; width: 16px; height: 12px; border: 1.5px solid; vertical-align: middle; }
 </style>
 </head>
 <body class="dds-doc">
+<button class="theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.1.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v2.0.0 · Reference</div>
     <h1 class="dds-title">Colour</h1>
     <p class="dds-subtitle">One accent that makes a claim, four semantic families that never lie, and six chart colours used in order. Everything else is a considered neutral.</p>
   </header>
 
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>The accent is a claim</h2></div>
+  <div class="dds-layout">
+    <nav class="dds-toc" aria-label="Contents">
+      <div class="dds-toc-h">Contents</div>
+      <ol>
+        <li><a href="#the-accent-is-a-claim">01 The accent is a claim</a></li>
+        <li><a href="#semantic-families">02 Semantic families</a></li>
+        <li><a href="#data-viz-palette">03 Data-viz palette</a></li>
+        <li><a href="#routes-and-node-kinds">04 Routes and node kinds</a></li>
+        <li><a href="#grounds-and-neutrals">05 Grounds and neutrals</a></li>
+        <li><a href="#rules">06 Rules</a></li>
+      </ol>
+    </nav>
+    <main class="dds-main">
+
+  <section class="dds-section" id="the-accent-is-a-claim">
+    <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 01</span><h2>The accent is a claim</h2></div>
     <div class="dds-row">
       <div>
         <p>The viridian accent (<code>--dds-accent</code>) means <strong>verified or real</strong>. It marks the real-money edge in diagrams, the <code>ok</code> status, verified title-block stamps, and at most one emphasised word in a title. If a reader ever sees the green and the thing is not verified or real, the system is broken.<span class="dds-snref">1</span></p>
@@ -37,7 +57,7 @@
     </div>
   </section>
 
-  <section class="dds-section">
+  <section class="dds-section" id="semantic-families">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Semantic families</h2></div>
     <p>Fixed meanings, shared by status dots, chips, diagram edges, and the title-block stamp. Each family pairs a strong value with a soft background (<code>--dds-*-bg</code>) for chips.</p>
     <div style="margin: 0 0 24px;">
@@ -49,7 +69,7 @@
     <p><strong>Colour never travels alone.</strong> Every semantic colour is paired with a shape or word — a dot with a label, a chip with text, a line style with a legend entry. The page must survive greyscale printing and colour-blind readers unchanged.</p>
   </section>
 
-  <section class="dds-section">
+  <section class="dds-section" id="data-viz-palette">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Data-viz palette</h2></div>
     <p>Six categorical colours, used strictly in order — series one is always <code>--dds-v1</code>. Do not skip ahead to a “nicer” colour; order is what keeps two charts on the same page comparable.</p>
     <div class="viz-demo">
@@ -64,8 +84,41 @@
     <p>Charts follow the same restraint as everything else: a faint grid, an area fill only when the area means something, and the emphasised series carried by weight — not by a colour outside the palette.</p>
   </section>
 
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Grounds and neutrals</h2></div>
+  <section class="dds-section" id="routes-and-node-kinds">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Routes and node kinds (v2)</h2></div>
+    <p>The architecture grammar is the one place DDS spends colour freely — because every hue is a meaning. Routes name what travels on an edge; node kinds name what a box is. Sync shares the accent: the hot path is the real path. HTTP method pills alias these hues (<code>--dds-m-get</code> = service blue, <code>post</code> = edge cyan, <code>put</code> = control amber, <code>patch</code> = job purple, <code>delete</code> = failure red).</p>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Route token</th><th class="dds-num">Light</th><th class="dds-num">Dark</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-sync)"></i> <code>--dds-route-sync</code></td><td class="dds-num">#0B6E4F</td><td class="dds-num">#6FBF9F</td><td>Request/response on the hot path (= accent)</td></tr>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-async)"></i> <code>--dds-route-async</code></td><td class="dds-num">#2F5DB3</td><td class="dds-num">#86A9EE</td><td>Events, queues, streams</td></tr>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-data)"></i> <code>--dds-route-data</code></td><td class="dds-num">#7B4B94</td><td class="dds-num">#C59BDA</td><td>Store and cache reads / writes</td></tr>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-ctrl)"></i> <code>--dds-route-ctrl</code></td><td class="dds-num">#9A6A00</td><td class="dds-num">#E0B54A</td><td>Auth, config, deploy, timers</td></tr>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-ext)"></i> <code>--dds-route-ext</code></td><td class="dds-num">#13809A</td><td class="dds-num">#5CC6DE</td><td>Third-party calls</td></tr>
+          <tr><td><i class="sw-line" style="border-color:var(--dds-route-fail)"></i> <code>--dds-route-fail</code></td><td class="dds-num">#B23A2E</td><td class="dds-num">#F08A7D</td><td>Errors, retries, dead letters</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dds-table-wrap">
+      <table class="dds-table">
+        <thead><tr><th>Node token (stroke / fill)</th><th class="dds-num">Light</th><th class="dds-num">Dark</th></tr></thead>
+        <tbody>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-client-bg);border-color:var(--dds-node-client)"></i> <code>--dds-node-client</code></td><td class="dds-num">#4F5966 / #EEF0F3</td><td class="dds-num">#A9B2BF / #232830</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-edge-bg);border-color:var(--dds-node-edge)"></i> <code>--dds-node-edge</code></td><td class="dds-num">#13809A / #E0F1F5</td><td class="dds-num">#5CC6DE / #11282E</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-svc-bg);border-color:var(--dds-node-svc)"></i> <code>--dds-node-svc</code></td><td class="dds-num">#2F5DB3 / #E6ECF8</td><td class="dds-num">#86A9EE / #18223A</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-fn-bg);border-color:var(--dds-node-fn)"></i> <code>--dds-node-fn</code></td><td class="dds-num">#7B4B94 / #F1E8F5</td><td class="dds-num">#C59BDA / #2A1E31</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-store-bg);border-color:var(--dds-node-store)"></i> <code>--dds-node-store</code></td><td class="dds-num">#9A5B14 / #F6EBDD</td><td class="dds-num">#E2A35C / #2E2215</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-queue-bg);border-color:var(--dds-node-queue)"></i> <code>--dds-node-queue</code></td><td class="dds-num">#A33A6B / #F7E4EC</td><td class="dds-num">#EE8DB8 / #321A26</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-cache-bg);border-color:var(--dds-node-cache)"></i> <code>--dds-node-cache</code></td><td class="dds-num">#5B7A16 / #EBF1DC</td><td class="dds-num">#A9CF5E / #1F2914</td></tr>
+          <tr><td><i class="sw-node" style="background:var(--dds-node-ext-bg);border-color:var(--dds-node-ext)"></i> <code>--dds-node-ext</code></td><td class="dds-num">#6B6F76 / #F3F3F0</td><td class="dds-num">#9AA0A8 / #202224</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dds-section" id="grounds-and-neutrals">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Grounds and neutrals</h2></div>
     <div class="dds-table-wrap">
       <table class="dds-table">
         <thead><tr><th>Token</th><th class="dds-num">Light</th><th class="dds-num">Dark</th><th>Role</th></tr></thead>
@@ -84,8 +137,8 @@
     <p>The neutrals are biased, not default: document paper leans warm (toward the serif's world), the panel ground leans cool (toward the instrument's). Both theme flips happen entirely at token level — components never restyle inside a media query. Text/ground pairs are chosen to hold WCAG AA contrast on their own ground in both themes.</p>
   </section>
 
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Rules</h2></div>
+  <section class="dds-section" id="rules">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Rules</h2></div>
     <ul>
       <li>Tokens only — a hard-coded hex in a component is a defect.</li>
       <li>One accent. Semantic colours are not accents; charts are not accents.</li>
@@ -96,11 +149,45 @@
     </ul>
   </section>
 
+    </main>
+  </div>
+
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Colour · v1.1.0 · rev 2026-07-04</div>
+    <div><a href="index.html">← Style guide</a> · Colour · v2.0.0 · rev 2026-10-07</div>
     <div><a href="typography.html">Typography</a> · <a href="components.html">Components</a> · <a href="diagrams.html">Diagrams</a></div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.dds-toc a[href^="#"]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    var byId = {}, visible = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var ids = Object.keys(byId);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = ids.filter(function (id) { return visible[id]; })[0];
+      if (!current) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[current]); });
+    }, { rootMargin: '0px 0px -60% 0px' });
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'light', 'dark'], current = 'auto';
+  try { current = localStorage.getItem('dds-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('dds-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
 </body>
 </html>

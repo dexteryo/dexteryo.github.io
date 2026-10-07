@@ -6,7 +6,7 @@
 <title>Typography · Dexter Design System</title>
 <link rel="stylesheet" href="dexter.css">
 <style>
-  body { margin: 0; }
+  body { margin: 0; background: var(--dds-doc-bg); }
   .spec-row { display: grid; grid-template-columns: 230px 1fr; gap: 24px; align-items: baseline;
               border-bottom: 1px solid var(--dds-doc-rule); padding: 14px 0; }
   .spec-row .lbl { font-family: var(--dds-mono); font-size: 11px; color: var(--dds-doc-muted); line-height: 1.5; }
@@ -18,20 +18,37 @@
   .dd .tag { font-family: var(--dds-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
              font-weight: 600; display: block; margin-bottom: 8px; }
   .dd.do .tag { color: var(--dds-ok); } .dd.dont .tag { color: var(--dds-crit); }
+  .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10; font-family: var(--dds-mono);
+                  font-size: 11px; color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+                  border: 1px solid var(--dds-doc-ink); padding: 6px 12px; cursor: pointer; }
 </style>
 </head>
 <body class="dds-doc">
+<button class="theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v1.1.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v2.0.0 · Reference</div>
     <h1 class="dds-title">Typography</h1>
     <p class="dds-subtitle">Three faces, three jobs: serif argues, sans operates, mono testifies. All from system stacks — the output must survive a sandbox, an email, and a printer.</p>
   </header>
 
+  <div class="dds-layout">
+    <nav class="dds-toc" aria-label="Contents">
+      <div class="dds-toc-h">Contents</div>
+      <ol>
+        <li><a href="#the-three-roles">01 The three roles</a></li>
+        <li><a href="#document-mode-scale">02 Document-mode scale</a></li>
+        <li><a href="#panel-mode-scale">03 Panel-mode scale</a></li>
+        <li><a href="#rules">04 Rules</a></li>
+        <li><a href="#do-dont">05 Do / don’t</a></li>
+      </ol>
+    </nav>
+    <main class="dds-main">
+
   <!-- Roles -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>The three roles</h2></div>
+  <section class="dds-section" id="the-three-roles">
+    <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 01</span><h2>The three roles</h2></div>
     <div class="dds-table-wrap">
       <table class="dds-table">
         <thead><tr><th>Token</th><th>Stack</th><th>Job</th></tr></thead>
@@ -46,12 +63,12 @@
   </section>
 
   <!-- Document scale -->
-  <section class="dds-section">
+  <section class="dds-section" id="document-mode-scale">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Document-mode scale</h2></div>
     <div class="spec-row"><div class="lbl"><b>.dds-title</b>serif 400 · clamp(30–42px) · lh 1.15 · balance</div><div class="dds-title" style="margin:0;">Money moves <em>once</em></div></div>
     <div class="spec-row"><div class="lbl"><b>.dds-subtitle</b>serif italic · 19px · lh 1.5 · muted</div><div class="dds-subtitle" style="margin:0;">The stand-first states the problem and the conclusion.</div></div>
     <div class="spec-row"><div class="lbl"><b>.dds-sec-h h2</b>serif 400 · 26px · lh 1.2</div><h2 style="font-family:var(--dds-serif); font-weight:400; font-size:26px; margin:0;">Section heading</h2></div>
-    <div class="spec-row"><div class="lbl"><b>body</b>serif · 17px · lh 1.7 · max 66ch</div><span>Running prose is set for sustained reading; the measure never exceeds 66 characters.</span></div>
+    <div class="spec-row"><div class="lbl"><b>body</b>serif · 17px · lh 1.7 · max 72ch</div><span>Running prose is set for sustained reading; the measure never exceeds 72 characters.</span></div>
     <div class="spec-row"><div class="lbl"><b>.dds-sidenote</b>serif · 13px · lh 1.55 · muted</div><span class="dds-sidenote" style="border:0; padding:0;"><span class="dds-sn-num">1.</span> Margin evidence: small, quiet, load-bearing.</span></div>
     <div class="spec-row"><div class="lbl"><b>.dds-eyebrow</b>mono · 11px · caps · +0.16em</div><div class="dds-eyebrow" style="margin:0;">Doc type · Project · Context</div></div>
     <div class="spec-row"><div class="lbl"><b>.dds-evidence</b>mono · 12px · muted</div><span class="dds-evidence">WalletService.java:214 · verified 2026-07-03</span></div>
@@ -59,7 +76,7 @@
   </section>
 
   <!-- Panel scale -->
-  <section class="dds-section">
+  <section class="dds-section" id="panel-mode-scale">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Panel-mode scale</h2></div>
     <div class="dds-panels" style="border:1px dashed var(--dds-doc-rule); border-radius:6px; padding:20px;">
       <div class="spec-row" style="border-color:var(--dds-p-border);"><div class="lbl" style="color:var(--dds-p-muted);"><b style="color:var(--dds-p-ink);">.dds-panel-h h3</b>sans 600 · 14px</div><h3 style="font-size:14px; font-weight:600; margin:0;">Panel title</h3></div>
@@ -71,10 +88,10 @@
   </section>
 
   <!-- Rules -->
-  <section class="dds-section">
+  <section class="dds-section" id="rules">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Rules</h2></div>
     <ul>
-      <li><strong>Measure:</strong> prose ≤ 66ch, always. Wide layouts get more columns, not longer lines.</li>
+      <li><strong>Measure:</strong> prose ≤ 72ch (<code>--dds-measure</code>), always. The shell is full width; wide layouts give the extra room to diagrams, tables and grids, never to longer lines.</li>
       <li><strong>Numbers:</strong> any digit column gets <code>.dds-num</code> (tabular numerals), right-aligned in tables.</li>
       <li><strong>Uppercase:</strong> only mono labels are uppercase, and always letter-spaced (+0.06em to +0.16em). Never uppercase serif or body sans.</li>
       <li><strong>Emphasis:</strong> at most one <code>&lt;em&gt;</code> accent in a title; <code>&lt;strong&gt;</code> for lead-in phrases, never whole paragraphs.</li>
@@ -84,7 +101,7 @@
   </section>
 
   <!-- Do / don't -->
-  <section class="dds-section">
+  <section class="dds-section" id="do-dont">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Do / don’t</h2></div>
     <div class="dd-pair">
       <div class="dd do"><span class="tag">Do</span><span class="dds-evidence">idempotency=order-1204</span> — machine value in mono, inline with prose.</div>
@@ -100,11 +117,45 @@
     </div>
   </section>
 
+    </main>
+  </div>
+
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Typography · v1.1.0 · rev 2026-07-04</div>
+    <div><a href="index.html">← Style guide</a> · Typography · v2.0.0 · rev 2026-10-07</div>
     <div><a href="color.html">Colour</a> · <a href="components.html">Components</a> · <a href="diagrams.html">Diagrams</a></div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.dds-toc a[href^="#"]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    var byId = {}, visible = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var ids = Object.keys(byId);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = ids.filter(function (id) { return visible[id]; })[0];
+      if (!current) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[current]); });
+    }, { rootMargin: '0px 0px -60% 0px' });
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'light', 'dark'], current = 'auto';
+  try { current = localStorage.getItem('dds-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('dds-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
 </body>
 </html>

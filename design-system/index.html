@@ -7,63 +7,119 @@
 <link rel="stylesheet" href="dexter.css">
 <style>
   /* Guide chrome only — layout helpers for THIS page, not part of the system. */
-  body { margin: 0; }
-  .sw-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
-  .sw { width: 104px; font-family: var(--dds-mono); font-size: 10.5px; }
-  .sw i { display: block; height: 36px; border: 1px solid var(--dds-doc-rule); font-style: normal; }
+  body { margin: 0; background: var(--dds-doc-bg); }
+  .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; margin: 0 0 24px; }
+  .sw { font-family: var(--dds-mono); font-size: 11px; }
+  .sw i { display: block; height: 40px; border: 1px solid var(--dds-doc-rule); font-style: normal; }
+  .sw i.pair { border-width: 2px; }
   .sw span { display: block; margin-top: 4px; color: var(--dds-doc-muted); }
   .demo-note { font-family: var(--dds-mono); font-size: 10.5px; letter-spacing: .1em;
-               text-transform: uppercase; color: var(--dds-doc-muted); margin: 0 0 10px; }
+               text-transform: uppercase; color: var(--dds-doc-muted); margin: 24px 0 10px; }
   .panel-demo { border: 1px dashed var(--dds-doc-rule); padding: 24px; border-radius: 6px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
   @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
   .type-specimen { border-bottom: 1px solid var(--dds-doc-rule); padding: 10px 0; display: flex;
                    align-items: baseline; gap: 24px; flex-wrap: wrap; }
   .type-specimen .lbl { font-family: var(--dds-mono); font-size: 10.5px; color: var(--dds-doc-muted);
                         width: 190px; flex: none; }
+  .theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 10; font-family: var(--dds-mono);
+                  font-size: 11px; color: var(--dds-doc-ink); background: var(--dds-doc-surface);
+                  border: 1px solid var(--dds-doc-ink); padding: 6px 12px; cursor: pointer; }
 </style>
 </head>
 <body class="dds-doc">
+<button class="theme-toggle" id="themeToggle" type="button" hidden>theme: auto</button>
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow">Dexter Design System · v1.1.0 · Living Style Guide</div>
-    <h1 class="dds-title">One system, two modes, <em>one grammar</em></h1>
-    <p class="dds-subtitle">A design system for AI-generated engineering documents: long-form reports set like Tufte, dashboards set like instruments, and architecture diagrams that carry their own provenance.</p>
+    <div class="dds-eyebrow">Dexter Design System · v2.0.0 · Living Style Guide</div>
+    <div class="dds-hero">
+      <div>
+        <h1 class="dds-title">One system, two modes, <em>one grammar</em> — now drawn in colour</h1>
+        <p class="dds-subtitle">A design system for AI-generated engineering documents: long-form reports set like Tufte, dashboards set like instruments, and architecture diagrams with coloured node kinds, animated routes, and their own provenance.</p>
+      </div>
+      <aside class="dds-statuscard">
+        <div class="dds-sc-h">Release · v2.0.0</div>
+        <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">Full-width shell</span><span class="dds-sc-v">shipped</span></div>
+        <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">Architecture grammar</span><span class="dds-sc-v">shipped</span></div>
+        <div class="dds-sc-row"><span class="dds-dot ok"></span><span class="dds-sc-k">Engineering components</span><span class="dds-sc-v">7 new</span></div>
+        <div class="dds-sc-row"><span class="dds-dot info"></span><span class="dds-sc-k">v1 funds-flow grammar</span><span class="dds-sc-v">kept</span></div>
+        <div class="dds-sc-foot">Backwards compatible: every v1 class still renders.</div>
+      </aside>
+    </div>
     <dl class="dds-meta">
       <div><dt>Owner</dt><dd>Dexter</dd></div>
-      <div><dt>Revision</dt><dd>2026-07-04</dd></div>
-      <div><dt>Status</dt><dd>v1.1.0</dd></div>
+      <div><dt>Revision</dt><dd>2026-10-07</dd></div>
+      <div><dt>Status</dt><dd>v2.0.0</dd></div>
       <div><dt>Stylesheet</dt><dd><a href="dexter.css">dexter.css</a></dd></div>
       <div><dt>Agent spec</dt><dd><a href="README.md">README.md</a></dd></div>
     </dl>
   </header>
 
-  <!-- ============ 01 PRINCIPLES ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 01</span><h2>Principles</h2></div>
+  <div class="dds-layout">
+    <nav class="dds-toc" aria-label="Contents">
+      <div class="dds-toc-h">Contents</div>
+      <ol>
+        <li><a href="#principles">01 Principles</a></li>
+        <li><a href="#tokens">02 Tokens</a></li>
+        <li><a href="#layout">03 Layout</a></li>
+        <li><a href="#document">04 Document mode</a></li>
+        <li><a href="#panel">05 Panel mode</a></li>
+        <li><a href="#architecture">06 Architecture diagrams</a></li>
+        <li><a href="#engineering">07 Engineering components</a></li>
+        <li><a href="#reference">08 Reference pages</a></li>
+        <li><a href="#agents">09 For AI agents</a></li>
+      </ol>
+    </nav>
+    <main class="dds-main">
+
+  <section class="dds-section" id="principles">
+    <div class="dds-sec-h" style="margin-top:0;"><span class="dds-sec-num">§ 01</span><h2>Principles</h2></div>
     <div class="dds-row">
       <div>
         <p><strong>Evidence over decoration.</strong> Every rule, colour, and label must encode something true about the content. Provenance — who verified what, when, against which source — is a first-class visual element, not a footnote.<span class="dds-snref">1</span></p>
-        <p><strong>The accent means verified.</strong> There is one accent colour, a deep viridian, and it is the same colour as the real-money edge in diagrams and the <code>ok</code> status. Green is never decoration; when you see it, something is real or confirmed.</p>
-        <p><strong>Two modes, shared tokens.</strong> Documents are read; panels are scanned. They share one palette, one spacing scale, and one set of semantics, so a report and its dashboard look like siblings.</p>
+        <p><strong>The accent means verified.</strong> There is one accent colour, a deep viridian, and it is the same colour as the sync hot path in diagrams and the <code>ok</code> status. Green is never decoration; when you see it, something is real or confirmed.</p>
+        <p><strong>Colour is meaning, so use more of it.</strong> v2 gives every node kind and every route its own hue. A reader should be able to say "purple is a data write" without the legend after one diagram — and the legend is still mandatory.</p>
+        <p><strong>Full width for evidence, a measure for prose.</strong> Diagrams, tables, and panels take the whole screen; paragraphs stay at 72 characters so they remain easy to read.</p>
         <p><strong>Portability is a hard constraint.</strong> System font stacks only, no webfonts, no external resources. Output must survive a sandboxed artifact viewer, an email attachment, a ticket, and a printer.</p>
       </div>
       <aside class="dds-sidenote"><span class="dds-sn-num">1.</span> Inspired by the engineering title block: a drawing without a revision date and an approver is not a drawing, it is a sketch.</aside>
     </div>
   </section>
 
-  <!-- ============ 02 TOKENS ============ -->
-  <section class="dds-section">
+  <section class="dds-section" id="tokens">
     <div class="dds-sec-h"><span class="dds-sec-num">§ 02</span><h2>Tokens</h2></div>
-    <p>All values live as CSS custom properties in <a href="dexter.css"><code>dexter.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches below show the current theme's resolved values.</p>
+    <p>All values live as CSS custom properties in <a href="dexter.css"><code>dexter.css</code></a>, with light and dark values defined token-side — components never hard-code colour. Swatches show the current theme's resolved values.</p>
 
     <p class="demo-note">Accent &amp; semantics</p>
     <div class="sw-grid">
-      <div class="sw"><i style="background:var(--dds-accent)"></i><span>--dds-accent · verified / real</span></div>
-      <div class="sw"><i style="background:var(--dds-warn)"></i><span>--dds-warn · manual / review</span></div>
-      <div class="sw"><i style="background:var(--dds-crit)"></i><span>--dds-crit · blocked / stale</span></div>
-      <div class="sw"><i style="background:var(--dds-info)"></i><span>--dds-info · mirror / async</span></div>
+      <div class="sw"><i style="background:var(--dds-accent)"></i><span>--dds-accent · verified</span></div>
+      <div class="sw"><i style="background:var(--dds-warn)"></i><span>--dds-warn · review</span></div>
+      <div class="sw"><i style="background:var(--dds-crit)"></i><span>--dds-crit · failing</span></div>
+      <div class="sw"><i style="background:var(--dds-info)"></i><span>--dds-info · mirror</span></div>
+    </div>
+
+    <p class="demo-note">Routes (v2) — one hue per meaning</p>
+    <div class="sw-grid">
+      <div class="sw"><i style="background:var(--dds-route-sync)"></i><span>--dds-route-sync</span></div>
+      <div class="sw"><i style="background:var(--dds-route-async)"></i><span>--dds-route-async</span></div>
+      <div class="sw"><i style="background:var(--dds-route-data)"></i><span>--dds-route-data</span></div>
+      <div class="sw"><i style="background:var(--dds-route-ctrl)"></i><span>--dds-route-ctrl</span></div>
+      <div class="sw"><i style="background:var(--dds-route-ext)"></i><span>--dds-route-ext</span></div>
+      <div class="sw"><i style="background:var(--dds-route-fail)"></i><span>--dds-route-fail</span></div>
+    </div>
+
+    <p class="demo-note">Node kinds (v2) — stroke on tinted fill</p>
+    <div class="sw-grid">
+      <div class="sw"><i class="pair" style="background:var(--dds-node-client-bg); border-color:var(--dds-node-client)"></i><span>--dds-node-client</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-edge-bg); border-color:var(--dds-node-edge)"></i><span>--dds-node-edge</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-svc-bg); border-color:var(--dds-node-svc)"></i><span>--dds-node-svc</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-fn-bg); border-color:var(--dds-node-fn)"></i><span>--dds-node-fn</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-store-bg); border-color:var(--dds-node-store)"></i><span>--dds-node-store</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-queue-bg); border-color:var(--dds-node-queue)"></i><span>--dds-node-queue</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-cache-bg); border-color:var(--dds-node-cache)"></i><span>--dds-node-cache</span></div>
+      <div class="sw"><i class="pair" style="background:var(--dds-node-ext-bg); border-color:var(--dds-node-ext); border-style:dashed"></i><span>--dds-node-ext</span></div>
     </div>
 
     <p class="demo-note">Data-viz categorical (use in order)</p>
@@ -76,29 +132,35 @@
       <div class="sw"><i style="background:var(--dds-v6)"></i><span>--dds-v6</span></div>
     </div>
 
-    <p class="demo-note">Grounds</p>
-    <div class="sw-grid">
-      <div class="sw"><i style="background:var(--dds-doc-bg)"></i><span>--dds-doc-bg · paper</span></div>
-      <div class="sw"><i style="background:var(--dds-doc-ink)"></i><span>--dds-doc-ink</span></div>
-      <div class="sw"><i style="background:var(--dds-p-bg)"></i><span>--dds-p-bg · panel ground</span></div>
-      <div class="sw"><i style="background:var(--dds-p-surface)"></i><span>--dds-p-surface</span></div>
-    </div>
-
     <p class="demo-note">Type roles (system stacks, no webfonts)</p>
     <div style="margin-bottom:24px;">
       <div class="type-specimen"><span class="lbl">--dds-serif · document body</span><span style="font-family:var(--dds-serif); font-size:19px;">Money moves once; ledgers remember it twice.</span></div>
       <div class="type-specimen"><span class="lbl">--dds-sans · panel UI</span><span style="font-family:var(--dds-sans); font-size:16px; font-weight:500;">14 services · 3 regions · 99.95% uptime</span></div>
-      <div class="type-specimen"><span class="lbl">--dds-mono · machine truth</span><span class="dds-mono dds-num" style="font-size:14px;">transfer_9f41 · idempotency=order-1204 · 2026-07-03T14:02:11Z</span></div>
+      <div class="type-specimen"><span class="lbl">--dds-mono · machine truth</span><span class="dds-mono dds-num" style="font-size:14px;">transfer_9f41 · idempotency=order-1204 · 2026-10-07T14:02:11Z</span></div>
     </div>
 
-    <p class="demo-note">Spacing · 4px scale</p>
-    <p style="font-family:var(--dds-mono); font-size:12.5px;">--dds-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Stay on the scale; off-scale spacing is a lint error by convention.</p>
+    <p class="demo-note">Spacing · layout</p>
+    <p style="font-family:var(--dds-mono); font-size:12.5px;">--dds-s1…s8 = 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · --dds-gutter = clamp(16px, 4vw, 64px) · --dds-measure = 72ch · --dds-shell-max = 1920px</p>
   </section>
 
-  <!-- ============ 03 DOCUMENT MODE ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Document mode</h2></div>
-    <p>For investigations, design docs, post-mortems, and wiki exports. Serif body at 17px, prose capped at 66ch, and citations pushed to the margin so the argument stays clean. Everything below is live — the demo content is a fictional payments platform.</p>
+  <section class="dds-section" id="layout">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 03</span><h2>Layout — full width, readable measure</h2></div>
+    <p>The <code>.dds-page</code> shell is fluid: it spans the viewport with a responsive gutter and only stops at 1920px. Inside it, <code>.dds-layout</code> adds a sticky contents rail (<code>.dds-toc</code>) from 1200px; below that the rail folds into a wrapped list above the content. Prose, lists, callouts and timelines hold the 72ch measure; diagrams, tables, stat strips, card grids and panels take the full content width.</p>
+    <div class="dds-code">
+      <div class="dds-code-h"><span>page skeleton</span><span>html</span></div>
+<pre><code>&lt;body class="dds-doc"&gt;&lt;div class="dds-page"&gt;
+  &lt;header&gt;…eyebrow · title · meta…&lt;/header&gt;
+  &lt;div class="dds-layout"&gt;
+    &lt;nav class="dds-toc"&gt;&lt;div class="dds-toc-h"&gt;Contents&lt;/div&gt;&lt;ol&gt;&lt;li&gt;&lt;a href="#s1"&gt;01 …&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;
+    &lt;main class="dds-main"&gt; &lt;section class="dds-section" id="s1"&gt;…&lt;/section&gt; &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/body&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="dds-section" id="document">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Document mode</h2></div>
+    <p>For investigations, design docs, post-mortems, and wiki exports. Serif body at 17px, prose capped at 72ch, and citations pushed to the margin so the argument stays clean. Everything below is live — the demo content is a fictional payments platform.</p>
 
     <p class="demo-note">Live demo — stat strip, sidenote citation, table with total rule, verdict</p>
 
@@ -107,6 +169,7 @@
       <div><div class="dds-stat-label">Float balance</div><div class="dds-stat-value">€2.4<span class="dds-unit">M</span></div></div>
       <div><div class="dds-stat-label">Automated movements</div><div class="dds-stat-value">1</div></div>
       <div><div class="dds-stat-label">Reconciliation gap</div><div class="dds-stat-value">0.02<span class="dds-unit">%</span></div></div>
+      <div><div class="dds-stat-label">Checkout p95</div><div class="dds-stat-value">412<span class="dds-unit">ms</span></div></div>
     </div>
 
     <div class="dds-row">
@@ -114,17 +177,17 @@
         <p>The <code>FundWallet</code> step is the only automated movement of real money in the estate: a single transfer from the platform float to the customer wallet.<span class="dds-snref">2</span> Every other record — the authorisation ledger, the double-entry journal — is a mirror. Mirrors can drift; the transfer cannot.</p>
         <blockquote class="dds-pull"><strong>The one-way valve:</strong> money enters through five rails and leaves through one. The ledgers record a symmetry the money does not have.</blockquote>
       </div>
-      <aside class="dds-sidenote"><span class="dds-sn-num">2.</span> <span class="dds-evidence">WalletService.java:214</span> — verified 2026-07-03 against the production branch. Citations live in the margin, not inline.</aside>
+      <aside class="dds-sidenote"><span class="dds-sn-num">2.</span> <span class="dds-evidence">WalletService.java:214</span> — verified 2026-10-07 against the production branch. Citations live in the margin, not inline.</aside>
     </div>
 
     <div class="dds-table-wrap">
       <table class="dds-table">
-        <thead><tr><th>Rail</th><th>Mechanism</th><th class="dds-num">Volume (Jun)</th></tr></thead>
+        <thead><tr><th>Rail</th><th>Mechanism</th><th>Owner</th><th class="dds-num">Volume (Sep)</th></tr></thead>
         <tbody>
-          <tr><td>Card checkout</td><td>PSP hosted page</td><td class="dds-num">€1,204,880</td></tr>
-          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td class="dds-num">€863,110</td></tr>
-          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td class="dds-num">€98,400</td></tr>
-          <tr class="dds-total"><td>Total in</td><td></td><td class="dds-num">€2,166,390</td></tr>
+          <tr><td>Card checkout</td><td>PSP hosted page</td><td>checkout-api</td><td class="dds-num">€1,204,880</td></tr>
+          <tr><td>Virtual IBAN</td><td>SEPA credit transfer</td><td>wallet-service</td><td class="dds-num">€863,110</td></tr>
+          <tr><td>Manual bank transfer</td><td>Ops CSV import</td><td>finance-ops</td><td class="dds-num">€98,400</td></tr>
+          <tr class="dds-total"><td>Total in</td><td></td><td></td><td class="dds-num">€2,166,390</td></tr>
         </tbody>
       </table>
     </div>
@@ -139,36 +202,49 @@
     </div>
   </section>
 
-  <!-- ============ 04 PANEL MODE ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 04</span><h2>Panel mode</h2></div>
+  <section class="dds-section" id="panel">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Panel mode</h2></div>
     <p>For dashboards, risk registers, and status pages. Sans-serif, 1px borders instead of shadows, status as dots, machine values in monospace with tabular numerals. Light-first so it prints and screenshots cleanly; the dark theme comes free from the tokens.</p>
 
-    <p class="demo-note">Live demo — metric grid, key–value panel, register rows, chips</p>
+    <p class="demo-note">Live demo — metric grid, key–value panels, register rows, chips</p>
     <div class="dds-panels panel-demo">
+      <div class="dds-board-h">
+        <h1>Payments · production</h1>
+        <span class="dds-chip ok">verified</span>
+        <span class="dds-board-meta">eu-west-1 · 2026-10-07 14:00 UTC</span>
+      </div>
       <div class="dds-metric-grid" style="margin-bottom:16px;">
         <div class="dds-metric"><div class="dds-metric-l">Transfers today</div><div class="dds-metric-v">1,284</div></div>
         <div class="dds-metric"><div class="dds-metric-l">Failed</div><div class="dds-metric-v">3</div></div>
         <div class="dds-metric"><div class="dds-metric-l">P95 latency</div><div class="dds-metric-v">412<span class="dds-unit">ms</span></div></div>
         <div class="dds-metric"><div class="dds-metric-l">Queue depth</div><div class="dds-metric-v">0</div></div>
+        <div class="dds-metric"><div class="dds-metric-l">DLQ depth</div><div class="dds-metric-v">3</div></div>
+        <div class="dds-metric"><div class="dds-metric-l">Error budget</div><div class="dds-metric-v">72<span class="dds-unit">%</span></div></div>
       </div>
 
-      <div class="two-col">
+      <div class="three-col">
         <div class="dds-panel">
           <div class="dds-panel-h"><h3>wallet-service</h3><span class="dds-panel-meta">eu-west-1</span></div>
           <div class="dds-panel-b">
-            <div class="dds-kv"><span>Version</span><b>v4.2.1</b></div>
+            <div class="dds-kv"><span>Version</span><b>v4.3.1</b></div>
             <div class="dds-kv"><span>Idempotency</span><b>order-scoped</b></div>
-            <div class="dds-kv"><span>Last deploy</span><b>2026-07-02 18:40</b></div>
+            <div class="dds-kv"><span>Last deploy</span><b>2026-10-07 15:10</b></div>
           </div>
         </div>
         <div class="dds-panel">
           <div class="dds-panel-h"><h3>Risk register</h3><span class="dds-panel-meta">4 open</span></div>
           <div class="dds-panel-b">
-            <div class="dds-reg-row"><span class="dds-dot crit"></span><b>Auth rule in placeholder state</b><span class="dds-reg-meta">RISK-101</span></div>
+            <div class="dds-reg-row"><span class="dds-dot crit"></span><b>recon.dlq has 3 poison messages</b><span class="dds-reg-meta">RISK-114</span></div>
             <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Ledger drift on 2% of wallets</b><span class="dds-reg-meta">RISK-097</span></div>
-            <div class="dds-reg-row"><span class="dds-dot warn"></span><b>Float funded manually</b><span class="dds-reg-meta">RISK-088</span></div>
+            <div class="dds-reg-row"><span class="dds-dot pending"></span><b>ledger-export not yet built</b><span class="dds-reg-meta">ADR-015</span></div>
             <div class="dds-reg-row"><span class="dds-dot ok"></span><b>One-way valve verified</b><span class="dds-reg-meta">closed</span></div>
+          </div>
+        </div>
+        <div class="dds-panel">
+          <div class="dds-panel-h"><h3>Runbook</h3><span class="dds-panel-meta">recon.dlq</span></div>
+          <div class="dds-panel-b">
+            <div class="dds-cmd"><span class="dds-ps">$ </span>kafka-console-consumer --topic recon.dlq --max-messages 3</div>
+            <div class="dds-kv"><span>Pager</span><b>payments-oncall</b></div>
           </div>
         </div>
       </div>
@@ -183,92 +259,452 @@
     </div>
   </section>
 
-  <!-- ============ 05 DIAGRAM GRAMMAR ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 05</span><h2>Diagram grammar</h2></div>
-    <p>The grammar is semantic and skin-independent: a restyle may recolour it but may never reinterpret it. Every diagram ships with the legend and a title block carrying revision date and verification status.</p>
+  <section class="dds-section" id="architecture">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Architecture diagrams</h2></div>
+    <p>Native inline SVG is the default for architecture, sequence and state diagrams. Nodes are <code>&lt;g class="dds-node <i>kind</i>"&gt;</code> groups — the kind picks the hue and the shape (cylinder for stores, barred box for queues, dashed for externals). Edges are <code>.dds-edge</code> paths whose route class picks colour and dash; <code>.dds-flow</code> marches the dashes in the direction of travel, and <code>.dds-pkt</code> dots ride the hot path. Motion stops under <code>prefers-reduced-motion</code>. Hover a node to lift it.</p>
 
-    <div class="dds-titleblock">
-      <div><b>Funds Flow — Wallet Funding</b>example · fictional platform</div>
-      <div><b>Rev 2026-07-03</b><span class="dds-tb-status verified">verified</span></div>
-      <div><b>DWG 001</b>sheet 1/1</div>
+    <h3>DWG 02-01 · Container view</h3>
+    <p>Zones draw network and trust boundaries; numbered steps key the drawing to the walkthrough below it. The proposed <code>balance-cache</code> carries <code>is-new</code>; the dead-letter queue carries <code>is-fail</code>; the hot path service carries <code>is-hot</code>.</p>
+    <figure class="dds-arch">
+<svg viewBox="0 0 1000 720" role="img" aria-label="Container architecture of the wallet-funding platform. Web and mobile clients call the API gateway, which checks tokens with auth-service and routes to checkout-api inside the PCI scope and to wallet-service. checkout-api authorises cards at the external card PSP and calls wallet-service, which writes the ledger database, reads a proposed balance cache and publishes wallet.events. recon-worker consumes the events, reconciles against the settlement bank, and sends poison messages to a dead-letter queue.">
+<defs>
+<marker id="mka-sync" class="dds-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mka-async" class="dds-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mka-data" class="dds-mk data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mka-ctrl" class="dds-mk ctrl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mka-ext" class="dds-mk ext" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mka-fail" class="dds-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="dds-stage" x="16" y="30">Clients</text>
+<text class="dds-stage" x="196" y="30">Edge</text>
+<text class="dds-stage" x="384" y="30">Services</text>
+<text class="dds-stage" x="596" y="30">Data &amp; events</text>
+<text class="dds-stage" x="830" y="30">External</text>
+<rect class="dds-zone" x="178" y="48" width="604" height="664" rx="6"/>
+<text class="dds-zlabel" x="192" y="700">VPC · eu-west-1</text>
+<rect class="dds-zone" x="812" y="48" width="182" height="664" rx="6"/>
+<text class="dds-zlabel" x="826" y="700">Third parties</text>
+<rect class="dds-zone trust" x="372" y="78" width="194" height="116" rx="4"/>
+<text class="dds-zlabel trust" x="384" y="98">PCI scope</text>
+<path class="dds-edge sync dds-flow" d="M152,145 C174,145 174,205 194,205" marker-end="url(#mka-sync)"/>
+<path class="dds-edge sync dds-flow" d="M152,285 C174,285 174,235 194,235" marker-end="url(#mka-sync)"/>
+<path class="dds-edge ctrl dds-flow" d="M271,260 L271,378" marker-end="url(#mka-ctrl)"/>
+<path class="dds-edge sync dds-flow" d="M346,205 C365,205 365,145 382,145" marker-end="url(#mka-sync)"/>
+<circle class="dds-pkt sync" r="4.5"><animateMotion dur="2.2s" repeatCount="indefinite" path="M346,205 C365,205 365,145 382,145"/></circle>
+<path class="dds-edge sync dds-flow" d="M346,235 C365,235 365,285 382,285" marker-end="url(#mka-sync)"/>
+<path class="dds-edge ext dds-flow" d="M554,145 L828,145" marker-end="url(#mka-ext)"/>
+<path class="dds-edge sync dds-flow" d="M469,180 L469,248" marker-end="url(#mka-sync)"/>
+<circle class="dds-pkt sync" r="4.5"><animateMotion dur="1.6s" repeatCount="indefinite" path="M469,180 L469,248"/></circle>
+<path class="dds-edge data dds-flow" d="M554,285 L594,285" marker-end="url(#mka-data)"/>
+<circle class="dds-pkt data" r="4.5"><animateMotion dur="1.2s" repeatCount="indefinite" path="M554,285 L594,285"/></circle>
+<path class="dds-edge data dds-flow" d="M520,320 L520,415 L594,415" marker-end="url(#mka-data)"/>
+<path class="dds-edge async dds-flow" d="M430,320 L430,498" marker-end="url(#mka-async)"/>
+<circle class="dds-pkt async" r="4.5"><animateMotion dur="2.6s" repeatCount="indefinite" path="M430,320 L430,498"/></circle>
+<path class="dds-edge async dds-flow" d="M554,535 L594,535" marker-end="url(#mka-async)"/>
+<path class="dds-edge ext dds-flow" d="M766,535 L828,535" marker-end="url(#mka-ext)"/>
+<path class="dds-edge fail dds-flow" d="M681,570 L681,608" marker-end="url(#mka-fail)"/>
+<g class="dds-node client">
+<rect class="dds-shape" x="16" y="110" width="136" height="70" rx="14"/>
+<text class="dds-nkind" x="30" y="130">CLIENT</text>
+<text class="dds-nlabel" x="30" y="151">Web checkout</text>
+<text class="dds-nsub" x="30" y="169">React SPA</text>
+</g>
+<g class="dds-node client">
+<rect class="dds-shape" x="16" y="250" width="136" height="70" rx="14"/>
+<text class="dds-nkind" x="30" y="270">CLIENT</text>
+<text class="dds-nlabel" x="30" y="291">Mobile app</text>
+<text class="dds-nsub" x="30" y="309">iOS · Android</text>
+</g>
+<g class="dds-node edge">
+<rect class="dds-shape" x="196" y="180" width="150" height="80" rx="4"/>
+<text class="dds-nkind" x="210" y="200">EDGE</text>
+<text class="dds-nlabel" x="210" y="221">API gateway</text>
+<text class="dds-nsub" x="210" y="239">Envoy · :443</text>
+<text class="dds-ntag" x="210" y="255">600 rps limit</text>
+</g>
+<g class="dds-node svc">
+<rect class="dds-shape" x="196" y="380" width="150" height="70" rx="0"/>
+<text class="dds-nkind" x="210" y="400">SVC</text>
+<text class="dds-nlabel" x="210" y="421">auth-service</text>
+<text class="dds-nsub" x="210" y="439">OIDC · JWT</text>
+</g>
+<g class="dds-node svc">
+<rect class="dds-shape" x="384" y="110" width="170" height="70" rx="0"/>
+<text class="dds-nkind" x="398" y="130">SVC</text>
+<text class="dds-nlabel" x="398" y="151">checkout-api</text>
+<text class="dds-nsub" x="398" y="169">Kotlin · p95 180ms</text>
+</g>
+<g class="dds-node svc is-hot">
+<rect class="dds-shape" x="384" y="250" width="170" height="70" rx="0"/>
+<text class="dds-nkind" x="398" y="270">SVC</text>
+<text class="dds-nlabel" x="398" y="291">wallet-service</text>
+<text class="dds-nsub" x="398" y="309">Java · p95 120ms</text>
+</g>
+<g class="dds-node store">
+<path class="dds-shape" d="M596,247 v78 a85,9 0 0 0 170,0 v-78 a85,9 0 0 0 -170,0 z"/>
+<ellipse class="dds-shape" cx="681" cy="247" rx="85" ry="9"/>
+<text class="dds-nkind" x="610" y="274">STORE</text>
+<text class="dds-nlabel" x="610" y="295">ledger-db</text>
+<text class="dds-nsub" x="610" y="313">Postgres 16 · RDS</text>
+</g>
+<g class="dds-node cache is-new">
+<rect class="dds-shape" x="596" y="380" width="170" height="70" rx="0"/>
+<text class="dds-nkind" x="610" y="400">CACHE · PROPOSED</text>
+<text class="dds-nlabel" x="610" y="421">balance-cache</text>
+<text class="dds-nsub" x="610" y="439">Redis 7 · TTL 30s</text>
+</g>
+<g class="dds-node queue">
+<rect class="dds-shape" x="384" y="500" width="170" height="70" rx="0"/>
+<rect class="dds-qbar" x="520" y="512" width="5" height="46"/>
+<rect class="dds-qbar" x="528" y="512" width="5" height="46"/>
+<rect class="dds-qbar" x="536" y="512" width="5" height="46"/>
+<text class="dds-nkind" x="398" y="520">QUEUE</text>
+<text class="dds-nlabel" x="398" y="541">wallet.events</text>
+<text class="dds-nsub" x="398" y="559">Kafka topic</text>
+</g>
+<g class="dds-node fn">
+<rect class="dds-shape" x="596" y="500" width="170" height="70" rx="10"/>
+<text class="dds-nkind" x="610" y="520">FN</text>
+<text class="dds-nlabel" x="610" y="541">recon-worker</text>
+<text class="dds-nsub" x="610" y="559">cron 02:00 UTC</text>
+</g>
+<g class="dds-node queue is-fail">
+<rect class="dds-shape" x="596" y="610" width="170" height="66" rx="0"/>
+<rect class="dds-qbar" x="732" y="622" width="5" height="42"/>
+<rect class="dds-qbar" x="740" y="622" width="5" height="42"/>
+<rect class="dds-qbar" x="748" y="622" width="5" height="42"/>
+<text class="dds-nkind" x="610" y="630">QUEUE</text>
+<text class="dds-nlabel" x="610" y="651">recon.dlq</text>
+<text class="dds-nsub" x="610" y="669">3 msgs · paging</text>
+</g>
+<g class="dds-node ext">
+<rect class="dds-shape" x="830" y="110" width="154" height="70" rx="0"/>
+<text class="dds-nkind" x="844" y="130">EXT</text>
+<text class="dds-nlabel" x="844" y="151">Card PSP</text>
+<text class="dds-nsub" x="844" y="169">auth · capture</text>
+</g>
+<g class="dds-node ext">
+<rect class="dds-shape" x="830" y="500" width="154" height="70" rx="0"/>
+<text class="dds-nkind" x="844" y="520">EXT</text>
+<text class="dds-nlabel" x="844" y="541">Settlement bank</text>
+<text class="dds-nsub" x="844" y="559">SFTP · camt.053</text>
+</g>
+<text class="dds-elabel ext" x="720" y="136" text-anchor="middle">POST /authorise</text>
+<text class="dds-elabel ctrl" x="283" y="340" text-anchor="start">verify JWT</text>
+<text class="dds-elabel fail" x="693" y="596" text-anchor="start">poison msg</text>
+<g class="dds-step"><circle cx="174" cy="175" r="12"/><text x="174" y="175">1</text></g>
+<g class="dds-step"><circle cx="271" cy="305" r="12"/><text x="271" y="305">2</text></g>
+<g class="dds-step"><circle cx="365" cy="175" r="12"/><text x="365" y="175">3</text></g>
+<g class="dds-step"><circle cx="600" cy="145" r="12"/><text x="600" y="145">4</text></g>
+<g class="dds-step"><circle cx="469" cy="214" r="12"/><text x="469" y="214">5</text></g>
+<g class="dds-step"><circle cx="574" cy="285" r="12"/><text x="574" y="285">6</text></g>
+<g class="dds-step"><circle cx="430" cy="440" r="12"/><text x="430" y="440">7</text></g>
+<g class="dds-step"><circle cx="574" cy="535" r="12"/><text x="574" y="535">8</text></g>
+</svg>
+<div class="dds-legend">
+  <span><i class="sync"></i>sync request</span>
+  <span><i class="async"></i>async event</span>
+  <span><i class="data"></i>data read / write</span>
+  <span><i class="ctrl"></i>control plane</span>
+  <span><i class="ext"></i>third-party call</span>
+  <span><i class="fail"></i>failure / dead-letter</span>
+  <span><i class="pkt"></i>live traffic</span>
+</div>
+<div class="dds-legend">
+  <span><i class="node client"></i>client</span>
+  <span><i class="node edge"></i>edge</span>
+  <span><i class="node svc"></i>service</span>
+  <span><i class="node fn"></i>job / worker</span>
+  <span><i class="node store"></i>database</span>
+  <span><i class="node cache"></i>cache</span>
+  <span><i class="node queue"></i>queue / topic</span>
+  <span><i class="node ext"></i>external</span>
+  <span><i class="zone"></i>network zone</span>
+  <span><i class="zone trust"></i>trust boundary</span>
+</div>
+<div class="dds-titleblock"><div><b>Wallet funding — container view</b>fictional platform · services/README</div><div><b>Rev 2026-10-07</b><span class="dds-tb-status verified">verified</span></div><div><b>DWG 02-01</b>sheet 1/1</div></div>
+</figure>
+    <ol class="dds-steps">
+      <li>The web checkout posts a payment intent through the API gateway (sync).</li>
+      <li>The gateway verifies the caller's JWT with <code>auth-service</code> — control plane, never on the money path.</li>
+      <li>The gateway routes to <code>checkout-api</code>, the only service inside PCI scope.</li>
+      <li><code>checkout-api</code> authorises the card at the PSP (third-party call, 190ms of the budget).</li>
+      <li><code>checkout-api</code> calls <code>FundWallet</code> on <code>wallet-service</code>.</li>
+      <li><code>wallet-service</code> writes the ledger row in one transaction; the unique key makes retries safe.</li>
+      <li><code>wallet.funded</code> is published asynchronously; nothing on the request path waits for it.</li>
+      <li><code>recon-worker</code> consumes events nightly and reconciles against the bank; poison messages go to <code>recon.dlq</code>.</li>
+    </ol>
+
+    <h3>DWG 02-02 · Sequence</h3>
+    <p>Actors reuse the node kinds, so the sequence and the container view share colours. Solid arrows are calls, dashed grey arrows are returns, the red dashed arrow is a call that timed out, and notes explain the non-obvious.</p>
+    <figure class="dds-seq">
+<svg viewBox="0 0 980 560" role="img" aria-label="Sequence: the web checkout posts a payment with an idempotency key; checkout-api times out authorising at the card PSP and retries with the same key, which is approved; checkout-api calls wallet-service FundWallet, which inserts the ledger row idempotently, publishes wallet.funded asynchronously, and returns the balance; checkout-api returns 201 Created.">
+<defs>
+<marker id="mks-sync" class="dds-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mks-async" class="dds-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mks-data" class="dds-mk data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mks-ext" class="dds-mk ext" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mks-fail" class="dds-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mks-ret" class="dds-mk ret" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<line class="dds-life" x1="90" y1="64" x2="90" y2="540"/>
+<line class="dds-life" x1="250" y1="64" x2="250" y2="540"/>
+<line class="dds-life" x1="410" y1="64" x2="410" y2="540"/>
+<line class="dds-life" x1="570" y1="64" x2="570" y2="540"/>
+<line class="dds-life" x1="730" y1="64" x2="730" y2="540"/>
+<line class="dds-life" x1="890" y1="64" x2="890" y2="540"/>
+<g class="dds-node client"><rect class="dds-shape" x="20" y="12" width="140" height="52" rx="14"/><text class="dds-nkind" x="90" y="32" text-anchor="middle">CLIENT</text><text class="dds-nlabel" x="90" y="53" text-anchor="middle">Web checkout</text></g>
+<g class="dds-node svc"><rect class="dds-shape" x="180" y="12" width="140" height="52" rx="0"/><text class="dds-nkind" x="250" y="32" text-anchor="middle">SVC</text><text class="dds-nlabel" x="250" y="53" text-anchor="middle">checkout-api</text></g>
+<g class="dds-node ext"><rect class="dds-shape" x="340" y="12" width="140" height="52" rx="0"/><text class="dds-nkind" x="410" y="32" text-anchor="middle">EXT</text><text class="dds-nlabel" x="410" y="53" text-anchor="middle">Card PSP</text></g>
+<g class="dds-node svc"><rect class="dds-shape" x="500" y="12" width="140" height="52" rx="0"/><text class="dds-nkind" x="570" y="32" text-anchor="middle">SVC</text><text class="dds-nlabel" x="570" y="53" text-anchor="middle">wallet-service</text></g>
+<g class="dds-node store"><rect class="dds-shape" x="660" y="12" width="140" height="52" rx="12"/><text class="dds-nkind" x="730" y="32" text-anchor="middle">STORE</text><text class="dds-nlabel" x="730" y="53" text-anchor="middle">ledger-db</text></g>
+<g class="dds-node queue"><rect class="dds-shape" x="820" y="12" width="140" height="52" rx="0"/><text class="dds-nkind" x="890" y="32" text-anchor="middle">QUEUE</text><text class="dds-nlabel" x="890" y="53" text-anchor="middle">wallet.events</text></g>
+<rect class="dds-act svc" x="244" y="104" width="12" height="392"/>
+<rect class="dds-act ext" x="404" y="209" width="12" height="47"/>
+<rect class="dds-act svc" x="564" y="289" width="12" height="167"/>
+<rect class="dds-act store" x="724" y="329" width="12" height="47"/>
+<rect class="dds-act queue" x="884" y="404" width="12" height="16"/>
+<path class="dds-msg sync" d="M90,110 L244,110" marker-end="url(#mks-sync)"/>
+<text class="dds-mlabel" x="170" y="102" text-anchor="middle">POST /payments</text>
+<circle class="dds-pkt sync" r="4.5"><animateMotion dur="2.2s" repeatCount="indefinite" path="M90,110 L244,110"/></circle>
+<path class="dds-msg fail" d="M256,150 L382,150" marker-end="url(#mks-fail)"/>
+<text class="dds-mlabel fail" x="320" y="142" text-anchor="middle">authorise €50</text>
+<path class="dds-edge fail" d="M388,143 l14,14 m0,-14 l-14,14" style="stroke-width:2.5"/>
+<g class="dds-note"><rect x="262" y="160" width="140" height="32" rx="2"/><text x="272" y="181">2s timeout → retry</text></g>
+<path class="dds-msg ext" d="M256,215 L404,215" marker-end="url(#mks-ext)"/>
+<text class="dds-mlabel" x="330" y="207" text-anchor="middle">retry, same key</text>
+<path class="dds-msg ret" d="M404,250 L256,250" marker-end="url(#mks-ret)"/>
+<text class="dds-mlabel ret" x="330" y="242" text-anchor="middle">approved</text>
+<path class="dds-msg sync" d="M256,295 L564,295" marker-end="url(#mks-sync)"/>
+<text class="dds-mlabel" x="410" y="287" text-anchor="middle">FundWallet(order-1204)</text>
+<circle class="dds-pkt sync" r="4.5"><animateMotion dur="2.2s" repeatCount="indefinite" path="M256,295 L564,295"/></circle>
+<path class="dds-msg data" d="M576,335 L724,335" marker-end="url(#mks-data)"/>
+<text class="dds-mlabel" x="650" y="327" text-anchor="middle">INSERT idempotent</text>
+<path class="dds-msg ret" d="M724,370 L576,370" marker-end="url(#mks-ret)"/>
+<text class="dds-mlabel ret" x="650" y="362" text-anchor="middle">1 row</text>
+<path class="dds-msg async dds-flow" d="M576,410 L884,410" marker-end="url(#mks-async)"/>
+<text class="dds-mlabel" x="730" y="402" text-anchor="middle">wallet.funded</text>
+<circle class="dds-pkt async" r="4.5"><animateMotion dur="2.2s" repeatCount="indefinite" path="M576,410 L884,410"/></circle>
+<path class="dds-msg ret" d="M564,450 L256,450" marker-end="url(#mks-ret)"/>
+<text class="dds-mlabel ret" x="410" y="442" text-anchor="middle">200 · balance 50.00</text>
+<path class="dds-msg ret" d="M244,490 L90,490" marker-end="url(#mks-ret)"/>
+<text class="dds-mlabel ret" x="170" y="482" text-anchor="middle">201 Created</text>
+</svg>
+<div class="dds-legend">
+  <span><i class="sync"></i>sync call</span>
+  <span><i class="ext"></i>third-party call</span>
+  <span><i class="data"></i>data write</span>
+  <span><i class="async"></i>async publish</span>
+  <span><i class="ret"></i>return</span>
+  <span><i class="fail"></i>timed out</span>
+</div>
+<div class="dds-titleblock"><div><b>FundWallet — retry-safe checkout</b>checkout-api · PaymentsController.kt</div><div><b>Rev 2026-10-07</b><span class="dds-tb-status in-review">in review</span></div><div><b>DWG 02-02</b>sheet 1/1</div></div>
+</figure>
+
+    <h3>DWG 02-03 · State machine</h3>
+    <p>States are pills coloured by meaning; transitions reuse the route vocabulary — API commands are sync, PSP webhooks are async, timers are control-plane, failures are red.</p>
+    <figure class="dds-state">
+<svg viewBox="0 0 1010 280" role="img" aria-label="State machine of a payment intent: created, confirm to authorising; auth.approved webhook to authorised, or auth.declined to declined; capture to captured, or after seven days without capture to expired; payout.paid to settled and then final; refund from captured to refunded.">
+<defs>
+<marker id="mkst-sync" class="dds-mk sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkst-async" class="dds-mk async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkst-ctrl" class="dds-mk ctrl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mkst-fail" class="dds-mk fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<defs><marker id="mkst-ink" class="dds-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<circle class="dds-st-init" cx="12" cy="85" r="7"/>
+<path class="dds-edge" d="M19,85 L34,85" marker-end="url(#mkst-ink)"/>
+<path class="dds-edge sync dds-flow" d="M176,85 L230,85" marker-end="url(#mkst-sync)"/>
+<text class="dds-elabel sync" x="203" y="44" text-anchor="middle">confirm()</text>
+<path class="dds-edge async dds-flow" d="M372,85 L426,85" marker-end="url(#mkst-async)"/>
+<text class="dds-elabel async" x="399" y="44" text-anchor="middle">auth.approved</text>
+<path class="dds-edge sync dds-flow" d="M568,85 L622,85" marker-end="url(#mkst-sync)"/>
+<text class="dds-elabel sync" x="595" y="44" text-anchor="middle">capture()</text>
+<path class="dds-edge async dds-flow" d="M764,85 L818,85" marker-end="url(#mkst-async)"/>
+<text class="dds-elabel async" x="791" y="44" text-anchor="middle">payout.paid</text>
+<path class="dds-edge fail dds-flow" d="M302,114 L302,198" marker-end="url(#mkst-fail)"/>
+<text class="dds-elabel fail" x="312" y="161" text-anchor="start">auth.declined</text>
+<path class="dds-edge ctrl dds-flow" d="M498,114 L498,198" marker-end="url(#mkst-ctrl)"/>
+<text class="dds-elabel ctrl" x="508" y="161" text-anchor="start">T+7d, no capture</text>
+<path class="dds-edge sync dds-flow" d="M694,114 L694,198" marker-end="url(#mkst-sync)"/>
+<text class="dds-elabel sync" x="704" y="161" text-anchor="start">refund()</text>
+<path class="dds-edge" d="M960,85 L976,85" marker-end="url(#mkst-ink)"/>
+<circle class="dds-st-final" cx="990" cy="85" r="11"/><circle class="dds-st-final-dot" cx="990" cy="85" r="6"/>
+<g class="dds-node dds-st neutral"><rect class="dds-shape" x="36" y="56" width="140" height="58" rx="29"/><text class="dds-nlabel" x="106" y="82" text-anchor="middle">created</text><text class="dds-nsub" x="106" y="100" text-anchor="middle">unconfirmed</text></g>
+<g class="dds-node dds-st info"><rect class="dds-shape" x="232" y="56" width="140" height="58" rx="29"/><text class="dds-nlabel" x="302" y="82" text-anchor="middle">authorising</text><text class="dds-nsub" x="302" y="100" text-anchor="middle">awaiting PSP</text></g>
+<g class="dds-node dds-st info"><rect class="dds-shape" x="428" y="56" width="140" height="58" rx="29"/><text class="dds-nlabel" x="498" y="82" text-anchor="middle">authorised</text><text class="dds-nsub" x="498" y="100" text-anchor="middle">funds held</text></g>
+<g class="dds-node dds-st ok"><rect class="dds-shape" x="624" y="56" width="140" height="58" rx="29"/><text class="dds-nlabel" x="694" y="82" text-anchor="middle">captured</text><text class="dds-nsub" x="694" y="100" text-anchor="middle">money moved</text></g>
+<g class="dds-node dds-st ok"><rect class="dds-shape" x="820" y="56" width="140" height="58" rx="29"/><text class="dds-nlabel" x="890" y="82" text-anchor="middle">settled</text><text class="dds-nsub" x="890" y="100" text-anchor="middle">paid out</text></g>
+<g class="dds-node dds-st crit"><rect class="dds-shape" x="232" y="200" width="140" height="58" rx="29"/><text class="dds-nlabel" x="302" y="226" text-anchor="middle">declined</text><text class="dds-nsub" x="302" y="244" text-anchor="middle">terminal</text></g>
+<g class="dds-node dds-st warn"><rect class="dds-shape" x="428" y="200" width="140" height="58" rx="29"/><text class="dds-nlabel" x="498" y="226" text-anchor="middle">expired</text><text class="dds-nsub" x="498" y="244" text-anchor="middle">hold released</text></g>
+<g class="dds-node dds-st warn"><rect class="dds-shape" x="624" y="200" width="140" height="58" rx="29"/><text class="dds-nlabel" x="694" y="226" text-anchor="middle">refunded</text><text class="dds-nsub" x="694" y="244" text-anchor="middle">reversed</text></g>
+</svg>
+<div class="dds-legend">
+  <span><i class="node neutral"></i>pending</span>
+  <span><i class="node info"></i>in flight</span>
+  <span><i class="node ok"></i>money moved</span>
+  <span><i class="node warn"></i>reversed / lapsed</span>
+  <span><i class="node crit"></i>failed</span>
+  <span><i class="sync"></i>API command</span>
+  <span><i class="async"></i>webhook</span>
+  <span><i class="ctrl"></i>timer</span>
+  <span><i class="fail"></i>failure</span>
+</div>
+<div class="dds-titleblock"><div><b>Payment intent lifecycle</b>wallet-service · PaymentIntent.java</div><div><b>Rev 2026-10-07</b><span class="dds-tb-status verified">verified</span></div><div><b>DWG 02-03</b>sheet 1/1</div></div>
+</figure>
+
+    <div class="dds-callout note">
+      <div class="dds-callout-t">The v1 funds-flow grammar still applies</div>
+      <p>For money-flow drawings where the semantics are money / manual / mirror / blocked, keep using <code>.dds-diagram</code> with <code>.e-*</code> and <code>.n-*</code> classes — see <a href="diagrams.html#funds-flow">the diagrams reference</a>. Mermaid remains the fallback for ER, gantt, class and the rest of the catalogue.</p>
+    </div>
+  </section>
+
+  <section class="dds-section" id="engineering">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 07</span><h2>Engineering components</h2></div>
+    <p>The furniture of design docs, RFCs and service reviews. Each component reads the mode-resolved aliases, so it renders square on paper in Document mode and rounded in Panel mode.</p>
+
+    <h3>Service cards</h3>
+    <div class="dds-svc-grid">
+      <article class="dds-svc svc">
+        <div class="dds-svc-kind">Service</div>
+        <div class="dds-svc-h"><h4>checkout-api</h4><span class="dds-dot ok"></span></div>
+        <p class="dds-svc-own">Owner: payments-core · PCI scope</p>
+        <div class="dds-svc-tags"><span class="dds-tag">Kotlin</span><span class="dds-tag">Ktor</span><span class="dds-tag">ECS</span></div>
+        <dl class="dds-svc-facts"><dt>SLO</dt><dd>99.95%</dd><dt>p95</dt><dd>180 ms</dd><dt>Depends on</dt><dd>PSP · wallet-service</dd></dl>
+      </article>
+      <article class="dds-svc svc">
+        <div class="dds-svc-kind">Service</div>
+        <div class="dds-svc-h"><h4>wallet-service</h4><span class="dds-dot warn"></span></div>
+        <p class="dds-svc-own">Owner: ledger · on-call payments</p>
+        <div class="dds-svc-tags"><span class="dds-tag">Java 21</span><span class="dds-tag">Spring</span><span class="dds-tag">EKS</span></div>
+        <dl class="dds-svc-facts"><dt>SLO</dt><dd>99.99%</dd><dt>p95</dt><dd>120 ms</dd><dt>Depends on</dt><dd>ledger-db · Kafka</dd></dl>
+      </article>
+      <article class="dds-svc store">
+        <div class="dds-svc-kind">Database</div>
+        <div class="dds-svc-h"><h4>ledger-db</h4><span class="dds-dot ok"></span></div>
+        <p class="dds-svc-own">Owner: ledger · multi-AZ</p>
+        <div class="dds-svc-tags"><span class="dds-tag">Postgres 16</span><span class="dds-tag">RDS</span></div>
+        <dl class="dds-svc-facts"><dt>RPO / RTO</dt><dd>0 / 5 min</dd><dt>Size</dt><dd>412 GB</dd><dt>Writers</dt><dd>wallet-service</dd></dl>
+      </article>
+      <article class="dds-svc fn">
+        <div class="dds-svc-kind">Job</div>
+        <div class="dds-svc-h"><h4>recon-worker</h4><span class="dds-dot crit"></span></div>
+        <p class="dds-svc-own">Owner: finance-eng · nightly</p>
+        <div class="dds-svc-tags"><span class="dds-tag">Python 3.12</span><span class="dds-tag">Lambda</span></div>
+        <dl class="dds-svc-facts"><dt>Schedule</dt><dd>02:00 UTC</dd><dt>Last run</dt><dd>3 failed</dd><dt>Reads</dt><dd>wallet.events</dd></dl>
+      </article>
     </div>
 
-    <figure class="dds-diagram dds-grid-paper" style="margin:0 0 16px;">
-      <svg viewBox="0 0 720 150" role="img" aria-label="Example funds-flow diagram showing edge and node semantics">
-        <!-- human -->
-        <rect class="n-human" x="8" y="52" width="110" height="44" rx="22"/>
-        <text class="n-label" x="63" y="71" text-anchor="middle">Finance team</text>
-        <text class="n-sub" x="63" y="85" text-anchor="middle">human</text>
-        <!-- manual edge -->
-        <line class="e-manual" x1="118" y1="74" x2="176" y2="74"/>
-        <path class="a-manual" d="M184 74 l-9 -5 v10 z"/>
-        <!-- service -->
-        <rect class="n-svc" x="186" y="52" width="120" height="44"/>
-        <text class="n-label" x="246" y="71" text-anchor="middle">Platform float</text>
-        <text class="n-sub" x="246" y="85" text-anchor="middle">service</text>
-        <!-- money edge -->
-        <line class="e-money" x1="306" y1="74" x2="364" y2="74"/>
-        <path class="a-money" d="M372 74 l-9 -5 v10 z"/>
-        <!-- service -->
-        <rect class="n-svc" x="374" y="52" width="120" height="44"/>
-        <text class="n-label" x="434" y="71" text-anchor="middle">Customer wallet</text>
-        <text class="n-sub" x="434" y="85" text-anchor="middle">service</text>
-        <!-- mirror edge to datastore -->
-        <line class="e-mirror" x1="434" y1="96" x2="434" y2="112"/>
-        <path class="a-mirror" d="M434 120 l-5 -9 h10 z"/>
-        <rect class="n-store" x="374" y="122" width="120" height="24" rx="10"/>
-        <text class="n-label" x="434" y="137" text-anchor="middle">journal (mirror)</text>
-        <!-- money edge to external -->
-        <line class="e-money" x1="494" y1="74" x2="552" y2="74"/>
-        <path class="a-money" d="M560 74 l-9 -5 v10 z"/>
-        <rect class="n-ext" x="562" y="52" width="120" height="44"/>
-        <text class="n-label" x="622" y="71" text-anchor="middle">Merchant</text>
-        <text class="n-sub" x="622" y="85" text-anchor="middle">external</text>
-        <!-- blocked reverse edge -->
-        <line class="e-blocked" x1="374" y1="30" x2="252" y2="30"/>
-        <path class="a-blocked" d="M244 30 l9 -5 v10 z"/>
-        <text class="n-sub" x="313" y="22" text-anchor="middle">no reverse path (by design)</text>
-      </svg>
-      <figcaption class="dds-legend">
-        <span><i class="dds-leg-line money"></i>real money / sync</span>
-        <span><i class="dds-leg-line manual"></i>manual step</span>
-        <span><i class="dds-leg-line mirror"></i>mirror / async</span>
-        <span><i class="dds-leg-line blocked"></i>blocked by design</span>
-      </figcaption>
-    </figure>
-
+    <h3>API endpoints</h3>
     <div class="dds-table-wrap">
-      <table class="dds-table">
-        <thead><tr><th>Element</th><th>Shape / stroke</th><th>Class</th><th>Meaning</th></tr></thead>
+      <table class="dds-table dds-api">
+        <thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Auth</th><th>Idempotent</th><th class="dds-num">p95</th></tr></thead>
         <tbody>
-          <tr><td>Service</td><td>Sharp rectangle</td><td><code>.n-svc</code></td><td>A deployed system you own</td></tr>
-          <tr><td>Datastore</td><td>Rounded rectangle (rx=10)</td><td><code>.n-store</code></td><td>Database, queue, ledger</td></tr>
-          <tr><td>External party</td><td>Dashed rectangle</td><td><code>.n-ext</code></td><td>System you do not control</td></tr>
-          <tr><td>Human</td><td>Pill (rx = half height)</td><td><code>.n-human</code></td><td>A person or manual role</td></tr>
-          <tr><td>Real / sync</td><td>Solid line, heaviest</td><td><code>.e-money</code></td><td>Money moves, or a blocking call</td></tr>
-          <tr><td>Manual</td><td>Dotted line</td><td><code>.e-manual</code></td><td>Human step — not guaranteed</td></tr>
-          <tr><td>Mirror / async</td><td>Dashed line</td><td><code>.e-mirror</code></td><td>Information about money, never money</td></tr>
-          <tr><td>Blocked</td><td>Dashed red line</td><td><code>.e-blocked</code></td><td>A path that is designed not to exist</td></tr>
+          <tr><td><span class="dds-method post">POST</span></td><td>/v1/payments</td><td>Create and confirm a payment intent</td><td>JWT · checkout:write</td><td>Idempotency-Key</td><td class="dds-num">412 ms</td></tr>
+          <tr><td><span class="dds-method get">GET</span></td><td>/v1/payments/{id}</td><td>Read intent status</td><td>JWT · checkout:read</td><td>natural</td><td class="dds-num">38 ms</td></tr>
+          <tr><td><span class="dds-method put">PUT</span></td><td>/v1/wallets/{id}/limits</td><td>Replace spending limits</td><td>mTLS · ops</td><td>natural</td><td class="dds-num">64 ms</td></tr>
+          <tr><td><span class="dds-method patch">PATCH</span></td><td>/v1/wallets/{id}</td><td>Freeze or unfreeze a wallet</td><td>mTLS · ops</td><td>If-Match</td><td class="dds-num">51 ms</td></tr>
+          <tr><td><span class="dds-method delete">DELETE</span></td><td>/v1/cards/{id}</td><td>Detach a stored card</td><td>JWT · owner</td><td>natural</td><td class="dds-num">47 ms</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Zoom levels follow the C4 model: Context (whole estate) → Container (services) → Component (inside one service). One diagram, one level — never mix.</p>
-    <p>This grammar is <strong>Tier 1</strong>, for architecture and money-flow diagrams. All other diagram types — sequence, state, class, ER, gantt, and the rest of the Mermaid catalogue — are <strong>Tier 2</strong>: Mermaid DSL rendered with the DDS theme bridge. See <a href="diagrams.html">the diagrams reference</a> for the tier rules and live examples.</p>
+
+    <h3>Decision record</h3>
+    <article class="dds-adr">
+      <div class="dds-adr-h">
+        <span class="dds-adr-id">ADR-014</span>
+        <h3>Enforce idempotency in the ledger, not the gateway</h3>
+        <span class="dds-adr-status accepted">Accepted</span>
+        <span class="dds-adr-date">2026-09-18 · payments-core</span>
+      </div>
+      <div class="dds-adr-b">
+        <div class="dds-adr-sec"><div class="dds-adr-l">Context</div><p>PSP timeouts trigger client retries. A gateway-level dedupe cache lost keys on eviction and double-funded 14 wallets in August.</p></div>
+        <div class="dds-adr-sec"><div class="dds-adr-l">Decision</div><p>A unique constraint on <code>(wallet_id, idempotency_key)</code> in <code>ledger-db</code>; inserts use <code>ON CONFLICT DO NOTHING</code> and return the original row.</p></div>
+        <div class="dds-adr-sec"><div class="dds-adr-l">Consequences</div>
+          <ul class="dds-pros"><li>Exactly-once funding survives cache loss and region failover.</li><li>No new infrastructure.</li></ul>
+          <ul class="dds-cons"><li>One extra index write per payment (≈2ms).</li><li>Keys must be retained for 35 days.</li></ul>
+        </div>
+      </div>
+    </article>
+
+    <h3>Trade-off matrix</h3>
+    <div class="dds-table-wrap">
+      <table class="dds-table dds-tradeoff">
+        <thead><tr><th>Option</th><th>Correct under retry</th><th>Latency cost</th><th>Operational load</th><th>Blast radius</th></tr></thead>
+        <tbody>
+          <tr><td>Gateway dedupe cache</td><td class="bad">Lost on eviction</td><td class="good">&lt;1 ms</td><td class="mid">Redis cluster</td><td class="bad">All services</td></tr>
+          <tr class="chosen"><td>Ledger unique constraint</td><td class="good">Exactly once</td><td class="mid">≈2 ms</td><td class="good">None new</td><td class="good">One table</td></tr>
+          <tr><td>Outbox + consumer dedupe</td><td class="good">Exactly once</td><td class="good">Async</td><td class="bad">Two new components</td><td class="mid">Event consumers</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Latency budget</h3>
+    <div class="dds-budget">
+      <div class="dds-budget-h"><span>POST /v1/payments — p95 by hop (scale 0–600 ms)</span><b>412 / 500 ms</b></div>
+      <div class="dds-budget-bar" role="img" aria-label="p95 412 milliseconds of a 500 millisecond SLO: gateway 38, auth 24, checkout-api 70, PSP 190, wallet-service 62, ledger 28.">
+        <span class="v2" style="--w:6.3%" title="gateway 38 ms"></span>
+        <span class="v6" style="--w:4%" title="auth 24 ms"></span>
+        <span class="v1" style="--w:11.7%" title="checkout-api 70 ms"></span>
+        <span class="v5" style="--w:31.7%" title="PSP 190 ms"></span>
+        <span class="v4" style="--w:10.3%" title="wallet-service 62 ms"></span>
+        <span class="v3" style="--w:4.7%" title="ledger-db 28 ms"></span>
+        <i class="dds-budget-target" style="--at:83.3%"><span>SLO 500 ms</span></i>
+      </div>
+      <ul class="dds-budget-keys">
+        <li><i class="v2"></i>gateway <b>38</b></li>
+        <li><i class="v6"></i>auth <b>24</b></li>
+        <li><i class="v1"></i>checkout-api <b>70</b></li>
+        <li><i class="v5"></i>Card PSP <b>190</b></li>
+        <li><i class="v4"></i>wallet-service <b>62</b></li>
+        <li><i class="v3"></i>ledger-db <b>28</b></li>
+      </ul>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Rollout timeline</h3>
+        <ol class="dds-timeline">
+          <li class="info"><time>14:02</time><i></i><b>Canary 5% — wallet-service v4.3.0</b><p>Deploy #512, flag <code>ledger_idem_v2</code> on.</p></li>
+          <li class="info"><time>14:20</time><i></i><b>Promoted to 25%</b><p>Error rate flat at 0.02%.</p></li>
+          <li class="warn"><time>14:31</time><i></i><b>p95 regression alarm</b><p>FundWallet p95 180ms → 340ms; missing index on the new key.</p></li>
+          <li class="crit"><time>14:33</time><i></i><b>Rolled back</b><p>Automatic, by the SLO burn-rate guard.</p></li>
+          <li class="ok"><time>15:10</time><i></i><b>v4.3.1 at 100%</b><p>Index added concurrently; p95 back to 120ms.</p></li>
+        </ol>
+      </div>
+      <div>
+        <h3>Callouts</h3>
+        <div class="dds-callout note"><div class="dds-callout-t">Note</div><p>Webhooks can arrive before the API response; the state machine tolerates either order.</p></div>
+        <div class="dds-callout warn"><div class="dds-callout-t">Warning</div><p>Do not reuse an idempotency key across wallets — the constraint is scoped per wallet.</p></div>
+        <div class="dds-callout risk"><div class="dds-callout-t">Risk · RISK-114</div><p>Three poison messages block nightly reconciliation until replayed.</p></div>
+        <div class="dds-callout decision"><div class="dds-callout-t">Decision</div><p>Idempotency lives in the ledger. See ADR-014.</p></div>
+      </div>
+    </div>
+
+    <h3>Code with a filename strip</h3>
+    <div class="dds-code">
+      <div class="dds-code-h"><span>ledger/V42__idempotency_key.sql</span><span>sql</span></div>
+<pre><code>CREATE UNIQUE INDEX CONCURRENTLY ledger_entries_idem
+    ON ledger_entries (wallet_id, idempotency_key);
+
+INSERT INTO ledger_entries (wallet_id, idempotency_key, amount_minor)
+VALUES ($1, $2, $3)
+ON CONFLICT (wallet_id, idempotency_key) DO NOTHING
+RETURNING id;</code></pre>
+    </div>
   </section>
 
-  <!-- ============ 06 REFERENCE PAGES ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Reference pages</h2></div>
+  <section class="dds-section" id="reference">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 08</span><h2>Reference pages</h2></div>
     <p>This page is the overview; each topic has a deeper reference page, and the examples are complete conformant pages — the best few-shot material for an agent.</p>
     <div class="dds-table-wrap">
       <table class="dds-table">
         <thead><tr><th>Page</th><th>Covers</th></tr></thead>
         <tbody>
           <tr><td><a href="typography.html">Typography</a></td><td>The three type roles, full scale specimens for both modes, do/don't pairs</td></tr>
-          <tr><td><a href="color.html">Colour</a></td><td>All tokens with light/dark values, accent and semantic rules, data-viz palette</td></tr>
+          <tr><td><a href="color.html">Colour</a></td><td>All tokens with light/dark values, accent and semantic rules, route and node hues, data-viz palette</td></tr>
           <tr><td><a href="components.html">Components</a></td><td>Every component in both modes, rendered live with copy-paste markup</td></tr>
-          <tr><td><a href="diagrams.html">Diagrams</a></td><td>The full grammar: vocabulary, arrowhead geometry, worked C4 Context/Container/Component examples</td></tr>
+          <tr><td><a href="diagrams.html">Diagrams</a></td><td>The v2 architecture grammar with snippets, the v1 funds-flow grammar, C4 zoom levels, Mermaid fallback</td></tr>
           <tr><td><a href="examples/report.html">Example: report</a></td><td>A complete Document-mode investigation, start to finish</td></tr>
           <tr><td><a href="examples/dashboard.html">Example: dashboard</a></td><td>A complete Panel-mode operations board</td></tr>
         </tbody>
@@ -276,20 +712,53 @@
     </div>
   </section>
 
-  <!-- ============ 07 FOR AI AGENTS ============ -->
-  <section class="dds-section">
-    <div class="dds-sec-h"><span class="dds-sec-num">§ 07</span><h2>Using this system with AI agents</h2></div>
+  <section class="dds-section" id="agents">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 09</span><h2>Using this system with AI agents</h2></div>
     <p>The agent-facing specification is <a href="README.md"><code>README.md</code></a> in this directory. Point any agent at the directory (or this URL) and instruct it to follow the spec. In Claude Code the <code>dexter-design-system</code> skill loads it automatically.</p>
-    <div class="dds-doc" style="max-width:66ch;"><pre>Generate the report as HTML using the Dexter Design System:
+    <pre>Generate the report as HTML using the Dexter Design System:
 https://dexteryo.github.io/design-system/ (spec: README.md, tokens: dexter.css)
-Inline the stylesheet if the output must be self-contained.</pre></div>
+Inline the stylesheet if the output must be self-contained.</pre>
   </section>
 
+    </main>
+  </div>
+
   <footer class="dds-colophon">
-    <div>Dexter Design System · v1.1.0 · rev 2026-07-04</div>
-    <div>Tufte discipline · Geist economy · Swiss grammar · Carbon tokens</div>
+    <div>Dexter Design System · v2.0.0 · rev 2026-10-07</div>
+    <div>Tufte discipline · Geist economy · Swiss grammar · Carbon tokens · C4 zoom</div>
   </footer>
 
 </div>
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('.dds-toc a[href^="#"]'));
+  if (links.length && 'IntersectionObserver' in window) {
+    var byId = {}, visible = {};
+    links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var ids = Object.keys(byId);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = ids.filter(function (id) { return visible[id]; })[0];
+      if (!current) return;
+      links.forEach(function (a) { a.classList.toggle('is-active', a === byId[current]); });
+    }, { rootMargin: '0px 0px -60% 0px' });
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var order = ['auto', 'light', 'dark'], current = 'auto';
+  try { current = localStorage.getItem('dds-theme') || 'auto'; } catch (e) {}
+  function apply(mode) {
+    current = mode;
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', mode);
+    btn.textContent = 'theme: ' + mode;
+    try { localStorage.setItem('dds-theme', mode); } catch (e) {}
+  }
+  btn.addEventListener('click', function () { apply(order[(order.indexOf(current) + 1) % order.length]); });
+  apply(current);
+  btn.hidden = false;
+})();
+</script>
 </body>
 </html>
