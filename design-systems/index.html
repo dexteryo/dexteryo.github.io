@@ -111,6 +111,14 @@
   @keyframes trcdash { to { stroke-dashoffset: -24; } }
   @media (prefers-reduced-motion: reduce) { .sp-trc .fl { animation: none; } }
 
+  .sp-pod { background: #0F1014; color: #ECEDF2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            display: flex; flex-direction: column; }
+  .sp-pod .kick { font: 10px/1 "SF Mono", ui-monospace, Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: #E5C06B; margin-bottom: 14px; }
+  .sp-pod h3 { font-size: 24px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.1; }
+  .sp-pod h3 em { font-style: normal; color: #E5C06B; }
+  .sp-pod .sub { font-size: 12px; color: #9CA2B2; margin-top: 10px; }
+  .sp-pod .ft { margin-top: auto; display: flex; justify-content: space-between; font: 10px/1 "SF Mono", ui-monospace, Menlo, monospace; color: #6B7182; border-top: 1px solid #1F222B; padding-top: 10px; }
+
   .sp-brut { background: #FBF6EC; color: #111111; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .sp-brut .tag { display: inline-block; background: #FFD43A; border: 2.5px solid #111; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 9px; box-shadow: 3px 3px 0 #111; margin-bottom: 14px; }
   .sp-brut h3 { font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
@@ -121,12 +129,13 @@
 <div class="wrap">
   <header class="masthead">
     <div>
-      <p class="kicker">Dexter · design systems · 2026-10-07</p>
-      <h1>Seven systems, one contract</h1>
+      <p class="kicker">Dexter · design systems · 2026-10-08</p>
+      <h1>Eight systems, one contract</h1>
       <p class="lede">Every system below covers the same ground — long-form reports, dashboards,
       evidence citations, status vocabulary, animated SVG architecture diagrams, both themes,
       no external assets — in a different
-      visual language. Pick by taste; the deliverable types are interchangeable. Each card shows
+      visual language. Pick by taste; the deliverable types are interchangeable — except Podium,
+      which alone makes decks for presenting live. Each card shows
       the system in its own default theme.</p>
     </div>
     <button class="toggle" id="themeToggle" type="button">Toggle theme</button>
@@ -149,7 +158,7 @@
           <a href="../design-system/">Style guide</a>
           <a href="../design-system/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-design-system</div>
+        <div class="skillname">skill: dexter-design-systems · say “DDS”</div>
       </div>
     </div>
 
@@ -168,7 +177,7 @@
           <a href="atelier/">Style guide</a>
           <a href="atelier/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-atelier</div>
+        <div class="skillname">skill: dexter-design-systems · say “Atelier”</div>
       </div>
     </div>
 
@@ -187,7 +196,7 @@
           <a href="basel/">Style guide</a>
           <a href="basel/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-basel</div>
+        <div class="skillname">skill: dexter-design-systems · say “Basel”</div>
       </div>
     </div>
 
@@ -206,7 +215,7 @@
           <a href="phosphor/">Style guide</a>
           <a href="phosphor/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-phosphor</div>
+        <div class="skillname">skill: dexter-design-systems · say “Phosphor”</div>
       </div>
     </div>
 
@@ -228,7 +237,7 @@
           <a href="nocturne/">Style guide</a>
           <a href="nocturne/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-nocturne</div>
+        <div class="skillname">skill: dexter-design-systems · say “Nocturne”</div>
       </div>
     </div>
 
@@ -253,7 +262,7 @@
           <a href="tracer/">Style guide</a>
           <a href="tracer/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-tracer</div>
+        <div class="skillname">skill: dexter-design-systems · say “Tracer”</div>
       </div>
     </div>
 
@@ -272,16 +281,38 @@
           <a href="brut/">Style guide</a>
           <a href="brut/README.md">Agent spec</a>
         </div>
-        <div class="skillname">skill: dexter-ds-brut</div>
+        <div class="skillname">skill: dexter-design-systems · say “Brut”</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="specimen sp-pod">
+        <div class="kick">Proposal · for decision</div>
+        <h3>Split the ledger <em>before</em> it splits us</h3>
+        <p class="sub">One idea per slide, type for the back of the room, the ask at the end.</p>
+        <div class="ft"><span>Podium · style guide</span><span>04 / 12</span></div>
+      </div>
+      <div class="body">
+        <div class="name">Podium <small>the deck system · v1.0.0 · dark-first</small></div>
+        <p class="desc">16:9 scroll-snap slides for presenting live: eleven archetypes from
+        title to ask, spotlight-gold accent, author-fixed theme, print-to-PDF export. The one
+        system that is talked over, not read alone.</p>
+        <div class="links">
+          <a href="podium/">Style guide (a deck)</a>
+          <a href="podium/README.md">Agent spec</a>
+        </div>
+        <div class="skillname">skill: dexter-design-systems · say “Podium”</div>
       </div>
     </div>
 
   </div>
 
   <footer>
-    Shared contract across all seven: system font stacks only · no external assets · light and dark
+    Shared contract across all eight: system font stacks only · no external assets · light and dark
     themes via tokens · 4px spacing scale · tabular numerals · evidence cited in monospace ·
-    no AI attribution. Each system has a matching global Claude skill; trigger it by name.
+    no AI attribution. One global Claude skill — dexter-design-systems — routes to all eight,
+    by system name or by audience and situation (exec proposal → Atelier, live deck → Podium,
+    incident → Tracer, dashboard → Nocturne, …).
   </footer>
 </div>
 <script>

@@ -1,0 +1,597 @@
+/* ==========================================================================
+   PODIUM · v1.0.0 · 2026-10-08
+
+   The deck system: 16:9 HTML slides for presenting architecture, proposals
+   and results. One idea per slide, type sized for the back of the room,
+   verdict by slide three, the ask at the end.
+
+   Contract: README.md in this directory. This stylesheet is the source of
+   exact values; the README says which pieces to use and the rules.
+
+   Themes: Stage (dark) is the default token block. Boardroom (light) is
+   applied ONLY via :root[data-theme="light"] — the author fixes the theme
+   per deck. There is deliberately no prefers-color-scheme block: a
+   presented deck must render identically on every machine (README rule 4).
+   ========================================================================== */
+
+/* ── 1. TOKENS (Stage — dark — is the default; the deck sleeps on stage) ── */
+:root {
+  /* Type. Sans carries the voice; mono is machine truth (values, refs,
+     dates). Display weight 600–700, tight tracking — slides are read at
+     distance, thin strokes die on projectors. */
+  --pod-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+  --pod-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Slide type scale. Fluid against the viewport, clamped so a huge
+     monitor doesn't balloon and a laptop doesn't whisper. */
+  --pod-t-hero:      clamp(56px, 7.5vw, 112px); /* title slide h1 */
+  --pod-t-statement: clamp(48px, 6.5vw, 96px);  /* verdict / divider */
+  --pod-t-head:      clamp(36px, 4.5vw, 64px);  /* ordinary slide h2 */
+  --pod-t-body:      clamp(20px, 2vw, 30px);    /* bullets, agenda, cells */
+  --pod-t-metric:    clamp(56px, 7vw, 120px);   /* stat tile values */
+  --pod-min: 20px;        /* nothing on a slide renders below this… */
+  --pod-t-foot: 14px;     /* …except the footer strip and refs */
+
+  /* Spacing scale (8px base — slides breathe wider than documents). */
+  --pod-s1: 8px;  --pod-s2: 16px; --pod-s3: 24px; --pod-s4: 32px;
+  --pod-s5: 48px; --pod-s6: 64px; --pod-s7: 96px;
+
+  /* Radii: 10px cards · 6px small · full-round chips. */
+  --pod-r: 10px; --pod-r-sm: 6px; --pod-r-pill: 999px;
+
+  /* Stage geometry: slide content is held in a centred stage. */
+  --pod-stage-max: 1600px;
+  --pod-gutter: clamp(24px, 5vw, 96px);
+
+  /* Surfaces. Near-black ground, one raised step for cards/tiles. */
+  --pod-ground:  #0F1014;
+  --pod-surface: #15161C;
+  --pod-raised:  #1B1D25;
+  --pod-border:        #2A2D38;
+  --pod-border-subtle: #1F222B;
+
+  /* Ink scale. */
+  --pod-ink:   #ECEDF2;
+  --pod-muted: #9CA2B2;
+  --pod-faint: #6B7182;
+
+  /* The single accent: spotlight gold. Text/line form is light for dark
+     ground; the fill form carries near-black text. One emphasis per slide. */
+  --pod-accent:          #E5C06B;
+  --pod-accent-ink:      #221B08;
+  --pod-accent-fill:     #D9AE4B;
+  --pod-accent-fill-ink: #1A1403;
+  --pod-accent-bg:       #2A2412;
+
+  /* Semantics: state, never decoration. Warn is pushed to orange so it
+     never reads as the gold accent. */
+  --pod-ok:   #4CC38A;  --pod-ok-bg:   #13291E;
+  --pod-warn: #F08C4C;  --pod-warn-bg: #2E1F12;
+  --pod-crit: #EF6F6C;  --pod-crit-bg: #2E1717;
+  --pod-info: #62A6F9;  --pod-info-bg: #14233A;
+
+  /* Data-viz categorical palette, in order. */
+  --pod-v1: #E5C06B; --pod-v2: #62A6F9; --pod-v3: #4CC38A;
+  --pod-v4: #F08C4C; --pod-v5: #EF6F6C; --pod-v6: #C792EA;
+
+  /* Architecture routes — sibling meanings, slide-tuned values. */
+  --pod-route-sync:  #62A6F9;
+  --pod-route-async: #C792EA;
+  --pod-route-data:  #45C4B0;
+  --pod-route-ctrl:  #EE8FC4;
+  --pod-route-ext:   #F0B44C;
+  --pod-route-fail:  #EF6F6C;
+
+  /* Node kinds borrow the hue of the route that serves them. */
+  --pod-node-client: var(--pod-muted);
+  --pod-node-edge:   var(--pod-accent);
+  --pod-node-svc:    var(--pod-route-sync);
+  --pod-node-fn:     var(--pod-route-sync);
+  --pod-node-store:  var(--pod-route-data);
+  --pod-node-queue:  var(--pod-route-async);
+  --pod-node-cache:  var(--pod-route-data);
+  --pod-node-ext:    var(--pod-route-ext);
+
+  --pod-code-bg: #111219;
+  --pod-dot: rgba(236, 237, 242, 0.08);
+}
+
+/* Boardroom (light) — author-fixed via data-theme, never media query.
+   Warm paper, deepened accent for contrast. Tokens flip; components
+   stand still. */
+:root[data-theme="light"] {
+  --pod-ground:  #FAF8F3;
+  --pod-surface: #FFFFFF;
+  --pod-raised:  #F2EFE7;
+  --pod-border:        #D8D3C6;
+  --pod-border-subtle: #E6E2D7;
+
+  --pod-ink:   #1C1B17;
+  --pod-muted: #5D5A50;
+  --pod-faint: #8D8978;
+
+  --pod-accent:          #9A7B2E;
+  --pod-accent-ink:      #FFFFFF;
+  --pod-accent-fill:     #B08F3C;
+  --pod-accent-fill-ink: #FFFFFF;
+  --pod-accent-bg:       #F3EBD5;
+
+  --pod-ok:   #1E7A4E;  --pod-ok-bg:   #E2F2E8;
+  --pod-warn: #B35A17;  --pod-warn-bg: #FBEADB;
+  --pod-crit: #B3382F;  --pod-crit-bg: #F9E3E1;
+  --pod-info: #1F5FAE;  --pod-info-bg: #E1ECFA;
+
+  --pod-v1: #9A7B2E; --pod-v2: #1F5FAE; --pod-v3: #1E7A4E;
+  --pod-v4: #B35A17; --pod-v5: #B3382F; --pod-v6: #7A4FA3;
+
+  --pod-route-sync:  #1F5FAE;
+  --pod-route-async: #7A4FA3;
+  --pod-route-data:  #0E7A6C;
+  --pod-route-ctrl:  #B04A82;
+  --pod-route-ext:   #A2711B;
+  --pod-route-fail:  #B3382F;
+
+  --pod-node-edge: var(--pod-accent);
+
+  --pod-code-bg: #15161C; /* code stays dark in both themes */
+  --pod-dot: rgba(28, 27, 23, 0.10);
+}
+
+/* ── 2. BASE + DECK SHELL ─────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body.pod-deck {
+  margin: 0;
+  background: var(--pod-ground);
+  color: var(--pod-ink);
+  font-family: var(--pod-sans);
+  font-size: var(--pod-t-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pod-slides {
+  height: 100svh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+/* A slide fills the viewport; its content sits on a centred stage. */
+.pod-slide {
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  align-content: center;
+  padding: var(--pod-s7) var(--pod-gutter) calc(var(--pod-s6) + 40px);
+}
+.pod-slide > * {
+  width: 100%;
+  max-width: var(--pod-stage-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Kicker: the slide's overline — section number · label. */
+.pod-kicker {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-min);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pod-accent);
+  margin: 0 0 var(--pod-s4);
+}
+
+/* Headline voice: every slide h1/h2 is a claim. em = the one accented
+   key phrase (upright, gold). */
+.pod-slide h1, .pod-slide h2 {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0 0 var(--pod-s4);
+  text-wrap: balance;
+}
+.pod-slide h2 { font-size: var(--pod-t-head); }
+.pod-slide h1 em, .pod-slide h2 em {
+  font-style: normal;
+  color: var(--pod-accent);
+}
+
+/* Evidence ref: mono pill, same voice as the siblings. */
+.pod-ref {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  color: var(--pod-muted);
+  background: var(--pod-surface);
+  border: 1px solid var(--pod-border);
+  border-radius: var(--pod-r-sm);
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* Chips: tinted ground, semantic text. */
+.pod-chip {
+  display: inline-block;
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--pod-r-pill);
+  padding: 3px 12px;
+}
+.pod-chip.ok   { color: var(--pod-ok);   background: var(--pod-ok-bg); }
+.pod-chip.warn { color: var(--pod-warn); background: var(--pod-warn-bg); }
+.pod-chip.crit { color: var(--pod-crit); background: var(--pod-crit-bg); }
+.pod-chip.info { color: var(--pod-info); background: var(--pod-info-bg); }
+
+/* Footer strip: deck title · slide counter. Fixed; script fills the
+   counter. aria-hidden — it is furniture, not content. */
+.pod-foot {
+  position: fixed;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px var(--pod-gutter);
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  color: var(--pod-faint);
+  border-top: 1px solid var(--pod-border-subtle);
+  background: var(--pod-ground);
+}
+
+/* Speaker notes: never on screen; print only with data-notes="print". */
+.pod-notes { display: none; }
+
+/* ── 3. SLIDE ARCHETYPES ──────────────────────────────────────────────── */
+
+/* Title: deck cover. */
+.pod-title h1 { font-size: var(--pod-t-hero); }
+.pod-title .pod-sub {
+  font-size: var(--pod-t-body);
+  color: var(--pod-muted);
+  max-width: 60ch;
+  margin: 0 auto 0 0;
+}
+.pod-meta {
+  display: flex;
+  gap: var(--pod-s6);
+  margin-top: var(--pod-s6);
+  padding-top: var(--pod-s3);
+  border-top: 1px solid var(--pod-border);
+}
+.pod-meta dt {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pod-faint);
+  margin: 0 0 4px;
+}
+.pod-meta dd { margin: 0; font-size: var(--pod-min); }
+
+/* Statement: the verdict — one huge centred sentence. */
+.pod-statement { text-align: center; }
+.pod-statement h2 {
+  font-size: var(--pod-t-statement);
+  max-width: 24ch;
+  margin-inline: auto;
+}
+
+/* Agenda: numbered contents, ≤ 6 entries. */
+.pod-agenda ol {
+  list-style: none;
+  margin: 0; padding: 0;
+  counter-reset: agenda;
+}
+.pod-agenda li {
+  counter-increment: agenda;
+  display: flex;
+  align-items: baseline;
+  gap: var(--pod-s4);
+  padding: var(--pod-s3) 0;
+  border-top: 1px solid var(--pod-border-subtle);
+  font-size: var(--pod-t-body);
+}
+.pod-agenda li::before {
+  content: counter(agenda, decimal-leading-zero);
+  font-family: var(--pod-mono);
+  color: var(--pod-accent);
+}
+
+/* Divider: section break — ghost numeral behind the title. */
+.pod-divider { position: relative; }
+.pod-divider .pod-num {
+  width: auto;
+  position: absolute;
+  right: var(--pod-gutter);
+  bottom: 0;
+  font-family: var(--pod-mono);
+  font-size: clamp(160px, 26vw, 420px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--pod-accent);
+  opacity: 0.12;
+  pointer-events: none;
+}
+.pod-divider h2 { font-size: var(--pod-t-statement); }
+
+/* Points: a claim + ≤ 4 bullets (README rule 5). */
+.pod-points ul {
+  list-style: none;
+  margin: var(--pod-s5) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pod-s3);
+}
+.pod-points li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pod-s3);
+  padding: var(--pod-s3) var(--pod-s4);
+  background: var(--pod-surface);
+  border: 1px solid var(--pod-border);
+  border-radius: var(--pod-r);
+}
+.pod-points li::before {
+  content: "—";
+  color: var(--pod-accent);
+  flex: none;
+}
+
+/* Metrics: 2–4 stat tiles. Values mono + tabular. */
+.pod-metrics .pod-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--pod-s4);
+  margin-top: var(--pod-s5);
+}
+.pod-metric {
+  background: var(--pod-surface);
+  border: 1px solid var(--pod-border);
+  border-radius: var(--pod-r);
+  padding: var(--pod-s4) var(--pod-s5);
+}
+.pod-metric-l {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-min);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pod-muted);
+}
+.pod-metric-v {
+  font-family: var(--pod-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--pod-t-metric);
+  font-weight: 600;
+  line-height: 1.1;
+}
+.pod-metric-v .pod-unit {
+  font-size: 0.35em;
+  color: var(--pod-muted);
+  margin-left: 0.3em;
+}
+
+/* Comparison: trade-off table. Glyph + tint, never colour alone. */
+.pod-compare table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--pod-s5);
+  font-size: var(--pod-t-body);
+}
+.pod-compare th {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-min);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pod-muted);
+  text-align: left;
+  padding: var(--pod-s2) var(--pod-s3);
+  border-bottom: 2px solid var(--pod-border);
+}
+.pod-compare td {
+  padding: var(--pod-s3);
+  border-bottom: 1px solid var(--pod-border-subtle);
+}
+.pod-compare td.good { color: var(--pod-ok);   background: var(--pod-ok-bg); }
+.pod-compare td.mid  { color: var(--pod-warn); background: var(--pod-warn-bg); }
+.pod-compare td.bad  { color: var(--pod-crit); background: var(--pod-crit-bg); }
+.pod-compare tr.is-chosen td {
+  border-top: 2px solid var(--pod-accent);
+  border-bottom: 2px solid var(--pod-accent);
+}
+
+/* Timeline: roadmap / rollout. */
+.pod-timeline ol {
+  list-style: none;
+  margin: var(--pod-s5) 0 0;
+  padding: 0;
+}
+.pod-timeline li {
+  display: grid;
+  grid-template-columns: 140px 16px 1fr;
+  align-items: baseline;
+  gap: var(--pod-s4);
+  padding: var(--pod-s3) 0;
+  border-top: 1px solid var(--pod-border-subtle);
+}
+.pod-timeline time {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-min);
+  color: var(--pod-muted);
+}
+.pod-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  justify-self: center;
+  background: var(--pod-faint);
+}
+.pod-dot.ok   { background: var(--pod-ok); }
+.pod-dot.warn { background: var(--pod-warn); }
+.pod-dot.crit { background: var(--pod-crit); }
+.pod-dot.info { background: var(--pod-info); }
+
+/* Code: one titled snippet, ≤ 12 lines. Dark ground in both themes. */
+.pod-code-block {
+  margin-top: var(--pod-s5);
+  border: 1px solid var(--pod-border);
+  border-radius: var(--pod-r);
+  overflow: hidden;
+}
+.pod-code-h {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--pod-s2) var(--pod-s4);
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  color: var(--pod-muted);
+  background: var(--pod-raised);
+  border-bottom: 1px solid var(--pod-border);
+}
+.pod-code-block pre {
+  margin: 0;
+  padding: var(--pod-s4);
+  background: var(--pod-code-bg);
+  color: #ECEDF2;
+  font-family: var(--pod-mono);
+  font-size: var(--pod-min);
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+/* Ask: the closing slide — decision · decider · deadline. */
+.pod-ask .pod-ask-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--pod-s4);
+  margin: var(--pod-s6) 0 0;
+}
+.pod-ask .pod-ask-grid > div {
+  background: var(--pod-surface);
+  border: 1px solid var(--pod-border);
+  border-left: 3px solid var(--pod-accent);
+  border-radius: var(--pod-r);
+  padding: var(--pod-s4);
+}
+.pod-ask dt {
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pod-faint);
+  margin: 0 0 var(--pod-s1);
+}
+.pod-ask dd { margin: 0; font-size: var(--pod-t-body); font-weight: 600; }
+.pod-docref { margin-top: var(--pod-s5); color: var(--pod-muted); font-size: var(--pod-min); }
+
+/* ── 4. DIAGRAM SLIDES (sibling SVG grammar at slide scale) ───────────── */
+/* Same grammar as the document siblings; the floor rises to 16 user units
+   and node counts fall (≤ 7). Author viewBox ≤ 1200 wide. */
+.pod-diagram figure { margin: var(--pod-s5) 0 0; }
+.pod-arch-canvas {
+  background: var(--pod-surface);
+  background-image: radial-gradient(var(--pod-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  border: 1px solid var(--pod-border);
+  border-radius: var(--pod-r);
+  padding: var(--pod-s4);
+  overflow-x: auto;
+}
+.pod-arch-canvas svg { display: block; width: 100%; min-width: 760px; height: auto; }
+
+.pod-edge { fill: none; stroke-width: 2.5; }
+.pod-edge.sync  { stroke: var(--pod-route-sync); }
+.pod-edge.async { stroke: var(--pod-route-async); stroke-dasharray: 7 5; }
+.pod-edge.data  { stroke: var(--pod-route-data); }
+.pod-edge.ctrl  { stroke: var(--pod-route-ctrl); }
+.pod-edge.ext   { stroke: var(--pod-route-ext); }
+.pod-edge.fail  { stroke: var(--pod-route-fail); stroke-dasharray: 7 5; }
+.pod-flow { stroke-dasharray: 7 5; animation: pod-march 1.2s linear infinite; }
+@keyframes pod-march { to { stroke-dashoffset: -12; } }
+@media (prefers-reduced-motion: reduce) { .pod-flow { animation: none; } }
+
+.pod-mk path { fill: currentColor; }
+.pod-mk.sync  { color: var(--pod-route-sync); }
+.pod-mk.async { color: var(--pod-route-async); }
+.pod-mk.data  { color: var(--pod-route-data); }
+.pod-mk.ctrl  { color: var(--pod-route-ctrl); }
+.pod-mk.ext   { color: var(--pod-route-ext); }
+.pod-mk.fail  { color: var(--pod-route-fail); }
+
+.pod-node rect, .pod-node .pod-shape {
+  fill: var(--pod-raised);
+  stroke-width: 2;
+}
+.pod-node.svc rect    { stroke: var(--pod-node-svc); }
+.pod-node.store .pod-shape, .pod-node.store .pod-lid { stroke: var(--pod-node-store); }
+.pod-node.store .pod-lid { fill: none; }
+.pod-node.queue rect  { stroke: var(--pod-node-queue); }
+.pod-node.cache rect  { stroke: var(--pod-node-cache); }
+.pod-node.edge rect   { stroke: var(--pod-node-edge); }
+.pod-node.client rect { stroke: var(--pod-node-client); }
+.pod-node.ext rect    { stroke: var(--pod-node-ext); stroke-dasharray: 6 4; }
+.pod-node.is-fail rect { stroke: var(--pod-route-fail); }
+
+/* SVG text floor: 16 user units at viewBox ≤ 1200 (README rule 6). */
+.pod-nlabel { fill: var(--pod-ink); font: 600 20px var(--pod-sans); }
+.pod-nsub   { fill: var(--pod-muted); font: 16px var(--pod-mono); }
+.pod-nkind  { fill: var(--pod-faint); font: 16px var(--pod-mono); text-anchor: end; }
+.pod-elabel { fill: var(--pod-muted); font: 16px var(--pod-mono); }
+
+.pod-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pod-s2) var(--pod-s5);
+  margin-top: var(--pod-s3);
+  font-family: var(--pod-mono);
+  font-size: var(--pod-t-foot);
+  color: var(--pod-muted);
+}
+.pod-legend i {
+  display: inline-block;
+  width: 22px; height: 0;
+  border-top: 3px solid currentColor;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.pod-legend i.node {
+  width: 16px; height: 11px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  background: var(--pod-raised);
+}
+.pod-legend .svc   { color: var(--pod-node-svc); }
+.pod-legend .store { color: var(--pod-node-store); }
+.pod-legend .queue { color: var(--pod-node-queue); }
+.pod-legend .edge  { color: var(--pod-node-edge); }
+.pod-legend .extn  { color: var(--pod-node-ext); }
+.pod-legend .sync  { color: var(--pod-route-sync); }
+.pod-legend .async { color: var(--pod-route-async); }
+.pod-legend .data  { color: var(--pod-route-data); }
+.pod-legend .ctrl  { color: var(--pod-route-ctrl); }
+.pod-legend .ext   { color: var(--pod-route-ext); }
+.pod-legend .fail  { color: var(--pod-route-fail); }
+
+/* ── 5. PRINT (PDF export: one landscape page per slide) ──────────────── */
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .pod-slides { height: auto; overflow: visible; scroll-snap-type: none; }
+  .pod-slide {
+    min-height: 0;
+    height: 720px;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+  }
+  /* Fixed elements repeat on every printed page — that is the footer's job.
+     The script-filled counter is meaningless on paper, so it is dropped. */
+  .pod-foot .pod-foot-n { display: none; }
+  :root[data-notes="print"] .pod-notes {
+    display: block;
+    font-size: 14px;
+    color: var(--pod-muted);
+    border-top: 1px dashed var(--pod-border);
+    padding-top: var(--pod-s2);
+    margin-top: var(--pod-s3);
+  }
+}

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Podium — the deck system</title>
+<link rel="stylesheet" href="podium.css">
+<style>
+  /* Style-guide chrome only: the theme preview toggle. Real decks ship with
+     one fixed theme and no toggle (README rule 4). */
+  .pod-theme-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 10;
+    border: 1px solid var(--pod-border); background: var(--pod-surface);
+    color: var(--pod-ink); font: 13px var(--pod-sans);
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  }
+  @media print { .pod-theme-btn { display: none; } }
+</style>
+</head>
+<body class="pod-deck">
+<button class="pod-theme-btn" id="themeToggle" type="button">Preview Boardroom (light)</button>
+<main class="pod-slides" id="slides">
+
+  <section class="pod-slide pod-title">
+    <p class="pod-kicker">Dexter · design systems · Podium v1.0.0 · 2026-10-08</p>
+    <h1>One idea per slide, the <em>ask</em> at the end</h1>
+    <p class="pod-sub">Podium is the deck system: 16:9 HTML slides for presenting architecture,
+    proposals and results to a CTO, an EM, or an all-hands. This style guide is itself a deck —
+    every slide you scroll past is the specimen of its own archetype. Use ↓ / ↑, space, or scroll.</p>
+    <dl class="pod-meta">
+      <div><dt>Theme</dt><dd>Stage (dark) — fixed per deck</dd></div>
+      <div><dt>Contract</dt><dd>README.md · podium.css</dd></div>
+      <div><dt>Siblings</dt><dd>DDS · Atelier · Nocturne · 4 more</dd></div>
+    </dl>
+    <aside class="pod-notes">Speaker notes live in an aside like this one: invisible on screen,
+    printed under the slide only when the root carries data-notes="print".</aside>
+  </section>
+
+  <section class="pod-slide pod-statement">
+    <p class="pod-kicker">pod-statement · the verdict slide</p>
+    <h2>A slide is one claim — everything else is <em>evidence or noise</em>.</h2>
+  </section>
+
+  <section class="pod-slide pod-agenda">
+    <p class="pod-kicker">pod-agenda · ≤ 6 entries</p>
+    <h2>Eleven archetypes, six stops.</h2>
+    <ol>
+      <li>The shell — snap stack, stage, footer</li>
+      <li>Claims and points — headlines that argue</li>
+      <li>Diagrams — the sibling grammar at slide scale</li>
+      <li>Data slides — metrics, comparison, timeline</li>
+      <li>Code — one snippet, twelve lines</li>
+      <li>The ask — every deck ends with a decision</li>
+    </ol>
+  </section>
+
+  <section class="pod-slide pod-divider">
+    <p class="pod-kicker">pod-divider · section break</p>
+    <h2>The shell</h2>
+    <div class="pod-num">01</div>
+  </section>
+
+  <section class="pod-slide pod-points">
+    <p class="pod-kicker">01 · The shell · pod-points</p>
+    <h2>Four rules carry every slide.</h2>
+    <ul>
+      <li>Headlines are claims in sentence form, never labels</li>
+      <li>At most four bullets, twelve words each</li>
+      <li>Nothing below 20px except the footer <span class="pod-ref">podium.css · --pod-min</span></li>
+      <li>The author fixes the theme — it never follows the viewer <span class="pod-chip info">rule 4</span></li>
+    </ul>
+  </section>
+
+  <section class="pod-slide pod-diagram">
+    <p class="pod-kicker">02 · Diagrams · pod-diagram</p>
+    <h2>Seven nodes is the ceiling — this mechanism needs <em>five</em>.</h2>
+    <figure>
+      <div class="pod-arch-canvas">
+        <svg viewBox="0 0 1200 420" role="img"
+             aria-label="A client calls the gateway, the deck service writes the store on the hot path and enqueues render jobs.">
+          <defs>
+            <marker id="mk-sync" class="pod-mk sync" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="mk-data" class="pod-mk data" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="mk-async" class="pod-mk async" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+
+          <g class="pod-node client">
+            <rect x="30" y="140" width="190" height="96" rx="10"/>
+            <text class="pod-nkind" x="208" y="164">USER</text>
+            <text class="pod-nlabel" x="48" y="186">Browser</text>
+            <text class="pod-nsub" x="48" y="212">presenter</text>
+          </g>
+
+          <g class="pod-node edge">
+            <rect x="310" y="140" width="220" height="96" rx="10"/>
+            <text class="pod-nkind" x="518" y="164">EDGE</text>
+            <text class="pod-nlabel" x="328" y="186">api-gateway</text>
+            <text class="pod-nsub" x="328" y="212">authn · rate limit</text>
+          </g>
+
+          <g class="pod-node svc">
+            <rect x="620" y="140" width="240" height="96" rx="10"/>
+            <text class="pod-nkind" x="848" y="164">SVC</text>
+            <text class="pod-nlabel" x="638" y="186">deck-service</text>
+            <text class="pod-nsub" x="638" y="212">p95 80 ms</text>
+          </g>
+
+          <g class="pod-node store">
+            <path class="pod-shape" d="M950,156 a110,14 0 0 1 220,0 v64 a110,14 0 0 1 -220,0 z"/>
+            <path class="pod-lid" d="M950,156 a110,14 0 0 0 220,0"/>
+            <text class="pod-nkind" x="1156" y="186">DB</text>
+            <text class="pod-nlabel" x="968" y="200">deck-store</text>
+            <text class="pod-nsub" x="968" y="226">Postgres 16</text>
+          </g>
+
+          <g class="pod-node queue">
+            <rect x="620" y="300" width="240" height="88" rx="10"/>
+            <text class="pod-nkind" x="848" y="324">QUEUE</text>
+            <text class="pod-nlabel" x="638" y="346">render-jobs</text>
+            <text class="pod-nsub" x="638" y="372">PDF export</text>
+          </g>
+
+          <path class="pod-edge sync" d="M220,188 L310,188" marker-end="url(#mk-sync)"/>
+          <path class="pod-edge sync pod-flow" d="M530,188 L620,188" marker-end="url(#mk-sync)"/>
+          <path class="pod-edge data" d="M860,188 L950,188" marker-end="url(#mk-data)"/>
+          <path class="pod-edge async" d="M740,236 L740,300" marker-end="url(#mk-async)"/>
+          <text class="pod-elabel" x="540" y="172">1 · present</text>
+          <text class="pod-elabel" x="872" y="172">2 · write</text>
+          <text class="pod-elabel" x="756" y="276">3 · enqueue</text>
+        </svg>
+      </div>
+      <div class="pod-legend">
+        <span><i class="sync"></i>sync hot path</span>
+        <span><i class="data"></i>store write</span>
+        <span><i class="async"></i>async job</span>
+        <span><i class="node svc"></i>service</span>
+        <span><i class="node store"></i>store</span>
+        <span><i class="node queue"></i>queue</span>
+      </div>
+    </figure>
+  </section>
+
+  <section class="pod-slide pod-metrics">
+    <p class="pod-kicker">03 · Data · pod-metrics</p>
+    <h2>Numbers big enough to argue with.</h2>
+    <div class="pod-metric-grid">
+      <div class="pod-metric">
+        <div class="pod-metric-l">Type floor</div>
+        <div class="pod-metric-v">20<span class="pod-unit">px</span></div>
+      </div>
+      <div class="pod-metric">
+        <div class="pod-metric-l">Bullets per slide</div>
+        <div class="pod-metric-v">≤ 4</div>
+      </div>
+      <div class="pod-metric">
+        <div class="pod-metric-l">Nodes per diagram</div>
+        <div class="pod-metric-v">≤ 7</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pod-slide pod-compare">
+    <p class="pod-kicker">03 · Data · pod-compare</p>
+    <h2>Pick the surface by the room, not by taste.</h2>
+    <table>
+      <thead>
+        <tr><th>Option</th><th>Readable at 6 m</th><th>Authoring cost</th><th>PDF export</th></tr>
+      </thead>
+      <tbody>
+        <tr class="is-chosen">
+          <td>Podium deck</td><td class="good">✓ by contract</td><td class="good">✓ archetypes</td><td class="good">✓ print CSS</td>
+        </tr>
+        <tr>
+          <td>DDS document</td><td class="bad">✕ document type</td><td class="good">✓ full grammar</td><td class="mid">~ paginates</td>
+        </tr>
+        <tr>
+          <td>Slideware</td><td class="good">✓</td><td class="bad">✕ manual, off-system</td><td class="mid">~ exports</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="pod-slide pod-timeline">
+    <p class="pod-kicker">03 · Data · pod-timeline</p>
+    <h2>A roadmap slide is dates, dots, and nothing else.</h2>
+    <ol>
+      <li><time>2026-10-08</time><span class="pod-dot ok"></span>
+        <div><b>v1.0.0 shipped</b> — spec, stylesheet, this style guide, gallery card, skill</div></li>
+      <li><time>next deck</time><span class="pod-dot info"></span>
+        <div><b>First real outing</b> — an architecture review presented from Podium</div></li>
+      <li><time>then</time><span class="pod-dot warn"></span>
+        <div><b>Boardroom serif variant</b> — Atelier display voice for exec rooms, if needed</div></li>
+    </ol>
+  </section>
+
+  <section class="pod-slide pod-code">
+    <p class="pod-kicker">04 · Code · pod-code</p>
+    <h2>The whole deck is this skeleton.</h2>
+    <div class="pod-code-block">
+      <div class="pod-code-h"><span>deck-settlement-proposal.html</span><span>html</span></div>
+      <pre>&lt;body class="pod-deck"&gt;
+&lt;main class="pod-slides"&gt;
+  &lt;section class="pod-slide pod-title"&gt;…&lt;/section&gt;
+  &lt;section class="pod-slide pod-statement"&gt;…&lt;/section&gt;
+  &lt;section class="pod-slide pod-points"&gt;…&lt;/section&gt;
+  &lt;section class="pod-slide pod-diagram"&gt;…&lt;/section&gt;
+  &lt;section class="pod-slide pod-ask"&gt;…&lt;/section&gt;
+&lt;/main&gt;
+&lt;footer class="pod-foot"&gt;…&lt;/footer&gt;
+&lt;/body&gt;</pre>
+    </div>
+  </section>
+
+  <section class="pod-slide pod-ask">
+    <p class="pod-kicker">The ask · pod-ask</p>
+    <h2>Present the next review from <em>Podium</em>.</h2>
+    <dl class="pod-ask-grid">
+      <div><dt>Decision</dt><dd>Adopt for live meetings</dd></div>
+      <div><dt>Decider</dt><dd>Dexter</dd></div>
+      <div><dt>First milestone</dt><dd>One real deck, one real room</dd></div>
+    </dl>
+    <p class="pod-docref">Full contract: <span class="pod-ref">design-systems/podium/README.md</span>
+    · tokens: <span class="pod-ref">podium.css v1.0.0</span></p>
+  </section>
+
+</main>
+<footer class="pod-foot" aria-hidden="true">
+  <span>Podium · style guide</span><span class="pod-foot-n" id="counter"></span>
+</footer>
+<script>
+  (function () {
+    var stack = document.getElementById('slides');
+    var slides = Array.prototype.slice.call(stack.querySelectorAll('.pod-slide'));
+    var counter = document.getElementById('counter');
+
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function current() {
+      var mid = stack.scrollTop + stack.clientHeight / 2;
+      for (var i = slides.length - 1; i >= 0; i--) {
+        if (slides[i].offsetTop <= mid) return i;
+      }
+      return 0;
+    }
+    function update() {
+      if (counter) counter.textContent = pad(current() + 1) + ' / ' + pad(slides.length);
+    }
+    stack.addEventListener('scroll', update, { passive: true });
+    update();
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var i = current();
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        slides[Math.min(i + 1, slides.length - 1)].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        slides[Math.max(i - 1, 0)].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'Home') {
+        e.preventDefault(); slides[0].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'End') {
+        e.preventDefault(); slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var light = root.dataset.theme === 'light';
+      root.dataset.theme = light ? '' : 'light';
+      btn.textContent = light ? 'Preview Boardroom (light)' : 'Back to Stage (dark)';
+    });
+  })();
+</script>
+</body>
+</html>
