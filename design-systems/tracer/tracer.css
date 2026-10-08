@@ -1,9 +1,14 @@
 /* ==========================================================================
-   Tracer — v1.0.0 · 2026-07-30
+   Tracer — v2.0.0 · 2026-10-08 · Engineering edition
    Dexter's ops-briefing design system: IBM Carbon-dark palette, blueprint
    grid ground, uppercase display headings, verdict banners, stat strips,
    and the signature — native SVG trace diagrams with animated dashed
    flows, where each edge colour is a declared route meaning.
+   v2: full-width shell with sticky contents rail; node kinds, zones, step
+   markers, packets and annotation bubbles in the trace grammar; native
+   sequence and state grammars; forensic components (incident timeline,
+   impact strip, hypothesis table, latency breakdown, owner checklist,
+   titled code). v1 class names (.trc-wrap column layout) keep working.
    Dark-first. Light counterpart ships in every output.
    Spec: README.md in this directory. Prefix: trc-.
    ========================================================================== */
@@ -52,7 +57,11 @@
   --trc-mono: "IBM Plex Mono", "SF Mono", ui-monospace, "Cascadia Code",
     Menlo, Consolas, monospace;
 
-  --trc-maxw: 1140px;
+  --trc-maxw: 1140px;           /* v1 column — kept for .trc-wrap compat */
+  --trc-shell-max: 1920px;      /* v2 full-width shell */
+  --trc-gutter: clamp(16px, 4vw, 64px);
+  --trc-measure: 72ch;          /* prose cap inside the wide shell */
+  --trc-toc-w: 232px;
   --trc-r-lg: 12px;
   --trc-r-md: 10px;
   --trc-r-sm: 8px;
@@ -60,6 +69,14 @@
 
   --trc-grid-line: var(--trc-line);
   --trc-diagram-halo: rgba(69, 137, 255, 0.06);
+
+  /* Annotation bubbles: a LIGHT card on the dark ground in both themes —
+     the inversion is what makes an annotation read as a voice-over, not a
+     node. Dark theme: paper on carbon; light theme: white with a firm line. */
+  --trc-bubble-bg: #f4f4f4;
+  --trc-bubble-ink: #262626;
+  --trc-bubble-muted: #6f6f6f;
+  --trc-bubble-line: rgba(0, 0, 0, 0.25);
 }
 
 /* --- 1b. Tokens — light counterpart (Carbon Gray 10 family) -------------- */
@@ -96,6 +113,11 @@
 
     --trc-grid-line: rgba(0, 0, 0, 0.06);
     --trc-diagram-halo: rgba(15, 98, 254, 0.05);
+
+    --trc-bubble-bg: #ffffff;
+    --trc-bubble-ink: #262626;
+    --trc-bubble-muted: #6f6f6f;
+    --trc-bubble-line: rgba(0, 0, 0, 0.35);
   }
 }
 
@@ -127,6 +149,10 @@
   --trc-tint-crit: rgba(250, 77, 86, 0.16);
   --trc-grid-line: rgba(255, 255, 255, 0.10);
   --trc-diagram-halo: rgba(69, 137, 255, 0.06);
+  --trc-bubble-bg: #f4f4f4;
+  --trc-bubble-ink: #262626;
+  --trc-bubble-muted: #6f6f6f;
+  --trc-bubble-line: rgba(0, 0, 0, 0.25);
 }
 
 :root[data-theme="light"] {
@@ -157,6 +183,10 @@
   --trc-tint-crit: rgba(218, 30, 40, 0.10);
   --trc-grid-line: rgba(0, 0, 0, 0.06);
   --trc-diagram-halo: rgba(15, 98, 254, 0.05);
+  --trc-bubble-bg: #ffffff;
+  --trc-bubble-ink: #262626;
+  --trc-bubble-muted: #6f6f6f;
+  --trc-bubble-line: rgba(0, 0, 0, 0.35);
 }
 
 /* --- 2. Base -------------------------------------------------------------- */
@@ -202,6 +232,56 @@ body.trc::before {
   margin: 0 auto;
   padding: 0 24px;
 }
+
+/* --- 2b. v2 shell — full width, sticky contents rail ----------------------
+   The v2 page: .trc-shell spans the viewport (1920px cap), .trc-layout
+   splits into rail + content at ≥1200px, prose stays at --trc-measure while
+   diagrams, tables and strips take the whole column. .trc-wrap (v1) keeps
+   working for old documents. */
+.trc-shell {
+  position: relative;
+  z-index: 1;
+  max-width: var(--trc-shell-max);
+  margin: 0 auto;
+  padding: 0 var(--trc-gutter);
+}
+.trc-layout { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 48px; }
+.trc-col { min-width: 0; }
+.trc-toc { display: none; }
+@media (min-width: 1200px) {
+  .trc-layout { grid-template-columns: var(--trc-toc-w) minmax(0, 1fr); }
+  .trc-toc {
+    display: block;
+    position: sticky;
+    top: 52px;
+    align-self: start;
+    padding: 48px 0;
+    font-family: var(--trc-mono);
+    font-size: 0.74rem;
+  }
+}
+.trc-toc-h {
+  font-size: 0.64rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--trc-muted);
+}
+.trc-toc ol { list-style: none; margin: 10px 0 0; padding: 0; }
+.trc-toc a {
+  display: flex;
+  gap: 10px;
+  padding: 5px 0;
+  color: var(--trc-muted);
+}
+.trc-toc a:hover, .trc-toc a.on { color: var(--trc-accent-2); text-decoration: none; }
+.trc-toc .trc-toc-n { opacity: 0.65; }
+
+/* Prose measure: plain paragraphs and lists cap at 72ch; anything inside a
+   component (card, callout, table) spans its component instead. */
+.trc-col p, .trc-col .trc-sub, .trc-col .trc-lead,
+.trc-col ul:not([class]), .trc-col ol:not([class]) { max-width: var(--trc-measure); }
+.trc-col .trc-card p, .trc-col .trc-callout p, .trc-col .trc-tbl p,
+.trc-col .trc-grid p { max-width: none; }
 
 /* --- 3. Topbar ------------------------------------------------------------ */
 .trc-topbar {
@@ -577,6 +657,357 @@ body.trc::before {
   color: var(--trc-muted);
 }
 
+/* --- 9b. v2 grammar: sizing, kinds, zones, steps, packets, bubbles ---------
+   Author at viewBox ≤ 1200 wide; no SVG text class below 11 user units.
+   On narrow screens the diagram scrolls inside its frame rather than
+   shrinking — raise --trc-arch-min on the figure for wider viewBoxes. */
+.trc-fig { margin: 24px 0; }
+.trc-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: var(--trc-arch-min, 760px);
+}
+
+/* Node kinds — a quiet stroke hue names what the box IS; the state
+   variants (.bad / .ok / .src) still name what it DID and win visually. */
+.trc-diagram svg .trc-box.svc    { stroke: color-mix(in srgb, var(--trc-accent) 45%, transparent); }
+.trc-diagram svg .trc-box.queue  { stroke: color-mix(in srgb, var(--trc-purple) 50%, transparent); }
+.trc-diagram svg .trc-box.cache  { stroke: color-mix(in srgb, var(--trc-teal) 45%, transparent); }
+.trc-diagram svg .trc-box.ext    { stroke: color-mix(in srgb, var(--trc-warn) 55%, transparent); stroke-dasharray: 6 4; }
+.trc-diagram svg .trc-box.client { stroke: var(--trc-line-strong); }
+.trc-diagram svg .trc-nkind {
+  font-family: var(--trc-mono);
+  fill: var(--trc-muted);
+  letter-spacing: 0.12em;
+  text-anchor: end;
+}
+/* Store cylinder: path.trc-shape (body) + path.trc-lid (ellipse top). */
+.trc-diagram svg .trc-shape {
+  fill: var(--trc-panel-2);
+  stroke: color-mix(in srgb, var(--trc-teal) 50%, transparent);
+  stroke-width: 1.2;
+}
+.trc-diagram svg .trc-lid { fill: none; stroke: color-mix(in srgb, var(--trc-teal) 50%, transparent); stroke-width: 1.2; }
+
+/* Zones: deployment or trust boundaries. */
+.trc-diagram svg .trc-zone {
+  fill: color-mix(in srgb, var(--trc-accent) 4%, transparent);
+  stroke: var(--trc-line-strong);
+  stroke-dasharray: 6 5;
+  rx: 10;
+}
+.trc-diagram svg .trc-zone.trust {
+  fill: color-mix(in srgb, var(--trc-crit) 4%, transparent);
+  stroke: color-mix(in srgb, var(--trc-crit) 50%, transparent);
+}
+.trc-diagram svg .trc-zlabel {
+  font-family: var(--trc-mono);
+  fill: var(--trc-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.trc-diagram svg .trc-zlabel.trust { fill: var(--trc-crit-2); }
+
+/* Numbered step markers on edges, keyed to an ol.trc-steps walkthrough. */
+.trc-diagram svg .trc-step circle {
+  fill: var(--trc-bg);
+  stroke: var(--trc-accent);
+  stroke-width: 1.5;
+}
+.trc-diagram svg .trc-step text {
+  font-family: var(--trc-mono);
+  font-weight: 600;
+  fill: var(--trc-accent-2);
+  text-anchor: middle;
+}
+
+/* Packets riding a route (animateMotion along the edge's own d). */
+.trc-diagram svg .trc-pkt.main  { fill: var(--trc-route-main); }
+.trc-diagram svg .trc-pkt.fail  { fill: var(--trc-route-fail); }
+.trc-diagram svg .trc-pkt.ctrl  { fill: var(--trc-route-ctrl); }
+.trc-diagram svg .trc-pkt.alt   { fill: var(--trc-route-alt); }
+.trc-diagram svg .trc-pkt.async { fill: var(--trc-route-async); }
+
+/* Annotation bubbles — the voice-over layer: a light card anchored to a
+   hop, naming the change (PR, config, decision) that lands THERE. The
+   inversion against the dark ground is deliberate; the tail touches the
+   hop it annotates, and the g's variant class colours the frame. */
+.trc-diagram svg .trc-bubble .trc-bb,
+.trc-diagram svg .trc-bubble .trc-tail {
+  fill: var(--trc-bubble-bg);
+  stroke: var(--trc-bubble-line);
+  stroke-width: 1.2;
+}
+.trc-diagram svg .trc-bubble.accent .trc-bb, .trc-diagram svg .trc-bubble.accent .trc-tail { stroke: var(--trc-accent); }
+.trc-diagram svg .trc-bubble.ok .trc-bb,     .trc-diagram svg .trc-bubble.ok .trc-tail     { stroke: var(--trc-ok); }
+.trc-diagram svg .trc-bubble.warn .trc-bb,   .trc-diagram svg .trc-bubble.warn .trc-tail   { stroke: var(--trc-warn); }
+.trc-diagram svg .trc-bubble.bad .trc-bb,    .trc-diagram svg .trc-bubble.bad .trc-tail    { stroke: var(--trc-crit); }
+.trc-diagram svg .trc-bubble.async .trc-bb,  .trc-diagram svg .trc-bubble.async .trc-tail  { stroke: var(--trc-purple); }
+.trc-diagram svg .trc-bubble-idbg { fill: var(--trc-bubble-ink); rx: 4; }
+.trc-diagram svg .trc-bubble-id {
+  font-family: var(--trc-mono);
+  font-weight: 600;
+  fill: var(--trc-bubble-bg);
+  letter-spacing: 0.06em;
+}
+.trc-diagram svg .trc-bubble-t { font-family: var(--trc-sans); font-weight: 700; fill: var(--trc-bubble-ink); }
+.trc-diagram svg .trc-bubble-li { font-family: var(--trc-mono); fill: var(--trc-bubble-ink); }
+.trc-diagram svg .trc-bubble-mut { font-family: var(--trc-mono); fill: var(--trc-bubble-muted); }
+
+/* Legend focus (progressive enhancement): hovering a [data-route] legend
+   item stamps data-focus on the .trc-fig; other routes dim. */
+.trc-fig[data-focus="main"]  svg :is(.trc-edge, .trc-pkt):not(.main),
+.trc-fig[data-focus="fail"]  svg :is(.trc-edge, .trc-pkt):not(.fail),
+.trc-fig[data-focus="ctrl"]  svg :is(.trc-edge, .trc-pkt):not(.ctrl),
+.trc-fig[data-focus="alt"]   svg :is(.trc-edge, .trc-pkt):not(.alt),
+.trc-fig[data-focus="async"] svg :is(.trc-edge, .trc-pkt):not(.async) { opacity: 0.15; }
+.trc-legend [data-route] { cursor: default; }
+
+/* Walkthrough keyed to the .trc-step markers. */
+ol.trc-steps {
+  list-style: none;
+  counter-reset: trcstep;
+  margin: 14px 0 0;
+  padding: 0;
+  font-size: 0.92rem;
+}
+ol.trc-steps li {
+  counter-increment: trcstep;
+  display: flex;
+  gap: 12px;
+  padding: 6px 0;
+  align-items: baseline;
+}
+ol.trc-steps li::before {
+  content: counter(trcstep);
+  font-family: var(--trc-mono);
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--trc-accent-2);
+  border: 1px solid color-mix(in srgb, var(--trc-accent) 45%, transparent);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+/* --- 9c. Sequence grammar ---------------------------------------------------
+   Actors reuse .trc-box with a centred .trc-nlabel; lifelines dash down;
+   activation bars sit on the lifeline; messages are route-coloured edges
+   with .trc-mlabel above the arrow; returns are .ret. */
+.trc-diagram svg .trc-life { stroke: var(--trc-line-strong); stroke-dasharray: 4 4; stroke-width: 1; }
+.trc-diagram svg .trc-actbar {
+  fill: color-mix(in srgb, var(--trc-accent) 22%, var(--trc-panel-2));
+  stroke: color-mix(in srgb, var(--trc-accent) 45%, transparent);
+  stroke-width: 1;
+}
+.trc-diagram svg .trc-mlabel { font-family: var(--trc-mono); fill: var(--trc-ink); }
+.trc-diagram svg .trc-mlabel.mut { fill: var(--trc-muted); }
+.trc-diagram svg .trc-mlabel.bad { fill: var(--trc-crit-2); }
+.trc-diagram svg .trc-edge.ret { stroke: var(--trc-muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.trc-diagram svg .trc-m-ret path { fill: var(--trc-muted); }
+
+/* --- 9d. State grammar ------------------------------------------------------
+   States are pills tinted by meaning; transitions are thin edges with a
+   halo'd label so text survives crossing lines. */
+.trc-diagram svg .trc-state rect { fill: var(--trc-panel-2); stroke: var(--trc-line-strong); stroke-width: 1.2; }
+.trc-diagram svg .trc-state.ok rect   { fill: color-mix(in srgb, var(--trc-ok) 12%, var(--trc-panel-2));   stroke: color-mix(in srgb, var(--trc-ok) 50%, transparent); }
+.trc-diagram svg .trc-state.warn rect { fill: color-mix(in srgb, var(--trc-warn) 10%, var(--trc-panel-2)); stroke: color-mix(in srgb, var(--trc-warn) 50%, transparent); }
+.trc-diagram svg .trc-state.bad rect  { fill: color-mix(in srgb, var(--trc-crit) 12%, var(--trc-panel-2)); stroke: color-mix(in srgb, var(--trc-crit) 55%, transparent); }
+.trc-diagram svg .trc-state.accent rect { stroke: color-mix(in srgb, var(--trc-accent) 50%, transparent); }
+.trc-diagram svg .trc-state text { font-family: var(--trc-sans); font-weight: 600; fill: var(--trc-ink-bright); text-anchor: middle; }
+.trc-diagram svg .trc-ssub { font-family: var(--trc-mono); fill: var(--trc-muted); font-weight: 400; }
+.trc-diagram svg .trc-pseudo { fill: var(--trc-ink); }
+.trc-diagram svg .trc-pseudo-ring { fill: none; stroke: var(--trc-ink); stroke-width: 1.5; }
+.trc-diagram svg .trc-elabel {
+  font-family: var(--trc-mono);
+  fill: var(--trc-muted);
+  paint-order: stroke;
+  stroke: var(--trc-panel);
+  stroke-width: 4;
+}
+
+/* --- 9e. Forensic components (v2) ---------------------------------------------
+   The ops kit: what an incident briefing needs and a design doc doesn't. */
+
+/* Incident timeline: mono timestamps, status dots, the three moments that
+   matter (.trc-mark = detected / mitigated / resolved) in caps. */
+ol.trc-timeline { list-style: none; margin: 16px 0; padding: 0; }
+.trc-timeline li {
+  display: grid;
+  grid-template-columns: 150px 14px minmax(0, 1fr);
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--trc-line);
+  align-items: baseline;
+  font-size: 0.92rem;
+}
+.trc-timeline time {
+  font-family: var(--trc-mono);
+  font-size: 0.78rem;
+  color: var(--trc-muted);
+  font-variant-numeric: tabular-nums;
+}
+.trc-timeline b { color: var(--trc-ink-bright); }
+.trc-timeline .trc-mark b {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--trc-mono);
+  font-size: 0.8rem;
+}
+.trc-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--trc-muted);
+  justify-self: center;
+  position: relative;
+  top: 1px;
+}
+.trc-dot.ok   { background: var(--trc-ok); }
+.trc-dot.warn { background: var(--trc-warn); }
+.trc-dot.bad  { background: var(--trc-crit); }
+.trc-dot.info { background: var(--trc-accent); }
+
+/* Impact strip: the stat strip wearing the alarm — blast radius up front. */
+.trc-meta.impact { border-color: color-mix(in srgb, var(--trc-crit) 45%, transparent); }
+.trc-meta.impact .trc-lab { color: var(--trc-crit-2); }
+
+/* Hypothesis table: the forensic method made visible. Verdict cells carry
+   a glyph plus a tint — never colour alone. */
+.trc-tbl td.hyp-true  { background: var(--trc-tint-ok);   color: var(--trc-ok); }
+.trc-tbl td.hyp-false { background: var(--trc-tint-crit); color: var(--trc-crit-2); }
+.trc-tbl td.hyp-open  { background: var(--trc-tint-warn); color: var(--trc-warn); }
+.trc-tbl td.hyp-true::before  { content: "✓ "; }
+.trc-tbl td.hyp-false::before { content: "✕ "; }
+.trc-tbl td.hyp-open::before  { content: "? "; }
+
+/* Latency breakdown: where the time went, hop by hop, against a target. */
+.trc-budget {
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-md);
+  background: var(--trc-panel);
+  padding: 16px 18px;
+  margin: 16px 0;
+}
+.trc-budget-h {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--trc-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--trc-muted);
+}
+.trc-budget-bar {
+  display: flex;
+  height: 26px;
+  border-radius: var(--trc-r-xs);
+  overflow: visible;
+  margin: 12px 0 8px;
+  position: relative;
+}
+.trc-seg {
+  flex: 0 0 var(--w);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--trc-mono);
+  font-size: 0.66rem;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--trc-bg);
+}
+.trc-seg.s1 { background: var(--trc-accent); }
+.trc-seg.s2 { background: var(--trc-teal); }
+.trc-seg.s3 { background: var(--trc-purple); }
+.trc-seg.s4 { background: var(--trc-warn); }
+.trc-seg.over { background: var(--trc-crit); color: var(--trc-ink-on-crit); }
+.trc-budget-target {
+  position: absolute;
+  left: var(--at);
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  background: var(--trc-ink-bright);
+}
+.trc-budget-target::after {
+  content: attr(data-label);
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--trc-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--trc-ink-bright);
+  white-space: nowrap;
+}
+.trc-budget-legend {
+  font-family: var(--trc-mono);
+  font-size: 0.68rem;
+  color: var(--trc-muted);
+}
+
+/* Next steps: every action carries an owner. */
+ol.trc-next { list-style: none; counter-reset: trcnext; margin: 14px 0; padding: 0; }
+.trc-next li {
+  counter-increment: trcnext;
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  background: var(--trc-panel);
+  border: 1px solid var(--trc-line);
+  border-radius: var(--trc-r-sm);
+  padding: 11px 14px;
+  margin: 8px 0;
+  font-size: 0.94rem;
+}
+.trc-next li::before {
+  content: counter(trcnext, decimal-leading-zero);
+  font-family: var(--trc-mono);
+  font-size: 0.72rem;
+  color: var(--trc-accent-2);
+  flex: none;
+}
+.trc-owner {
+  margin-left: auto;
+  font-family: var(--trc-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--trc-muted);
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-xs);
+  padding: 0.15em 0.55em;
+  white-space: nowrap;
+}
+
+/* Titled code: the source of the evidence in the header strip —
+   log stream, file path, or command — then the dark block. */
+.trc-code {
+  border: 1px solid var(--trc-line-strong);
+  border-radius: var(--trc-r-sm);
+  overflow: hidden;
+  margin: 14px 0;
+}
+.trc-code-h {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 14px;
+  font-family: var(--trc-mono);
+  font-size: 0.7rem;
+  color: var(--trc-muted);
+  background: var(--trc-panel-2);
+  border-bottom: 1px solid var(--trc-line);
+}
+.trc-code pre { margin: 0; border: none; border-radius: 0; }
+
 /* --- 10. Footer / colophon ----------------------------------------------------- */
 .trc-foot {
   padding: 40px 0 70px;
@@ -606,7 +1037,8 @@ body.trc::before {
 
 /* --- 13. Print ------------------------------------------------------------------- */
 @media print {
-  body.trc::before, .trc-topbar { display: none; }
+  body.trc::before, .trc-topbar, .trc-toc { display: none; }
+  .trc-layout { grid-template-columns: minmax(0, 1fr); }
   .trc-js .trc-rv { opacity: 1; transform: none; }
   .trc section, .trc-section { padding: 24px 0; }
 }
