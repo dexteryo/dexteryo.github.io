@@ -1,6 +1,6 @@
 # Dexter Design System (DDS)
 
-**v2.0.0 · 2026-10-07 · One system, two modes, one grammar — engineering edition.**
+**v2.1.0 · 2026-10-10 · One system, two modes, one grammar — engineering edition.**
 
 A design system for AI-generated engineering HTML: reports, dashboards, and
 architecture diagrams that come out consistent no matter which agent produced
@@ -109,6 +109,22 @@ discipline).
     390. If a drawing does not fit in 1000 units, split it or shorten labels
     — never widen the viewBox or shrink the type.
 
+16. **Tables and diagrams before text (v2.1).** Nobody reads a wall of text.
+    Before writing a paragraph, convert it:
+
+    | If the text… | Make it… |
+    |---|---|
+    | compares two or more things (before/after, options, envs) | a table, one row per point |
+    | lists facts about one thing (properties, settings, owners) | a key–value table or a short bullet list |
+    | describes a flow, a call, or who talks to whom | a diagram (§6) |
+    | describes steps in order | `ol.dds-steps` or `ol.dds-timeline` |
+    | gives numbers as proof | a `.dds-stats` strip |
+    | states risks, threats or open items | a table with a state chip per row |
+
+    What is left as prose: **one line** to introduce each section, and at
+    most **two sentences** in any paragraph. Detail that still does not fit
+    goes in the linked source (spec, runbook), not on the page.
+
 ## 3. Choosing a mode
 
 | Output | Mode | Body class |
@@ -117,6 +133,7 @@ discipline).
 | Dashboard, risk register, status page, run-book summary | **Panel** | `dds-panels` |
 | Mixed (report with an embedded dashboard section) | Document base; wrap panel sections in a `dds-panels` container |
 | Design doc, RFC, service review, architecture decision | **Document** + the §6 diagrams + §7 engineering components | `dds-doc` |
+| Review shown on a live call (CTO, EM, platform/security) | **Document**, built with the §4.1 review recipe | `dds-doc` |
 
 Diagrams and engineering components work inside either mode: they read
 mode-resolved aliases (`--dds-ink`, `--dds-muted`, `--dds-surface`,
@@ -192,6 +209,66 @@ copy the small inline IntersectionObserver script from `index.html` (it adds
 Voice: complete sentences; prose ≤ 72ch; no emoji section markers; the
 verdict label comes from `data-label` (use "Recommendation", "Finding",
 "Open question" — whatever is true).
+
+### 4.1 Review recipe — pages shown on a live call (v2.1)
+
+Architecture reviews, security reviews and proposals put in front of a CTO,
+an engineering manager or a platform team are **scanned while someone
+talks**, not read. Paragraphs go unread. Build the page from tables,
+drawings and one-liners; keep long prose for the spec the page links to.
+
+**Order of the page:**
+
+1. **Hero** (`.dds-hero`): title with one accented phrase, a subtitle of
+   **≤ 3 short sentences**, and a `.dds-statuscard` giving the honest state
+   (built / open fixes / not started).
+2. **Stat strip** (`.dds-stats`): 4–5 numbers that frame the problem and the
+   result (before → after, revocation time, cost).
+3. **Before / after table**: `table.dds-table.dds-tradeoff` with columns
+   *Today* · *With the change*, one row per concern a reader cares about
+   (who can do it, secrets, writes, hand-over, removal, audit). Cells are
+   ≤ 6 words.
+4. **Three steps** (`ol.dds-steps`): how it works, one line each.
+5. **Verdict** (`.dds-verdict`): the recommendation in **one line**, then
+   one ask per audience (`CTO:`, `Engineering manager:`, `Platform team:`),
+   each pointing at the section that supports it.
+6. **Drawings** carry the architecture (container view, one sequence for a
+   call, one drawing for the key safety property) — see §6.
+7. **Controls table** for security reviewers: *Layer · Control · Evidence*,
+   control as a short phrase, evidence as one mono path.
+8. **Threat model**: *Threat · What stops it · Residual*, residual as a chip
+   (`ok` low, `warn` accepted/watch, `crit` open).
+9. **Decisions**: a trade-off matrix of the options, then a decision table
+   (*Decision · Chosen · Rejected · Why*).
+10. **Open risks**: numbered table with a state chip (`crit` fix first,
+    `warn` decide, `info` confirm) and a proposed resolution per row.
+11. **Rollout**: `ol.dds-timeline` (no class = not started) naming who
+    applies each step, plus a small rollback table (lever · time · how).
+
+**Writing rules for this recipe:**
+
+- Every section intro is **one line**. If it needs a paragraph, it belongs
+  in a table, a drawing, or the linked spec.
+- No paragraph over **2 sentences** anywhere on the page.
+- Lists of properties are bullets of ≤ 15 words, not prose.
+- Test counts and other "proof" numbers go in a stat strip, not a sentence.
+- State what is **not** done (not deployed, fixes open) in the status card;
+  reviewers trust a page that says what is missing.
+
+**Gotcha:** `td.good|mid|bad` in a `.dds-tradeoff` table already draws its
+▲ ◆ ▼ glyph. Write only the words in the cell; typing the glyph shows it
+twice.
+
+### 4.2 Publishing as a claude.ai artifact (v2.1)
+
+The artifact host wraps the file in its own `<html><head><body>` skeleton,
+so the file cannot set a body class. Instead:
+
+- Put `<title>` and the inlined `dexter.css` in a `<style>` at the top.
+- Wrap the page in `<div class="dds-doc">…</div>` (mode classes are
+  class-based, not body-based).
+- Add `html,body{background:var(--dds-doc-bg);margin:0}` after the inlined
+  stylesheet, or the host's own background shows around the page.
 
 ## 5. Panel mode recipe
 
@@ -475,7 +552,7 @@ red).
 
 ## 9. Changing the system
 
-The system is versioned (`v2.0.0`, header of `dexter.css`). Change tokens or
+The system is versioned (`v2.1.0`, header of `dexter.css`). Change tokens or
 grammar only in this directory, bump the version and revision date in
 `dexter.css`, `index.html`, and this file, and keep the whole directory
 (including reference pages and examples) consistent. New components go into
@@ -484,6 +561,13 @@ isn't on the components page isn't in the system. Downstream copies (inlined
 styles in old documents) are snapshots; they do not get retrofitted.
 
 ## Changelog
+
+- **v2.1.0 · 2026-10-10** — hard rule 16, tables and diagrams before text;
+  §4.1 review recipe for pages shown on a live
+  call (scan-first: before/after table, three steps, one-line verdict with
+  per-audience asks, controls / threat / open-risk tables, one-line section
+  intros); §4.2 publishing as a claude.ai artifact; trade-off glyph gotcha.
+  No token or component changes.
 
 - **v2.0.0 · 2026-10-07** — engineering edition. Full-width shell with
   sticky contents rail and a 72ch prose measure; mode-resolved aliases;
