@@ -1,6 +1,6 @@
 # Dexter Design System (DDS)
 
-**v2.1.0 · 2026-10-10 · One system, two modes, one grammar — engineering edition.**
+**v2.2.0 · 2026-10-16 · One system, two modes, one grammar, two languages — engineering edition.**
 
 A design system for AI-generated engineering HTML: reports, dashboards, and
 architecture diagrams that come out consistent no matter which agent produced
@@ -108,7 +108,6 @@ discipline).
     every rendered SVG `<text>` box ≥13px tall at 1440 wide and ≥10px at
     390. If a drawing does not fit in 1000 units, split it or shorten labels
     — never widen the viewBox or shrink the type.
-
 16. **Tables and diagrams before text (v2.1).** Nobody reads a wall of text.
     Before writing a paragraph, convert it:
 
@@ -124,6 +123,14 @@ discipline).
     What is left as prose: **one line** to introduce each section, and at
     most **two sentences** in any paragraph. Detail that still does not fit
     goes in the linked source (spec, runbook), not on the page.
+
+17. **Two languages (v2.2).** Every page ships English and Vietnamese
+    with an EN | VI switch (`.dds-lang`) at the top of the header. Every run
+    of human copy, including SVG `<text>`, legends, title blocks, table
+    cells, the contents rail and the colophon, is a pair: `.l-en` and
+    `.l-vi`. A page with untranslated copy is unfinished. Machine truth
+    stays as is: code, file paths, IDs, product and company names, and
+    amounts in code. See §7.1.
 
 ## 3. Choosing a mode
 
@@ -145,10 +152,12 @@ warm paper in Document mode and rounded on the cool ground in Panel mode.
 Skeleton (see the style guide for a live version):
 
 ```html
+<html lang="en-IE" data-lang="en">
 <body class="dds-doc">
 <div class="dds-page">
   <header>
-    <div class="dds-eyebrow">Doc type · Project · Context</div>
+    <div class="dds-lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="vi" aria-pressed="false">VI</button></div>
+    <div class="dds-eyebrow"><span class="l-en">Doc type · Project · Context</span><span class="l-vi" lang="vi">Loại tài liệu · Dự án · Bối cảnh</span></div>
     <h1 class="dds-title">Headline with <em>one accented</em> key word</h1>
     <p class="dds-subtitle">Italic stand-first: the problem and the conclusion.</p>
     <dl class="dds-meta">
@@ -533,6 +542,69 @@ HTTP method hues alias the route/node tokens (`--dds-m-get` service blue,
 `post` edge cyan, `put` control amber, `patch` job purple, `delete` failure
 red).
 
+### 7.1 Bilingual pages: English and Vietnamese (v2.2)
+
+Dexter reads in English and Vietnamese, so every page carries both and a
+one-click switch (hard rule 17).
+
+**Markup.** Author `data-lang="en"` on `<html>` so the page reads in English
+without JS. Put the switch first in the header:
+
+```html
+<html lang="en-IE" data-lang="en">
+…
+<header>
+  <div class="dds-lang" role="group" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="vi" aria-pressed="false">VI</button>
+  </div>
+  <h1 class="dds-title"><span class="l-en">How the money moves</span><span class="l-vi" lang="vi">Tiền đi như thế nào</span></h1>
+```
+
+Pair every run of copy as sibling spans (or sibling `<li>`, `<p>`, `<td>`
+content). In SVG, write two `<text>` elements at the same coordinates,
+classed `l-en` and `l-vi`; check both languages against the label budget
+in §6.1, because Vietnamese runs about 20% longer.
+
+**Script** (inline, progressive enhancement; remembers the choice):
+
+```js
+(function(){
+  var KEY='dds-lang';
+  function apply(lang){
+    document.documentElement.dataset.lang=lang;
+    document.documentElement.lang=lang==='vi'?'vi':'en-IE';
+    document.querySelectorAll('.dds-lang button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.lang===lang));});
+  }
+  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
+  apply(saved==='vi'?'vi':'en');
+  document.querySelectorAll('.dds-lang button').forEach(function(b){
+    b.addEventListener('click',function(){apply(b.dataset.lang);try{localStorage.setItem(KEY,b.dataset.lang);}catch(e){}});
+  });
+})();
+```
+
+**Writing the Vietnamese.**
+
+- Write natural Vietnamese, not word-for-word English. Keep product, company
+  and protocol names, code, IDs and file paths in English (FINN, Pix, CCB,
+  `FR-23`).
+- Format numbers the Vietnamese way inside `.l-vi`: `R$3.000`, `R$110,60`,
+  `2.000`.
+- Keep the English term at first use when it is the word Dexter will hear at
+  work: "trích tiền tự động (sweep)".
+- For a page that introduces a new domain, add a glossary table with
+  columns Term (English, `.dds-term`) · Vietnamese · Meaning (paired).
+- The stylesheet swaps `--dds-serif` to `--dds-serif-vi` in Vietnamese,
+  because the default serif renders diacritics wrongly ("đơn" as "đỏn").
+  Never override it per page. Vietnamese that stays visible in English mode
+  (the glossary's Vietnamese column) goes in `td[lang="vi"]` or `.dds-vi`,
+  which use the same stack.
+
+**Self-check.** Render the page in both languages (click VI, or set
+`data-lang="vi"` on a copy) and look at every diagram: no label overflows its
+node in either language.
+
 ## 8. Anti-patterns
 
 - Webfonts, CDN assets, external images or scripts. (Vendored/same-origin
@@ -549,10 +621,12 @@ red).
   direction, motion that ignores `prefers-reduced-motion`.
 - A fixed narrow page column (the v1 960px page) — the shell is full width.
 - Off-scale spacing, non-tabular number columns, prose wider than 72ch.
+- A page in one language only, or a diagram label left untranslated (hard
+  rule 17).
 
 ## 9. Changing the system
 
-The system is versioned (`v2.1.0`, header of `dexter.css`). Change tokens or
+The system is versioned (`v2.2.0`, header of `dexter.css`). Change tokens or
 grammar only in this directory, bump the version and revision date in
 `dexter.css`, `index.html`, and this file, and keep the whole directory
 (including reference pages and examples) consistent. New components go into
@@ -562,6 +636,11 @@ styles in old documents) are snapshots; they do not get retrofitted.
 
 ## Changelog
 
+- **v2.2.0 · 2026-10-16** — bilingual pages. Every page ships English and
+  Vietnamese with an EN | VI switch (`.dds-lang`); copy is paired as
+  `.l-en` / `.l-vi`, SVG text included; `--dds-serif-vi` swaps in a serif
+  with Vietnamese glyphs; `.dds-term` for glossary terms. Hard rule 17 and
+  §7.1.
 - **v2.1.0 · 2026-10-10** — hard rule 16, tables and diagrams before text;
   §4.1 review recipe for pages shown on a live
   call (scan-first: before/after table, three steps, one-line verdict with

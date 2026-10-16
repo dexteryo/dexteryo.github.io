@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,7 @@
 <div class="dds-page">
 
   <header>
-    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v2.0.0 · Reference</div>
+    <div class="dds-eyebrow"><a href="index.html">Dexter Design System</a> · v2.2.0 · Reference</div>
     <h1 class="dds-title">Components</h1>
     <p class="dds-subtitle">Every component in the system, rendered live with its markup. If a component is not on this page, it is not in the system — build it from these, or propose a change.</p>
   </header>
@@ -40,6 +40,7 @@
         <li><a href="#layout">03 Layout (v2)</a></li>
         <li><a href="#engineering">04 Engineering components (v2)</a></li>
         <li><a href="#shared-utilities">05 Shared utilities</a></li>
+        <li><a href="#bilingual">06 Bilingual EN / VI (v2.2)</a></li>
       </ol>
     </nav>
     <main class="dds-main">
@@ -503,11 +504,36 @@
     <p style="margin-bottom:0;">Links are ink with a muted underline in both modes, turning accent on hover; keyboard focus draws a 2px accent outline. Both come free from the stylesheet — never restyle them per page.</p>
   </section>
 
+  <!-- ============ BILINGUAL ============ -->
+  <section class="dds-section" id="bilingual">
+    <div class="dds-sec-h"><span class="dds-sec-num">§ 06</span><h2>Bilingual EN / VI (v2.2)</h2></div>
+
+    <div class="comp">
+      <p class="comp-name">Language switch — .dds-lang + .l-en / .l-vi</p>
+      <p class="comp-note">Every page ships English and Vietnamese (hard rule 17). Click VI: the demo below switches, the serif swaps to <code>--dds-serif-vi</code> so diacritics render, and the choice is remembered.</p>
+      <div class="dds-lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="vi" aria-pressed="false">VI</button></div>
+      <p><span class="l-en">Ana gets R$100 today and pays back R$110.60 on payday.</span><span class="l-vi" lang="vi">Ana nhận R$100 hôm nay và trả lại R$110,60 vào ngày lương.</span></p>
+      <div class="dds-table-wrap"><table class="dds-table">
+        <thead><tr><th><span class="l-en">Term</span><span class="l-vi" lang="vi">Thuật ngữ</span></th><th><span class="l-en">Vietnamese</span><span class="l-vi" lang="vi">Tiếng Việt</span></th><th><span class="l-en">Meaning</span><span class="l-vi" lang="vi">Nghĩa</span></th></tr></thead>
+        <tbody><tr><td class="dds-term">Principal</td><td lang="vi">Tiền gốc</td><td><span class="l-en">The amount lent, before any fee.</span><span class="l-vi" lang="vi">Số tiền cho vay, chưa tính phí.</span></td></tr></tbody>
+      </table></div>
+      <details class="snippet" open><summary>Markup</summary><pre><code>&lt;html lang="en-IE" data-lang="en"&gt;
+&lt;div class="dds-lang" role="group" aria-label="Language"&gt;
+  &lt;button type="button" data-lang="en" aria-pressed="true"&gt;EN&lt;/button&gt;
+  &lt;button type="button" data-lang="vi" aria-pressed="false"&gt;VI&lt;/button&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="l-en"&gt;Ana gets R$100&lt;/span&gt;&lt;span class="l-vi" lang="vi"&gt;Ana nhận R$100&lt;/span&gt;&lt;/p&gt;
+&lt;text class="dds-nsub l-en" x="34" y="99"&gt;pays the salary&lt;/text&gt;
+&lt;text class="dds-nsub l-vi" x="34" y="99"&gt;trả lương&lt;/text&gt;</code></pre></details>
+      <p class="comp-note">The switch script is in README §7.1; this page uses it.</p>
+    </div>
+  </section>
+
     </main>
   </div>
 
   <footer class="dds-colophon">
-    <div><a href="index.html">← Style guide</a> · Components · v2.0.0 · rev 2026-10-07</div>
+    <div><a href="index.html">← Style guide</a> · Components · v2.2.0 · rev 2026-10-16</div>
     <div><a href="typography.html">Typography</a> · <a href="color.html">Colour</a> · <a href="diagrams.html">Diagrams</a></div>
   </footer>
 
@@ -527,6 +553,16 @@
     }, { rootMargin: '0px 0px -60% 0px' });
     ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
   }
+  var LK = 'dds-lang';
+  function applyLang(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.querySelectorAll('.dds-lang button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+  }
+  var savedLang = null; try { savedLang = localStorage.getItem(LK); } catch (e) {}
+  applyLang(savedLang === 'vi' ? 'vi' : 'en');
+  document.querySelectorAll('.dds-lang button').forEach(function (b) {
+    b.addEventListener('click', function () { applyLang(b.dataset.lang); try { localStorage.setItem(LK, b.dataset.lang); } catch (e) {} });
+  });
   var btn = document.getElementById('themeToggle');
   if (!btn) return;
   var order = ['auto', 'light', 'dark'], current = 'auto';

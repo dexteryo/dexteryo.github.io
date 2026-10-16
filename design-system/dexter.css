@@ -1,6 +1,6 @@
 /* ==========================================================================
    DEXTER DESIGN SYSTEM (DDS) — canonical stylesheet
-   v2.1.0 · 2026-10-10 · engineering edition
+   v2.2.0 · 2026-10-16 · engineering edition, bilingual EN/VI
    Canonical home:  https://dexteryo.github.io/design-system/
    Source of truth: ~/dotfiles/dexteryo.github.io/design-system/dexter.css
    Spec for agents: README.md in the same directory
@@ -960,14 +960,28 @@
 .dds-code-h span:last-child { margin-left: auto; color: var(--dds-muted); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; }
 .dds-code pre, .dds-doc .dds-code pre, .dds-panels .dds-code pre { margin: 0; border: 0; border-radius: 0; background: var(--dds-code); }
 
-/* ── 8. MOTION ─────────────────────────────────────────────────────────── */
+/* ── 8. BILINGUAL (v2.2) ───────────────────────────────────────────────── */
+/* Every page ships English and Vietnamese. Each run of copy is a pair of
+   siblings, .l-en and .l-vi; html[data-lang] shows one. Without JS the page
+   stays English (data-lang="en" is authored on <html>). The default serif
+   has no Vietnamese glyphs, so Vietnamese swaps in a stack that does. */
+:root { --dds-serif-vi: "Times New Roman", "Noto Serif", Georgia, serif; }
+html[data-lang="en"] .l-vi, html[data-lang="vi"] .l-en, html:not([data-lang]) .l-vi { display: none; }
+html[data-lang="vi"] { --dds-serif: var(--dds-serif-vi); }
+.dds-doc td[lang="vi"], .dds-doc .dds-vi { font-family: var(--dds-serif-vi); }
+.dds-lang { display: inline-flex; border: 1px solid var(--dds-rule); border-radius: var(--dds-r-chip); overflow: hidden; margin: 0 0 var(--dds-s4); }
+.dds-lang button { font: 600 12px var(--dds-mono); letter-spacing: .08em; padding: var(--dds-s2) var(--dds-s4); border: 0; background: transparent; color: var(--dds-muted); cursor: pointer; }
+.dds-lang button[aria-pressed="true"] { background: var(--dds-ink); color: var(--dds-surface); }
+.dds-term { font-family: var(--dds-mono); font-weight: 600; white-space: nowrap; }
+
+/* ── 9. MOTION ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .dds-flow { animation: none; }
   .dds-pkt { display: none; }
   .dds-node .dds-shape { transition: none; }
 }
 
-/* ── 9. PRINT ──────────────────────────────────────────────────────────── */
+/* ── 10. PRINT ──────────────────────────────────────────────────────────── */
 @media print {
   .dds-doc { background: #FFFFFF; }
   .dds-panels { background: #FFFFFF; }
